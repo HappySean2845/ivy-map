@@ -27,11 +27,11 @@ IVY Map 反着来：**点一所目标大学 → 反推出国内哪些高中真�
 | [`PRD.md`](PRD.md) | **正式产品需求文档**——背景、用户、8 个 Epic / 30 条用户故事（每条带验收标准）、优先级、周期、风险 |
 | [`docs/metrics.md`](docs/metrics.md) | Feeder Score / CAI / 择校杠杆率的口径定义、参数与逐步示例计算 |
 | [`docs/data-sources.md`](docs/data-sources.md) | 数据来源分层、采集与录入流程、质量检查清单、合规边界 |
-| [`docs/demo-script.md`](docs/demo-script.md) | 3 分钟路演讲稿、演示前检查、评委 Q&A 准备 |
+| [`docs/launch.md`](docs/launch.md) | 上线检查清单、对外 FAQ、线上问题处置 |
 | [`PROGRESS.md`](PROGRESS.md) | 碎片开发的交接记录——每次收工三行 |
 | [`docs/design.md`](docs/design.md) | 技术设计——架构决策、数据管线、类型、状态管理、已知的坑、部署 |
 
-**建议阅读顺序**：README → PRD → metrics（想懂方法论）/ demo-script（想懂怎么讲）
+**建议阅读顺序**：README → PRD → metrics（想懂方法论）/ launch（想懂对外怎么说）
 
 > **文档边界**：PRD 只写「做什么」和「什么算完成」，不写「怎么做」。技术方案全部归 Design Doc。
 
@@ -61,7 +61,9 @@ Next.js（App Router）+ Tailwind + ECharts + TypeScript，部署在 Vercel
 
 这不只是图省事——滑杆每秒触发几十次重排，**走一趟 HTTP 手感就毁了，而手感就是那个功能的全部价值**。
 
-唯一的服务端是 AI 解析用的一个 Route Handler，而它排在降级顺序第一位；砍掉后整个项目退化为纯静态站，演示当天断网也能跑完主线。
+唯一的服务端是 AI 解析用的一个 Route Handler，而它排在降级顺序第一位；砍掉后整个项目退化为纯静态站。
+
+**线上交付下这个选择更划算**：静态站挂 CDN，被转发到家长群带来的流量高峰扛得住，且零运维。
 
 数据质量由构建期的校验脚本保证（校验不通过则构建失败），详见 [`docs/design.md`](docs/design.md)。
 

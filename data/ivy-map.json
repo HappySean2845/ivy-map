@@ -1,0 +1,1335 @@
+{
+  "builtAt": "2026-07-29T14:50:37.763Z",
+  "cities": [
+    {
+      "id": "shanghai",
+      "name": "上海",
+      "province": "上海",
+      "lng": 121.4737,
+      "lat": 31.2304
+    },
+    {
+      "id": "beijing",
+      "name": "北京",
+      "province": "北京",
+      "lng": 116.4074,
+      "lat": 39.9042
+    },
+    {
+      "id": "shenzhen",
+      "name": "深圳",
+      "province": "广东",
+      "lng": 114.0579,
+      "lat": 22.5431
+    },
+    {
+      "id": "guangzhou",
+      "name": "广州",
+      "province": "广东",
+      "lng": 113.2644,
+      "lat": 23.1291
+    },
+    {
+      "id": "hangzhou",
+      "name": "杭州",
+      "province": "浙江",
+      "lng": 120.1551,
+      "lat": 30.2741
+    },
+    {
+      "id": "nanjing",
+      "name": "南京",
+      "province": "江苏",
+      "lng": 118.7969,
+      "lat": 32.0603
+    },
+    {
+      "id": "suzhou",
+      "name": "苏州",
+      "province": "江苏",
+      "lng": 120.5853,
+      "lat": 31.2989
+    },
+    {
+      "id": "chengdu",
+      "name": "成都",
+      "province": "四川",
+      "lng": 104.0668,
+      "lat": 30.5728
+    },
+    {
+      "id": "wuhan",
+      "name": "武汉",
+      "province": "湖北",
+      "lng": 114.3055,
+      "lat": 30.5928
+    }
+  ],
+  "universities": [
+    {
+      "id": "harvard",
+      "nameCn": "哈佛大学",
+      "nameEn": "Harvard University",
+      "country": "US",
+      "city": "Cambridge MA",
+      "lng": -71.1167,
+      "lat": 42.377,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "yale",
+      "nameCn": "耶鲁大学",
+      "nameEn": "Yale University",
+      "country": "US",
+      "city": "New Haven CT",
+      "lng": -72.9223,
+      "lat": 41.3163,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "princeton",
+      "nameCn": "普林斯顿大学",
+      "nameEn": "Princeton University",
+      "country": "US",
+      "city": "Princeton NJ",
+      "lng": -74.6551,
+      "lat": 40.3431,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "columbia",
+      "nameCn": "哥伦比亚大学",
+      "nameEn": "Columbia University",
+      "country": "US",
+      "city": "New York NY",
+      "lng": -73.9626,
+      "lat": 40.8075,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "brown",
+      "nameCn": "布朗大学",
+      "nameEn": "Brown University",
+      "country": "US",
+      "city": "Providence RI",
+      "lng": -71.4025,
+      "lat": 41.8268,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "dartmouth",
+      "nameCn": "达特茅斯学院",
+      "nameEn": "Dartmouth College",
+      "country": "US",
+      "city": "Hanover NH",
+      "lng": -72.2887,
+      "lat": 43.7044,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "upenn",
+      "nameCn": "宾夕法尼亚大学",
+      "nameEn": "University of Pennsylvania",
+      "country": "US",
+      "city": "Philadelphia PA",
+      "lng": -75.1932,
+      "lat": 39.9522,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "cornell",
+      "nameCn": "康奈尔大学",
+      "nameEn": "Cornell University",
+      "country": "US",
+      "city": "Ithaca NY",
+      "lng": -76.4735,
+      "lat": 42.4534,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "mit",
+      "nameCn": "麻省理工学院",
+      "nameEn": "Massachusetts Institute of Technology",
+      "country": "US",
+      "city": "Cambridge MA",
+      "lng": -71.0942,
+      "lat": 42.3601,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "stanford",
+      "nameCn": "斯坦福大学",
+      "nameEn": "Stanford University",
+      "country": "US",
+      "city": "Stanford CA",
+      "lng": -122.1697,
+      "lat": 37.4275,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "caltech",
+      "nameCn": "加州理工学院",
+      "nameEn": "California Institute of Technology",
+      "country": "US",
+      "city": "Pasadena CA",
+      "lng": -118.1253,
+      "lat": 34.1377,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "uchicago",
+      "nameCn": "芝加哥大学",
+      "nameEn": "University of Chicago",
+      "country": "US",
+      "city": "Chicago IL",
+      "lng": -87.5987,
+      "lat": 41.7886,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "duke",
+      "nameCn": "杜克大学",
+      "nameEn": "Duke University",
+      "country": "US",
+      "city": "Durham NC",
+      "lng": -78.9382,
+      "lat": 36.0014,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "northwestern",
+      "nameCn": "西北大学",
+      "nameEn": "Northwestern University",
+      "country": "US",
+      "city": "Evanston IL",
+      "lng": -87.6753,
+      "lat": 42.0565,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "jhu",
+      "nameCn": "约翰霍普金斯大学",
+      "nameEn": "Johns Hopkins University",
+      "country": "US",
+      "city": "Baltimore MD",
+      "lng": -76.6205,
+      "lat": 39.3299,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "nyu",
+      "nameCn": "纽约大学",
+      "nameEn": "New York University",
+      "country": "US",
+      "city": "New York NY",
+      "lng": -73.9965,
+      "lat": 40.7295,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "berkeley",
+      "nameCn": "加州大学伯克利分校",
+      "nameEn": "UC Berkeley",
+      "country": "US",
+      "city": "Berkeley CA",
+      "lng": -122.2585,
+      "lat": 37.8719,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "ucla",
+      "nameCn": "加州大学洛杉矶分校",
+      "nameEn": "UCLA",
+      "country": "US",
+      "city": "Los Angeles CA",
+      "lng": -118.4452,
+      "lat": 34.0689,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "cmu",
+      "nameCn": "卡内基梅隆大学",
+      "nameEn": "Carnegie Mellon University",
+      "country": "US",
+      "city": "Pittsburgh PA",
+      "lng": -79.9436,
+      "lat": 40.4433,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "umich",
+      "nameCn": "密歇根大学安娜堡分校",
+      "nameEn": "University of Michigan",
+      "country": "US",
+      "city": "Ann Arbor MI",
+      "lng": -83.7382,
+      "lat": 42.278,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "oxford",
+      "nameCn": "牛津大学",
+      "nameEn": "University of Oxford",
+      "country": "UK",
+      "city": "Oxford",
+      "lng": -1.2544,
+      "lat": 51.7548,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "cambridge",
+      "nameCn": "剑桥大学",
+      "nameEn": "University of Cambridge",
+      "country": "UK",
+      "city": "Cambridge",
+      "lng": 0.1178,
+      "lat": 52.2043,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "imperial",
+      "nameCn": "帝国理工学院",
+      "nameEn": "Imperial College London",
+      "country": "UK",
+      "city": "London",
+      "lng": -0.1749,
+      "lat": 51.4988,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "lse",
+      "nameCn": "伦敦政治经济学院",
+      "nameEn": "London School of Economics",
+      "country": "UK",
+      "city": "London",
+      "lng": -0.1167,
+      "lat": 51.5144,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "ucl",
+      "nameCn": "伦敦大学学院",
+      "nameEn": "University College London",
+      "country": "UK",
+      "city": "London",
+      "lng": -0.134,
+      "lat": 51.5246,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "hku",
+      "nameCn": "香港大学",
+      "nameEn": "University of Hong Kong",
+      "country": "HK",
+      "city": "Hong Kong",
+      "lng": 114.1372,
+      "lat": 22.283,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "hkust",
+      "nameCn": "香港科技大学",
+      "nameEn": "HKUST",
+      "country": "HK",
+      "city": "Hong Kong",
+      "lng": 114.2632,
+      "lat": 22.3364,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "cuhk",
+      "nameCn": "香港中文大学",
+      "nameEn": "CUHK",
+      "country": "HK",
+      "city": "Hong Kong",
+      "lng": 114.2069,
+      "lat": 22.4196,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "toronto",
+      "nameCn": "多伦多大学",
+      "nameEn": "University of Toronto",
+      "country": "CA",
+      "city": "Toronto",
+      "lng": -79.3957,
+      "lat": 43.6629,
+      "cai": null,
+      "leverage": null
+    },
+    {
+      "id": "utokyo",
+      "nameCn": "东京大学",
+      "nameEn": "University of Tokyo",
+      "country": "JP",
+      "city": "Tokyo",
+      "lng": 139.762,
+      "lat": 35.7128,
+      "cai": null,
+      "leverage": null
+    }
+  ],
+  "schools": [
+    {
+      "id": "shsid",
+      "nameCn": "上海中学国际部",
+      "nameEn": "SHSID",
+      "cityId": "shanghai",
+      "district": "徐汇",
+      "type": "foreign_nationals",
+      "tracks": [
+        "IB",
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "wfls",
+      "nameCn": "上海市世界外国语中学",
+      "nameEn": "WFLMS",
+      "cityId": "shanghai",
+      "district": "徐汇",
+      "type": "private_intl",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ykpao",
+      "nameCn": "上海包玉刚实验学校",
+      "nameEn": "YK Pao School",
+      "cityId": "shanghai",
+      "district": "松江",
+      "type": "private_intl",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "pinghe",
+      "nameCn": "上海市民办平和学校",
+      "nameEn": "Shanghai Pinghe School",
+      "cityId": "shanghai",
+      "district": "浦东",
+      "type": "private_intl",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "xinghewan",
+      "nameCn": "上海星河湾双语学校",
+      "nameEn": "Shanghai Starriver Bilingual School",
+      "cityId": "shanghai",
+      "district": "闵行",
+      "type": "private_intl",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "fudanfz",
+      "nameCn": "复旦大学附属中学国际部",
+      "nameEn": "Fudan Fuzhong Intl",
+      "cityId": "shanghai",
+      "district": "杨浦",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "hsefz",
+      "nameCn": "华东师范大学第二附属中学国际部",
+      "nameEn": "ECNU Second Affiliated Intl",
+      "cityId": "shanghai",
+      "district": "浦东",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "qibaodwight",
+      "nameCn": "上海七宝德怀特高级中学",
+      "nameEn": "Shanghai Qibao Dwight High School",
+      "cityId": "shanghai",
+      "district": "闵行",
+      "type": "private_intl",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "weiyu",
+      "nameCn": "上海市民办位育中学国际部",
+      "nameEn": "Weiyu Intl",
+      "cityId": "shanghai",
+      "district": "徐汇",
+      "type": "private_intl",
+      "tracks": [
+        "AP",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "concordia",
+      "nameCn": "上海协和双语学校",
+      "nameEn": "SUIS",
+      "cityId": "shanghai",
+      "district": "虹口",
+      "type": "private_intl",
+      "tracks": [
+        "IB",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "ulink",
+      "nameCn": "领科教育上海校区",
+      "nameEn": "Ulink College Shanghai",
+      "cityId": "shanghai",
+      "district": "松江",
+      "type": "private_intl",
+      "tracks": [
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "guanghua",
+      "nameCn": "上海光华学院剑桥国际中心",
+      "nameEn": "Guanghua Cambridge",
+      "cityId": "shanghai",
+      "district": "浦东",
+      "type": "private_intl",
+      "tracks": [
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "wellington-sh",
+      "nameCn": "上海惠灵顿外籍人员子女学校",
+      "nameEn": "Wellington College Shanghai",
+      "cityId": "shanghai",
+      "district": "浦东",
+      "type": "foreign_nationals",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "shixi",
+      "nameCn": "上海市市西中学国际部",
+      "nameEn": "Shixi Intl",
+      "cityId": "shanghai",
+      "district": "静安",
+      "type": "public_intl_dept",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "bnusz",
+      "nameCn": "北京师范大学附属实验中学国际部",
+      "nameEn": "BNU Experimental Intl",
+      "cityId": "beijing",
+      "district": "西城",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "rdfz",
+      "nameCn": "中国人民大学附属中学国际部",
+      "nameEn": "RDFZ ICC",
+      "cityId": "beijing",
+      "district": "海淀",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "bjshiyi",
+      "nameCn": "北京市十一学校国际部",
+      "nameEn": "Beijing No.11 Intl",
+      "cityId": "beijing",
+      "district": "海淀",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "bhsf",
+      "nameCn": "北京市第四中学国际校区",
+      "nameEn": "Beijing No.4 Intl",
+      "cityId": "beijing",
+      "district": "西城",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "keystone",
+      "nameCn": "北京市鼎石学校",
+      "nameEn": "Keystone Academy",
+      "cityId": "beijing",
+      "district": "顺义",
+      "type": "private_intl",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "bcis",
+      "nameCn": "北京乐成国际学校",
+      "nameEn": "BCIS",
+      "cityId": "beijing",
+      "district": "朝阳",
+      "type": "foreign_nationals",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "bwya",
+      "nameCn": "北京世青国际学校",
+      "nameEn": "Beijing World Youth Academy",
+      "cityId": "beijing",
+      "district": "朝阳",
+      "type": "private_intl",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "wangfu",
+      "nameCn": "北京王府学校",
+      "nameEn": "Beijing Royal School",
+      "cityId": "beijing",
+      "district": "昌平",
+      "type": "private_intl",
+      "tracks": [
+        "AP",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "aidi",
+      "nameCn": "北京爱迪国际学校",
+      "nameEn": "Beijing Aidi School",
+      "cityId": "beijing",
+      "district": "朝阳",
+      "type": "private_intl",
+      "tracks": [
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "scie",
+      "nameCn": "深圳国际交流学院",
+      "nameEn": "Shenzhen College of International Education",
+      "cityId": "shenzhen",
+      "district": "福田",
+      "type": "private_intl",
+      "tracks": [
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "szzx",
+      "nameCn": "深圳中学国际部",
+      "nameEn": "Shenzhen Middle School Intl",
+      "cityId": "shenzhen",
+      "district": "罗湖",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "szwy",
+      "nameCn": "深圳外国语学校国际部",
+      "nameEn": "Shenzhen Foreign Languages Intl",
+      "cityId": "shenzhen",
+      "district": "福田",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "basis-sz",
+      "nameCn": "深圳贝赛思国际学校",
+      "nameEn": "BASIS International School Shenzhen",
+      "cityId": "shenzhen",
+      "district": "南山",
+      "type": "foreign_nationals",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "meisha",
+      "nameCn": "万科梅沙书院",
+      "nameEn": "Vanke Meisha Academy",
+      "cityId": "shenzhen",
+      "district": "盐田",
+      "type": "private_intl",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "fuyuan",
+      "nameCn": "深圳富源英美学校",
+      "nameEn": "Shenzhen Fuyuan School",
+      "cityId": "shenzhen",
+      "district": "宝安",
+      "type": "private_intl",
+      "tracks": [
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "hsfz",
+      "nameCn": "华南师范大学附属中学国际部",
+      "nameEn": "SCNU Affiliated Intl",
+      "cityId": "guangzhou",
+      "district": "天河",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "gdsyzx",
+      "nameCn": "广东实验中学国际部",
+      "nameEn": "Guangdong Experimental Intl",
+      "cityId": "guangzhou",
+      "district": "荔湾",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "bgy",
+      "nameCn": "广东碧桂园学校",
+      "nameEn": "Country Garden School",
+      "cityId": "guangzhou",
+      "district": "佛山",
+      "type": "private_intl",
+      "tracks": [
+        "IB"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "gzfls",
+      "nameCn": "广州外国语学校",
+      "nameEn": "Guangzhou Foreign Language School",
+      "cityId": "guangzhou",
+      "district": "南沙",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "hzwy",
+      "nameCn": "杭州外国语学校剑桥高中",
+      "nameEn": "Hangzhou Foreign Language Cambridge",
+      "cityId": "hangzhou",
+      "district": "西湖",
+      "type": "public_intl_dept",
+      "tracks": [
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "hz14",
+      "nameCn": "杭州第十四中学国际部",
+      "nameEn": "Hangzhou No.14 Intl",
+      "cityId": "hangzhou",
+      "district": "西湖",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "njwy",
+      "nameCn": "南京外国语学校国际部",
+      "nameEn": "Nanjing Foreign Language Intl",
+      "cityId": "nanjing",
+      "district": "玄武",
+      "type": "public_intl_dept",
+      "tracks": [
+        "IB",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "njyz",
+      "nameCn": "南京市第一中学国际部",
+      "nameEn": "Nanjing No.1 Intl",
+      "cityId": "nanjing",
+      "district": "秦淮",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "dulwich-sz",
+      "nameCn": "苏州德威国际高中",
+      "nameEn": "Dulwich College Suzhou",
+      "cityId": "suzhou",
+      "district": "工业园区",
+      "type": "foreign_nationals",
+      "tracks": [
+        "IB",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "shude",
+      "nameCn": "成都树德中学国际部",
+      "nameEn": "Chengdu Shude Intl",
+      "cityId": "chengdu",
+      "district": "青羊",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "whwy",
+      "nameCn": "武汉外国语学校国际部",
+      "nameEn": "Wuhan Foreign Language Intl",
+      "cityId": "wuhan",
+      "district": "硚口",
+      "type": "public_intl_dept",
+      "tracks": [
+        "AP",
+        "ALEVEL"
+      ],
+      "tuitionCny": null,
+      "boarding": null,
+      "verified": false,
+      "requirement": {
+        "nationality": "unknown",
+        "hukou": "unknown",
+        "entryGrades": null,
+        "examTypes": [],
+        "applicationWindow": null,
+        "sourceId": null,
+        "notes": null
+      }
+    }
+  ],
+  "cohorts": [],
+  "admissions": [],
+  "sources": [],
+  "defaultView": null
+}

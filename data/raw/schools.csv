@@ -1,0 +1,41 @@
+id,name_cn,name_en,city_id,district,type,tracks,tuition_cny,boarding,verified
+shsid,上海中学国际部,SHSID,shanghai,徐汇,foreign_nationals,IB|AP,,,no
+wfls,上海市世界外国语中学,WFLMS,shanghai,徐汇,private_intl,IB,,,no
+ykpao,上海包玉刚实验学校,YK Pao School,shanghai,松江,private_intl,IB,,,no
+pinghe,上海市民办平和学校,Shanghai Pinghe School,shanghai,浦东,private_intl,IB,,,no
+xinghewan,上海星河湾双语学校,Shanghai Starriver Bilingual School,shanghai,闵行,private_intl,AP,,,no
+fudanfz,复旦大学附属中学国际部,Fudan Fuzhong Intl,shanghai,杨浦,public_intl_dept,AP,,,no
+hsefz,华东师范大学第二附属中学国际部,ECNU Second Affiliated Intl,shanghai,浦东,public_intl_dept,AP,,,no
+qibaodwight,上海七宝德怀特高级中学,Shanghai Qibao Dwight High School,shanghai,闵行,private_intl,IB,,,no
+weiyu,上海市民办位育中学国际部,Weiyu Intl,shanghai,徐汇,private_intl,AP|ALEVEL,,,no
+concordia,上海协和双语学校,SUIS,shanghai,虹口,private_intl,IB|ALEVEL,,,no
+ulink,领科教育上海校区,Ulink College Shanghai,shanghai,松江,private_intl,ALEVEL,,,no
+guanghua,上海光华学院剑桥国际中心,Guanghua Cambridge,shanghai,浦东,private_intl,ALEVEL,,,no
+wellington-sh,上海惠灵顿外籍人员子女学校,Wellington College Shanghai,shanghai,浦东,foreign_nationals,IB,,,no
+shixi,上海市市西中学国际部,Shixi Intl,shanghai,静安,public_intl_dept,IB,,,no
+bnusz,北京师范大学附属实验中学国际部,BNU Experimental Intl,beijing,西城,public_intl_dept,AP,,,no
+rdfz,中国人民大学附属中学国际部,RDFZ ICC,beijing,海淀,public_intl_dept,AP|ALEVEL,,,no
+bjshiyi,北京市十一学校国际部,Beijing No.11 Intl,beijing,海淀,public_intl_dept,AP,,,no
+bhsf,北京市第四中学国际校区,Beijing No.4 Intl,beijing,西城,public_intl_dept,AP,,,no
+keystone,北京市鼎石学校,Keystone Academy,beijing,顺义,private_intl,IB,,,no
+bcis,北京乐成国际学校,BCIS,beijing,朝阳,foreign_nationals,IB,,,no
+bwya,北京世青国际学校,Beijing World Youth Academy,beijing,朝阳,private_intl,IB,,,no
+wangfu,北京王府学校,Beijing Royal School,beijing,昌平,private_intl,AP|ALEVEL,,,no
+aidi,北京爱迪国际学校,Beijing Aidi School,beijing,朝阳,private_intl,ALEVEL,,,no
+scie,深圳国际交流学院,Shenzhen College of International Education,shenzhen,福田,private_intl,ALEVEL,,,no
+szzx,深圳中学国际部,Shenzhen Middle School Intl,shenzhen,罗湖,public_intl_dept,AP,,,no
+szwy,深圳外国语学校国际部,Shenzhen Foreign Languages Intl,shenzhen,福田,public_intl_dept,AP,,,no
+basis-sz,深圳贝赛思国际学校,BASIS International School Shenzhen,shenzhen,南山,foreign_nationals,AP,,,no
+meisha,万科梅沙书院,Vanke Meisha Academy,shenzhen,盐田,private_intl,AP,,,no
+fuyuan,深圳富源英美学校,Shenzhen Fuyuan School,shenzhen,宝安,private_intl,ALEVEL,,,no
+hsfz,华南师范大学附属中学国际部,SCNU Affiliated Intl,guangzhou,天河,public_intl_dept,AP,,,no
+gdsyzx,广东实验中学国际部,Guangdong Experimental Intl,guangzhou,荔湾,public_intl_dept,AP|ALEVEL,,,no
+bgy,广东碧桂园学校,Country Garden School,guangzhou,佛山,private_intl,IB,,,no
+gzfls,广州外国语学校,Guangzhou Foreign Language School,guangzhou,南沙,public_intl_dept,AP,,,no
+hzwy,杭州外国语学校剑桥高中,Hangzhou Foreign Language Cambridge,hangzhou,西湖,public_intl_dept,ALEVEL,,,no
+hz14,杭州第十四中学国际部,Hangzhou No.14 Intl,hangzhou,西湖,public_intl_dept,AP,,,no
+njwy,南京外国语学校国际部,Nanjing Foreign Language Intl,nanjing,玄武,public_intl_dept,IB|ALEVEL,,,no
+njyz,南京市第一中学国际部,Nanjing No.1 Intl,nanjing,秦淮,public_intl_dept,AP,,,no
+dulwich-sz,苏州德威国际高中,Dulwich College Suzhou,suzhou,工业园区,foreign_nationals,IB|ALEVEL,,,no
+shude,成都树德中学国际部,Chengdu Shude Intl,chengdu,青羊,public_intl_dept,AP,,,no
+whwy,武汉外国语学校国际部,Wuhan Foreign Language Intl,wuhan,硚口,public_intl_dept,AP|ALEVEL,,,no

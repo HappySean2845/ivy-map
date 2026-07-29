@@ -1,0 +1,31 @@
+id,name_cn,name_en,country,city,lng,lat
+harvard,哈佛大学,Harvard University,US,Cambridge MA,-71.1167,42.3770
+yale,耶鲁大学,Yale University,US,New Haven CT,-72.9223,41.3163
+princeton,普林斯顿大学,Princeton University,US,Princeton NJ,-74.6551,40.3431
+columbia,哥伦比亚大学,Columbia University,US,New York NY,-73.9626,40.8075
+brown,布朗大学,Brown University,US,Providence RI,-71.4025,41.8268
+dartmouth,达特茅斯学院,Dartmouth College,US,Hanover NH,-72.2887,43.7044
+upenn,宾夕法尼亚大学,University of Pennsylvania,US,Philadelphia PA,-75.1932,39.9522
+cornell,康奈尔大学,Cornell University,US,Ithaca NY,-76.4735,42.4534
+mit,麻省理工学院,Massachusetts Institute of Technology,US,Cambridge MA,-71.0942,42.3601
+stanford,斯坦福大学,Stanford University,US,Stanford CA,-122.1697,37.4275
+caltech,加州理工学院,California Institute of Technology,US,Pasadena CA,-118.1253,34.1377
+uchicago,芝加哥大学,University of Chicago,US,Chicago IL,-87.5987,41.7886
+duke,杜克大学,Duke University,US,Durham NC,-78.9382,36.0014
+northwestern,西北大学,Northwestern University,US,Evanston IL,-87.6753,42.0565
+jhu,约翰霍普金斯大学,Johns Hopkins University,US,Baltimore MD,-76.6205,39.3299
+nyu,纽约大学,New York University,US,New York NY,-73.9965,40.7295
+berkeley,加州大学伯克利分校,UC Berkeley,US,Berkeley CA,-122.2585,37.8719
+ucla,加州大学洛杉矶分校,UCLA,US,Los Angeles CA,-118.4452,34.0689
+cmu,卡内基梅隆大学,Carnegie Mellon University,US,Pittsburgh PA,-79.9436,40.4433
+umich,密歇根大学安娜堡分校,University of Michigan,US,Ann Arbor MI,-83.7382,42.2780
+oxford,牛津大学,University of Oxford,UK,Oxford,-1.2544,51.7548
+cambridge,剑桥大学,University of Cambridge,UK,Cambridge,0.1178,52.2043
+imperial,帝国理工学院,Imperial College London,UK,London,-0.1749,51.4988
+lse,伦敦政治经济学院,London School of Economics,UK,London,-0.1167,51.5144
+ucl,伦敦大学学院,University College London,UK,London,-0.1340,51.5246
+hku,香港大学,University of Hong Kong,HK,Hong Kong,114.1372,22.2830
+hkust,香港科技大学,HKUST,HK,Hong Kong,114.2632,22.3364
+cuhk,香港中文大学,CUHK,HK,Hong Kong,114.2069,22.4196
+toronto,多伦多大学,University of Toronto,CA,Toronto,-79.3957,43.6629
+utokyo,东京大学,University of Tokyo,JP,Tokyo,139.7620,35.7128
