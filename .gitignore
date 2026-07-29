@@ -8,4 +8,4 @@ venv/
 .DS_Store
 .idea/
 .vscode/
-data/raw/
+# data/raw/ 是数据资产，必须提交（可 diff、可复现构建）
