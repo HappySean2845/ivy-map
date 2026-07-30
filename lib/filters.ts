@@ -98,16 +98,10 @@ export const DEFAULT_FILTERS: Filters = {
 /** 学校是否落在当前筛选条件内。城市 / 赛道 / 学校性质三项，空 = 不限。 */
 export function matchesFilters(school: School, filters: Filters): boolean {
   if (filters.cityId && school.cityId !== filters.cityId) return false
-  if (
-    filters.tracks.length > 0 &&
-    !school.tracks.some((t) => filters.tracks.includes(t))
-  ) {
+  if (filters.tracks.length > 0 && !school.tracks.some((t) => filters.tracks.includes(t))) {
     return false
   }
-  if (
-    filters.schoolTypes.length > 0 &&
-    !filters.schoolTypes.includes(school.type)
-  ) {
+  if (filters.schoolTypes.length > 0 && !filters.schoolTypes.includes(school.type)) {
     return false
   }
   return true
@@ -166,14 +160,12 @@ export function checkEligibility(school: School, gate: Gate): Eligibility {
   const gateCityName = gate.cityId ? (cityById.get(gate.cityId)?.name ?? null) : null
 
   // 整条门槛都没收录 —— 这是数据缺口，不是「可以申请」
-  if (
-    req.nationality === 'unknown' &&
-    req.hukou === 'unknown' &&
-    req.entryGrades == null
-  ) {
+  if (req.nationality === 'unknown' && req.hukou === 'unknown' && req.entryGrades == null) {
     return {
       status: 'unknown',
-      reasons: ['该校门槛信息待补充（国籍/身份、学籍户籍、开放年级均未收录），请以学校官方招生简章为准'],
+      reasons: [
+        '该校门槛信息待补充（国籍/身份、学籍户籍、开放年级均未收录），请以学校官方招生简章为准',
+      ],
     }
   }
 
@@ -199,7 +191,9 @@ export function checkEligibility(school: School, gate: Gate): Eligibility {
         if (nat === 'cn') {
           blocked.push('仅招收外籍人员子女或持境外永久居留权的学生')
         } else if (nat === 'hk_mo_tw') {
-          unclear.push('招收外籍人员子女或持境外永久居留权的学生；港澳台身份是否适用需向学校确认')
+          unclear.push(
+            '招收外籍人员子女或持境外永久居留权的学生；港澳台身份是否适用需向学校确认',
+          )
         }
         break
       case 'hk_mo_tw':
@@ -224,13 +218,9 @@ export function checkEligibility(school: School, gate: Gate): Eligibility {
         break
       case 'local_city':
         if (sameCity === false) {
-          blocked.push(
-            `需${cityName}本市学籍/户籍，孩子学籍在${gateCityName ?? '其他城市'}`,
-          )
+          blocked.push(`需${cityName}本市学籍/户籍，孩子学籍在${gateCityName ?? '其他城市'}`)
         } else if (gate.localHukou === false) {
-          blocked.push(
-            `需${cityName}本市户籍；非本市户籍需另行确认借读或积分入学政策`,
-          )
+          blocked.push(`需${cityName}本市户籍；非本市户籍需另行确认借读或积分入学政策`)
         } else if (gate.localHukou === null) {
           unclear.push(`需${cityName}本市户籍，请确认孩子户籍是否在${cityName}`)
         }
@@ -241,9 +231,7 @@ export function checkEligibility(school: School, gate: Gate): Eligibility {
             `需${cityName}${school.district ?? ''}的学籍/户籍，孩子学籍在${gateCityName ?? '其他城市'}`,
           )
         } else if (gate.localHukou === false) {
-          blocked.push(
-            `需${cityName}本市户籍并对口${school.district ?? '指定'}学区`,
-          )
+          blocked.push(`需${cityName}本市户籍并对口${school.district ?? '指定'}学区`)
         } else {
           unclear.push(
             `需对口${cityName}${school.district ?? ''}学区，具体对口范围需向学校确认`,

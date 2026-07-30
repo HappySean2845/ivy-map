@@ -98,19 +98,19 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
   }, [chart, state, cities, heatByCityId, selectedCityId, theme, width, height])
 
   return (
-    <div className="flex h-full w-full min-h-[320px] flex-col">
+    <div className="flex h-full w-full min-h-[300px] flex-col">
       <div className="relative min-h-0 flex-1">
         <div
           ref={boxRef}
           className="h-full w-full"
-          style={{ minHeight: 260, visibility: state === 'ready' ? 'visible' : 'hidden' }}
+          style={{ minHeight: 280, visibility: state === 'ready' ? 'visible' : 'hidden' }}
         />
 
         {state === 'loading' && (
           <div className="absolute inset-0 grid place-items-center">
             <div className="text-center">
-              <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-neutral-300 border-t-transparent dark:border-neutral-600 dark:border-t-transparent" />
-              <p className="mt-2 text-xs text-neutral-400">中国地图加载中…</p>
+              <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-rule border-t-transparent" />
+              <p className="mt-2 text-xs text-ink-faint">中国地图加载中…</p>
             </div>
           </div>
         )}
@@ -118,14 +118,14 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
         {state === 'error' && (
           <div className="absolute inset-0 grid place-items-center px-6 text-center">
             <div>
-              <p className="text-sm text-neutral-600 dark:text-neutral-300">地图底图加载失败</p>
-              <p className="mt-1 text-xs leading-relaxed text-neutral-400">
+              <p className="text-sm text-ink-muted">地图底图加载失败</p>
+              <p className="mt-1 text-xs leading-relaxed text-ink-faint">
                 榜单不受影响，可以继续用右侧列表。
               </p>
               <button
                 type="button"
                 onClick={() => setLoad((p) => ({ attempt: p.attempt + 1, status: 'loading' }))}
-                className="mt-3 rounded-md border border-neutral-300 px-3 py-1.5 text-xs text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-900"
+                className="mt-3 rounded-sm border border-rule px-3 py-1.5 text-xs text-ink-muted hover:bg-paper"
               >
                 重新加载
               </button>
@@ -136,7 +136,7 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
         {/* 数据极稀疏，空态是主路径不是边缘情况 */}
         {state === 'ready' && hot.length === 0 && (
           <div className="pointer-events-none absolute inset-x-3 bottom-3">
-            <p className="rounded-md border border-neutral-200 bg-white/90 px-3 py-2 text-xs leading-relaxed text-neutral-600 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/90 dark:text-neutral-300">
+            <p className="rounded-sm border border-rule bg-paper/90 px-3 py-2 text-xs leading-relaxed text-ink-muted backdrop-blur/90">
               {cities.length === 0
                 ? '暂无城市数据 —— 收录还没铺到这里，不是这些城市没有生源校。'
                 : `暂无可点亮的生源城市 —— 我们还没有有出处的录取记录。灰色小点是已收录的 ${cities.length} 座城市，换一所大学或放宽赛道看看。`}
@@ -145,8 +145,9 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
         )}
       </div>
 
-      <p className="mt-2 shrink-0 text-[11px] leading-relaxed text-neutral-400">
-        点的大小 = 该城市生源校的近三年加权录取人数；灰点 = 已收录但暂无数据。点城市可筛选榜单，再点一次取消。
+      <p className="mt-2 shrink-0 text-[11px] leading-relaxed text-ink-faint">
+        点的大小 = 该城市生源校的近三年加权录取人数；灰点 =
+        已收录但暂无数据。点城市可筛选榜单，再点一次取消。
       </p>
     </div>
   )

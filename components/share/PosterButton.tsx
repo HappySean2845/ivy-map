@@ -32,9 +32,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
   // 榜单里真正会出现在图上的行 —— 要和用户屏幕上看到的一致
   const visible = useMemo(
     () =>
-      filters.hideIneligible
-        ? rows.filter((r) => r.eligibility.status !== 'ineligible')
-        : rows,
+      filters.hideIneligible ? rows.filter((r) => r.eligibility.status !== 'ineligible') : rows,
     [rows, filters.hideIneligible],
   )
   const hasContent = Boolean(universityId) && visible.length > 0
@@ -44,7 +42,11 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
    * 否则用户拖完滑杆再点分享，拿到的还是旧排序那张，而他不会发现。
    */
   const signature = useMemo(
-    () => `${universityId}|${toQueryString(filters)}|${visible.slice(0, 5).map((r) => r.school.id).join(',')}`,
+    () =>
+      `${universityId}|${toQueryString(filters)}|${visible
+        .slice(0, 5)
+        .map((r) => r.school.id)
+        .join(',')}`,
     [universityId, filters, visible],
   )
   const renderedFor = useRef<string | null>(null)
@@ -106,7 +108,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-3.5 py-2 text-sm font-medium text-neutral-800 transition-colors hover:border-neutral-400 hover:bg-neutral-50 active:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
+        className="inline-flex items-center gap-1.5 rounded-sm border border-rule bg-paper px-3.5 py-2 text-sm font-medium text-ink transition-colors hover:border-rule-strong hover:bg-paper active:bg-paper"
       >
         <ImageIcon />
         生成分享长图
@@ -117,23 +119,21 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
           role="dialog"
           aria-modal="true"
           aria-label="分享长图"
-          className="fixed inset-0 z-50 flex flex-col bg-black/70"
+          className="fixed inset-0 z-50 flex flex-col bg-ink/70"
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false)
           }}
         >
           <header className="flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-white">分享长图</p>
-              <p className="truncate text-xs text-white/60">
-                图上已包含口径说明与免责声明
-              </p>
+              <p className="text-sm font-semibold text-paper">分享长图</p>
+              <p className="truncate text-xs text-paper/60">图上已包含口径说明与免责声明</p>
             </div>
             <button
               ref={closeRef}
               type="button"
               onClick={() => setOpen(false)}
-              className="shrink-0 rounded-md px-3 py-1.5 text-sm text-white/80 hover:bg-white/10 hover:text-white"
+              className="shrink-0 rounded-sm px-3 py-1.5 text-sm text-paper/80 hover:bg-paper/10 hover:text-paper"
             >
               关闭
             </button>
@@ -142,11 +142,11 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
           <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
             <div className="mx-auto w-full max-w-[420px]">
               {!hasContent && (
-                <div className="rounded-xl bg-white p-5 text-sm leading-relaxed text-neutral-700 dark:bg-neutral-900 dark:text-neutral-200">
+                <div className="rounded-sm bg-paper p-5 text-sm leading-relaxed text-ink-muted">
                   <p className="mb-2 font-semibold">当前筛选下还没有可分享的榜单</p>
                   {/* 空态给具体原因，不给一张空图（PRD §9） */}
-                  <p className="text-neutral-600 dark:text-neutral-400">{emptyHint}</p>
-                  <p className="mt-3 text-xs text-neutral-500">
+                  <p className="text-ink-muted">{emptyHint}</p>
+                  <p className="mt-3 text-xs text-ink-muted">
                     调整筛选条件后再回来，长图会按新的榜单重新生成。
                   </p>
                 </div>
@@ -155,19 +155,19 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
               {hasContent && busy && (
                 <div
                   aria-live="polite"
-                  className="rounded-xl bg-white/95 px-5 py-10 text-center text-sm text-neutral-600"
+                  className="rounded-sm bg-paper/95 px-5 py-10 text-center text-sm text-ink-muted"
                 >
                   正在生成长图…
                 </div>
               )}
 
               {hasContent && !busy && error && (
-                <div className="rounded-xl bg-white p-5 text-sm leading-relaxed text-neutral-700">
-                  <p className="mb-2 font-semibold text-red-700">{error}</p>
+                <div className="rounded-sm bg-paper p-5 text-sm leading-relaxed text-ink-muted">
+                  <p className="mb-2 font-semibold text-signal">{error}</p>
                   <button
                     type="button"
                     onClick={() => void generate()}
-                    className="mt-2 rounded-lg border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-800 hover:bg-neutral-50"
+                    className="mt-2 rounded-sm border border-rule px-3 py-1.5 text-sm font-medium text-ink hover:bg-paper"
                   >
                     重试
                   </button>
@@ -182,9 +182,9 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
                     width={image.width}
                     height={image.height}
                     alt="IVY Map 分享长图：目标大学、筛选条件、榜单 Top 5、口径说明、数据来源与免责声明"
-                    className="block h-auto w-full rounded-xl bg-white shadow-lg"
+                    className="block h-auto w-full rounded-sm bg-paper"
                   />
-                  <figcaption className="mt-3 text-center text-xs leading-relaxed text-white/70">
+                  <figcaption className="mt-3 text-center text-xs leading-relaxed text-paper/70">
                     手机上长按图片即可保存到相册，或转发到聊天
                   </figcaption>
                 </figure>
@@ -201,10 +201,10 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
                 onClick={(e) => {
                   if (!image) e.preventDefault()
                 }}
-                className={`flex-1 rounded-lg px-4 py-2.5 text-center text-sm font-semibold ${
+                className={`flex-1 rounded-sm px-4 py-2.5 text-center text-sm font-semibold ${
                   image
-                    ? 'bg-white text-neutral-900 hover:bg-neutral-100'
-                    : 'pointer-events-none bg-white/30 text-white/60'
+                    ? 'bg-paper text-ink hover:bg-paper'
+                    : 'pointer-events-none bg-paper/30 text-paper/60'
                 }`}
               >
                 下载图片
@@ -212,7 +212,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-lg border border-white/25 px-4 py-2.5 text-sm text-white/80 hover:bg-white/10"
+                className="rounded-sm border border-white/25 px-4 py-2.5 text-sm text-paper/80 hover:bg-paper/10"
               >
                 返回
               </button>

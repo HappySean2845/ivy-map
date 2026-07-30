@@ -20,7 +20,7 @@ export default function OfferInflationNote() {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-zinc-50/70 px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-900/60">
+    <div className="rounded-sm border border-rule bg-paper/70 px-3 py-2 text-sm leading-relaxed">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -28,19 +28,13 @@ export default function OfferInflationNote() {
         className="flex w-full items-center justify-between gap-2 text-left"
       >
         <span className="font-medium">什么是 offer 膨胀？</span>
-        <span className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">
-          {open ? '收起' : '展开'}
-        </span>
+        <span className="shrink-0 text-xs text-ink-muted">{open ? '收起' : '展开'}</span>
       </button>
 
       {open && (
-        <div className="mt-2 border-t border-zinc-200 pt-2 dark:border-zinc-800">
-          <p className="text-[13px] leading-relaxed text-zinc-700 dark:text-zinc-300">
-            {BODY}
-          </p>
-          <p className="mt-1.5 text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400">
-            {CAVEAT}
-          </p>
+        <div className="mt-2 border-t border-rule pt-2">
+          <p className="text-[13px] leading-relaxed text-ink-muted">{BODY}</p>
+          <p className="mt-1.5 text-[11px] leading-relaxed text-ink-muted">{CAVEAT}</p>
         </div>
       )}
     </div>

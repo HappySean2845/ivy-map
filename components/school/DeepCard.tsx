@@ -63,10 +63,7 @@ function Val({
 }) {
   if (sourceIds.length === 0) {
     return (
-      <span
-        className={`text-neutral-500 dark:text-neutral-400 ${className}`}
-        title="这项数据尚未关联来源"
-      >
+      <span className={`text-ink-muted ${className}`} title="这项数据尚未关联来源">
         {children}
       </span>
     )
@@ -84,7 +81,7 @@ function Val({
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded border border-neutral-200 px-1.5 py-0.5 text-[11px] leading-4 text-neutral-600 dark:border-neutral-800 dark:text-neutral-400">
+    <span className="rounded border border-rule px-1.5 py-0.5 text-[11px] leading-4 text-ink-muted">
       {children}
     </span>
   )
@@ -92,9 +89,7 @@ function Tag({ children }: { children: React.ReactNode }) {
 
 /** 缺数据的统一呈现。区分「暂未收录」和「该校未公布」是 PRD §9 的硬性要求。 */
 function Missing({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="text-neutral-400 dark:text-neutral-500">{children}</span>
-  )
+  return <span className="text-ink-faint">{children}</span>
 }
 
 function Section({
@@ -116,7 +111,7 @@ function Section({
   children: React.ReactNode
 }) {
   return (
-    <section className="border-t border-neutral-200 dark:border-neutral-800">
+    <section className="border-t border-rule">
       <h3>
         <button
           type="button"
@@ -124,17 +119,15 @@ function Section({
           aria-expanded={open}
           className="flex w-full items-start gap-3 py-4 text-left"
         >
-          <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-neutral-100 font-mono text-[11px] text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
+          <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-paper font-mono text-[11px] text-ink-muted">
             {index}
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-[15px] font-medium">{title}</span>
-            <span className="mt-0.5 block text-xs text-neutral-500">
-              {open ? lead : summary}
-            </span>
+            <span className="mt-0.5 block text-xs text-ink-muted">{open ? lead : summary}</span>
           </span>
           <span
-            className={`mt-1 shrink-0 text-neutral-400 transition-transform ${open ? 'rotate-180' : ''}`}
+            className={`mt-1 shrink-0 text-ink-faint transition-transform ${open ? 'rotate-180' : ''}`}
             aria-hidden
           >
             ▾
@@ -162,12 +155,7 @@ export function DeepCard({
     () => window.matchMedia(WIDE_QUERY).matches,
     () => false,
   )
-  const [overrides, setOverrides] = useState<(boolean | null)[]>([
-    null,
-    null,
-    null,
-    null,
-  ])
+  const [overrides, setOverrides] = useState<(boolean | null)[]>([null, null, null, null])
   const open = [0, 1, 2, 3].map((i) => overrides[i] ?? (i === 0 ? true : isWide))
   const toggle = (i: number) =>
     setOverrides((prev) => prev.map((v, idx) => (idx === i ? !open[idx] : v)))
@@ -177,16 +165,16 @@ export function DeepCard({
   // 学校不在收录范围内。这属于数据不一致，宁可说清楚也不渲染半张卡片。
   if (!profile) {
     return (
-      <div className="rounded-lg border border-neutral-200 p-5 text-sm dark:border-neutral-800">
+      <div className="rounded-sm border border-rule p-5 text-sm">
         <p className="font-medium">没有找到这所学校</p>
-        <p className="mt-1.5 text-neutral-500">
+        <p className="mt-1.5 text-ink-muted">
           它可能还不在当前收录范围内。你可以通过下面的入口把它提交给我们。
         </p>
         <a
           href="https://example.com/ivy-map-correction"
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-block text-xs text-neutral-600 underline underline-offset-4 dark:text-neutral-400"
+          className="mt-3 inline-block text-xs text-ink-muted underline underline-offset-4"
         >
           提交学校 →
         </a>
@@ -207,9 +195,7 @@ export function DeepCard({
       {/* ---- 抬头 ---- */}
       <header className="pb-4">
         <h2 className="text-lg font-semibold tracking-tight">{school.nameCn}</h2>
-        {school.nameEn && (
-          <p className="mt-0.5 text-xs text-neutral-500">{school.nameEn}</p>
-        )}
+        {school.nameEn && <p className="mt-0.5 text-xs text-ink-muted">{school.nameEn}</p>}
         <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
           <Tag>
             {profile.cityName}
@@ -237,14 +223,14 @@ export function DeepCard({
         onToggle={() => toggle(0)}
       >
         {stat && (
-          <div className="mb-5 rounded-lg border border-neutral-200 p-3.5 dark:border-neutral-800">
-            <div className="text-xs text-neutral-500">
+          <div className="mb-5 rounded-sm border border-rule p-3.5">
+            <div className="text-xs text-ink-muted">
               对 {stat.universityName}（加权口径，近三年）
             </div>
             {stat.volume == null ? (
-              <p className="mt-2 text-neutral-500">
+              <p className="mt-2 text-ink-muted">
                 暂未收录这所学校向 {stat.universityName} 输送学生的记录。
-                <span className="text-neutral-400">
+                <span className="text-ink-faint">
                   {' '}
                   这不等于「没有录取」，只表示我们还没找到可溯源的公开数据。
                 </span>
@@ -255,9 +241,7 @@ export function DeepCard({
                   <div className="font-mono text-xl tabular-nums">
                     <Val sourceIds={stat.sourceIds}>{fmtNum(stat.volume)}</Val>
                   </div>
-                  <div className="mt-0.5 text-xs text-neutral-500">
-                    加权录取人数
-                  </div>
+                  <div className="mt-0.5 text-xs text-ink-muted">加权录取人数</div>
                 </div>
                 <div>
                   <div className="font-mono text-xl tabular-nums">
@@ -267,10 +251,10 @@ export function DeepCard({
                       <Val sourceIds={stat.sourceIds}>{fmtPct(stat.density)}</Val>
                     )}
                   </div>
-                  <div className="mt-0.5 text-xs text-neutral-500">
+                  <div className="mt-0.5 text-xs text-ink-muted">
                     人均密度
                     {stat.denominatorMissing && (
-                      <span className="ml-1 text-neutral-400">· 分母缺失</span>
+                      <span className="ml-1 text-ink-faint">· 分母缺失</span>
                     )}
                   </div>
                 </div>
@@ -284,7 +268,7 @@ export function DeepCard({
               </div>
             )}
             {stat.denominatorMissing && stat.volume != null && (
-              <p className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+              <p className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-ink-muted">
                 该赛道的毕业生数（人均密度的分母）尚未收录，密度不做估算。
                 <CorrectionLink school={school} field="graduates" />
               </p>
@@ -296,19 +280,17 @@ export function DeepCard({
         {profile.hasAnyAdmission ? (
           <>
             <div className="mb-2 flex items-baseline justify-between gap-3">
-              <h4 className="text-xs font-medium text-neutral-500">
+              <h4 className="text-xs font-medium text-ink-muted">
                 {profile.destinations.length > TOP_N
                   ? `近三年去向大学 Top ${TOP_N}`
                   : `近三年去向大学（收录 ${profile.destinations.length} 所）`}
               </h4>
-              <span className="text-[11px] text-neutral-400">
-                人数为近三年合计，未做时间加权
-              </span>
+              <span className="text-[11px] text-ink-faint">人数为近三年合计，未做时间加权</span>
             </div>
             <div className="-mx-1 overflow-x-auto">
               <table className="w-full min-w-[20rem] text-sm">
                 <thead>
-                  <tr className="text-left text-xs text-neutral-500">
+                  <tr className="text-left text-xs text-ink-muted">
                     <th className="px-1 py-1.5 font-normal">大学</th>
                     <th className="px-1 py-1.5 text-right font-normal">近三年</th>
                     {profile.years.map((y) => (
@@ -323,15 +305,13 @@ export function DeepCard({
                   {top.map((d) => (
                     <tr
                       key={d.universityId}
-                      className={`border-t border-neutral-100 dark:border-neutral-900 ${
-                        d.universityId === universityId
-                          ? 'bg-neutral-50 dark:bg-neutral-900/50'
-                          : ''
+                      className={`border-t border-rule ${
+                        d.universityId === universityId ? 'bg-paper/50' : ''
                       }`}
                     >
                       <td className="px-1 py-2">
                         <span className="font-medium">{d.nameCn}</span>
-                        <span className="ml-1.5 text-[11px] text-neutral-400">
+                        <span className="ml-1.5 text-[11px] text-ink-faint">
                           {d.tracks.map((t) => TRACK_LABEL[t]).join('/')}
                         </span>
                       </td>
@@ -343,7 +323,7 @@ export function DeepCard({
                         return (
                           <td
                             key={y}
-                            className="px-1 py-2 text-right font-mono tabular-nums text-neutral-500"
+                            className="px-1 py-2 text-right font-mono tabular-nums text-ink-muted"
                           >
                             {cell?.admits == null ? (
                               <Missing>{DASH}</Missing>
@@ -369,27 +349,25 @@ export function DeepCard({
             </div>
 
             {/* 赛道分布 */}
-            <h4 className="mt-6 mb-2 text-xs font-medium text-neutral-500">
+            <h4 className="mt-6 mb-2 text-xs font-medium text-ink-muted">
               赛道分布（近三年收录到的录取人数）
             </h4>
             <ul className="flex flex-wrap gap-2">
               {profile.trackMix.map((t) => (
                 <li
                   key={t.track}
-                  className="rounded-md border border-neutral-200 px-2.5 py-1.5 text-xs dark:border-neutral-800"
+                  className="rounded-sm border border-rule px-2.5 py-1.5 text-xs"
                 >
                   {TRACK_LABEL[t.track]}
-                  <span className="ml-1.5 font-mono tabular-nums">
-                    {fmtNum(t.admits)} 人
-                  </span>
+                  <span className="ml-1.5 font-mono tabular-nums">{fmtNum(t.admits)} 人</span>
                 </li>
               ))}
             </ul>
           </>
         ) : (
-          <div className="rounded-lg border border-dashed border-neutral-300 p-4 dark:border-neutral-700">
+          <div className="rounded-sm border border-dashed border-rule p-4">
             <p className="font-medium">暂未收录这所学校的录取记录</p>
-            <p className="mt-1.5 text-neutral-500">
+            <p className="mt-1.5 text-ink-muted">
               我们只收录有公开出处的录取数据（学校官方发布、公开媒体报道、公开行业报告）。
               查不到出处的一律不入库，所以这里是空的 ——
               它表示「我们还没收到」，不表示这所学校没有录取。
@@ -401,9 +379,7 @@ export function DeepCard({
         )}
 
         {/* 毕业生规模与三年趋势 */}
-        <h4 className="mt-6 mb-2 text-xs font-medium text-neutral-500">
-          毕业生规模与三年趋势
-        </h4>
+        <h4 className="mt-6 mb-2 text-xs font-medium text-ink-muted">毕业生规模与三年趋势</h4>
         {profile.years.length === 0 ? (
           <Missing>全库还没有任何年份的录取数据，趋势无从谈起。</Missing>
         ) : (
@@ -411,7 +387,7 @@ export function DeepCard({
             <div className="-mx-1 overflow-x-auto">
               <table className="w-full min-w-[18rem] text-sm">
                 <thead>
-                  <tr className="text-left text-xs text-neutral-500">
+                  <tr className="text-left text-xs text-ink-muted">
                     <th className="px-1 py-1.5 font-normal">届</th>
                     <th className="px-1 py-1.5 text-right font-normal">收录录取人数</th>
                     <th className="px-1 py-1.5 text-right font-normal">该届毕业生</th>
@@ -419,10 +395,7 @@ export function DeepCard({
                 </thead>
                 <tbody>
                   {profile.byYear.map((y) => (
-                    <tr
-                      key={y.year}
-                      className="border-t border-neutral-100 dark:border-neutral-900"
-                    >
+                    <tr key={y.year} className="border-t border-rule">
                       <td className="px-1 py-2 font-mono tabular-nums">{y.year}</td>
                       <td className="px-1 py-2 text-right font-mono tabular-nums">
                         {y.admits == null ? <Missing>{DASH}</Missing> : fmtNum(y.admits)}
@@ -434,7 +407,7 @@ export function DeepCard({
                           <Val sourceIds={y.sourceIds}>
                             {fmtNum(y.graduates)}
                             {y.graduateTracks.length > 0 && (
-                              <span className="ml-1 text-[11px] text-neutral-400">
+                              <span className="ml-1 text-[11px] text-ink-faint">
                                 {y.graduateTracks.map((t) => TRACK_LABEL[t]).join('/')}
                               </span>
                             )}
@@ -447,17 +420,16 @@ export function DeepCard({
               </table>
             </div>
             {profile.byYear.every((y) => y.graduates == null) && (
-              <p className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
-                毕业生规模（各赛道分别统计）尚未收录。它是人均密度的分母，缺了就只能显示
-                「{DASH}」，我们不猜分母。
+              <p className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-ink-muted">
+                毕业生规模（各赛道分别统计）尚未收录。它是人均密度的分母，缺了就只能显示 「
+                {DASH}」，我们不猜分母。
                 <CorrectionLink school={school} field="graduates" />
               </p>
             )}
             {profile.byYear.filter((y) => y.admits != null).length < 2 && (
-              <p className="mt-2 text-xs text-neutral-500">
-                目前只收录到{' '}
-                {profile.byYear.filter((y) => y.admits != null).length} 个年份的数据，
-                还看不出趋势。
+              <p className="mt-2 text-xs text-ink-muted">
+                目前只收录到 {profile.byYear.filter((y) => y.admits != null).length}{' '}
+                个年份的数据， 还看不出趋势。
               </p>
             )}
           </>
@@ -474,11 +446,11 @@ export function DeepCard({
         onToggle={() => toggle(1)}
       >
         {gateEmpty && (
-          <div className="mb-4 rounded-lg border border-dashed border-neutral-300 p-4 dark:border-neutral-700">
+          <div className="mb-4 rounded-sm border border-dashed border-rule p-4">
             <p className="font-medium">门槛信息待补充</p>
-            <p className="mt-1.5 text-neutral-500">
+            <p className="mt-1.5 text-ink-muted">
               这所学校的招生资格要求我们还没有整理到可引用的出处。
-              <strong className="font-medium text-neutral-700 dark:text-neutral-200">
+              <strong className="font-medium text-ink-muted">
                 门槛信息缺失不等于「可以申请」
               </strong>
               —— 在补上之前，请以学校官方招生简章为准。
@@ -489,13 +461,13 @@ export function DeepCard({
           </div>
         )}
 
-        <dl className="divide-y divide-neutral-100 dark:divide-neutral-900">
+        <dl className="divide-y divide-rule">
           {gates.map((g) => (
             <div
               key={g.key}
               className="grid grid-cols-[7rem_1fr] gap-3 py-2.5 sm:grid-cols-[9rem_1fr]"
             >
-              <dt className="text-xs text-neutral-500">{g.label}</dt>
+              <dt className="text-xs text-ink-muted">{g.label}</dt>
               <dd className="min-w-0">
                 {g.known ? (
                   <span>{g.value}</span>
@@ -506,14 +478,14 @@ export function DeepCard({
                   </span>
                 )}
                 {g.hint && (
-                  <span className="mt-0.5 block text-xs text-neutral-400">{g.hint}</span>
+                  <span className="mt-0.5 block text-xs text-ink-faint">{g.hint}</span>
                 )}
               </dd>
             </div>
           ))}
         </dl>
 
-        <p className="mt-3 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+        <p className="mt-3 flex flex-wrap items-center gap-2 text-xs text-ink-muted">
           {school.requirement.sourceId ? (
             <SourcePopover sourceIds={[school.requirement.sourceId]}>
               <span className="cursor-pointer underline decoration-dotted underline-offset-4">
@@ -532,15 +504,13 @@ export function DeepCard({
         index={3}
         title="要花多少钱"
         lead="学费、住宿、三年总投入估算区间，以及明确未包含的项目"
-        summary={
-          cost.tuition == null ? '学费待补充' : `学费 ${fmtWan(cost.tuition)}/年 起算`
-        }
+        summary={cost.tuition == null ? '学费待补充' : `学费 ${fmtWan(cost.tuition)}/年 起算`}
         open={open[2]}
         onToggle={() => toggle(2)}
       >
-        <dl className="divide-y divide-neutral-100 dark:divide-neutral-900">
+        <dl className="divide-y divide-rule">
           <div className="grid grid-cols-[7rem_1fr] gap-3 py-2.5 sm:grid-cols-[9rem_1fr]">
-            <dt className="text-xs text-neutral-500">学费</dt>
+            <dt className="text-xs text-ink-muted">学费</dt>
             <dd>
               {cost.tuition == null ? (
                 <span className="flex flex-wrap items-center gap-2">
@@ -552,7 +522,7 @@ export function DeepCard({
                   <span className="font-mono tabular-nums">
                     约 {fmtWan(cost.tuition)} / 学年
                   </span>
-                  <span className="ml-2 text-xs text-neutral-400">
+                  <span className="ml-2 text-xs text-ink-faint">
                     （{fmtCny(cost.tuition)}，学校公示口径）
                   </span>
                 </>
@@ -560,7 +530,7 @@ export function DeepCard({
             </dd>
           </div>
           <div className="grid grid-cols-[7rem_1fr] gap-3 py-2.5 sm:grid-cols-[9rem_1fr]">
-            <dt className="text-xs text-neutral-500">住宿</dt>
+            <dt className="text-xs text-ink-muted">住宿</dt>
             <dd>
               {cost.boarding == null ? (
                 <span className="flex flex-wrap items-center gap-2">
@@ -570,53 +540,48 @@ export function DeepCard({
               ) : (
                 <>
                   <span>{cost.boarding ? '提供住宿' : '不提供住宿'}</span>
-                  <span className="ml-2 text-xs text-neutral-400">
-                    住宿费用未收录，不做估算
-                  </span>
+                  <span className="ml-2 text-xs text-ink-faint">住宿费用未收录，不做估算</span>
                 </>
               )}
             </dd>
           </div>
           <div className="grid grid-cols-[7rem_1fr] gap-3 py-2.5 sm:grid-cols-[9rem_1fr]">
-            <dt className="text-xs text-neutral-500">三年总投入</dt>
+            <dt className="text-xs text-ink-muted">三年总投入</dt>
             <dd>
               {cost.threeYearLow == null ? (
                 <Missing>学费未收录，无法给出区间</Missing>
               ) : (
                 <>
-                  <span className="font-mono tabular-nums">
-                    {fmtWan(cost.threeYearLow)} 起
-                  </span>
-                  <span className="ml-2 text-xs text-neutral-400">上限待补充</span>
+                  <span className="font-mono tabular-nums">{fmtWan(cost.threeYearLow)} 起</span>
+                  <span className="ml-2 text-xs text-ink-faint">上限待补充</span>
                 </>
               )}
             </dd>
           </div>
         </dl>
 
-        <details className="mt-3 text-xs text-neutral-500">
+        <details className="mt-3 text-xs text-ink-muted">
           <summary className="cursor-pointer py-1.5 select-none">估算口径</summary>
           <div className="pt-1 pb-2 leading-relaxed">
             下限 = 学校公示的当年学费 × 3，按学费不变计算，且不含住宿。
-            上限取决于住宿费与逐年学费调整，这两项当前没有可引用的公示数据，
-            因此不给上限 —— 宁可只给一端，也不编一个看起来完整的区间。
-            全部金额按区间理解，不是精确报价。
+            上限取决于住宿费与逐年学费调整，这两项当前没有可引用的公示数据， 因此不给上限 ——
+            宁可只给一端，也不编一个看起来完整的区间。 全部金额按区间理解，不是精确报价。
           </div>
         </details>
 
-        <div className="mt-4 rounded-lg border border-neutral-200 p-3.5 dark:border-neutral-800">
+        <div className="mt-4 rounded-sm border border-rule p-3.5">
           <h4 className="text-xs font-medium">以上金额未包含</h4>
-          <ul className="mt-2 grid gap-1 text-xs text-neutral-500 sm:grid-cols-2">
+          <ul className="mt-2 grid gap-1 text-xs text-ink-muted sm:grid-cols-2">
             {COST_EXCLUDED.map((x) => (
               <li key={x}>· {x}</li>
             ))}
           </ul>
-          <p className="mt-2.5 text-[11px] text-neutral-400">
+          <p className="mt-2.5 text-[11px] text-ink-faint">
             这些项目各家差异极大且没有公示金额，因此只列名目、不估金额。
           </p>
         </div>
 
-        <p className="mt-3 text-[11px] text-neutral-400">
+        <p className="mt-3 text-[11px] text-ink-faint">
           费用与录取结果在本站分开呈现，两者之间不做任何形式的换算。
         </p>
       </Section>
@@ -631,9 +596,9 @@ export function DeepCard({
         onToggle={() => toggle(3)}
       >
         {actions.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-neutral-300 p-4 dark:border-neutral-700">
+          <div className="rounded-sm border border-dashed border-rule p-4">
             <p className="font-medium">这里暂时没有可执行的下一步</p>
-            <p className="mt-1.5 text-neutral-500">
+            <p className="mt-1.5 text-ink-muted">
               这一段的每一项都必须由第 2 段的门槛字段推出来。这所学校的门槛数据还没收录，
               所以我们不写「多参加活动」「提前准备面试」这类放之四海而皆准的建议 ——
               那种话对你的决策没有任何帮助。
@@ -645,18 +610,15 @@ export function DeepCard({
         ) : (
           <ol className="space-y-3">
             {actions.map((a, i) => (
-              <li
-                key={a.title}
-                className="rounded-lg border border-neutral-200 p-3.5 dark:border-neutral-800"
-              >
+              <li key={a.title} className="rounded-sm border border-rule p-3.5">
                 <div className="flex items-start gap-2.5">
-                  <span className="mt-0.5 shrink-0 font-mono text-xs text-neutral-400">
+                  <span className="mt-0.5 shrink-0 font-mono text-xs text-ink-faint">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div className="min-w-0">
                     <p className="font-medium">{a.title}</p>
-                    <p className="mt-1 text-neutral-500">{a.detail}</p>
-                    <p className="mt-1.5 text-[11px] text-neutral-400">
+                    <p className="mt-1 text-ink-muted">{a.detail}</p>
+                    <p className="mt-1.5 text-[11px] text-ink-faint">
                       依据：第 2 段 · {a.from}
                     </p>
                   </div>
@@ -666,7 +628,7 @@ export function DeepCard({
           </ol>
         )}
 
-        <p className="mt-4 text-[11px] leading-relaxed text-neutral-400">
+        <p className="mt-4 text-[11px] leading-relaxed text-ink-faint">
           以上动作只是把已收录的门槛信息翻译成时间顺序，不构成升学建议。
           具体报名与考试安排以学校官方公告为准。
         </p>

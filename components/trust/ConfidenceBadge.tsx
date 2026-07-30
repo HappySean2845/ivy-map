@@ -1,33 +1,36 @@
-// 置信等级徽章（PRD US-7.2）。
+// 置信等级标注（PRD US-7.2 + design-system.md §4）。
 //
-// 等级本身不解释就是个没意义的字母，所以徽章必须自带说明 —— 见 tip.tsx。
+// 从彩色徽章改成**脚注式上标**。这不是审美偏好：
+// 论文引注的形式本身就在说「我说的话你可以去查」——和这个产品要说的话
+// 是同一件事。彩色徽章看起来像 App 的状态标签，反而削弱可信度。
+//
+//   L1 官方一手   →  ¹        实心数字
+//   L2 权威二手   →  ⁽²⁾      加括号
+//   L3 推断/众包  →  ⁽³⁾ˀ     括号加问号
+//
+// 折算过的数字额外跟一个 ≈，并且用信号色（朱红）——它是四种「需要注意」
+// 的场景之一（design-system.md §2）。
 
 import type { Confidence } from '@/types'
 import { Tip } from './tip'
 
-const LEVELS: Record<Confidence, { name: string; desc: string; cls: string }> = {
+const LEVELS: Record<Confidence, { mark: string; desc: string }> = {
   L1: {
-    name: '官方一手',
+    mark: '1',
     desc: 'L1 · 官方一手：学校或大学官方渠道直接发布的数据，未经转述。',
-    cls: 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
   },
   L2: {
-    name: '权威二手',
+    mark: '(2)',
     desc: 'L2 · 权威二手：媒体报道或行业报告转述的官方数据，可能存在转述误差。',
-    cls: 'border-sky-300 bg-sky-50 text-sky-700 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-300',
   },
   L3: {
-    name: '推断或众包',
+    mark: '(3)?',
     desc: 'L3 · 推断或众包：由其他数据推断，或来自家长、校友等非官方渠道，建议自行核实。',
-    cls: 'border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300',
   },
 }
 
 const ESTIMATED_DESC =
   '估算：这个数字由 offer 数按该校当年人均 offer 系数折算而来，不是学校公布的人数，置信等级已相应下调一级。'
-
-const CHIP =
-  'inline-flex items-center rounded border px-1.5 py-px text-[11px] font-medium leading-tight tabular-nums'
 
 export default function ConfidenceBadge({
   level,
@@ -38,25 +41,21 @@ export default function ConfidenceBadge({
 }) {
   const meta = LEVELS[level]
   return (
-    <span className="inline-flex items-center gap-1">
+    <span className="inline-flex items-baseline">
       <Tip text={meta.desc}>
-        <span className={`${CHIP} ${meta.cls} cursor-help`} aria-label={meta.desc}>
-          {level}
-        </span>
+        <sup className="footnote-ref" aria-label={meta.desc}>
+          {meta.mark}
+        </sup>
       </Tip>
       {estimated ? (
         <Tip text={ESTIMATED_DESC}>
-          <span
-            className={`${CHIP} cursor-help border-dashed border-zinc-400 bg-zinc-50 text-zinc-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-400`}
-            aria-label={ESTIMATED_DESC}
-          >
-            估算
-          </span>
+          <sup className="footnote-ref !text-signal" aria-label={ESTIMATED_DESC}>
+            ≈
+          </sup>
         </Tip>
       ) : null}
     </span>
   )
 }
 
-// 默认导出和具名导出都给 —— 别的组件用哪种 import 都不会踩空
 export { ConfidenceBadge }

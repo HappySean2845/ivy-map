@@ -109,22 +109,22 @@ export default function SourcePopover({
       aria-label="数据来源"
       className={
         pos
-          ? 'fixed z-[70] w-[336px] overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-950'
-          : 'fixed inset-x-0 bottom-0 z-[70] max-h-[80vh] overflow-hidden rounded-t-2xl border-t border-zinc-200 bg-white shadow-2xl dark:border-zinc-700 dark:bg-zinc-950'
+          ? 'fixed z-[70] w-[336px] overflow-hidden rounded-sm border border-rule bg-paper shadow-sm'
+          : 'fixed inset-x-0 bottom-0 z-[70] max-h-[80vh] overflow-hidden rounded-t-2xl border-t border-rule bg-paper shadow-sm'
       }
       style={pos ? { top: pos.top, left: pos.left } : undefined}
     >
       {pos ? null : (
         <div className="flex justify-center pt-2">
-          <span className="h-1 w-10 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+          <span className="h-1 w-10 rounded-full bg-paper-sunk" />
         </div>
       )}
-      <div className="flex items-center justify-between gap-2 border-b border-zinc-100 px-4 py-2.5 dark:border-zinc-800">
+      <div className="flex items-center justify-between gap-2 border-b border-rule px-4 py-2.5">
         <h3 className="text-sm font-semibold">数据来源</h3>
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="-mr-1 rounded px-2 py-1 text-xs text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          className="-mr-1 rounded px-2 py-1 text-xs text-ink-muted hover:bg-paper"
         >
           关闭
         </button>
@@ -134,7 +134,7 @@ export default function SourcePopover({
         {conflicts.length > 0 && <ConflictNotice conflicts={conflicts} />}
 
         {sources.length === 0 ? (
-          <p className="text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="text-xs leading-relaxed text-ink-muted">
             这项数据尚未登记来源。按产品原则，没有出处的数值不应出现在界面上 ——
             如果你看到了它，是我们的疏漏，请通过页面底部的纠错入口告诉我们。
           </p>
@@ -146,11 +146,11 @@ export default function SourcePopover({
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-sky-700 underline underline-offset-2 hover:text-sky-900 dark:text-sky-400 dark:hover:text-sky-300"
+                  className="font-medium text-accent underline underline-offset-2 hover:text-accent"
                 >
                   {s.title}
                 </a>
-                <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-zinc-500 dark:text-zinc-400">
+                <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-ink-muted">
                   <span>{SOURCE_TYPE_LABEL[s.type]}</span>
                   <span aria-hidden>·</span>
                   <span>发布 {s.publishedAt ?? '未标注'}</span>
@@ -164,12 +164,12 @@ export default function SourcePopover({
         )}
 
         {missingIds.length > 0 && (
-          <p className="mt-3 border-t border-zinc-100 pt-2 text-[11px] leading-relaxed text-amber-700 dark:border-zinc-800 dark:text-amber-400">
+          <p className="mt-3 border-t border-rule pt-2 text-[11px] leading-relaxed text-signal">
             另有 {missingIds.length} 条来源记录未在本次数据集中找到，已按「无来源」处理。
           </p>
         )}
 
-        <p className="mt-3 border-t border-zinc-100 pt-2 text-[11px] leading-relaxed text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+        <p className="mt-3 border-t border-rule pt-2 text-[11px] leading-relaxed text-ink-muted">
           来源为公开发布内容，由 IVY Map 整理，可能存在滞后。
         </p>
       </div>
@@ -184,11 +184,11 @@ export default function SourcePopover({
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="dialog"
-        className={`inline-flex items-center gap-0.5 border-b border-dotted border-zinc-400 text-left hover:border-zinc-700 dark:border-zinc-500 dark:hover:border-zinc-300 ${className}`}
+        className={`inline-flex items-center gap-0.5 border-b border-dotted border-rule-strong text-left hover:border-rule-strong ${className}`}
         title="查看数据来源"
       >
         {children}
-        <span aria-hidden className="text-[10px] leading-none text-zinc-400">
+        <span aria-hidden className="text-[10px] leading-none text-ink-faint">
           ⓘ
         </span>
         <span className="sr-only">查看数据来源</span>
@@ -199,7 +199,7 @@ export default function SourcePopover({
         ? createPortal(
             <>
               <div
-                className="fixed inset-0 z-[60] bg-black/20 sm:bg-transparent"
+                className="fixed inset-0 z-[60] bg-ink/20 sm:bg-transparent"
                 onClick={() => setOpen(false)}
               />
               {panel}
@@ -237,10 +237,8 @@ function findConflicts(ids: string[]): Admission[] {
 
 function ConflictNotice({ conflicts }: { conflicts: Admission[] }) {
   return (
-    <div className="mb-3 rounded-md border border-amber-300 bg-amber-50 p-2.5 dark:border-amber-800 dark:bg-amber-950/60">
-      <p className="text-xs font-semibold text-amber-800 dark:text-amber-300">
-        多来源不一致
-      </p>
+    <div className="mb-3 rounded-sm border border-signal bg-signal-soft p-2.5/60">
+      <p className="text-xs font-semibold text-signal">多来源不一致</p>
       <ul className="mt-1.5 flex flex-col gap-2">
         {conflicts.map((a, i) => {
           const school = schoolById.get(a.schoolId)?.nameCn ?? a.schoolId
@@ -250,7 +248,7 @@ function ConflictNotice({ conflicts }: { conflicts: Admission[] }) {
           return (
             <li
               key={`${a.schoolId}-${a.universityId}-${a.year}-${a.track}-${i}`}
-              className="text-[11px] leading-relaxed text-amber-800 dark:text-amber-200"
+              className="text-[11px] leading-relaxed text-signal"
             >
               <span className="font-medium">
                 {a.year} · {school} → {university} · {TRACK_LABEL[a.track]}
@@ -270,7 +268,7 @@ function ConflictNotice({ conflicts }: { conflicts: Admission[] }) {
           )
         })}
       </ul>
-      <p className="mt-2 text-[11px] leading-relaxed text-amber-700 dark:text-amber-300/90">
+      <p className="mt-2 text-[11px] leading-relaxed text-signal/90">
         本站不替你在这些数值之间做选择。榜单采用置信等级最高的那条，其余数值全部列在上面，请点开原始链接自行判断。
       </p>
     </div>

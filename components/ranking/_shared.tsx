@@ -52,8 +52,8 @@ export function Chip({
       aria-pressed={selected}
       className={`inline-flex min-h-8 items-center rounded-full border px-3 text-[13px] leading-none transition-colors ${
         selected
-          ? 'border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900'
-          : 'border-neutral-300 text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:hover:border-neutral-500 dark:hover:text-neutral-100'
+          ? 'border-rule-strong bg-ink text-paper'
+          : 'border-rule text-ink-muted hover:border-rule-strong hover:text-ink'
       }`}
     >
       {children}
@@ -74,12 +74,12 @@ export function Field({
   return (
     <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:gap-3">
       <div className="shrink-0 pt-1 sm:w-24">
-        <span className="text-[13px] text-neutral-500 dark:text-neutral-400">{label}</span>
+        <span className="text-[13px] text-ink-muted">{label}</span>
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap gap-1.5">{children}</div>
         {hint ? (
-          <p className="mt-1.5 text-[11px] leading-relaxed text-neutral-400">{hint}</p>
+          <p className="mt-1.5 text-[11px] leading-relaxed text-ink-faint">{hint}</p>
         ) : null}
       </div>
     </div>
@@ -88,4 +88,4 @@ export function Field({
 
 /** 原生 select 的统一样式。color-scheme 让下拉面板在深色下也跟随系统。 */
 export const SELECT_CLASS =
-  'min-h-8 rounded-md border border-neutral-300 bg-transparent px-2 text-[13px] text-neutral-900 [color-scheme:light_dark] dark:border-neutral-700 dark:text-neutral-100'
+  'min-h-8 rounded-sm border border-rule bg-transparent px-2 text-[13px] text-ink [color-scheme:light_dark]'

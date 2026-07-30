@@ -40,18 +40,11 @@ export function offersToAdmits(
 }
 
 /** 取一条录取记录的人数口径值。offers 口径会被折算。 */
-export function resolveAdmits(
-  a: Admission,
-  cohort: Cohort | undefined,
-): number | null {
+export function resolveAdmits(a: Admission, cohort: Cohort | undefined): number | null {
   // 人数口径永远优先
   if (a.admits != null) return a.admits
   if (a.offers != null) {
-    return offersToAdmits(
-      a.offers,
-      cohort?.totalOffers ?? null,
-      cohort?.graduates ?? null,
-    )
+    return offersToAdmits(a.offers, cohort?.totalOffers ?? null, cohort?.graduates ?? null)
   }
   return null
 }
@@ -97,14 +90,11 @@ export function scoreFeeders(input: ScoreInput): FeederRow[] {
   const rows = admissions.filter((a) => !tracks || tracks.includes(a.track))
   if (rows.length === 0) return []
 
-  const latestYear =
-    input.latestYear ?? Math.max(...rows.map((a) => a.year))
+  const latestYear = input.latestYear ?? Math.max(...rows.map((a) => a.year))
 
   const cohortKey = (schoolId: string, year: number, track: Track) =>
     `${schoolId}|${year}|${track}`
-  const cohortMap = new Map(
-    cohorts.map((c) => [cohortKey(c.schoolId, c.year, c.track), c]),
-  )
+  const cohortMap = new Map(cohorts.map((c) => [cohortKey(c.schoolId, c.year, c.track), c]))
 
   // 按学校聚合。
   //
@@ -222,8 +212,7 @@ function normalizer(values: number[]): (x: number) => number {
   const min = Math.min(...values)
   const max = Math.max(...values)
   if (max - min < 1e-9) return () => 1
-  return (x: number) =>
-    NORM_FLOOR + (1 - NORM_FLOOR) * ((x - min) / (max - min))
+  return (x: number) => NORM_FLOOR + (1 - NORM_FLOOR) * ((x - min) / (max - min))
 }
 
 // ---------------------------------------------------------------------------

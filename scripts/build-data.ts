@@ -66,7 +66,10 @@ const bool = (v: string | undefined) => {
   return s === 'yes' || s === 'true' || s === '1'
 }
 const list = (v: string | undefined, sep = '|') =>
-  (str(v) ?? '').split(sep).map((x) => x.trim()).filter(Boolean)
+  (str(v) ?? '')
+    .split(sep)
+    .map((x) => x.trim())
+    .filter(Boolean)
 
 // --- Schema -----------------------------------------------------------------
 
@@ -142,9 +145,10 @@ const schools = readCsv('schools.csv').map((r) => {
     requirement: {
       nationality: nat.success ? nat.data : ('unknown' as const),
       hukou: huk.success ? huk.data : ('unknown' as const),
-      entryGrades: req && str(req.entry_grades)
-        ? list(req.entry_grades).map(Number).filter(Number.isFinite)
-        : null,
+      entryGrades:
+        req && str(req.entry_grades)
+          ? list(req.entry_grades).map(Number).filter(Number.isFinite)
+          : null,
       examTypes: req ? list(req.exam_types) : [],
       applicationWindow: req ? str(req.application_window) : null,
       sourceId: req ? str(req.source_id) : null,
@@ -177,22 +181,30 @@ const cohorts: Cohort[] = readCsv('cohorts.csv').flatMap((r, i) => {
     fail(`cohorts.csv 第 ${i + 2} 行：来源 "${r.source_id}" 不存在 —— 无来源的数据不得入库`)
     return []
   }
-  return [{
-    schoolId: r.school_id,
-    year: num(r.year) ?? 0,
-    track,
-    graduates: num(r.graduates), // null 就是 null，绝不猜
-    totalOffers: num(r.total_offers),
-    sourceId: r.source_id,
-  }]
+  return [
+    {
+      schoolId: r.school_id,
+      year: num(r.year) ?? 0,
+      track,
+      graduates: num(r.graduates), // null 就是 null，绝不猜
+      totalOffers: num(r.total_offers),
+      sourceId: r.source_id,
+    },
+  ]
 })
 
 const admissions: Admission[] = readCsv('admissions.csv').flatMap((r, i) => {
   const where = `admissions.csv 第 ${i + 2} 行`
   const track = trackOf(r.track, where)
   if (!track) return []
-  if (!schoolIds.has(r.school_id)) { fail(`${where}：学校 "${r.school_id}" 不存在`); return [] }
-  if (!universityIds.has(r.university_id)) { fail(`${where}：大学 "${r.university_id}" 不存在`); return [] }
+  if (!schoolIds.has(r.school_id)) {
+    fail(`${where}：学校 "${r.school_id}" 不存在`)
+    return []
+  }
+  if (!universityIds.has(r.university_id)) {
+    fail(`${where}：大学 "${r.university_id}" 不存在`)
+    return []
+  }
   if (!sourceIds.has(r.source_id)) {
     fail(`${where}：来源 "${r.source_id}" 不存在 —— 无来源的数据不得入库`)
     return []
@@ -204,7 +216,10 @@ const admissions: Admission[] = readCsv('admissions.csv').flatMap((r, i) => {
     return []
   }
   const confParsed = z.enum(CONFIDENCES).safeParse(str(r.confidence))
-  if (!confParsed.success) { fail(`${where}：置信等级必须是 L1 / L2 / L3`); return [] }
+  if (!confParsed.success) {
+    fail(`${where}：置信等级必须是 L1 / L2 / L3`)
+    return []
+  }
 
   const admits = num(r.admits)
   const offers = num(r.offers)
@@ -220,17 +235,19 @@ const admissions: Admission[] = readCsv('admissions.csv').flatMap((r, i) => {
     warn(`${where}：估算记录的置信已自动下调为 ${confidence}`)
   }
 
-  return [{
-    schoolId: r.school_id,
-    universityId: r.university_id,
-    year: num(r.year) ?? 0,
-    track,
-    admits,
-    offers,
-    basis: basisParsed.data,
-    confidence,
-    sourceId: r.source_id,
-  }]
+  return [
+    {
+      schoolId: r.school_id,
+      universityId: r.university_id,
+      year: num(r.year) ?? 0,
+      track,
+      admits,
+      offers,
+      basis: basisParsed.data,
+      confidence,
+      sourceId: r.source_id,
+    },
+  ]
 })
 
 // --- 多来源冲突检测 ---------------------------------------------------------
@@ -307,7 +324,9 @@ if (admissions.length === 0) {
   warn('录取数据为空 —— 主线数据尚未录入。这是当前的头号阻塞项')
 } else {
   if (denomCoverage < 0.8) {
-    warn(`分母覆盖率 ${(denomCoverage * 100).toFixed(0)}%（目标 ≥ 80%）—— 分母不够，滑杆演示会失效`)
+    warn(
+      `分母覆盖率 ${(denomCoverage * 100).toFixed(0)}%（目标 ≥ 80%）—— 分母不够，滑杆演示会失效`,
+    )
   }
   if (!defaultView) {
     warn('找不到能演示排名反转的默认组合 —— US-1.0 首屏自解释会失去核心说服力')
@@ -320,11 +339,14 @@ if (admissions.length === 0) {
 }
 
 const unverified = schools.filter((s) => !s.verified).length
-if (unverified > 0) warn(`${unverified} / ${schools.length} 所学校的身份信息尚未人工核对（verified=no）`)
+if (unverified > 0)
+  warn(`${unverified} / ${schools.length} 所学校的身份信息尚未人工核对（verified=no）`)
 
 const noRequirement = schools.filter((s) => !requirementBySchool.has(s.id)).length
 if (noRequirement > 0) {
-  warn(`${noRequirement} / ${schools.length} 所学校缺门槛数据 —— 这是可行性闸门的前提，也是唯一能在本周期建立的护城河`)
+  warn(
+    `${noRequirement} / ${schools.length} 所学校缺门槛数据 —— 这是可行性闸门的前提，也是唯一能在本周期建立的护城河`,
+  )
 }
 
 // --- 输出 -------------------------------------------------------------------
@@ -345,8 +367,12 @@ console.log('IVY Map 数据构建')
 console.log('='.repeat(64))
 console.log(`城市 ${cities.length} · 大学 ${universities.length} · 高中 ${schools.length}`)
 console.log(`录取记录 ${admissions.length} · 届次 ${cohorts.length} · 来源 ${sources.length}`)
-console.log(`门槛数据 ${schools.length - noRequirement}/${schools.length} · 分母覆盖 ${(denomCoverage * 100).toFixed(0)}%`)
-console.log(`首屏默认组合：${defaultView ? `${defaultView.universityId} × ${defaultView.cityId} × ${defaultView.track}` : '（无 —— 数据不足）'}`)
+console.log(
+  `门槛数据 ${schools.length - noRequirement}/${schools.length} · 分母覆盖 ${(denomCoverage * 100).toFixed(0)}%`,
+)
+console.log(
+  `首屏默认组合：${defaultView ? `${defaultView.universityId} × ${defaultView.cityId} × ${defaultView.track}` : '（无 —— 数据不足）'}`,
+)
 
 if (warnings.length) {
   console.log('\n⚠  警告 ' + warnings.length)

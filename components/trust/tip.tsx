@@ -15,7 +15,7 @@ export function Tip({ text, children }: { text: string; children: ReactNode }) {
       {children}
       <span
         role="note"
-        className="pointer-events-none absolute right-0 top-full z-50 mt-1.5 hidden w-56 max-w-[calc(100vw-2rem)] rounded-md border border-zinc-200 bg-white px-2.5 py-2 text-left text-[11px] font-normal leading-relaxed text-zinc-600 shadow-lg group-hover:block group-focus:block group-focus-within:block dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+        className="pointer-events-none absolute right-0 top-full z-50 mt-1.5 hidden w-56 max-w-[calc(100vw-2rem)] rounded-sm border border-rule bg-paper px-2.5 py-2 text-left text-[11px] font-normal leading-relaxed text-ink-muted shadow-sm group-hover:block group-focus:block group-focus-within:block"
       >
         {text}
       </span>

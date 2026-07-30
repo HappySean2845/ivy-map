@@ -56,12 +56,9 @@ export function sliderExplain(args: {
   // 首次渲染没有对照，不硬凑一句
   if (!nextTop || !prevTop) return null
 
-  const side =
-    alpha > 0.5 ? '规模' : alpha < 0.5 ? '人均密度' : '规模与人均密度各占一半'
+  const side = alpha > 0.5 ? '规模' : alpha < 0.5 ? '人均密度' : '规模与人均密度各占一半'
   const lead =
-    alpha === 0.5
-      ? '你正在按规模与人均密度各占一半排序。'
-      : `你正在偏向${side}排序。`
+    alpha === 0.5 ? '你正在按规模与人均密度各占一半排序。' : `你正在偏向${side}排序。`
 
   if (prevTop.name === nextTop.name) {
     return `无论按规模还是按人均密度排序，「${nextTop.name}」都排在第 1 —— 两个维度同时靠前的学校并不多见。`
@@ -73,9 +70,7 @@ export function sliderExplain(args: {
       ? ratioPct(nextTop.graduates, prevTop.graduates)
       : null
 
-  const parts: string[] = [
-    `${lead}第 1 名从「${prevTop.name}」换成了「${nextTop.name}」——`,
-  ]
+  const parts: string[] = [`${lead}第 1 名从「${prevTop.name}」换成了「${nextTop.name}」——`]
 
   parts.push(
     volPct == null

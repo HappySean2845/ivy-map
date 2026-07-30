@@ -58,7 +58,7 @@ interface Group {
 function textCell(text: string | null, missingText = '待补充'): Cell {
   if (text == null || text === '') {
     return {
-      node: <span className="text-neutral-400 dark:text-neutral-500">{missingText}</span>,
+      node: <span className="text-ink-faint">{missingText}</span>,
       cmp: `__missing__:${missingText}`,
     }
   }
@@ -74,11 +74,9 @@ function numCell(
   if (value == null) {
     return {
       node: (
-        <span className="text-neutral-400 dark:text-neutral-500">
+        <span className="text-ink-faint">
           {DASH}
-          {missingNote && (
-            <span className="ml-1 text-[11px]">· {missingNote}</span>
-          )}
+          {missingNote && <span className="ml-1 text-[11px]">· {missingNote}</span>}
         </span>
       ),
       num: null,
@@ -124,13 +122,12 @@ export function CompareTable({
 
   if (profiles.length < 2) {
     return (
-      <div className="rounded-lg border border-dashed border-neutral-300 p-4 text-sm dark:border-neutral-700">
+      <div className="rounded-sm border border-dashed border-rule p-4 text-sm">
         <p className="font-medium">还不能对比</p>
-        <p className="mt-1.5 text-neutral-500">
+        <p className="mt-1.5 text-ink-muted">
           在榜单里勾选 2–{MAX_COMPARE} 所学校加入对比。
           {profiles.length === 1 && ' 现在只勾了 1 所。'}
-          {unique.length > profiles.length &&
-            ' 其中有学校不在当前收录范围内，已跳过。'}
+          {unique.length > profiles.length && ' 其中有学校不在当前收录范围内，已跳过。'}
         </p>
       </div>
     )
@@ -148,9 +145,7 @@ export function CompareTable({
         {
           label: '城市 / 区',
           cells: profiles.map((p) =>
-            textCell(
-              p.cityName + (p.school.district ? ` · ${p.school.district}` : ''),
-            ),
+            textCell(p.cityName + (p.school.district ? ` · ${p.school.district}` : '')),
           ),
         },
         {
@@ -204,10 +199,7 @@ export function CompareTable({
             return {
               node: (
                 <span className="flex flex-wrap items-center gap-1.5">
-                  <ConfidenceBadge
-                    level={s.confidence}
-                    estimated={s.basis === 'estimated'}
-                  />
+                  <ConfidenceBadge level={s.confidence} estimated={s.basis === 'estimated'} />
                   <BasisNote basis={s.basis} />
                 </span>
               ),
@@ -271,7 +263,7 @@ export function CompareTable({
                 return {
                   node: (
                     <span className="flex flex-col items-start gap-1.5">
-                      <span className="text-neutral-400 dark:text-neutral-500">待补充</span>
+                      <span className="text-ink-faint">待补充</span>
                       <CorrectionLink school={p.school} field={key} />
                     </span>
                   ),
@@ -290,9 +282,7 @@ export function CompareTable({
         {
           label: '学费 / 学年',
           numeric: true,
-          cells: profiles.map((p) =>
-            numCell(costView(p.school).tuition, fmtWan, [], '待补充'),
-          ),
+          cells: profiles.map((p) => numCell(costView(p.school).tuition, fmtWan, [], '待补充')),
         },
         {
           label: '三年学费合计',
@@ -323,9 +313,7 @@ export function CompareTable({
             if (items.length === 0) {
               return {
                 node: (
-                  <span className="text-neutral-400 dark:text-neutral-500">
-                    门槛数据未收录，给不出可追溯的动作
-                  </span>
+                  <span className="text-ink-faint">门槛数据未收录，给不出可追溯的动作</span>
                 ),
                 cmp: '__missing__',
               }
@@ -356,23 +344,23 @@ export function CompareTable({
         <h2 className="text-base font-semibold tracking-tight">
           对比 {profiles.length} 所学校
         </h2>
-        <span className="text-xs text-neutral-500">
+        <span className="text-xs text-ink-muted">
           左右滑动查看全部；数值行标出本行最高，文字行标出有差异
         </span>
       </div>
       {overflow && (
-        <p className="mb-2 text-xs text-neutral-500">
+        <p className="mb-2 text-xs text-ink-muted">
           最多同时对比 {MAX_COMPARE} 所，已显示前 {MAX_COMPARE} 所。
         </p>
       )}
 
-      <div className="max-h-[75vh] overflow-auto rounded-lg border border-neutral-200 dark:border-neutral-800">
+      <div className="max-h-[75vh] overflow-auto rounded-sm border border-rule">
         <table className="w-full border-collapse">
           <thead>
             <tr>
               <th
                 scope="col"
-                className={`sticky top-0 left-0 z-30 w-32 min-w-32 border-b border-neutral-200 bg-white p-2.5 text-left text-xs font-normal text-neutral-500 dark:border-neutral-800 dark:bg-neutral-950`}
+                className={`sticky top-0 left-0 z-30 w-32 min-w-32 border-b border-rule bg-paper p-2.5 text-left text-xs font-normal text-ink-muted`}
               >
                 维度
               </th>
@@ -380,12 +368,12 @@ export function CompareTable({
                 <th
                   key={p.school.id}
                   scope="col"
-                  className={`sticky top-0 z-20 ${colWidth} border-b border-l border-neutral-200 bg-white p-2.5 text-left align-top dark:border-neutral-800 dark:bg-neutral-950`}
+                  className={`sticky top-0 z-20 ${colWidth} border-b border-l border-rule bg-paper p-2.5 text-left align-top`}
                 >
                   <span className="block text-[13px] leading-snug font-medium">
                     {p.school.nameCn}
                   </span>
-                  <span className="mt-0.5 block text-[11px] font-normal text-neutral-500">
+                  <span className="mt-0.5 block text-[11px] font-normal text-ink-muted">
                     {p.cityName}
                     {p.school.tracks.length
                       ? ` · ${p.school.tracks.map((t) => TRACK_LABEL[t]).join('/')}`
@@ -402,7 +390,7 @@ export function CompareTable({
                 <th
                   scope="colgroup"
                   colSpan={profiles.length + 1}
-                  className="sticky left-0 border-y border-neutral-200 bg-neutral-50 px-2.5 py-1.5 text-left text-[11px] font-medium text-neutral-500 dark:border-neutral-800 dark:bg-neutral-900"
+                  className="sticky left-0 border-y border-rule bg-paper px-2.5 py-1.5 text-left text-[11px] font-medium text-ink-muted"
                 >
                   {g.title}
                 </th>
@@ -410,46 +398,41 @@ export function CompareTable({
               {g.rows.map((row) => {
                 const cmps = new Set(row.cells.map((c) => c.cmp))
                 const differs = cmps.size > 1
-                const nums = row.cells
-                  .map((c) => c.num)
-                  .filter((n): n is number => n != null)
+                const nums = row.cells.map((c) => c.num).filter((n): n is number => n != null)
                 const max = nums.length > 1 ? Math.max(...nums) : null
                 const highlightMax =
-                  row.numeric === true &&
-                  max != null &&
-                  nums.some((n) => n !== max) // 全相等就不用强调
+                  row.numeric === true && max != null && nums.some((n) => n !== max) // 全相等就不用强调
 
                 return (
                   <tr key={row.label} className="align-top">
                     <th
                       scope="row"
-                      className="sticky left-0 z-10 w-32 min-w-32 border-t border-neutral-100 bg-white p-2.5 text-left text-xs font-normal text-neutral-500 dark:border-neutral-900 dark:bg-neutral-950"
+                      className="sticky left-0 z-10 w-32 min-w-32 border-t border-rule bg-paper p-2.5 text-left text-xs font-normal text-ink-muted"
                     >
                       <span className="block">{row.label}</span>
                       {row.hint && (
-                        <span className="mt-0.5 block text-[11px] text-neutral-400">
+                        <span className="mt-0.5 block text-[11px] text-ink-faint">
                           {row.hint}
                         </span>
                       )}
                       {differs && (
-                        <span className="mt-1 inline-block rounded bg-amber-100 px-1 py-0.5 text-[10px] leading-3 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300">
+                        <span className="mt-1 inline-block rounded bg-signal-soft px-1 py-0.5 text-[10px] leading-3 text-signal/60">
                           有差异
                         </span>
                       )}
                     </th>
                     {row.cells.map((cell, i) => {
-                      const isMax =
-                        highlightMax && cell.num != null && cell.num === max
+                      const isMax = highlightMax && cell.num != null && cell.num === max
                       return (
                         <td
                           key={profiles[i].school.id}
-                          className={`${colWidth} border-t border-l border-neutral-100 p-2.5 dark:border-neutral-900 ${
-                            isMax ? 'bg-neutral-50 dark:bg-neutral-900/60' : ''
+                          className={`${colWidth} border-t border-l border-rule p-2.5 ${
+                            isMax ? 'bg-paper/60' : ''
                           }`}
                         >
                           <span className={isMax ? 'font-medium' : ''}>{cell.node}</span>
                           {isMax && (
-                            <span className="mt-1 block text-[10px] text-neutral-400">
+                            <span className="mt-1 block text-[10px] text-ink-faint">
                               本行数值最高
                             </span>
                           )}
@@ -464,7 +447,7 @@ export function CompareTable({
         </table>
       </div>
 
-      <p className="mt-2.5 text-[11px] leading-relaxed text-neutral-400">
+      <p className="mt-2.5 text-[11px] leading-relaxed text-ink-faint">
         「有差异」只表示各校在这一行上的取值不同，「本行数值最高」只是数值比较，
         两者都不代表哪所学校更好。缺数据的格子显示「{DASH}」或「待补充」，不按 0 参与比较。
       </p>

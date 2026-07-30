@@ -51,11 +51,10 @@ function fmtTuition(cny: number | null): string {
 
 // ---------------------------------------------------------------------------
 
-const TH = 'px-2.5 py-2 text-left text-[11px] font-medium text-neutral-500 whitespace-nowrap'
+const TH = 'px-2.5 py-2 text-left text-[11px] font-medium text-ink-muted whitespace-nowrap'
 const TD = 'px-2.5 py-2.5 align-top text-[13px]'
 /** 左侧两列在移动端固定住。背景必须是实色，否则横向滚动时下面的内容会透出来。 */
-const STICKY_BG =
-  'bg-white group-hover:bg-neutral-50 dark:bg-neutral-950 dark:group-hover:bg-neutral-900'
+const STICKY_BG = 'bg-paper group-hover:bg-paper'
 
 export function FeederTable({
   rows,
@@ -94,10 +93,10 @@ export function FeederTable({
         if (before == null || el == null) continue
         const dy = before - top
         if (Math.abs(dy) < 1) continue
-        el.animate(
-          [{ transform: `translateY(${dy}px)` }, { transform: 'translateY(0)' }],
-          { duration: FLIP_MS, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
-        )
+        el.animate([{ transform: `translateY(${dy}px)` }, { transform: 'translateY(0)' }], {
+          duration: FLIP_MS,
+          easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+        })
       }
     }
     prevTops.current = next
@@ -131,26 +130,25 @@ export function FeederTable({
 
   return (
     <div>
-      <p className="px-0.5 pb-2 text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-400">
+      <p className="px-0.5 pb-2 text-[11px] leading-relaxed text-ink-muted">
         当前口径：近三年加权<strong className="font-medium">去重人数</strong>（最近一届 0.5 /
         前一届 0.3 / 再前一届 0.2）；人均密度 = 加权录取人数 ÷ 该赛道加权毕业生数。
         点数字可以看出处。
       </p>
 
-      <div className="overflow-x-auto overscroll-x-contain rounded-lg border border-neutral-200 dark:border-neutral-800">
+      <div className="overflow-x-auto overscroll-x-contain rounded-sm border border-rule">
         <table className="w-full min-w-[46rem] border-collapse">
           <thead>
-            <tr className="border-b border-neutral-200 dark:border-neutral-800">
-              <th scope="col" className={`${TH} sticky left-0 z-20 w-10 bg-white dark:bg-neutral-950`}>
+            <tr className="border-b border-rule">
+              <th scope="col" className={`${TH} sticky left-0 z-20 w-10 bg-paper`}>
                 #
               </th>
-              <th
-                scope="col"
-                className={`${TH} sticky left-10 z-20 min-w-[11rem] bg-white dark:bg-neutral-950`}
-              >
+              <th scope="col" className={`${TH} sticky left-10 z-20 min-w-[11rem] bg-paper`}>
                 学校
               </th>
-              <th scope="col" className={TH}>赛道</th>
+              <th scope="col" className={TH}>
+                赛道
+              </th>
               <th scope="col" className={`${TH} text-right`}>
                 近三年录取
               </th>
@@ -160,8 +158,12 @@ export function FeederTable({
               <th scope="col" className={`${TH} text-right`}>
                 学费
               </th>
-              <th scope="col" className={TH}>可申请</th>
-              <th scope="col" className={TH}>置信</th>
+              <th scope="col" className={TH}>
+                可申请
+              </th>
+              <th scope="col" className={TH}>
+                置信
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -178,12 +180,12 @@ export function FeederTable({
                     if (el) rowRefs.current.set(school.id, el)
                     else rowRefs.current.delete(school.id)
                   }}
-                  className={`group border-b border-neutral-100 last:border-0 hover:bg-neutral-50 dark:border-neutral-900 dark:hover:bg-neutral-900 ${
+                  className={`group border-b border-rule last:border-0 hover:bg-paper ${
                     ineligible ? 'opacity-55' : ''
                   }`}
                 >
                   <td className={`${TD} sticky left-0 z-10 w-10 ${STICKY_BG}`}>
-                    <span className="font-mono text-[13px] tabular-nums text-neutral-400">
+                    <span className="font-mono text-[13px] tabular-nums text-ink-faint">
                       {row.rank}
                     </span>
                   </td>
@@ -201,7 +203,7 @@ export function FeederTable({
                             ? `最多对比 ${MAX_COMPARE} 所，先取消一所`
                             : '加入对比'
                         }
-                        className="mt-1 size-3.5 shrink-0 accent-neutral-900 dark:accent-neutral-100"
+                        className="mt-1 size-3.5 shrink-0 accent-neutral-900"
                       />
                       <div className="min-w-0">
                         <button
@@ -211,7 +213,7 @@ export function FeederTable({
                         >
                           {school.nameCn}
                         </button>
-                        <div className="mt-0.5 text-[11px] leading-tight text-neutral-400">
+                        <div className="mt-0.5 text-[11px] leading-tight text-ink-faint">
                           {row.cityName}
                           {school.district ? ` · ${school.district}` : ''} ·{' '}
                           {SCHOOL_TYPE_LABEL[school.type]}
@@ -221,9 +223,7 @@ export function FeederTable({
                         {(ineligible || unknown) && eligibility.reasons.length > 0 ? (
                           <ul
                             className={`mt-1 space-y-0.5 text-[11px] leading-snug ${
-                              ineligible
-                                ? 'text-neutral-500 dark:text-neutral-400'
-                                : 'text-amber-700 dark:text-amber-400'
+                              ineligible ? 'text-ink-muted' : 'text-signal'
                             }`}
                           >
                             {eligibility.reasons.map((r) => (
@@ -235,7 +235,7 @@ export function FeederTable({
                     </div>
                   </td>
 
-                  <td className={`${TD} whitespace-nowrap text-neutral-600 dark:text-neutral-400`}>
+                  <td className={`${TD} whitespace-nowrap text-ink-muted`}>
                     {school.tracks.length
                       ? school.tracks.map((t) => TRACK_LABEL[t]).join(' / ')
                       : DASH}
@@ -255,14 +255,14 @@ export function FeederTable({
                   <td className={`${TD} text-right`}>
                     <span
                       className={`font-mono tabular-nums ${
-                        row.density == null ? 'text-neutral-400' : ''
+                        row.density == null ? 'text-ink-faint' : ''
                       }`}
                     >
                       {fmtDensity(row.density)}
                     </span>
                     {row.density == null ? (
                       <div
-                        className="mt-1 text-[11px] leading-tight text-neutral-400"
+                        className="mt-1 text-[11px] leading-tight text-ink-faint"
                         title="该校该赛道的毕业生数（密度的分母）尚未收录。分母是这个算法的地基，我们不猜分母，所以这里不显示任何数字。"
                       >
                         分母缺失
@@ -273,15 +273,15 @@ export function FeederTable({
                   <td className={`${TD} whitespace-nowrap text-right`}>
                     <span
                       className={`font-mono tabular-nums ${
-                        school.tuitionCny == null ? 'text-neutral-400' : ''
+                        school.tuitionCny == null ? 'text-ink-faint' : ''
                       }`}
                     >
                       {fmtTuition(school.tuitionCny)}
                     </span>
                     {school.tuitionCny != null ? (
-                      <span className="ml-0.5 text-[11px] text-neutral-400">/年</span>
+                      <span className="ml-0.5 text-[11px] text-ink-faint">/年</span>
                     ) : (
-                      <div className="mt-1 text-[11px] leading-tight text-neutral-400">
+                      <div className="mt-1 text-[11px] leading-tight text-ink-faint">
                         暂未收录
                       </div>
                     )}
@@ -305,8 +305,9 @@ export function FeederTable({
       </div>
 
       {hiddenCount > 0 ? (
-        <p className="px-0.5 pt-2 text-[11px] text-neutral-500 dark:text-neutral-400">
-          已隐藏 {hiddenCount} 所不可申请的学校。关掉「隐藏不可申请的学校」可以看到它们卡在哪一条。
+        <p className="px-0.5 pt-2 text-[11px] text-ink-muted">
+          已隐藏 {hiddenCount}{' '}
+          所不可申请的学校。关掉「隐藏不可申请的学校」可以看到它们卡在哪一条。
         </p>
       ) : null}
     </div>
@@ -318,7 +319,7 @@ export function FeederTable({
 function EligibilityTag({ status }: { status: FeederRowView['eligibility']['status'] }) {
   if (status === 'ineligible') {
     return (
-      <span className="inline-flex whitespace-nowrap rounded border border-neutral-300 bg-neutral-100 px-1.5 py-px text-[11px] leading-tight text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+      <span className="inline-flex whitespace-nowrap rounded border border-rule bg-paper px-1.5 py-px text-[11px] leading-tight text-ink-muted">
         报不了
       </span>
     )
@@ -326,7 +327,7 @@ function EligibilityTag({ status }: { status: FeederRowView['eligibility']['stat
   if (status === 'unknown') {
     return (
       <span
-        className="inline-flex whitespace-nowrap rounded border border-dashed border-amber-400 bg-amber-50 px-1.5 py-px text-[11px] leading-tight text-amber-700 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-300"
+        className="inline-flex whitespace-nowrap rounded border border-dashed border-signal bg-signal-soft px-1.5 py-px text-[11px] leading-tight text-signal"
         title="这所学校的门槛信息还没收录齐，既不能判为可申请，也不能判为不可申请。以学校官方招生简章为准。"
       >
         门槛信息待补充
@@ -335,7 +336,7 @@ function EligibilityTag({ status }: { status: FeederRowView['eligibility']['stat
   }
   return (
     <span
-      className="inline-flex whitespace-nowrap rounded border border-emerald-300 bg-emerald-50 px-1.5 py-px text-[11px] leading-tight text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+      className="inline-flex whitespace-nowrap rounded border border-accent bg-accent-soft px-1.5 py-px text-[11px] leading-tight text-accent"
       title="按已收录的门槛信息，没有发现不符合的硬性条件。最终以学校官方招生简章为准。"
     >
       未发现限制
@@ -346,12 +347,12 @@ function EligibilityTag({ status }: { status: FeederRowView['eligibility']['stat
 /** 空态是这个阶段的主要路径，不是边缘情况 —— 必须给具体的话，不能是「暂无数据」。 */
 function EmptyBox({ title, lines }: { title: string; lines: string[] }) {
   return (
-    <div className="rounded-lg border border-dashed border-neutral-300 px-4 py-8 text-center dark:border-neutral-700">
+    <div className="rounded-sm border border-dashed border-rule px-4 py-8 text-center">
       <p className="text-[13px] font-medium">{title}</p>
       {lines.map((l) => (
         <p
           key={l}
-          className="mx-auto mt-1.5 max-w-md text-[12px] leading-relaxed text-neutral-500 dark:text-neutral-400"
+          className="mx-auto mt-1.5 max-w-md text-[12px] leading-relaxed text-ink-muted"
         >
           {l}
         </p>

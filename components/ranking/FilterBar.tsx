@@ -49,7 +49,10 @@ export function FilterBar({
       </Field>
 
       <Field label="赛道" hint="不同赛道的出口差别很大，也不在同一个口径上，所以不混排。">
-        <Chip selected={filters.tracks.length === 0} onClick={() => onChange({ ...filters, tracks: [] })}>
+        <Chip
+          selected={filters.tracks.length === 0}
+          onClick={() => onChange({ ...filters, tracks: [] })}
+        >
           不限
         </Chip>
         {TRACKS.map((t) => (
@@ -85,12 +88,12 @@ export function FilterBar({
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-0.5">
         {gateActive ? (
-          <label className="flex cursor-pointer items-center gap-2 text-[12px] text-neutral-600 dark:text-neutral-400">
+          <label className="flex cursor-pointer items-center gap-2 text-[12px] text-ink-muted">
             <input
               type="checkbox"
               checked={filters.hideIneligible}
               onChange={(e) => onChange({ ...filters, hideIneligible: e.target.checked })}
-              className="size-3.5 accent-neutral-900 dark:accent-neutral-100"
+              className="size-3.5 accent-neutral-900"
             />
             隐藏不可申请的学校
           </label>
@@ -99,10 +102,8 @@ export function FilterBar({
         {dirty ? (
           <button
             type="button"
-            onClick={() =>
-              onChange({ ...filters, cityId: null, tracks: [], schoolTypes: [] })
-            }
-            className="text-[12px] text-neutral-500 underline underline-offset-2 hover:text-neutral-900 dark:hover:text-neutral-100"
+            onClick={() => onChange({ ...filters, cityId: null, tracks: [], schoolTypes: [] })}
+            className="text-[12px] text-ink-muted underline underline-offset-2 hover:text-ink"
           >
             清空筛选
           </button>

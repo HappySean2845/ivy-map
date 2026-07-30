@@ -169,10 +169,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
   if (universities.length === 0) {
     return (
       <Frame>
-        <Empty
-          title="暂无大学数据"
-          detail="数据还没录进来。收录范围与进度见「关于」页。"
-        />
+        <Empty title="暂无大学数据" detail="数据还没录进来。收录范围与进度见「关于」页。" />
       </Frame>
     )
   }
@@ -184,22 +181,26 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
         <div
           ref={boxRef}
           className="h-full w-full"
-          style={{ minHeight: Math.max(260, Math.round(layout.units * MIN_ROW_PX) + 16) }}
+          // 高度封顶：原本随大学数线性增长，30 所就把首屏占满了，
+          // 把榜单和滑杆全推到折叠以下。地图是探索工具，不该抢主视图。
+          style={{
+            height: Math.min(360, Math.max(260, Math.round(layout.units * MIN_ROW_PX) + 16)),
+          }}
         />
         {!chart && (
-          <div className="pointer-events-none absolute inset-0 grid place-items-center text-xs text-neutral-400">
+          <div className="pointer-events-none absolute inset-0 grid place-items-center text-xs text-ink-faint">
             图表加载中…
           </div>
         )}
       </div>
 
       {notice && (
-        <p className="mt-2 shrink-0 rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
+        <p className="mt-2 shrink-0 rounded-sm border border-signal/60 bg-signal-soft px-3 py-2 text-xs leading-relaxed text-ink-faint/10">
           {notice}
         </p>
       )}
 
-      <p className="mt-2 shrink-0 text-[11px] leading-relaxed text-neutral-400">
+      <p className="mt-2 shrink-0 text-[11px] leading-relaxed text-ink-faint">
         点的大小 = 近三年加权录取人数（已有数据 {withData} / {universities.length} 所）；空心 =
         暂无收录数据。按国家/地区分组，非地理位置。
       </p>
@@ -213,10 +214,10 @@ function Frame({ children }: { children: React.ReactNode }) {
 
 function Empty({ title, detail }: { title: string; detail: string }) {
   return (
-    <div className="grid flex-1 place-items-center rounded-lg border border-dashed border-neutral-300 px-6 text-center dark:border-neutral-700">
+    <div className="grid flex-1 place-items-center rounded-sm border border-dashed border-rule px-6 text-center">
       <div>
-        <p className="text-sm text-neutral-600 dark:text-neutral-300">{title}</p>
-        <p className="mt-1 text-xs leading-relaxed text-neutral-400">{detail}</p>
+        <p className="text-sm text-ink-muted">{title}</p>
+        <p className="mt-1 text-xs leading-relaxed text-ink-faint">{detail}</p>
       </div>
     </div>
   )

@@ -115,7 +115,10 @@ export function parseFilters(sp: Params): Filters {
 
   const schoolTypes: SchoolType[] = []
   for (const raw of splitList(sp.get('type'))) {
-    if ((SCHOOL_TYPES as readonly string[]).includes(raw) && !schoolTypes.includes(raw as SchoolType)) {
+    if (
+      (SCHOOL_TYPES as readonly string[]).includes(raw) &&
+      !schoolTypes.includes(raw as SchoolType)
+    ) {
       schoolTypes.push(raw as SchoolType)
     }
   }
