@@ -172,10 +172,38 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
         )}
       </div>
 
-      <p className="shrink-0 border-t border-ink/15 px-4 py-2 text-[11px] leading-relaxed text-ink/40 sm:px-6">
-        点的大小 = 该城市生源校的近三年加权录取人数；灰点 =
-        已收录但暂无数据。点城市可筛选榜单，再点一次取消。
-      </p>
+      <div className="shrink-0 border-t border-ink/15 px-4 py-3 sm:px-6">
+        <p className="text-[11px] leading-relaxed text-ink/40">
+          实心 = 该城市有生源校数据，标签后的数字是近三届加权录取人数 · 空心 =
+          已收录学校但暂无数据 · 点城市可筛选榜单，再点一次取消
+        </p>
+
+        {/* 城市列表，和左图下面的大学列表对称。
+            地图上的点是像素级的，触屏根本按不中；列表里每一项都是正常的
+            点击目标，而且城市名读得清。 */}
+        <div className="scroll-x mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px]">
+          {cities.map((c) => {
+            const heat = heatByCityId[c.id] ?? 0
+            const on = c.id === selectedCityId
+            return (
+              <button
+                key={c.id}
+                onClick={() => onSelect(on ? null : c.id)}
+                className={`whitespace-nowrap ${
+                  on
+                    ? 'bg-ink px-1 text-paper'
+                    : heat > 0
+                      ? 'text-ink underline decoration-ink/30 underline-offset-2'
+                      : 'text-ink/35'
+                }`}
+              >
+                {c.name}
+                {heat > 0 ? ` ${fmtNumber(heat)}` : ''}
+              </button>
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }
@@ -286,7 +314,13 @@ function buildOption(
         type: 'scatter',
         coordinateSystem: 'geo',
         z: 2,
-        // 重叠时把标签上下错开，而不是隐藏——隐藏等于那个城市消失了
+        // 重叠处理要两件事配合：moveOverlap 把标签推开，labelLine 画一根线
+        // 连回它自己的点。只推不连的话，标签飘在旁边没人知道指的是哪个城市。
+        labelLine: {
+          show: true,
+          length2: 7,
+          lineStyle: { color: theme.landBorder, width: 0.6 },
+        },
         labelLayout: { moveOverlap: 'shiftY' as const, hideOverlap: false },
         cursor: 'pointer',
         data: dim as unknown as ScatterData,
@@ -296,7 +330,13 @@ function buildOption(
         type: 'scatter',
         coordinateSystem: 'geo',
         z: 3,
-        // 重叠时把标签上下错开，而不是隐藏——隐藏等于那个城市消失了
+        // 重叠处理要两件事配合：moveOverlap 把标签推开，labelLine 画一根线
+        // 连回它自己的点。只推不连的话，标签飘在旁边没人知道指的是哪个城市。
+        labelLine: {
+          show: true,
+          length2: 7,
+          lineStyle: { color: theme.landBorder, width: 0.6 },
+        },
         labelLayout: { moveOverlap: 'shiftY' as const, hideOverlap: false },
         cursor: 'pointer',
         emphasis: { scale: 1.12 },

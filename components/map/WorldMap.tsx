@@ -190,6 +190,12 @@ function buildOption(
           color: t.textDim,
           fontSize: 11,
         },
+        labelLine: {
+          show: true,
+          length2: 6,
+          lineStyle: { color: t.landBorder, width: 0.5, opacity: 0.5 },
+        },
+        labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
         emphasis: { scale: 1.6, label: { show: true } },
         z: 2,
       },
@@ -223,8 +229,16 @@ function buildOption(
           fontSize: 11,
           fontWeight: 500,
         },
-        // 重叠时错开而不是隐藏。牛津和剑桥只差 1.4 个经度，hideOverlap
-        // 会直接丢掉其中一个的标签，那所大学就等于从图上消失了。
+        // 重叠处理是两件事的组合，缺一不可：
+        //   moveOverlap 把压在一起的标签上下推开（不用 hideOverlap —— 那会
+        //   直接丢掉其中一个，那所大学就等于从图上消失了）
+        //   labelLine   给被推开的标签画一根引导线连回它自己的点，
+        //               否则标签飘在旁边，读者根本不知道它指的是谁
+        labelLine: {
+          show: true,
+          length2: 8,
+          lineStyle: { color: t.landBorder, width: 0.6 },
+        },
         labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
         emphasis: { scale: 1.6, itemStyle: { borderWidth: 2.5 } },
         z: 3,
