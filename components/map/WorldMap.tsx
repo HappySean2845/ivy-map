@@ -181,22 +181,14 @@ function buildOption(
         // 约 60×40px 的范围里，标签同时显示只会互相压死，谁也读不出来。
         // 名字改由地图下方的可点列表承担（见组件底部）—— 那里既读得清，
         // 也真的点得到。这里只在 hover / 选中时显示。
-        label: {
-          // 放大到某个区域后，点之间有空间了，名字就能标出来
-          show: zoomed,
-          position: 'right',
-          distance: 5,
-          formatter: (p: unknown) => (p as { data: Point }).data.nameCn,
-          color: t.textDim,
-          fontSize: 11,
-        },
-        labelLine: {
-          show: true,
-          length2: 6,
-          lineStyle: { color: t.landBorder, width: 0.5, opacity: 0.5 },
-        },
-        labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
-        emphasis: { scale: 1.6, label: { show: true } },
+        // 空心点**不标名字**，哪怕放大。
+        //
+        // moveOverlap:'shiftY' 只能沿 Y 轴推开标签，救不了「同一坐标上several
+        // 个中文长标签」这种情况 —— 伦敦一地就有 UCL、LSE、帝国理工三所，
+        // 名字又长，推开之后横向照样叠在一起。
+        // 名字全部交给下面的列表承担（那里读得清也点得到），地图只标有数据的点。
+        label: { show: false },
+        emphasis: { scale: 1.7, label: { show: true, position: 'right', distance: 6 } },
         z: 2,
       },
       {
@@ -339,6 +331,33 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
         })}
       </div>
 
+      {/* 大学列表紧跟在区域按钮下面，并**跟着区域筛**。
+          放在地图下方时，选了「英国」下面却还列着 30 所，读者得自己去对；
+          跟着筛之后，选哪个区域就只剩哪几所，一眼看完。 */}
+      <div className="scroll-x flex flex-wrap gap-x-4 gap-y-1.5 border-b border-ink/15 px-4 py-2.5 text-[11px] sm:px-6">
+        {inRegion.length === 0 ? (
+          <span className="text-ink/40">这个区域还没有收录大学</span>
+        ) : (
+          inRegion.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => onSelect(p.id)}
+              title={p.nameEn}
+              className={`whitespace-nowrap ${
+                p.id === selectedId
+                  ? 'bg-ink px-1 text-paper'
+                  : p.hasData
+                    ? 'text-ink underline decoration-ink/30 underline-offset-2'
+                    : 'text-ink/35'
+              }`}
+            >
+              {p.nameCn}
+              {p.hasData ? ` ${fmtNumber(p.volume)}` : ''}
+            </button>
+          ))
+        )}
+      </div>
+
       <div className="relative h-[300px] w-full sm:h-[440px]">
         <div
           ref={boxRef}
@@ -361,35 +380,10 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
           </div>
         )}
       </div>
-      <div className="border-t border-ink/15 px-4 py-3 sm:px-6">
-        <p className="text-[11px] leading-relaxed text-ink/40">
-          实心 = 已有录取数据（{withData} 所），标签后的数字是近三届加权录取人数 · 空心 =
-          已收录但暂无数据（{points.length - withData} 所）· 底图只有陆地轮廓，不含国界
-        </p>
-
-        {/* 大学名单放在地图下方而不是标在点上。
-            30 个点里有 20 个挤在美国东岸巴掌大的地方，标在图上必然互相压死；
-            列在下面既读得清，也点得到（地图上那种像素级的点在触屏上根本按不中）。 */}
-        <div className="scroll-x mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px]">
-          {points.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => onSelect(p.id)}
-              title={p.nameEn}
-              className={`whitespace-nowrap ${
-                p.id === selectedId
-                  ? 'bg-ink px-1 text-paper'
-                  : p.hasData
-                    ? 'text-ink underline decoration-ink/30 underline-offset-2'
-                    : 'text-ink/35'
-              }`}
-            >
-              {p.nameCn}
-              {p.hasData ? ` ${fmtNumber(p.volume)}` : ''}
-            </button>
-          ))}
-        </div>
-      </div>
+      <p className="border-t border-ink/15 px-4 py-2 text-[11px] leading-relaxed text-ink/40 sm:px-6">
+        实心 = 已有录取数据（{withData} 所），标签后的数字是近三届加权录取人数 · 空心 =
+        已收录但暂无数据，名字见上方列表 · 底图只有陆地轮廓，不含国界
+      </p>
     </div>
   )
 }
