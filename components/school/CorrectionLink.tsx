@@ -22,7 +22,7 @@ export function CorrectionLink({
       href={correctionUrl(school, field)}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex min-h-[32px] items-center gap-1 rounded-sm border border-dashed border-rule px-2 py-1 text-xs text-ink-muted transition-colors hover:border-rule-strong hover:text-ink ${className}`}
+      className={`inline-flex min-h-[32px] items-center gap-1 border border-dashed border-ink/15 px-2 py-1 text-xs text-ink/60 transition-colors hover:border-ink hover:text-ink ${className}`}
       title="提交的更正会经过人工核实，不会立即生效"
     >
       数据有误 / 我知道这项 →

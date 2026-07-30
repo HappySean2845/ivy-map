@@ -33,6 +33,15 @@ export interface Filters {
 }
 
 export type Eligibility =
+  /**
+   * 闸门表单没填 —— 我们**什么都没检查**，所以不能声称任何结论。
+   *
+   * 这个状态是补上来的：原来这种情况直接返回 eligible，表格于是渲染成
+   * 「未发现限制」——门槛数据 0/40 全空，却告诉家长没有限制，是彻头彻尾的
+   * 假陈述，也正是 PRD US-2.2 明令禁止的「不得默认判为可申请」。
+   * 把它单独立成一个状态，类型系统就会强制每个消费方处理它。
+   */
+  | { status: 'unchecked' }
   | { status: 'eligible' }
   | { status: 'ineligible'; reasons: string[] } // 明确不符合
   | { status: 'unknown'; reasons: string[] } // 门槛信息缺失 / 需进一步确认
@@ -153,7 +162,7 @@ function entryGradeCandidates(gate: Gate): number[] {
  * UI 应先用 isGateActive() 决定要不要展示资格状态，避免在用户没提问时给答案。
  */
 export function checkEligibility(school: School, gate: Gate): Eligibility {
-  if (!isGateActive(gate)) return { status: 'eligible' }
+  if (!isGateActive(gate)) return { status: 'unchecked' }
 
   const req = school.requirement
   const cityName = cityById.get(school.cityId)?.name ?? '学校所在城市'

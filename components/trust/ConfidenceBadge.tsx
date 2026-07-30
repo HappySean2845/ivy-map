@@ -49,7 +49,7 @@ export default function ConfidenceBadge({
       </Tip>
       {estimated ? (
         <Tip text={ESTIMATED_DESC}>
-          <sup className="footnote-ref !text-signal" aria-label={ESTIMATED_DESC}>
+          <sup className="footnote-ref !text-ink/50" aria-label={ESTIMATED_DESC}>
             ≈
           </sup>
         </Tip>

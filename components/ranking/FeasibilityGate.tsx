@@ -60,7 +60,7 @@ export function FeasibilityGate({
   const set = (patch: Partial<Gate>) => onChange({ ...gate, ...patch })
 
   return (
-    <div className={`rounded-sm border ${active ? 'border-rule-strong' : 'border-rule'}`}>
+    <div className={` border ${active ? 'border-ink' : 'border-ink/15'}`}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -69,17 +69,17 @@ export function FeasibilityGate({
       >
         <span className="min-w-0 flex-1">
           <span className="text-[13px] font-medium">先看看你报不报得了</span>
-          <span className="mt-0.5 block text-[11px] leading-tight text-ink-muted">
+          <span className="mt-0.5 block text-[11px] leading-tight text-ink/60">
             {active
               ? summarize(gate, gateCityName)
               : '填孩子的国籍、学籍、年级，榜单会标出哪些学校根本报不了、卡在哪一条。不填不影响任何浏览。'}
           </span>
         </span>
-        <span className="shrink-0 text-[11px] text-ink-faint">{open ? '收起' : '展开'}</span>
+        <span className="shrink-0 text-[11px] text-ink/40">{open ? '收起' : '展开'}</span>
       </button>
 
       {open ? (
-        <div className="space-y-3 border-t border-rule px-3 py-3">
+        <div className="space-y-3 border-t border-ink/15 px-3 py-3">
           <Field label="国籍 / 身份">
             {NATIONALITIES.map((n) => (
               <Chip
@@ -166,14 +166,14 @@ export function FeasibilityGate({
           </Field>
 
           <div className="flex items-center justify-between gap-3 pt-0.5">
-            <p className="text-[11px] leading-relaxed text-ink-faint">
+            <p className="text-[11px] leading-relaxed text-ink/40">
               这些条件只用来筛学校，不包含任何能识别孩子身份的信息，也会一起写进分享链接。
             </p>
             <button
               type="button"
               disabled={!active}
               onClick={() => onChange({ ...EMPTY_GATE })}
-              className="shrink-0 text-[12px] text-ink-muted underline underline-offset-2 hover:text-ink disabled:cursor-not-allowed disabled:no-underline disabled:opacity-40"
+              className="shrink-0 text-[12px] text-ink/60 underline underline-offset-2 hover:text-ink disabled:cursor-not-allowed disabled:no-underline disabled:opacity-40"
             >
               清空
             </button>

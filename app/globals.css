@@ -1,86 +1,55 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ===========================================================================
    IVY Map 设计 token —— 严格对应 docs/design-system.md
 
-   基调：纸与墨 + 靛青。学术出版物，不是 App。
-   任何让页面更像 App 而不是研究报告的东西，都在削弱可信度。
+   野兽派编辑风：只有黑和白，类型是唯一的建筑材料。
+   零彩色、零圆角、零阴影、零深色模式。层级靠 opacity 和字号跨度。
+
+   为什么纯黑白不只是审美：主用户会截图发家长群，黑白在截图、转发压缩、
+   黑白打印、色弱视觉下全部无损；而且零彩色 = 零暗示，和「只摆数据不煽动」
+   的立场一致。
    =========================================================================== */
 
 :root {
-  /* 纸与墨 */
-  --paper: #fbfaf7;        /* 暖白，不是纯白——纯白是网页感，微暖是纸感 */
-  --paper-sunk: #f4f1ea;   /* 表头、折叠区 */
-  --ink: #1a1a18;          /* 正文，不是纯黑 */
-  --ink-muted: #6b6862;    /* 次要信息、图注 */
-  --ink-faint: #9a968e;    /* 占位、禁用、「—」 */
-  --rule: #e3dfd6;         /* 分隔线 */
-  --rule-strong: #c9c3b6;  /* 表头下方 */
+  --ink: #000000;
+  --paper: #ffffff;
 
-  /* 主色：靛青。数据、选中、链接、热力 */
-  --accent: #1d5b6e;
-  --accent-deep: #123e4c;
-  --accent-soft: #dce8ec;
-
-  /* 信号色：朱红。只在「需要注意」时出现——低杠杆提示、不可申请、
-     分母缺失、多来源不一致、估算值。红色越稀有，出现时越有分量。 */
-  --signal: #9e2b25;
-  --signal-soft: #f0e2e0;
-
-  /* 字体。不加载任何中文 web font——中文字体动辄几 MB，而主要流量
-     来自微信里点开链接的移动端，等不起。全部走系统栈。 */
-  --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC",
-    "Source Han Serif SC", Georgia, serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC",
-    "Microsoft YaHei", "Segoe UI", "Helvetica Neue", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #16151a;
-    --paper-sunk: #1e1d23;
-    --ink: #edeae3;
-    --ink-muted: #9a968e;
-    --ink-faint: #6b6862;
-    --rule: #2e2c33;
-    --rule-strong: #43404a;
-
-    /* 靛青在深色上要提亮，否则发闷 */
-    --accent: #6fb3c7;
-    --accent-deep: #a5d2e0;
-    --accent-soft: #1b333c;
-
-    --signal: #c9564e;
-    --signal-soft: #3a2523;
-  }
+  /* 中文走系统栈——几 MB 的中文 web font 在微信里等不起。
+     Inter 只影响拉丁文与数字。 */
+  --font-sans:
+    Inter, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI',
+    sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
 }
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-paper-sunk: var(--paper-sunk);
   --color-ink: var(--ink);
-  --color-ink-muted: var(--ink-muted);
-  --color-ink-faint: var(--ink-faint);
-  --color-rule: var(--rule);
-  --color-rule-strong: var(--rule-strong);
-  --color-accent: var(--accent);
-  --color-accent-deep: var(--accent-deep);
-  --color-accent-soft: var(--accent-soft);
-  --color-signal: var(--signal);
-  --color-signal-soft: var(--signal-soft);
+  --color-paper: var(--paper);
 
-  --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 
-  /* 圆角最多 2px。没有大圆角卡片——那是 App 感 */
-  --radius-sm: 2px;
-  --radius-DEFAULT: 2px;
-  --radius-md: 3px;
+  /* 全部 0px。参考站的 don't 第二条。 */
+  --radius-sm: 0px;
+  --radius-DEFAULT: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-full: 0px;
+
+  /* 区块间距：桌面 80–120px。移动端在组件里用 sm: 断点压到 48px。 */
+  --spacing-section: 80px;
+  --spacing-section-lg: 120px;
 }
 
 /* --------------------------------------------------------------------------- */
+
+html {
+  background: var(--paper);
+  /* 只有 light。黑白系统不需要深色变体。 */
+  color-scheme: light;
+}
 
 body {
   background: var(--paper);
@@ -88,16 +57,25 @@ body {
   font-family: var(--font-sans);
   /* 移动端正文不小于 15px——家长年龄偏大 */
   font-size: 15px;
-  line-height: 1.65;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* 标题用宋体。宋体标题 + 黑体正文是中文书籍、期刊、年报的经典配置，
-   国内读者一眼就有「正经东西」的感觉。 */
-h1, h2, h3, .font-serif {
-  font-family: var(--font-serif);
-  font-weight: 400;   /* 宋体不加粗更像排版，加粗会糊 */
-  letter-spacing: 0.01em;
+@media (min-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* 字重只用 400 / 500。600 以上中文会糊。 */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500;
+  line-height: 1.11;
+  letter-spacing: -0.01em;
 }
 
 /* 数字一律等宽对齐——榜单重排时数字不该左右跳动 */
@@ -107,61 +85,119 @@ table,
   font-variant-numeric: tabular-nums;
 }
 
-a {
-  color: var(--accent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+/* 全大写小标签。中文没有大写，所以这个类只用于拉丁文串
+   （IVY MAP / A-LEVEL / L1）和被当作专名的短词。 */
+.label {
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-/* 脚注式来源标注（design-system.md §4）。论文引注的形式——
-   它是「每个数字都有出处」这条原则的视觉表达。 */
+/* 链接是裸文字 + →，没有按钮 chrome */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* 建筑式背景字（design-system.md §5）。
+   永远不承载可读信息，只做尺度和纵深。只在首屏用一次。 */
+.scaffold {
+  font-size: clamp(140px, 34vw, 560px);
+  line-height: 0.78;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ink);
+  opacity: 0.1;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* 脚注式来源标注（design-system.md §7）。
+   论文引注的形式本身就在说「我说的话你可以去查」。 */
 .footnote-ref {
-  font-size: 0.72em;
+  font-size: 0.68em;
   vertical-align: super;
   line-height: 0;
-  color: var(--accent);
-  cursor: pointer;
   margin-left: 1px;
+  cursor: pointer;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
   font-variant-numeric: normal;
 }
 .footnote-ref:hover {
-  color: var(--accent-deep);
+  color: var(--ink);
+  text-decoration: underline;
 }
 
-/* 点击目标不小于 44×44（design-system.md §5.2） */
-@media (pointer: coarse) {
-  button, a[role="button"], [data-tap] {
-    min-height: 44px;
-  }
-}
-
-/* 唯一允许的两处动效之外，一律不做过渡 */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* 表格是主角：表头下粗线，行间细线，不用斑马纹 */
+/* 报刊表格：表头下 1px 实色黑，行间 hairline，无斑马纹 */
 table {
   border-collapse: collapse;
   width: 100%;
 }
 thead th {
-  border-bottom: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--ink);
   font-weight: 500;
   text-align: left;
-  color: var(--ink-muted);
-  font-size: 0.8125rem;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-bottom: 6px;
 }
-tbody tr + tr td {
-  border-top: 1px solid var(--rule);
+tbody tr + tr > * {
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+/* 表单控件也是 0 圆角 + 1px 黑边 */
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  border-radius: 0;
+}
+input,
+select,
+textarea {
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  padding: 6px 8px;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--ink);
 }
 
 /* 宽内容自己滚，页面本体永不横向滚动 */
 .scroll-x {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+/* 点击目标不小于 44×44（design-system.md §6.2） */
+@media (pointer: coarse) {
+  button,
+  a[role='button'],
+  [data-tap] {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

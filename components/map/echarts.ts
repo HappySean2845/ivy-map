@@ -12,7 +12,7 @@ import { ScatterChart } from 'echarts/charts'
 import { GeoComponent, GridComponent, TooltipComponent } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import { useEffect, useRef, useState, useSyncExternalStore, type RefObject } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 
 import type { ScatterSeriesOption } from 'echarts/charts'
 import type {
@@ -57,52 +57,41 @@ export interface MapTheme {
   tooltipText: string
 }
 
-const LIGHT: MapTheme = {
+/**
+ * 唯一一套配色：纯黑白（design-system.md §1）。
+ *
+ * 上一版有 LIGHT/DARK 两套 emerald 系配色，现在删掉——设计系统只有 #000 和
+ * #fff，热力靠 opacity 阶梯而不是色阶。地图上的层级全部由「实心 / 空心 /
+ * 不同透明度」承担，这样截图、黑白打印、色弱视觉下都无损。
+ */
+const BW: MapTheme = {
   dark: false,
-  accent: '#059669',
-  accentStrong: '#047857',
-  accentFill: 'rgba(5, 150, 105, 0.42)',
-  ring: '#d4d4d4',
-  text: '#404040',
-  textDim: '#a3a3a3',
-  land: '#f5f5f5',
-  landBorder: '#e5e5e5',
+  accent: '#000000',
+  accentStrong: '#000000',
+  accentFill: 'rgba(0, 0, 0, 0.62)',
+  ring: '#000000',
+  text: '#000000',
+  textDim: 'rgba(0, 0, 0, 0.45)',
+  land: '#ffffff',
+  landBorder: '#000000',
   tooltipBg: '#ffffff',
-  tooltipBorder: '#e5e5e5',
-  tooltipText: '#171717',
+  tooltipBorder: '#000000',
+  tooltipText: '#000000',
 }
 
-const DARK: MapTheme = {
-  dark: true,
-  accent: '#34d399',
-  accentStrong: '#6ee7b7',
-  accentFill: 'rgba(52, 211, 153, 0.34)',
-  ring: '#404040',
-  text: '#d4d4d4',
-  textDim: '#737373',
-  land: '#171717',
-  landBorder: '#292929',
-  tooltipBg: '#171717',
-  tooltipBorder: '#404040',
-  tooltipText: '#ededed',
+/** 热力的 opacity 阶梯。0 = 无数据（空心），其余按权重分档。 */
+export const HEAT_STEPS = [0.08, 0.22, 0.4, 0.62, 0.85] as const
+
+export function heatOpacity(value: number, max: number): number {
+  if (!(value > 0) || !(max > 0)) return 0
+  const i = Math.min(HEAT_STEPS.length - 1, Math.floor((value / max) * HEAT_STEPS.length))
+  return HEAT_STEPS[i]
 }
 
-const DARK_QUERY = '(prefers-color-scheme: dark)'
-
-function subscribeDark(cb: () => void) {
-  const mq = window.matchMedia(DARK_QUERY)
-  mq.addEventListener('change', cb)
-  return () => mq.removeEventListener('change', cb)
-}
-
-/** 跟随系统深浅色。站点的 dark: 变体也是走 prefers-color-scheme，两边一致。 */
+/** 设计系统只有 light，所以这里恒定返回黑白一套。保留 hook 形态是为了
+    调用方不用改，也方便以后真要加主题时只动这一处。 */
 export function useMapTheme(): MapTheme {
-  const dark = useSyncExternalStore(
-    subscribeDark,
-    () => window.matchMedia(DARK_QUERY).matches,
-    () => false,
-  )
-  return dark ? DARK : LIGHT
+  return BW
 }
 
 // ---------------------------------------------------------------------------
@@ -193,6 +182,43 @@ export function loadChinaMap(): Promise<void> {
       throw err
     })
   return chinaPromise
+}
+
+// ---------------------------------------------------------------------------
+// 世界底图
+
+export const WORLD_MAP = 'world-land'
+
+let worldPromise: Promise<void> | null = null
+
+/**
+ * 加载并注册世界底图。
+ *
+ * 用的是 **Natural Earth 的 land 数据（只有陆地轮廓，没有任何国界线）**，
+ * 不是常见的 countries 数据。这不是偷懒，是两个理由的交集：
+ *
+ *   1. **合规**：面向中国用户的产品画错国界是事故。没有国界线，就没有
+ *      画错国界的可能——把整类风险移除掉，比小心地画一遍更稳。
+ *   2. **画风**：纯白陆地剪影 + 1px 黑描边，正好就是野兽派参考的样子。
+ *      国界线在这个体量下只是噪声——我们要展示的是 30 个大学点，不是政区。
+ *
+ * ECharts 的 npm 包不含任何地图数据，所以只能运行时 fetch + registerMap。
+ */
+export function loadWorldMap(): Promise<void> {
+  if (worldPromise) return worldPromise
+  worldPromise = fetch('/geo/world-land.json')
+    .then((res) => {
+      if (!res.ok) throw new Error(`geo/world-land.json ${res.status}`)
+      return res.json()
+    })
+    .then((geo) => {
+      echarts.registerMap(WORLD_MAP, geo)
+    })
+    .catch((err) => {
+      worldPromise = null // 允许重试
+      throw err
+    })
+  return worldPromise
 }
 
 // ---------------------------------------------------------------------------

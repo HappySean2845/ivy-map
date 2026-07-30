@@ -39,32 +39,32 @@ function demoAlphaAt(elapsed: number, from: number): number {
 const TRACK_CLASS = [
   // WebKit / Blink
   '[&::-webkit-slider-runnable-track]:h-1.5',
-  '[&::-webkit-slider-runnable-track]:rounded-full',
-  '[&::-webkit-slider-runnable-track]:bg-paper-sunk',
+  '[&::-webkit-slider-runnable-track]:',
+  '[&::-webkit-slider-runnable-track]:bg-ink/[0.04]',
   ':bg-paper',
   '[&::-webkit-slider-thumb]:appearance-none',
   '[&::-webkit-slider-thumb]:-mt-[9px]',
   '[&::-webkit-slider-thumb]:h-6',
   '[&::-webkit-slider-thumb]:w-6',
-  '[&::-webkit-slider-thumb]:rounded-full',
+  '[&::-webkit-slider-thumb]:',
   '[&::-webkit-slider-thumb]:border-2',
-  '[&::-webkit-slider-thumb]:border-rule-strong',
+  '[&::-webkit-slider-thumb]:border-ink',
   '[&::-webkit-slider-thumb]:bg-paper',
   '[&::-webkit-slider-thumb]:',
-  ':border-rule',
+  ':border-ink/15',
   ':bg-ink',
   // Gecko
   '[&::-moz-range-track]:h-1.5',
-  '[&::-moz-range-track]:rounded-full',
-  '[&::-moz-range-track]:bg-paper-sunk',
+  '[&::-moz-range-track]:',
+  '[&::-moz-range-track]:bg-ink/[0.04]',
   ':bg-paper',
   '[&::-moz-range-thumb]:h-6',
   '[&::-moz-range-thumb]:w-6',
-  '[&::-moz-range-thumb]:rounded-full',
+  '[&::-moz-range-thumb]:',
   '[&::-moz-range-thumb]:border-2',
-  '[&::-moz-range-thumb]:border-rule-strong',
+  '[&::-moz-range-thumb]:border-ink',
   '[&::-moz-range-thumb]:bg-paper',
-  ':border-rule',
+  ':border-ink/15',
   ':bg-ink',
 ].join(' ')
 
@@ -165,13 +165,13 @@ export function WeightSlider({
       <div className="flex items-baseline justify-between gap-2">
         <div className="min-w-0">
           <div className="text-[13px] font-medium">规模优先</div>
-          <div className="mt-0.5 text-[11px] leading-tight text-ink-muted">
+          <div className="mt-0.5 text-[11px] leading-tight text-ink/60">
             人多、氛围强、校友网密
           </div>
         </div>
         <div className="min-w-0 text-right">
           <div className="text-[13px] font-medium">概率优先</div>
-          <div className="mt-0.5 text-[11px] leading-tight text-ink-muted">
+          <div className="mt-0.5 text-[11px] leading-tight text-ink/60">
             只看我家孩子的命中率
           </div>
         </div>
@@ -181,7 +181,7 @@ export function WeightSlider({
         {/* 中点刻度：默认位置在哪儿要看得见 */}
         <div
           aria-hidden
-          className="pointer-events-none absolute top-1/2 left-1/2 h-3 w-px -translate-x-1/2 -translate-y-1/2 bg-paper-sunk"
+          className="pointer-events-none absolute top-1/2 left-1/2 h-3 w-px -translate-x-1/2 -translate-y-1/2 bg-ink/[0.04]"
         />
         <input
           type="range"
@@ -201,11 +201,11 @@ export function WeightSlider({
 
       <div className="flex min-h-10 items-start gap-2">
         {demoing ? (
-          <span className="mt-px shrink-0 rounded-full border border-rule px-1.5 py-px text-[10px] leading-tight text-ink-muted">
+          <span className="mt-px shrink-0 border border-ink/15 px-1.5 py-px text-[10px] leading-tight text-ink/60">
             演示中
           </span>
         ) : null}
-        <p className="text-[12px] leading-relaxed text-ink-muted">
+        <p className="text-[12px] leading-relaxed text-ink/60">
           {explain ??
             (reduced && autoDemo
               ? '拖动上面的滑杆试试 —— 榜单会实时重排，第 1 名通常会换人。'

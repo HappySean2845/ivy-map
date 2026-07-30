@@ -34,58 +34,81 @@ export default function Home() {
   const s = dataStatus()
 
   return (
-    <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
-      {/* ── 报告式章节头（design-system.md §3）。
-             按报告写而不按 App 写，天然先交代自己在讲什么，
-             等于白捡了一半的首屏自解释。 */}
-      <header className="pt-8 sm:pt-12">
-        <p className="font-serif text-xs tracking-widest text-ink-muted">
-          IVY MAP · 生源校研究
-        </p>
-        <h1 className="mt-2 max-w-2xl font-serif text-2xl leading-snug sm:text-3xl">
-          想去哪所大学，就该上哪所高中
-        </h1>
-
-        <hr className="mt-5 border-rule-strong" />
-
-        <p className="mt-4 max-w-2xl text-[15px] leading-relaxed">
-          留学工具都在回答「这所大学好不好」。但一个初二孩子的家长今年能动的杠杆，是
-          <strong>把孩子送进哪所高中</strong>。
-          <br className="hidden sm:block" />
-          所以这张地图是<strong>反着用</strong>
-          的：先选目标大学，再反推国内哪些高中真的在往那里送人。
-        </p>
-
-        {/* ── 分母缺口。这是论点，不是免责声明，所以放在首屏显眼处、
-               而不是塞进页脚。 */}
-        <p className="mt-4 max-w-2xl border-l-2 border-signal pl-3 text-sm leading-relaxed text-ink-muted">
-          {denominatorGapLine()}
-        </p>
-
-        <div className="mt-4">
-          <OfferInflationNote />
+    <>
+      {/* ── 顶部导航。参考站的写法：白底、无边框、右对齐纯文字链接、→ 即 affordance */}
+      <nav className="mx-auto flex max-w-6xl items-baseline justify-between px-4 pt-6 sm:px-8">
+        <Link href="/" className="label hover:no-underline">
+          IVY MAP
+        </Link>
+        <div className="label flex gap-5 text-ink/60">
+          <Link href="/about">关于 →</Link>
         </div>
+      </nav>
 
-        <p className="mt-4 text-xs text-ink-muted tnum">
-          当前收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条录取记录 ·{' '}
-          {s.sources} 个来源 ——{' '}
-          <Link href="/about" className="text-accent">
-            数据来源与方法论
-          </Link>
-        </p>
-      </header>
+      <main className="mx-auto max-w-6xl px-4 pb-24 sm:px-8">
+        {/* ── HERO。建筑式背景字 + 巨型标题（design-system.md §5）。
+               背景字永远不承载可读信息，只做尺度和纵深，全站只用这一次。 */}
+        <header className="relative isolate pt-10 sm:pt-16">
+          <div
+            aria-hidden="true"
+            className="scaffold pointer-events-none absolute -top-8 -left-6 z-0 select-none sm:-top-20"
+          >
+            IVY
+          </div>
 
-      {/* useSearchParams 需要 Suspense 边界（Next 16）。
-          兜底只占交互区那一块，上面的说明已经直出了。 */}
-      <Suspense
-        fallback={
-          <p className="mt-10 text-sm text-ink-muted tnum">
-            正在载入 {s.admissions} 条录取记录…
-          </p>
-        }
-      >
-        <HomeClient />
-      </Suspense>
-    </main>
+          <div className="relative z-10">
+            <p className="label text-ink/40">生源校研究 · FEEDER SCHOOL RESEARCH</p>
+
+            <h1 className="mt-5 max-w-4xl text-[32px] leading-[1.05] tracking-tight sm:text-[56px]">
+              想去哪所大学
+              <br />
+              就该上哪所高中
+            </h1>
+
+            <hr className="mt-8 border-ink" />
+
+            <div className="mt-8 grid gap-8 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] sm:gap-12">
+              <p className="max-w-xl text-[17px] leading-relaxed sm:text-[18px]">
+                留学工具都在回答「这所大学好不好」。但一个初二孩子的家长今年能动的杠杆，是
+                <strong className="font-medium">把孩子送进哪所高中</strong>
+                。所以这张地图是<strong className="font-medium">反着用</strong>
+                的：先选目标大学，再反推国内哪些高中真的在往那里送人。
+              </p>
+
+              <div>
+                {/* ── 分母缺口。这是论点，不是免责声明，所以放在首屏显眼处、
+                     而不是塞进页脚。 */}
+                <p className="border-l border-ink pl-4 text-sm leading-relaxed text-ink/60">
+                  {denominatorGapLine()}
+                </p>
+                <div className="mt-5">
+                  <OfferInflationNote />
+                </div>
+              </div>
+            </div>
+
+            <p className="mt-8 text-xs text-ink/40 tnum">
+              收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条录取记录 ·{' '}
+              {s.sources} 个来源 ·{' '}
+              <Link href="/about" className="text-ink/60">
+                数据来源与方法论 →
+              </Link>
+            </p>
+          </div>
+        </header>
+
+        {/* useSearchParams 需要 Suspense 边界（Next 16）。
+            兜底只占交互区那一块，上面的说明已经直出了。 */}
+        <Suspense
+          fallback={
+            <p className="mt-16 text-sm text-ink/40 tnum">
+              正在载入 {s.admissions} 条录取记录…
+            </p>
+          }
+        >
+          <HomeClient />
+        </Suspense>
+      </main>
+    </>
   )
 }

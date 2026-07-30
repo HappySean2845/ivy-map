@@ -118,137 +118,130 @@ export default function HomeClient() {
   const trackLabel = filters.tracks.length === 1 ? TRACK_LABEL[filters.tracks[0]] : '全部赛道'
   const cityLabel = filters.cityId ? (cityById.get(filters.cityId)?.name ?? '') : '全国'
 
-  const [mapTab, setMapTab] = useState<'world' | 'china'>('world')
-
   return (
     <>
       {/* ── 当前视图。这一行是动态的（跟着选择变），所以留在 client；
              产品说明那部分是静态的，已经搬到 page.tsx 由服务端直出，
              否则 SSR 出来的 HTML 里只有 Suspense 兜底，SEO 和
              「5 秒自解释」（US-1.0）双双落空。 */}
-      <section className="mt-8">
-        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-y-1">
-          <div>
-            <h2 className="font-serif text-lg leading-snug">
-              {university ? `${university.nameCn} · 中国大陆生源校` : '中国大陆生源校'}
-            </h2>
-            <p className="mt-0.5 text-sm text-ink-muted tnum">
-              {cityLabel} · {trackLabel} · 近三届加权
-            </p>
-          </div>
-          <div className="flex gap-1 sm:hidden" role="tablist">
-            {(['world', 'china'] as const).map((t) => (
-              <button
-                key={t}
-                role="tab"
-                aria-selected={mapTab === t}
-                onClick={() => setMapTab(t)}
-                className={`rounded-sm border px-2.5 py-1 text-xs ${
-                  mapTab === t
-                    ? 'border-accent bg-accent-soft text-accent'
-                    : 'border-rule text-ink-muted'
-                }`}
-              >
-                {t === 'world' ? '全球大学' : '中国生源'}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── 可行性闸门 */}
-      <section className="mt-8">
-        <h2 className="mb-2 font-serif text-base">一 · 先看你报不报得了</h2>
-        <FeasibilityGate
-          gate={filters.gate}
-          cities={dataset.cities}
-          onChange={(gate: Gate) => commit({ ...filters, gate })}
-        />
+      <section className="mt-14 sm:mt-20">
+        <p className="label text-ink/40">01 / ELIGIBILITY</p>
+        <hr className="mt-2 border-ink" />
+        <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">先看你报不报得了</h2>
+        <div className="mt-6">
+          <FeasibilityGate
+            gate={filters.gate}
+            cities={dataset.cities}
+            onChange={(gate: Gate) => commit({ ...filters, gate })}
+          />
+        </div>
       </section>
 
       {/* ── 榜单 */}
-      <section className="mt-8">
-        <h2 className="mb-2 font-serif text-base">二 · 生源校榜单</h2>
+      <section className="mt-14 sm:mt-20">
+        <p className="label text-ink/40">02 / RANKING</p>
+        <hr className="mt-2 border-ink" />
+        <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">
+          {university ? `${university.nameCn}的中国生源校` : '中国大陆生源校'}
+        </h2>
+        <p className="mt-2 text-sm text-ink/60 tnum">
+          {cityLabel} · {trackLabel} · 2023–2025 三届加权 · 默认规模与人均密度各占一半
+        </p>
 
-        <FilterBar filters={filters} cities={dataset.cities} onChange={commit} />
+        <div className="mt-6">
+          <FilterBar filters={filters} cities={dataset.cities} onChange={commit} />
 
-        <div className="mt-4">
-          <WeightSlider
-            alpha={filters.alpha}
-            onChange={(alpha) => commit({ ...filters, alpha })}
-            explain={explain}
-            autoDemo
-          />
-        </div>
-
-        <div className="mt-4">
-          {empty ? (
-            <div className="border border-rule bg-paper-sunk p-5 text-sm leading-relaxed">
-              <p>{empty.text}</p>
-              {empty.action && empty.nextFilters && (
-                <button
-                  onClick={() => commit(empty.nextFilters!)}
-                  className="mt-3 rounded-sm border border-accent px-3 py-1.5 text-sm text-accent"
-                >
-                  {empty.action}
-                </button>
-              )}
-            </div>
-          ) : (
-            <FeederTable
-              rows={rows}
-              compare={filters.compare}
-              hideIneligible={filters.hideIneligible}
-              onToggleCompare={(id) => {
-                const has = filters.compare.includes(id)
-                const compare = has
-                  ? filters.compare.filter((x) => x !== id)
-                  : [...filters.compare, id].slice(-MAX_COMPARE)
-                commit({ ...filters, compare })
-              }}
-              onOpen={(id) => router.push(`/school/${id}`)}
+          <div className="mt-4">
+            <WeightSlider
+              alpha={filters.alpha}
+              onChange={(alpha) => commit({ ...filters, alpha })}
+              explain={explain}
+              autoDemo
             />
+          </div>
+
+          <div className="mt-4">
+            {empty ? (
+              <div className="border border-ink/15 bg-ink/[0.04] p-5 text-sm leading-relaxed">
+                <p>{empty.text}</p>
+                {empty.action && empty.nextFilters && (
+                  <button
+                    onClick={() => commit(empty.nextFilters!)}
+                    className="mt-3 border border-ink px-3 py-1.5 text-sm text-ink"
+                  >
+                    {empty.action}
+                  </button>
+                )}
+              </div>
+            ) : (
+              <FeederTable
+                rows={rows}
+                compare={filters.compare}
+                hideIneligible={filters.hideIneligible}
+                onToggleCompare={(id) => {
+                  const has = filters.compare.includes(id)
+                  const compare = has
+                    ? filters.compare.filter((x) => x !== id)
+                    : [...filters.compare, id].slice(-MAX_COMPARE)
+                  commit({ ...filters, compare })
+                }}
+                onOpen={(id) => router.push(`/school/${id}`)}
+              />
+            )}
+          </div>
+
+          {rows.length > 0 && universityId && (
+            <div className="mt-6">
+              <PosterButton universityId={universityId} rows={rows} filters={filters} />
+            </div>
           )}
         </div>
-
-        {rows.length > 0 && universityId && (
-          <div className="mt-4">
-            <PosterButton universityId={universityId} rows={rows} filters={filters} />
-          </div>
-        )}
       </section>
 
       {/* ── 双屏地图放在榜单之后。
-             原本它在最前面，结果占满整个首屏（约 780px），把榜单和滑杆全推到
-             折叠以下 —— 而滑杆的自动演示是 US-1.0 的核心，访客落地根本看不到。
-             「这是反着用的」这个认知任务已经由宋体标题和说明段落完成了，
-             所以地图从「第一视觉锤」降级为「换一所大学看看」的探索工具：
-             先给答案，再给工具。 */}
-      <section className="mt-10">
-        <h2 className="mb-2 font-serif text-base">三 · 换一所大学，或换一个城市</h2>
-        <div className="grid gap-3 border border-rule sm:grid-cols-2">
-          <div className={`${mapTab === 'world' ? '' : 'hidden'} sm:block`}>
-            <WorldMap
-              universities={dataset.universities}
-              volumeById={volumeById}
-              selectedId={universityId}
-              onSelect={(id) => commit({ ...filters, universityId: id })}
-            />
-          </div>
-          <div
-            className={`${mapTab === 'china' ? '' : 'hidden'} border-rule sm:block sm:border-l`}
-          >
-            <ChinaMap
-              cities={dataset.cities}
-              heatByCityId={heatByCityId}
-              selectedCityId={filters.cityId}
-              onSelect={(id) => commit({ ...filters, cityId: id })}
-            />
-          </div>
+             原本它在最前面，占满整个首屏，把榜单和滑杆全推到折叠以下 ——
+             而滑杆的自动演示是 US-1.0 的核心，访客落地根本看不到。
+             「这是反着用的」已经由主标题和说明段落完成，地图从「第一视觉锤」
+             降级为「换一所大学看看」的探索工具：先给答案，再给工具。 */}
+      <section className="mt-14 sm:mt-20">
+        <p className="label text-ink/40">03 / MAP</p>
+        <hr className="mt-2 border-ink" />
+        <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">换一所大学，或换一个城市</h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">
+          上图是我们收录的 {dataset.universities.length} 所大学，下图是生源校的城市分布。
+          首版只做英国方向，所以目前只有牛津和剑桥有录取数据，其余 28 所是空心点 ——
+          不是地图坏了，是那些方向的单校数据拿不到（见{' '}
+          <a href="/about" className="text-ink/80">
+            关于页
+          </a>
+          ）。
+        </p>
+
+        {/* 上下两条全幅横带，不并排。
+               并排时每张图只有约 330×500 的竖向容器，而世界地图内容是
+               280°×50° 的极扁横向——怎么调视野都填不满，只能缩成一颗小地球。
+               各自拿到合适的比例，图才立得住。 */}
+        <div className="mt-6 border border-ink">
+          <WorldMap
+            universities={dataset.universities}
+            volumeById={volumeById}
+            selectedId={universityId}
+            onSelect={(id) => commit({ ...filters, universityId: id })}
+          />
+        </div>
+
+        <div className="mt-5 border border-ink">
+          <ChinaMap
+            cities={dataset.cities}
+            heatByCityId={heatByCityId}
+            selectedCityId={filters.cityId}
+            onSelect={(id) => commit({ ...filters, cityId: id })}
+          />
         </div>
 
         {university && (
-          <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-ink/60">
             {leverageCopy(university.leverage?.level ?? null, university.nameCn)}
           </p>
         )}
@@ -256,9 +249,13 @@ export default function HomeClient() {
 
       {/* ── 对比 */}
       {filters.compare.length >= 2 && (
-        <section className="mt-10">
-          <h2 className="mb-2 font-serif text-base">四 · 并排对比</h2>
-          <CompareTable schoolIds={filters.compare} universityId={universityId} />
+        <section className="mt-14 sm:mt-20">
+          <p className="label text-ink/40">04 / COMPARE</p>
+          <hr className="mt-2 border-ink" />
+          <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">并排对比</h2>
+          <div className="mt-6">
+            <CompareTable schoolIds={filters.compare} universityId={universityId} />
+          </div>
         </section>
       )}
     </>

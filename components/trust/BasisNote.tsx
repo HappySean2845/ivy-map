@@ -39,7 +39,7 @@ export default function BasisNote({
     <Tip text={meta.desc}>
       <span
         className={`cursor-help text-[11px] leading-tight ${
-          meta.signal ? 'text-signal' : 'text-ink-faint'
+          meta.signal ? 'text-ink/50' : 'text-ink/40'
         } ${className}`}
         aria-label={meta.desc}
       >

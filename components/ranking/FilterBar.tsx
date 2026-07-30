@@ -88,7 +88,7 @@ export function FilterBar({
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-0.5">
         {gateActive ? (
-          <label className="flex cursor-pointer items-center gap-2 text-[12px] text-ink-muted">
+          <label className="flex cursor-pointer items-center gap-2 text-[12px] text-ink/60">
             <input
               type="checkbox"
               checked={filters.hideIneligible}
@@ -103,7 +103,7 @@ export function FilterBar({
           <button
             type="button"
             onClick={() => onChange({ ...filters, cityId: null, tracks: [], schoolTypes: [] })}
-            className="text-[12px] text-ink-muted underline underline-offset-2 hover:text-ink"
+            className="text-[12px] text-ink/60 underline underline-offset-2 hover:text-ink"
           >
             清空筛选
           </button>

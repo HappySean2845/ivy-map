@@ -138,33 +138,33 @@ export default function AboutPage() {
   return (
     <main className="mx-auto max-w-2xl px-4 pb-16 sm:px-6">
       <nav className="pt-8 text-sm">
-        <Link href="/" className="text-accent">
+        <Link href="/" className="text-ink">
           ← 返回生源校榜单
         </Link>
       </nav>
 
       <header className="mt-4">
-        <p className="font-serif text-xs tracking-widest text-ink-muted">IVY MAP · 关于</p>
-        <h1 className="mt-2 font-serif text-2xl leading-snug">数据来源与方法论</h1>
-        <p className="mt-2 text-sm text-ink-muted tnum">
+        <p className=" text-xs tracking-widest text-ink/60">IVY MAP · 关于</p>
+        <h1 className="mt-2 text-2xl leading-snug">数据来源与方法论</h1>
+        <p className="mt-2 text-sm text-ink/60 tnum">
           当前收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条录取记录 ·{' '}
           {s.sources} 个来源
         </p>
-        <hr className="mt-5 border-rule-strong" />
+        <hr className="mt-5 border-ink" />
       </header>
 
       <div className="mt-6 space-y-8">
         {QA.map(({ q, a }) => (
           <section key={q}>
-            <h2 className="font-serif text-base">{q}</h2>
+            <h2 className=" text-base">{q}</h2>
             <div className="mt-2 space-y-2 text-[15px] leading-relaxed text-ink">{a}</div>
           </section>
         ))}
       </div>
 
-      <section className="mt-10 border-t border-rule pt-6">
-        <h2 className="font-serif text-base">本次没有做的</h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">
+      <section className="mt-10 border-t border-ink/15 pt-6">
+        <h2 className=" text-base">本次没有做的</h2>
+        <p className="mt-2 text-[15px] leading-relaxed text-ink/60">
           美国方向的单校榜单（战报只报档位，拆到单校即编造）、AI 择校顾问、时间轴规划、
           路径与成本对比、同城对标、多年趋势预警。需求都已拆解完成，只是本轮没做。
         </p>

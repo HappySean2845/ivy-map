@@ -108,7 +108,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-sm border border-rule bg-paper px-3.5 py-2 text-sm font-medium text-ink transition-colors hover:border-rule-strong hover:bg-paper active:bg-paper"
+        className="inline-flex items-center gap-1.5 border border-ink/15 bg-paper px-3.5 py-2 text-sm font-medium text-ink transition-colors hover:border-ink hover:bg-paper active:bg-paper"
       >
         <ImageIcon />
         生成分享长图
@@ -133,7 +133,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
               ref={closeRef}
               type="button"
               onClick={() => setOpen(false)}
-              className="shrink-0 rounded-sm px-3 py-1.5 text-sm text-paper/80 hover:bg-paper/10 hover:text-paper"
+              className="shrink-0 px-3 py-1.5 text-sm text-paper/80 hover:bg-paper/10 hover:text-paper"
             >
               关闭
             </button>
@@ -142,11 +142,11 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
           <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
             <div className="mx-auto w-full max-w-[420px]">
               {!hasContent && (
-                <div className="rounded-sm bg-paper p-5 text-sm leading-relaxed text-ink-muted">
+                <div className=" bg-paper p-5 text-sm leading-relaxed text-ink/60">
                   <p className="mb-2 font-semibold">当前筛选下还没有可分享的榜单</p>
                   {/* 空态给具体原因，不给一张空图（PRD §9） */}
-                  <p className="text-ink-muted">{emptyHint}</p>
-                  <p className="mt-3 text-xs text-ink-muted">
+                  <p className="text-ink/60">{emptyHint}</p>
+                  <p className="mt-3 text-xs text-ink/60">
                     调整筛选条件后再回来，长图会按新的榜单重新生成。
                   </p>
                 </div>
@@ -155,19 +155,19 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
               {hasContent && busy && (
                 <div
                   aria-live="polite"
-                  className="rounded-sm bg-paper/95 px-5 py-10 text-center text-sm text-ink-muted"
+                  className=" bg-paper/95 px-5 py-10 text-center text-sm text-ink/60"
                 >
                   正在生成长图…
                 </div>
               )}
 
               {hasContent && !busy && error && (
-                <div className="rounded-sm bg-paper p-5 text-sm leading-relaxed text-ink-muted">
-                  <p className="mb-2 font-semibold text-signal">{error}</p>
+                <div className=" bg-paper p-5 text-sm leading-relaxed text-ink/60">
+                  <p className="mb-2 font-semibold text-ink/50">{error}</p>
                   <button
                     type="button"
                     onClick={() => void generate()}
-                    className="mt-2 rounded-sm border border-rule px-3 py-1.5 text-sm font-medium text-ink hover:bg-paper"
+                    className="mt-2 border border-ink/15 px-3 py-1.5 text-sm font-medium text-ink hover:bg-paper"
                   >
                     重试
                   </button>
@@ -182,7 +182,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
                     width={image.width}
                     height={image.height}
                     alt="IVY Map 分享长图：目标大学、筛选条件、榜单 Top 5、口径说明、数据来源与免责声明"
-                    className="block h-auto w-full rounded-sm bg-paper"
+                    className="block h-auto w-full bg-paper"
                   />
                   <figcaption className="mt-3 text-center text-xs leading-relaxed text-paper/70">
                     手机上长按图片即可保存到相册，或转发到聊天
@@ -201,7 +201,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
                 onClick={(e) => {
                   if (!image) e.preventDefault()
                 }}
-                className={`flex-1 rounded-sm px-4 py-2.5 text-center text-sm font-semibold ${
+                className={`flex-1 px-4 py-2.5 text-center text-sm font-semibold ${
                   image
                     ? 'bg-paper text-ink hover:bg-paper'
                     : 'pointer-events-none bg-paper/30 text-paper/60'
@@ -212,7 +212,7 @@ export function PosterButton({ universityId, rows, filters }: PosterButtonProps)
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-sm border border-white/25 px-4 py-2.5 text-sm text-paper/80 hover:bg-paper/10"
+                className=" border border-white/25 px-4 py-2.5 text-sm text-paper/80 hover:bg-paper/10"
               >
                 返回
               </button>
