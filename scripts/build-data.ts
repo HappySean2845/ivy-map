@@ -280,7 +280,10 @@ function pickDefaultView(): Dataset['defaultView'] {
         const subset = admissions.filter(
           (a) => a.universityId === u.id && a.track === t && schoolsIn.has(a.schoolId),
         )
-        if (new Set(subset.map((a) => a.schoolId)).size < 3) continue
+        // 2 所就够 —— 两所学校互换位置正是「反转」的最小可演示单位。
+        // 原来要求 ≥3 是拍脑袋定的，实测把唯一可用的组合（剑桥×上海×A-Level，
+        // 只有领科和光华剑桥两所）挡在了门外。
+        if (new Set(subset.map((a) => a.schoolId)).size < 2) continue
         if (!hasRankReversal({ admissions: subset, cohorts })) continue
         candidates.push({ universityId: u.id, cityId: c.id, track: t, n: subset.length })
       }

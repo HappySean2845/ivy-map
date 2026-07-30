@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ===========================================================================
+   IVY Map 设计 token —— 严格对应 docs/design-system.md
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+   基调：纸与墨 + 靛青。学术出版物，不是 App。
+   任何让页面更像 App 而不是研究报告的东西，都在削弱可信度。
+   =========================================================================== */
+
+:root {
+  /* 纸与墨 */
+  --paper: #fbfaf7;        /* 暖白，不是纯白——纯白是网页感，微暖是纸感 */
+  --paper-sunk: #f4f1ea;   /* 表头、折叠区 */
+  --ink: #1a1a18;          /* 正文，不是纯黑 */
+  --ink-muted: #6b6862;    /* 次要信息、图注 */
+  --ink-faint: #9a968e;    /* 占位、禁用、「—」 */
+  --rule: #e3dfd6;         /* 分隔线 */
+  --rule-strong: #c9c3b6;  /* 表头下方 */
+
+  /* 主色：靛青。数据、选中、链接、热力 */
+  --accent: #1d5b6e;
+  --accent-deep: #123e4c;
+  --accent-soft: #dce8ec;
+
+  /* 信号色：朱红。只在「需要注意」时出现——低杠杆提示、不可申请、
+     分母缺失、多来源不一致、估算值。红色越稀有，出现时越有分量。 */
+  --signal: #9e2b25;
+  --signal-soft: #f0e2e0;
+
+  /* 字体。不加载任何中文 web font——中文字体动辄几 MB，而主要流量
+     来自微信里点开链接的移动端，等不起。全部走系统栈。 */
+  --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC",
+    "Source Han Serif SC", Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Microsoft YaHei", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #16151a;
+    --paper-sunk: #1e1d23;
+    --ink: #edeae3;
+    --ink-muted: #9a968e;
+    --ink-faint: #6b6862;
+    --rule: #2e2c33;
+    --rule-strong: #43404a;
+
+    /* 靛青在深色上要提亮，否则发闷 */
+    --accent: #6fb3c7;
+    --accent-deep: #a5d2e0;
+    --accent-soft: #1b333c;
+
+    --signal: #c9564e;
+    --signal-soft: #3a2523;
   }
 }
 
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-sunk: var(--paper-sunk);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-accent-soft: var(--accent-soft);
+  --color-signal: var(--signal);
+  --color-signal-soft: var(--signal-soft);
+
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* 圆角最多 2px。没有大圆角卡片——那是 App 感 */
+  --radius-sm: 2px;
+  --radius-DEFAULT: 2px;
+  --radius-md: 3px;
+}
+
+/* --------------------------------------------------------------------------- */
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  /* 移动端正文不小于 15px——家长年龄偏大 */
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 标题用宋体。宋体标题 + 黑体正文是中文书籍、期刊、年报的经典配置，
+   国内读者一眼就有「正经东西」的感觉。 */
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;   /* 宋体不加粗更像排版，加粗会糊 */
+  letter-spacing: 0.01em;
+}
+
+/* 数字一律等宽对齐——榜单重排时数字不该左右跳动 */
+.tnum,
+table,
+[data-numeric] {
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* 脚注式来源标注（design-system.md §4）。论文引注的形式——
+   它是「每个数字都有出处」这条原则的视觉表达。 */
+.footnote-ref {
+  font-size: 0.72em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--accent);
+  cursor: pointer;
+  margin-left: 1px;
+  font-variant-numeric: normal;
+}
+.footnote-ref:hover {
+  color: var(--accent-deep);
+}
+
+/* 点击目标不小于 44×44（design-system.md §5.2） */
+@media (pointer: coarse) {
+  button, a[role="button"], [data-tap] {
+    min-height: 44px;
+  }
+}
+
+/* 唯一允许的两处动效之外，一律不做过渡 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 表格是主角：表头下粗线，行间细线，不用斑马纹 */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+thead th {
+  border-bottom: 1px solid var(--rule-strong);
+  font-weight: 500;
+  text-align: left;
+  color: var(--ink-muted);
+  font-size: 0.8125rem;
+}
+tbody tr + tr td {
+  border-top: 1px solid var(--rule);
+}
+
+/* 宽内容自己滚，页面本体永不横向滚动 */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }

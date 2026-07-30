@@ -63,6 +63,10 @@ export interface FeederRow {
   /** 人均密度。null = 分母缺失，UI 显示「—」而不是 0 */
   density: number | null
   denominatorMissing: boolean
+  /** 密度实际基于哪几届算的（降序）。空数组 = 无分母 */
+  densityYears: number[]
+  /** true = 密度只覆盖了部分年份，UI 必须标注「基于 20XX–20XX」 */
+  densityPartial: boolean
   /** 综合得分，由 alpha 控制规模与概率的权重 */
   score: number
   /** 按年份拆分，供溯源展开使用 */
@@ -102,11 +106,26 @@ export function scoreFeeders(input: ScoreInput): FeederRow[] {
     cohorts.map((c) => [cohortKey(c.schoolId, c.year, c.track), c]),
   )
 
-  // 按学校聚合
-  const bySchool = new Map<
-    string,
-    { volume: number; denom: number; denomKnown: boolean; byYear: FeederRow['byYear'] }
-  >()
+  // 按学校聚合。
+  //
+  // 分子算两份：
+  //   volume  —— 三届窗口内全部录取的加权和，用于「规模」轴
+  //   densNum —— 只统计**同时有毕业生数**的那些年份，用于「密度」轴
+  //
+  // 为什么要分开：分子算三届、分母只有两届，比值就是错的。
+  // 但反过来「缺一年就把整校密度判为 null」也太严 —— 实测会把 A-Level
+  // 赛道所有学校的密度全抹成「—」，滑杆两端排序完全一致，反转演示不出来。
+  // 正确做法是在**分子分母都有**的年份交集上算比值，并记下用了哪几届
+  // 供 UI 标注（比如「基于 2024–2025 两届」）。
+  interface Acc {
+    volume: number
+    densNum: number
+    densDen: number
+    densYears: Set<number>
+    allYears: Set<number>
+    byYear: FeederRow['byYear']
+  }
+  const bySchool = new Map<string, Acc>()
 
   for (const a of rows) {
     const w = yearWeight(a.year, latestYear)
@@ -116,48 +135,60 @@ export function scoreFeeders(input: ScoreInput): FeederRow[] {
     const admits = resolveAdmits(a, cohort)
     if (admits == null) continue
 
-    let entry = bySchool.get(a.schoolId)
-    if (!entry) {
-      entry = { volume: 0, denom: 0, denomKnown: true, byYear: [] }
-      bySchool.set(a.schoolId, entry)
+    let e = bySchool.get(a.schoolId)
+    if (!e) {
+      e = {
+        volume: 0,
+        densNum: 0,
+        densDen: 0,
+        densYears: new Set(),
+        allYears: new Set(),
+        byYear: [],
+      }
+      bySchool.set(a.schoolId, e)
     }
-    entry.volume += w * admits
-    entry.byYear.push({
+    e.volume += w * admits
+    e.allYears.add(a.year)
+    e.byYear.push({
       year: a.year,
       admits,
       graduates: cohort?.graduates ?? null,
     })
+
+    if (cohort?.graduates != null && cohort.graduates > 0) {
+      e.densNum += w * admits
+      e.densYears.add(a.year)
+    }
   }
 
-  // 分母单独累计：一所学校在某年某赛道的毕业生数只能计一次，
+  // 分母：一所学校在某 (年份, 赛道) 的毕业生数只能计一次，
   // 而它可能对应多所大学的录取记录。
-  for (const [schoolId, entry] of bySchool) {
-    const seen = new Set<string>()
+  for (const [schoolId, e] of bySchool) {
+    const counted = new Set<string>()
     for (const a of rows) {
       if (a.schoolId !== schoolId) continue
-      const w = yearWeight(a.year, latestYear)
-      if (w === 0) continue
+      if (yearWeight(a.year, latestYear) === 0) continue
       const key = cohortKey(a.schoolId, a.year, a.track)
-      if (seen.has(key)) continue
-      seen.add(key)
+      if (counted.has(key)) continue
       const g = cohortMap.get(key)?.graduates
-      if (g == null) {
-        entry.denomKnown = false
-      } else {
-        entry.denom += w * g
-      }
+      if (g == null || g <= 0) continue
+      counted.add(key)
+      e.densDen += yearWeight(a.year, latestYear) * g
     }
   }
 
   const raw = [...bySchool.entries()].map(([schoolId, e]) => {
     // 分母缺失就是缺失，绝不猜（metrics.md §5）
-    const density =
-      e.denomKnown && e.denom > 0 ? e.volume / e.denom : null
+    const density = e.densDen > 0 ? e.densNum / e.densDen : null
+    const densityYears = [...e.densYears].sort((x, y) => y - x)
     return {
       schoolId,
       volume: e.volume,
       density,
       denominatorMissing: density == null,
+      densityYears,
+      // 密度只覆盖了部分年份 —— UI 必须标注是基于哪几届算的
+      densityPartial: density != null && densityYears.length < e.allYears.size,
       byYear: e.byYear.sort((x, y) => y.year - x.year),
     }
   })
@@ -222,10 +253,21 @@ export function computeLeverage(
 /**
  * 首屏默认组合是否值得展示（PRD US-1.0）：滑杆从纯规模拖到纯概率时，
  * 榜首必须发生变化。不反转的话，产品最强的一点访客根本看不到。
+ *
+ * **必须是真反转。** 缺分母的学校在概率轴上走 NORM_FLOOR 兜底，会被推到
+ * 末位，从而制造出「榜首变了」的假象——但那不是密度差异，只是数据缺失。
+ * 拿这种组合当首屏演示，等于用一个我们自己都不知道的数字去说服用户。
+ * 所以要求换位的两所学校**都有真实密度**。
  */
 export function hasRankReversal(input: Omit<ScoreInput, 'alpha'>): boolean {
   const byVolume = scoreFeeders({ ...input, alpha: 1 })
   const byDensity = scoreFeeders({ ...input, alpha: 0 })
   if (byVolume.length < 2 || byDensity.length < 2) return false
-  return byVolume[0].schoolId !== byDensity[0].schoolId
+
+  const volTop = byVolume[0]
+  const densTop = byDensity[0]
+  if (volTop.schoolId === densTop.schoolId) return false
+
+  // 换位的双方都必须有分母，否则这个「反转」是数据缺失的产物
+  return volTop.density != null && densTop.density != null
 }
