@@ -227,3 +227,41 @@ describe('择校杠杆率', () => {
     expect(computeLeverage(spread(60, 2))!.level).toBe('low')
   })
 })
+
+describe('多来源冲突时不重复计数', () => {
+  it('同一 (校×大学×年×赛道) 的两条记录只算一条，不相加', () => {
+    // 领科 2025 剑桥曾同时存在 10（预录取）和 9（最终入读）两条 L1 记录，
+    // 旧实现把它们加成 19，凭空多出一倍，还因此在首屏伪造出一个「排名反转」
+    const rows = scoreFeeders({
+      admissions: [
+        adm('ulink', 2025, 10, { confidence: 'L1' }),
+        adm('ulink', 2025, 9, { confidence: 'L1' }),
+      ],
+      cohorts: [coh('ulink', 2025, 263)],
+      alpha: 1,
+      latestYear: LATEST,
+    })
+    // 同置信取较小值：宁可低估不高估
+    expect(rows[0].volume).toBeCloseTo(0.5 * 9, 6)
+  })
+
+  it('置信更高的那条胜出，与录入顺序无关', () => {
+    const run = (list: Admission[]) =>
+      scoreFeeders({ admissions: list, cohorts: [], alpha: 1, latestYear: LATEST })[0].volume
+    const l1 = adm('x', 2025, 4, { confidence: 'L1' })
+    const l3 = adm('x', 2025, 99, { confidence: 'L3' })
+    expect(run([l1, l3])).toBeCloseTo(0.5 * 4, 6)
+    expect(run([l3, l1])).toBeCloseTo(0.5 * 4, 6)
+  })
+
+  it('去重发生在赛道过滤之后，不会跨赛道误合并', () => {
+    const rows = scoreFeeders({
+      admissions: [adm('x', 2025, 3, { track: 'IB' }), adm('x', 2025, 4, { track: 'AP' })],
+      cohorts: [],
+      alpha: 1,
+      latestYear: LATEST,
+    })
+    // 不同赛道是两条独立记录，该相加
+    expect(rows[0].volume).toBeCloseTo(0.5 * 3 + 0.5 * 4, 6)
+  })
+})

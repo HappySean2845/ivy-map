@@ -28,6 +28,27 @@ import type { City } from '@/types'
 /** 所有点统一大小。够大才点得到，够小才不互相遮挡。 */
 const DOT = 11
 
+/** 中国经纬度大致范围，用来把包围盒换算成 ECharts geo 的 zoom。 */
+const CN_W = 62
+const CN_H = 35
+
+/** 把「有数据的城市」框起来。数量太少时留足余量，免得放大到失真。 */
+function fitTo(pts: { lng: number; lat: number }[]) {
+  if (pts.length === 0) return null
+  const lngs = pts.map((p) => p.lng)
+  const lats = pts.map((p) => p.lat)
+  const pad = pts.length === 1 ? 8 : 4
+  const w = Math.max(10, Math.max(...lngs) - Math.min(...lngs) + pad * 2)
+  const h = Math.max(8, Math.max(...lats) - Math.min(...lats) + pad * 2)
+  return {
+    center: [
+      (Math.min(...lngs) + Math.max(...lngs)) / 2,
+      (Math.min(...lats) + Math.max(...lats)) / 2,
+    ] as [number, number],
+    zoom: Math.min(4, Math.max(1, Math.min(CN_W / w, CN_H / h) * 0.9)),
+  }
+}
+
 interface Props {
   cities: City[]
   heatByCityId: Record<string, number>
@@ -41,6 +62,12 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
   const boxRef = useRef<HTMLDivElement>(null)
   const theme = useMapTheme()
   const { chart, width, height } = useChart(boxRef)
+
+  // 视野跟着有数据的城市走（几乎都在东部沿海）。没有数据时退回全国视野。
+  const fit = useMemo(
+    () => fitTo(cities.filter((c) => (heatByCityId[c.id] ?? 0) > 0)),
+    [cities, heatByCityId],
+  )
 
   // attempt 和 status 放同一个 state：重试时由点击事件一次性改掉，
   // 避免在 effect 里同步 setState 触发级联渲染
@@ -97,8 +124,8 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
 
   useEffect(() => {
     if (!chart || state !== 'ready' || width === 0 || height === 0) return
-    chart.setOption(buildOption(cities, heatByCityId, selectedCityId, theme))
-  }, [chart, state, cities, heatByCityId, selectedCityId, theme, width, height])
+    chart.setOption(buildOption(cities, heatByCityId, selectedCityId, theme, fit), true)
+  }, [chart, state, cities, heatByCityId, selectedCityId, theme, fit, width, height])
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -160,6 +187,7 @@ function buildOption(
   heatByCityId: Record<string, number>,
   selectedCityId: string | null,
   theme: MapTheme,
+  fit: { center: [number, number]; zoom: number } | null,
 ): ChartOption {
   const maxHeat = cities.reduce((m, c) => Math.max(m, heatByCityId[c.id] ?? 0), 0)
 
@@ -214,6 +242,10 @@ function buildOption(
       left: 'center',
       top: 8,
       bottom: 8,
+      // 默认框住**有数据的城市**，而不是整个中国。
+      // 全国视野下，所有生源校都挤在东部沿海一小条里，西部大片留白毫无信息，
+      // 点也小到点不中。视野跟着数据走，数据变了视野自己跟着变。
+      ...(fit ? { center: fit.center, zoom: fit.zoom } : {}),
       silent: true, // 省份不可点：数据粒度是城市，点亮整个省会误导
       itemStyle: {
         areaColor: theme.land,

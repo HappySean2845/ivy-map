@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-07-30T07:28:36.143Z",
+  "builtAt": "2026-07-30T07:54:21.047Z",
   "cities": [
     {
       "id": "shanghai",
@@ -295,7 +295,10 @@
       "lng": -1.2544,
       "lat": 51.7548,
       "cai": null,
-      "leverage": null
+      "leverage": {
+        "hhi": 0.2727286993228665,
+        "level": "high"
+      }
     },
     {
       "id": "cambridge",
@@ -306,7 +309,10 @@
       "lng": 0.1178,
       "lat": 52.2043,
       "cai": null,
-      "leverage": null
+      "leverage": {
+        "hhi": 0.25564072820897626,
+        "level": "high"
+      }
     },
     {
       "id": "imperial",
@@ -1528,6 +1534,78 @@
       "graduates": 164,
       "totalOffers": 890,
       "sourceId": "dulwich-sz-2025-official"
+    },
+    {
+      "schoolId": "guanghua",
+      "year": 2025,
+      "track": "ALEVEL",
+      "graduates": 489,
+      "totalOffers": null,
+      "sourceId": "ghcis-guidance"
+    },
+    {
+      "schoolId": "guanghua",
+      "year": 2024,
+      "track": "ALEVEL",
+      "graduates": 414,
+      "totalOffers": null,
+      "sourceId": "ghcis-guidance"
+    },
+    {
+      "schoolId": "guanghua",
+      "year": 2023,
+      "track": "ALEVEL",
+      "graduates": 344,
+      "totalOffers": null,
+      "sourceId": "ghcis-guidance"
+    },
+    {
+      "schoolId": "guanghua",
+      "year": 2013,
+      "track": "ALEVEL",
+      "graduates": 17,
+      "totalOffers": 58,
+      "sourceId": "ghcis-about-history"
+    },
+    {
+      "schoolId": "ulink",
+      "year": 2024,
+      "track": "ALEVEL",
+      "graduates": 286,
+      "totalOffers": null,
+      "sourceId": "ulink-2024-official"
+    },
+    {
+      "schoolId": "ulink",
+      "year": 2023,
+      "track": "ALEVEL",
+      "graduates": 224,
+      "totalOffers": null,
+      "sourceId": "ulink-2023-official"
+    },
+    {
+      "schoolId": "ulink",
+      "year": 2022,
+      "track": "ALEVEL",
+      "graduates": 209,
+      "totalOffers": null,
+      "sourceId": "ulink-2022-official"
+    },
+    {
+      "schoolId": "xinghewan",
+      "year": 2023,
+      "track": "AP",
+      "graduates": 120,
+      "totalOffers": null,
+      "sourceId": "ssbs-2023-xibao"
+    },
+    {
+      "schoolId": "hsfz",
+      "year": 2026,
+      "track": "AP",
+      "graduates": 150,
+      "totalOffers": 1214,
+      "sourceId": "hfi-performance"
     }
   ],
   "admissions": [
@@ -1550,8 +1628,8 @@
       "admits": 27,
       "offers": null,
       "basis": "admits",
-      "confidence": "L2",
-      "sourceId": "qq-oxbridge-2025"
+      "confidence": "L1",
+      "sourceId": "ghcis-news-2611"
     },
     {
       "schoolId": "ulink",
@@ -1627,8 +1705,8 @@
       "admits": 18,
       "offers": null,
       "basis": "admits",
-      "confidence": "L2",
-      "sourceId": "jingling-oxbridge-sh-2025"
+      "confidence": "L1",
+      "sourceId": "ghcis-news-2611"
     },
     {
       "schoolId": "guanghua",
@@ -1649,8 +1727,8 @@
       "admits": 7,
       "offers": null,
       "basis": "admits",
-      "confidence": "L2",
-      "sourceId": "alevel-2024-sohu"
+      "confidence": "L1",
+      "sourceId": "ghcis-news-2475"
     },
     {
       "schoolId": "pinghe",
@@ -1849,6 +1927,303 @@
       "basis": "admits",
       "confidence": "L1",
       "sourceId": "keystone-2023-official"
+    },
+    {
+      "schoolId": "guanghua",
+      "universityId": "oxford",
+      "year": 2023,
+      "track": "ALEVEL",
+      "admits": 10,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ghcis-news-2410"
+    },
+    {
+      "schoolId": "guanghua",
+      "universityId": "cambridge",
+      "year": 2023,
+      "track": "ALEVEL",
+      "admits": 6,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ghcis-news-2416"
+    },
+    {
+      "schoolId": "guanghua",
+      "universityId": "oxford",
+      "year": 2026,
+      "track": "ALEVEL",
+      "admits": 18,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ghcis-guidance"
+    },
+    {
+      "schoolId": "guanghua",
+      "universityId": "cambridge",
+      "year": 2026,
+      "track": "ALEVEL",
+      "admits": 15,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ghcis-guidance"
+    },
+    {
+      "schoolId": "ulink",
+      "universityId": "cambridge",
+      "year": 2026,
+      "track": "ALEVEL",
+      "admits": 16,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ulink-2026-placement"
+    },
+    {
+      "schoolId": "ulink",
+      "universityId": "oxford",
+      "year": 2026,
+      "track": "ALEVEL",
+      "admits": 9,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ulink-2026-placement"
+    },
+    {
+      "schoolId": "hsfz",
+      "universityId": "cambridge",
+      "year": 2026,
+      "track": "AP",
+      "admits": 2,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "hfi-performance"
+    },
+    {
+      "schoolId": "hsfz",
+      "universityId": "oxford",
+      "year": 2026,
+      "track": "AP",
+      "admits": 1,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "hfi-performance"
+    },
+    {
+      "schoolId": "hsfz",
+      "universityId": "cambridge",
+      "year": 2023,
+      "track": "AP",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "hfi-performance"
+    },
+    {
+      "schoolId": "hsfz",
+      "universityId": "oxford",
+      "year": 2024,
+      "track": "AP",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "hfi-performance"
+    },
+    {
+      "schoolId": "xinghewan",
+      "universityId": "oxford",
+      "year": 2023,
+      "track": "AP",
+      "admits": 1,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ssbs-2023-xibao"
+    },
+    {
+      "schoolId": "xinghewan",
+      "universityId": "cambridge",
+      "year": 2023,
+      "track": "AP",
+      "admits": 2,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "ssbs-2023-xibao"
+    },
+    {
+      "schoolId": "xinghewan",
+      "universityId": "oxford",
+      "year": 2025,
+      "track": "AP",
+      "admits": 2,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L2",
+      "sourceId": "yuloo-oxbridge-sh-2025"
+    },
+    {
+      "schoolId": "xinghewan",
+      "universityId": "cambridge",
+      "year": 2025,
+      "track": "AP",
+      "admits": 4,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L2",
+      "sourceId": "yuloo-oxbridge-sh-2025"
+    },
+    {
+      "schoolId": "keystone",
+      "universityId": "cambridge",
+      "year": 2026,
+      "track": "IB",
+      "admits": 1,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "keystone-2026-official"
+    },
+    {
+      "schoolId": "keystone",
+      "universityId": "oxford",
+      "year": 2026,
+      "track": "IB",
+      "admits": 1,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "keystone-2026-official"
+    },
+    {
+      "schoolId": "keystone",
+      "universityId": "cambridge",
+      "year": 2025,
+      "track": "IB",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "keystone-2025-offers-pdf"
+    },
+    {
+      "schoolId": "keystone",
+      "universityId": "oxford",
+      "year": 2025,
+      "track": "IB",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "keystone-2025-offers-pdf"
+    },
+    {
+      "schoolId": "keystone",
+      "universityId": "cambridge",
+      "year": 2024,
+      "track": "IB",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "keystone-2024-official"
+    },
+    {
+      "schoolId": "keystone",
+      "universityId": "oxford",
+      "year": 2024,
+      "track": "IB",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L1",
+      "sourceId": "keystone-2024-official"
+    },
+    {
+      "schoolId": "hzwy",
+      "universityId": "cambridge",
+      "year": 2025,
+      "track": "ALEVEL",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L3",
+      "sourceId": "gjxx-hzwy-2025"
+    },
+    {
+      "schoolId": "hzwy",
+      "universityId": "oxford",
+      "year": 2025,
+      "track": "ALEVEL",
+      "admits": 0,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L3",
+      "sourceId": "gjxx-hzwy-2025"
+    },
+    {
+      "schoolId": "wellington-sh",
+      "universityId": "oxford",
+      "year": 2025,
+      "track": "IB",
+      "admits": 1,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L2",
+      "sourceId": "yuloo-oxbridge-sh-2025"
+    },
+    {
+      "schoolId": "wellington-sh",
+      "universityId": "cambridge",
+      "year": 2025,
+      "track": "IB",
+      "admits": 1,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L3",
+      "sourceId": "yuloo-oxbridge-sh-2025"
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "oxford",
+      "year": 2026,
+      "track": "AP",
+      "admits": 4,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L2",
+      "sourceId": "jcjyq-2026-cam-bj"
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "cambridge",
+      "year": 2026,
+      "track": "AP",
+      "admits": 1,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L2",
+      "sourceId": "jcjyq-2026-cam-bj"
+    },
+    {
+      "schoolId": "basis-sz",
+      "universityId": "cambridge",
+      "year": 2025,
+      "track": "AP",
+      "admits": 2,
+      "offers": null,
+      "basis": "admits",
+      "confidence": "L3",
+      "sourceId": "sohu-2025-sz-top3"
     }
   ],
   "sources": [
@@ -2184,7 +2559,155 @@
       "publishedAt": null,
       "capturedAt": "2026-07-29",
       "confidence": "L1"
+    },
+    {
+      "id": "ghcis-news-2410",
+      "type": "official",
+      "title": "牛津放榜：10位光剑学子喜获（预）录取通知！（光华剑桥官网新闻，2023届）",
+      "url": "https://www.ghcis.com/news/detail2410.htm",
+      "publishedAt": "2023-01-10",
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ghcis-news-2416",
+      "type": "official",
+      "title": "10+6！恭喜16位光剑学子成为牛剑准新生！（光华剑桥官网新闻，2023届）",
+      "url": "https://www.ghcis.com/news/detail2416.htm",
+      "publishedAt": "2023-01-25",
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ghcis-news-2475",
+      "type": "official",
+      "title": "2024牛津放榜：恭喜7名光剑学子收获牛津大学（预）录取通知！",
+      "url": "https://www.ghcis.com/news/detail2475.htm",
+      "publishedAt": "2024-01-10",
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ghcis-news-2611",
+      "type": "official",
+      "title": "45封牛津剑桥，738封英国G5，183封港大，479封多大……光华剑桥2025届大学申请即将完美落幕！",
+      "url": "https://www.ghcis.com/news/detail2611.htm",
+      "publishedAt": "2025-05-14",
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ghcis-guidance",
+      "type": "official",
+      "title": "光华剑桥 升学指导 › 毕业生去向（各届「最终入读大学」逐校入读人数；历届数据经同页 /ashx/showlist.ashx 接口加载）",
+      "url": "https://www.ghcis.com/guidance/",
+      "publishedAt": null,
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ghcis-about-history",
+      "type": "official",
+      "title": "光剑大事纪 KEY EVENTS（光华剑桥官网校史）",
+      "url": "https://www.ghcis.com/about/history.htm",
+      "publishedAt": null,
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ulink-2022-official",
+      "type": "official",
+      "title": "第十五届(2022届)毕业生最终入读大学统计 – 领科教育",
+      "url": "https://www.ulink.cn/2022-placement/",
+      "publishedAt": null,
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ulink-2025-placement",
+      "type": "official",
+      "title": "第十八届(2025届)毕业生最终入读大学统计 – 领科教育",
+      "url": "https://www.ulink.cn/2025-placement/",
+      "publishedAt": null,
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ulink-2026-placement",
+      "type": "official",
+      "title": "第十九届(2026届)毕业生（预）录取动态（截至2026年6月10日）– 领科教育",
+      "url": "https://www.ulink.cn/2026-placement/",
+      "publishedAt": "2026-06-10",
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "ssbs-2023-xibao",
+      "type": "official",
+      "title": "上海星河湾双语学校2023届升学喜报（学校官网）",
+      "url": "https://www.ssbs.sh.cn/siteIndex.action?method=list&ccid=8964",
+      "publishedAt": null,
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "keystone-2026-official",
+      "type": "official",
+      "title": "鼎石2026届毕业生大学录取结果正式揭晓（截至2026年5月20日）",
+      "url": "https://www.keystoneacademy.cn/news-and-events/news-archive/232.html",
+      "publishedAt": "2026-05-22",
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "keystone-2025-offers-pdf",
+      "type": "official",
+      "title": "Keystone Academy Class of 2025 List of Offers（官方完整录取名单 PDF，截至2025年5月21日）",
+      "url": "https://www.keystoneacademy.cn/Public/Uploads/uploadfile/files/20250523/ListofOffers-Marketing_05.21.pdf",
+      "publishedAt": "2025-05-23",
+      "capturedAt": "2026-07-30",
+      "confidence": "L1"
+    },
+    {
+      "id": "gjxx-hzwy-2025",
+      "type": "media",
+      "title": "杭外剑高历年升学数据汇总与分析！（国际学校网）",
+      "url": "https://www.guojixuexiao.org/zjschool/zjnews/2820228.html",
+      "publishedAt": "2025-04-28",
+      "capturedAt": "2026-07-30",
+      "confidence": "L3"
+    },
+    {
+      "id": "yuloo-oxbridge-sh-2025",
+      "type": "media",
+      "title": "2025年上海国际学校牛津大学、剑桥大学offer排行榜（上海育路网，转昂立国际教育）",
+      "url": "http://sh.yuloo.com/guojixuexiao/news/2502/343315.shtml",
+      "publishedAt": "2025-02-11",
+      "capturedAt": "2026-07-30",
+      "confidence": "L2"
+    },
+    {
+      "id": "jcjyq-2026-cam-bj",
+      "type": "media",
+      "title": "剑桥放榜！北京斩获31枚Offer，多所「黑马校」杀出！（京城教育圈 微信公众号）",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzA3OTIxOTYwNw==&mid=2651837539&idx=1&sn=ade056ebc1c701a6bfc64fc1d2ff96b7&chksm=8565e45575dbc1f39b14d8759e282d766f9f2264a72dc9e9b88eb0cde64bbbc8ee5a6dd8981c&scene=27",
+      "publishedAt": "2026-01-29",
+      "capturedAt": "2026-07-30",
+      "confidence": "L2"
+    },
+    {
+      "id": "sohu-2025-sz-top3",
+      "type": "media",
+      "title": "2025年牛剑藤放榜后，深国交、贝赛思、深中2025届升学成绩盘点！（搜狐号 国际择校与备考周老师）",
+      "url": "https://m.sohu.com/a/889513656_121196118/",
+      "publishedAt": "2025-04-27",
+      "capturedAt": "2026-07-30",
+      "confidence": "L3"
     }
   ],
-  "defaultView": null
+  "defaultView": {
+    "universityId": "cambridge",
+    "cityId": null,
+    "track": "ALEVEL"
+  }
 }

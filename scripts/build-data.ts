@@ -287,28 +287,37 @@ const universities = rawUniversities.map((u) => {
 // 否则产品最强的一点访客根本看不到 —— 而这是数据一变就会悄悄失效的东西。
 
 function pickDefaultView(): Dataset['defaultView'] {
-  const candidates: { universityId: string; cityId: string; track: Track; n: number }[] = []
+  const candidates: {
+    universityId: string
+    cityId: string | null
+    track: Track
+    n: number
+  }[] = []
+  // cityId 允许为 null = 全国视图。
+  // 原来只遍历「城市 × 赛道」，漏掉了全国 —— 而真实数据里唯一的真反转
+  // （剑桥 × 全国 × A-Level：光华剑桥规模第一、深国交密度第一，两所都有
+  // 分母）恰好就出现在全国视图上，被这个漏洞挡在门外。
+  const cityScopes: (string | null)[] = [null, ...cities.map((c) => c.id)]
   for (const u of universities) {
-    for (const c of cities) {
+    for (const cid of cityScopes) {
       for (const t of TRACKS) {
         const schoolsIn = new Set(
-          schools.filter((s) => s.cityId === c.id && s.tracks.includes(t)).map((s) => s.id),
+          schools
+            .filter((s) => (cid === null || s.cityId === cid) && s.tracks.includes(t))
+            .map((s) => s.id),
         )
         const subset = admissions.filter(
           (a) => a.universityId === u.id && a.track === t && schoolsIn.has(a.schoolId),
         )
-        // 2 所就够 —— 两所学校互换位置正是「反转」的最小可演示单位。
-        // 原来要求 ≥3 是拍脑袋定的，实测把唯一可用的组合（剑桥×上海×A-Level，
-        // 只有领科和光华剑桥两所）挡在了门外。
         if (new Set(subset.map((a) => a.schoolId)).size < 2) continue
         if (!hasRankReversal({ admissions: subset, cohorts })) continue
-        candidates.push({ universityId: u.id, cityId: c.id, track: t, n: subset.length })
+        candidates.push({ universityId: u.id, cityId: cid, track: t, n: subset.length })
       }
     }
   }
   if (candidates.length === 0) return null
-  // 样本最多的那个最有说服力
-  candidates.sort((a, b) => b.n - a.n)
+  // 样本最多的最有说服力；同样多时优先具体城市（对家长更贴身）
+  candidates.sort((a, b) => b.n - a.n || (a.cityId === null ? 1 : -1))
   const { universityId, cityId, track } = candidates[0]
   return { universityId, cityId, track }
 }

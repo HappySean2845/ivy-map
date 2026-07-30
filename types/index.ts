@@ -136,5 +136,5 @@ export interface Dataset {
   admissions: Admission[]
   sources: Source[]
   /** 首屏默认组合（PRD US-1.0）。构建期校验它能演示出排名反转。 */
-  defaultView: { universityId: string; cityId: string; track: Track } | null
+  defaultView: { universityId: string; cityId: string | null; track: Track } | null
 }

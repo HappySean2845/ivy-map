@@ -43,29 +43,80 @@ type MapState = 'loading' | 'ready' | 'error'
 const DOT = 11
 
 /**
- * 视野用 boundingCoords 而不是 center+zoom。
+ * 分区视野。
+ *
+ * 全球视野下，20 所美国大学挤在约 60×40px 的范围里叠成一坨蜂窝，既读不出
+ * 是谁，也点不中。这不是标签排布能救的——那片区域的物理尺寸就是装不下。
+ * 唯一的解法是**放大**：点一下「美国」，视野收到北美，20 个点自然散开。
+ *
+ * zoom 由包围盒算，不手调：ECharts geo 的 zoom=1 表示整图刚好铺满容器，
+ * 所以要显示宽 w 度的区域，zoom ≈ 世界宽度 / w，再和高度方向取小的那个，
+ * 留 15% 余量。数据里新增一所大学、区域范围变了，视野自己跟着变。
+ */
+interface Region {
+  id: string
+  label: string
+  /** 属于这个区域的 country 值；'*' = 全部 */
+  match: string[] | '*'
+}
+
+const REGIONS: Region[] = [
+  { id: 'all', label: '全球', match: '*' },
+  { id: 'us', label: '美国', match: ['US'] },
+  { id: 'uk', label: '英国', match: ['UK'] },
+  { id: 'asia', label: '港 / 日', match: ['HK', 'JP'] },
+  { id: 'ca', label: '加拿大', match: ['CA'] },
+]
+
+const WORLD_W = 360
+const WORLD_H = 174
+
+function viewFor(pts: { lng: number; lat: number }[], whole: boolean) {
+  if (whole || pts.length === 0) {
+    // 全球视野：北半球中纬度带，南半球没有一所大学，裁掉才不浪费画面
+    return { center: [5, 34] as [number, number], zoom: 1.25 }
+  }
+  const lngs = pts.map((p) => p.lng)
+  const lats = pts.map((p) => p.lat)
+  const w = Math.max(6, Math.max(...lngs) - Math.min(...lngs))
+  const h = Math.max(4, Math.max(...lats) - Math.min(...lats))
+  const zoom = Math.min(WORLD_W / w, WORLD_H / h) * 0.85
+  return {
+    center: [
+      (Math.min(...lngs) + Math.max(...lngs)) / 2,
+      (Math.min(...lats) + Math.max(...lats)) / 2,
+    ] as [number, number],
+    zoom: Math.min(60, Math.max(1, zoom)),
+  }
+}
+
+/**
+ * 旧注释保留：视野曾用 boundingCoords。
  *
  * 收录的大学全在北半球中纬度带：北美西岸(-122) → 欧洲(0) → 东亚(139)，
  * 纬度 22–52。用 center+zoom 的话，为了塞进这 260 度经度跨度就得缩得很小，
  * 结果南半球（非洲、南美）占掉一半画面，而那里一所大学都没有。
  * 直接指定左上/右下角，把南半球裁掉，地图才饱满。
  */
-const BOUNDS: [[number, number], [number, number]] = [
-  [-132, 62], // 左上：北美西岸以西 / 北欧以北
-  [148, 12], // 右下：日本以东 / 香港以南
-]
 
 interface Point {
   id: string
   nameCn: string
   nameEn: string
+  country: string
   lng: number
   lat: number
   volume: number
   hasData: boolean
 }
 
-function buildOption(points: Point[], selectedId: string | null, t: MapTheme): ChartOption {
+function buildOption(
+  points: Point[],
+  selectedId: string | null,
+  t: MapTheme,
+  view: { center: [number, number]; zoom: number },
+  zoomed: boolean,
+): ChartOption {
   const withData = points.filter((p) => p.hasData)
   const noData = points.filter((p) => !p.hasData)
 
@@ -87,7 +138,8 @@ function buildOption(points: Point[], selectedId: string | null, t: MapTheme): C
       map: WORLD_MAP,
       roam: false,
       silent: true, // 陆地不是交互对象，只有大学点可点
-      boundingCoords: BOUNDS,
+      center: view.center,
+      zoom: view.zoom,
       itemStyle: {
         areaColor: t.land,
         borderColor: t.landBorder,
@@ -130,7 +182,8 @@ function buildOption(points: Point[], selectedId: string | null, t: MapTheme): C
         // 名字改由地图下方的可点列表承担（见组件底部）—— 那里既读得清，
         // 也真的点得到。这里只在 hover / 选中时显示。
         label: {
-          show: false,
+          // 放大到某个区域后，点之间有空间了，名字就能标出来
+          show: zoomed,
           position: 'right',
           distance: 5,
           formatter: (p: unknown) => (p as { data: Point }).data.nameCn,
@@ -188,6 +241,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
     attempt: 0,
     status: 'loading',
   })
+  const [regionId, setRegionId] = useState('all')
   const onSelectRef = useLatest(onSelect)
 
   useEffect(() => {
@@ -206,6 +260,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
         id: u.id,
         nameCn: u.nameCn,
         nameEn: u.nameEn,
+        country: u.country,
         lng: u.lng,
         lat: u.lat,
         volume: volumeById[u.id] ?? 0,
@@ -226,15 +281,50 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
     }
   }, [chart, onSelectRef])
 
+  const region = REGIONS.find((r) => r.id === regionId) ?? REGIONS[0]
+  const inRegion = useMemo(
+    () =>
+      region.match === '*'
+        ? points
+        : points.filter((p) => (region.match as string[]).includes(p.country)),
+    [points, region],
+  )
+  const view = useMemo(() => viewFor(inRegion, region.match === '*'), [inRegion, region])
+
   useEffect(() => {
     if (!chart || load.status !== 'ready' || width === 0 || height === 0) return
-    chart.setOption(buildOption(points, selectedId, t), true)
-  }, [chart, load.status, points, selectedId, t, width, height])
+    chart.setOption(buildOption(points, selectedId, t, view, region.match !== '*'), true)
+  }, [chart, load.status, points, selectedId, t, view, region, width, height])
 
   const withData = points.filter((p) => p.hasData).length
 
   return (
     <div className="flex h-full w-full flex-col">
+      <div className="flex flex-wrap items-center gap-x-1 gap-y-1 border-b border-ink/15 px-4 py-2 sm:px-6">
+        <span className="label mr-2 text-ink/40">ZOOM</span>
+        {REGIONS.map((r) => {
+          const n =
+            r.match === '*'
+              ? points.length
+              : points.filter((p) => (r.match as string[]).includes(p.country)).length
+          if (n === 0) return null
+          return (
+            <button
+              key={r.id}
+              onClick={() => setRegionId(r.id)}
+              className={`border px-2 py-1 text-[11px] leading-none ${
+                regionId === r.id
+                  ? 'border-ink bg-ink text-paper'
+                  : 'border-ink/20 text-ink/50 hover:border-ink/50'
+              }`}
+              data-tap
+            >
+              {r.label} {n}
+            </button>
+          )
+        })}
+      </div>
+
       <div className="relative h-[300px] w-full sm:h-[440px]">
         <div
           ref={boxRef}

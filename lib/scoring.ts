@@ -3,7 +3,7 @@
 // 纯函数、无 IO、无全局状态。这是产品的智力核心，也是唯一算错了
 // 界面还会正常显示、人眼看不出来的地方，所以必须有测试。
 
-import type { Admission, Cohort, Track } from '@/types'
+import type { Admission, Cohort, Confidence, Track } from '@/types'
 
 /** 时间权重：近的一届更能代表当下。三届之和为 1。 */
 export const YEAR_WEIGHTS = [0.5, 0.3, 0.2] as const
@@ -87,8 +87,17 @@ export interface ScoreInput {
 export function scoreFeeders(input: ScoreInput): FeederRow[] {
   const { admissions, cohorts, alpha } = input
   const tracks = input.tracks
-  const rows = admissions.filter((a) => !tracks || tracks.includes(a.track))
-  if (rows.length === 0) return []
+  const filtered = admissions.filter((a) => !tracks || tracks.includes(a.track))
+  if (filtered.length === 0) return []
+
+  // 同一「学校 × 大学 × 年份 × 赛道」允许多条来源共存（data-sources.md §1），
+  // 这样 UI 才能明示「多来源不一致」而不是替用户选一个。但**打分时必须只算一条** ——
+  // 否则两条冲突记录会被加起来：领科 2025 剑桥的 10（预录取）和 9（最终入读）
+  // 曾被算成 19，凭空多出一倍，还因此在首屏伪造出一个「排名反转」。
+  //
+  // 取哪一条：置信高的优先；同置信取**较小值**。宁可低估也不高估 —— 这个
+  // 产品的立场是修正膨胀，不是制造膨胀。
+  const rows = dedupeAdmissions(filtered)
 
   const latestYear = input.latestYear ?? Math.max(...rows.map((a) => a.year))
 
@@ -204,6 +213,35 @@ export function scoreFeeders(input: ScoreInput): FeederRow[] {
     }
     return b.volume - a.volume
   })
+}
+
+const CONF_RANK: Record<Confidence, number> = { L1: 3, L2: 2, L3: 1 }
+
+/**
+ * 同一「学校 × 大学 × 年份 × 赛道」只保留一条参与计算。
+ *
+ * 库里允许多条共存是为了让 UI 明示分歧（US-7.1），不是为了让它们相加。
+ * 取舍顺序：置信等级高的赢 → 同级取较小值（宁可低估不高估）。
+ */
+export function dedupeAdmissions(list: Admission[]): Admission[] {
+  const best = new Map<string, Admission>()
+  for (const a of list) {
+    const k = `${a.schoolId}|${a.universityId}|${a.year}|${a.track}`
+    const cur = best.get(k)
+    if (!cur) {
+      best.set(k, a)
+      continue
+    }
+    const rank = CONF_RANK[a.confidence] - CONF_RANK[cur.confidence]
+    if (rank > 0) {
+      best.set(k, a)
+    } else if (rank === 0) {
+      const va = a.admits ?? a.offers ?? Infinity
+      const vc = cur.admits ?? cur.offers ?? Infinity
+      if (va < vc) best.set(k, a)
+    }
+  }
+  return [...best.values()]
 }
 
 /** min-max 归一化到 [NORM_FLOOR, 1]。下界抬高是为了避免零吞噬。 */
