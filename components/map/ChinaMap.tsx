@@ -25,6 +25,9 @@ import {
 } from './echarts'
 import type { City } from '@/types'
 
+/** 所有点统一大小。够大才点得到，够小才不互相遮挡。 */
+const DOT = 11
+
 interface Props {
   cities: City[]
   heatByCityId: Record<string, number>
@@ -173,22 +176,29 @@ function buildOption(
       cityId: c.id,
       heat,
       province: c.province,
-      symbolSize: sizeOf(heat) + (selected ? 4 : 0),
+      // 统一大小。原来按录取量缩放（10–32px），大圆会盖住旁边的小圆，
+      // 被盖住的城市根本点不到。信息量改由「实心/空心 + 常驻地名」承担，
+      // 点只负责「在哪里」和「能点」。
+      symbolSize: DOT,
       itemStyle: {
-        color: hasData ? (selected ? theme.accent : theme.accentFill) : 'transparent',
-        borderColor: selected ? theme.accentStrong : hasData ? theme.accent : theme.ring,
-        borderWidth: selected ? 2.5 : 1,
+        color: hasData ? theme.accent : theme.land,
+        borderColor: theme.accent,
+        borderWidth: selected ? 3 : hasData ? 1 : 1,
         borderType: (hasData ? 'solid' : 'dashed') as 'solid' | 'dashed',
+        opacity: hasData ? 1 : 0.55,
       },
       label: {
-        show: selected || (hasData && maxHeat > 0),
+        // 地名常驻。不能只在 hover 时出现——移动端没有 hover，
+        // 而且用户会截图（design-system.md §6.1）。
+        show: true,
         position: 'right' as const,
-        distance: 4,
-        formatter: c.name,
-        fontSize: 10,
-        fontWeight: (selected ? 'bold' : 'normal') as 'bold' | 'normal',
-        color: selected ? theme.accentStrong : theme.textDim,
+        distance: 5,
+        formatter: hasData ? `${c.name} ${fmtNumber(heat)}` : c.name,
+        fontSize: 11,
+        fontWeight: (selected ? 500 : 400) as 400 | 500,
+        color: hasData ? theme.text : theme.textDim,
       },
+      emphasis: { scale: 1.6 },
     }
   }
 
@@ -244,6 +254,8 @@ function buildOption(
         type: 'scatter',
         coordinateSystem: 'geo',
         z: 2,
+        // 重叠时把标签上下错开，而不是隐藏——隐藏等于那个城市消失了
+        labelLayout: { moveOverlap: 'shiftY' as const, hideOverlap: false },
         cursor: 'pointer',
         data: dim as unknown as ScatterData,
       },
@@ -252,6 +264,8 @@ function buildOption(
         type: 'scatter',
         coordinateSystem: 'geo',
         z: 3,
+        // 重叠时把标签上下错开，而不是隐藏——隐藏等于那个城市消失了
+        labelLayout: { moveOverlap: 'shiftY' as const, hideOverlap: false },
         cursor: 'pointer',
         emphasis: { scale: 1.12 },
         data: hot as unknown as ScatterData,

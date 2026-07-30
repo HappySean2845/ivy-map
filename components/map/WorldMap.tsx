@@ -18,7 +18,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   WORLD_MAP,
-  clamp,
   esc,
   fmtNumber,
   loadWorldMap,
@@ -39,6 +38,9 @@ interface Props {
 }
 
 type MapState = 'loading' | 'ready' | 'error'
+
+/** 所有点统一大小。够大才点得到，够小才不互相遮挡。 */
+const DOT = 11
 
 /**
  * 视野用 boundingCoords 而不是 center+zoom。
@@ -64,7 +66,6 @@ interface Point {
 }
 
 function buildOption(points: Point[], selectedId: string | null, t: MapTheme): ChartOption {
-  const maxVol = Math.max(1, ...points.map((p) => p.volume))
   const withData = points.filter((p) => p.hasData)
   const noData = points.filter((p) => !p.hasData)
 
@@ -116,23 +117,37 @@ function buildOption(points: Point[], selectedId: string | null, t: MapTheme): C
         type: 'scatter',
         coordinateSystem: 'geo',
         data: toData(noData),
-        symbolSize: 7,
+        symbolSize: DOT,
         itemStyle: {
           color: t.land,
           borderColor: t.ring,
           borderWidth: 1,
-          opacity: 0.5,
+          borderType: 'dashed',
+          opacity: 0.6,
         },
+        // 空心点的校名**不常驻**：28 所暂无数据的大学有 20 所挤在美国东岸
+        // 约 60×40px 的范围里，标签同时显示只会互相压死，谁也读不出来。
+        // 名字改由地图下方的可点列表承担（见组件底部）—— 那里既读得清，
+        // 也真的点得到。这里只在 hover / 选中时显示。
+        label: {
+          show: false,
+          position: 'right',
+          distance: 5,
+          formatter: (p: unknown) => (p as { data: Point }).data.nameCn,
+          color: t.textDim,
+          fontSize: 11,
+        },
+        emphasis: { scale: 1.6, label: { show: true } },
         z: 2,
       },
       {
         type: 'scatter',
         coordinateSystem: 'geo',
         data: toData(withData),
-        symbolSize: (_val: unknown, params: unknown) => {
-          const d = (params as { data: Point }).data
-          return clamp(14 + (d.volume / maxVol) * 24, 14, 38)
-        },
+        // 统一大小。原来按录取量缩放到 38px，大圆直接盖住旁边的点——
+        // 牛津和剑桥只差 1.4 个经度，在这个尺度下后者根本点不到。
+        // 录取量改由常驻标签里的数字承担，点只负责「在哪里」和「能点」。
+        symbolSize: DOT,
         itemStyle: {
           color: (params: unknown) => {
             const d = (params as { data: Point & { isSelected: boolean } }).data
@@ -147,15 +162,18 @@ function buildOption(points: Point[], selectedId: string | null, t: MapTheme): C
           show: true,
           position: 'right',
           distance: 7,
-          formatter: (p: unknown) => (p as { data: Point }).data.nameCn,
+          formatter: (p: unknown) => {
+            const d = (p as { data: Point }).data
+            return `${d.nameCn} ${fmtNumber(d.volume)}`
+          },
           color: t.text,
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: 500,
         },
-        // 牛津和剑桥经度只差 1.4 度，这个尺度下标名必然叠在一起。
-        // hideOverlap 让 ECharts 自己丢掉压住的那个，hover 仍能看到 tooltip。
-        labelLayout: { hideOverlap: true },
-        emphasis: { itemStyle: { borderWidth: 3 } },
+        // 重叠时错开而不是隐藏。牛津和剑桥只差 1.4 个经度，hideOverlap
+        // 会直接丢掉其中一个的标签，那所大学就等于从图上消失了。
+        labelLayout: { moveOverlap: 'shiftY', hideOverlap: false },
+        emphasis: { scale: 1.6, itemStyle: { borderWidth: 2.5 } },
         z: 3,
       },
     ],
@@ -239,10 +257,35 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
           </div>
         )}
       </div>
-      <p className="border-t border-ink/15 px-4 py-2 sm:px-6 text-[11px] leading-relaxed text-ink/40">
-        实心 = 已有录取数据（{withData} 所），点越大录取量越大 · 空心 = 已收录但暂无数据（
-        {points.length - withData} 所）· 底图只有陆地轮廓，不含国界
-      </p>
+      <div className="border-t border-ink/15 px-4 py-3 sm:px-6">
+        <p className="text-[11px] leading-relaxed text-ink/40">
+          实心 = 已有录取数据（{withData} 所），标签后的数字是近三届加权录取人数 · 空心 =
+          已收录但暂无数据（{points.length - withData} 所）· 底图只有陆地轮廓，不含国界
+        </p>
+
+        {/* 大学名单放在地图下方而不是标在点上。
+            30 个点里有 20 个挤在美国东岸巴掌大的地方，标在图上必然互相压死；
+            列在下面既读得清，也点得到（地图上那种像素级的点在触屏上根本按不中）。 */}
+        <div className="scroll-x mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px]">
+          {points.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => onSelect(p.id)}
+              title={p.nameEn}
+              className={`whitespace-nowrap ${
+                p.id === selectedId
+                  ? 'bg-ink px-1 text-paper'
+                  : p.hasData
+                    ? 'text-ink underline decoration-ink/30 underline-offset-2'
+                    : 'text-ink/35'
+              }`}
+            >
+              {p.nameCn}
+              {p.hasData ? ` ${fmtNumber(p.volume)}` : ''}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
