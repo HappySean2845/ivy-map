@@ -129,6 +129,38 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
 
   return (
     <div className="flex h-full w-full flex-col">
+      {/* 城市列表放在地图上方，和左图的区域按钮 + 大学列表对称。
+             选城市和看名单是同一个动作，中间不该隔一张图。 */}
+      <div className="flex min-h-[42px] flex-wrap items-center gap-x-1 gap-y-1 border-b border-ink/15 px-4 py-2 sm:px-6">
+        <span className="label mr-2 text-ink/40">CITY</span>
+        <span className="text-[11px] text-ink/40">
+          生源校所在城市 · 点一下筛选榜单，再点一次取消
+        </span>
+      </div>
+
+      <div className="scroll-x flex flex-wrap gap-x-4 gap-y-1.5 border-b border-ink/15 px-4 py-2.5 text-[11px] sm:px-6">
+        {cities.map((c) => {
+          const heat = heatByCityId[c.id] ?? 0
+          const on = c.id === selectedCityId
+          return (
+            <button
+              key={c.id}
+              onClick={() => onSelect(on ? null : c.id)}
+              className={`whitespace-nowrap ${
+                on
+                  ? 'bg-ink px-1 text-paper'
+                  : heat > 0
+                    ? 'text-ink underline decoration-ink/30 underline-offset-2'
+                    : 'text-ink/35'
+              }`}
+            >
+              {c.name}
+              {heat > 0 ? ` ${fmtNumber(heat)}` : ''}
+            </button>
+          )
+        })}
+      </div>
+
       <div className="relative h-[300px] w-full sm:h-[440px]">
         <div
           ref={boxRef}
@@ -172,38 +204,10 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
         )}
       </div>
 
-      <div className="shrink-0 border-t border-ink/15 px-4 py-3 sm:px-6">
-        <p className="text-[11px] leading-relaxed text-ink/40">
-          实心 = 该城市有生源校数据，标签后的数字是近三届加权录取人数 · 空心 =
-          已收录学校但暂无数据 · 点城市可筛选榜单，再点一次取消
-        </p>
-
-        {/* 城市列表，和左图下面的大学列表对称。
-            地图上的点是像素级的，触屏根本按不中；列表里每一项都是正常的
-            点击目标，而且城市名读得清。 */}
-        <div className="scroll-x mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px]">
-          {cities.map((c) => {
-            const heat = heatByCityId[c.id] ?? 0
-            const on = c.id === selectedCityId
-            return (
-              <button
-                key={c.id}
-                onClick={() => onSelect(on ? null : c.id)}
-                className={`whitespace-nowrap ${
-                  on
-                    ? 'bg-ink px-1 text-paper'
-                    : heat > 0
-                      ? 'text-ink underline decoration-ink/30 underline-offset-2'
-                      : 'text-ink/35'
-                }`}
-              >
-                {c.name}
-                {heat > 0 ? ` ${fmtNumber(heat)}` : ''}
-              </button>
-            )
-          })}
-        </div>
-      </div>
+      <p className="shrink-0 border-t border-ink/15 px-4 py-2 text-[11px] leading-relaxed text-ink/40 sm:px-6">
+        实心 = 该城市有生源校数据，标签后的数字是近三届加权录取人数 · 空心 =
+        已收录学校但暂无数据，名字见上方列表
+      </p>
     </div>
   )
 }

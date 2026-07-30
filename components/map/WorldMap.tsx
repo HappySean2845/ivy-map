@@ -306,7 +306,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
 
   return (
     <div className="flex h-full w-full flex-col">
-      <div className="flex flex-wrap items-center gap-x-1 gap-y-1 border-b border-ink/15 px-4 py-2 sm:px-6">
+      <div className="flex min-h-[42px] flex-wrap items-center gap-x-1 gap-y-1 border-b border-ink/15 px-4 py-2 sm:px-6">
         <span className="label mr-2 text-ink/40">ZOOM</span>
         {REGIONS.map((r) => {
           const n =
