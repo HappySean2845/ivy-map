@@ -99,7 +99,7 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
 
   return (
     <div className="flex h-full w-full flex-col">
-      <div className="relative h-[320px] w-full sm:h-[460px]">
+      <div className="relative h-[300px] w-full sm:h-[440px]">
         <div
           ref={boxRef}
           className="h-full w-full"
@@ -142,7 +142,7 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
         )}
       </div>
 
-      <p className="mt-2 shrink-0 text-[11px] leading-relaxed text-ink/40">
+      <p className="shrink-0 border-t border-ink/15 px-4 py-2 text-[11px] leading-relaxed text-ink/40 sm:px-6">
         点的大小 = 该城市生源校的近三年加权录取人数；灰点 =
         已收录但暂无数据。点城市可筛选榜单，再点一次取消。
       </p>

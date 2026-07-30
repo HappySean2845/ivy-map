@@ -120,13 +120,62 @@ export default function HomeClient() {
 
   return (
     <>
-      {/* ── 当前视图。这一行是动态的（跟着选择变），所以留在 client；
-             产品说明那部分是静态的，已经搬到 page.tsx 由服务端直出，
-             否则 SSR 出来的 HTML 里只有 Suspense 兜底，SEO 和
-             「5 秒自解释」（US-1.0）双双落空。 */}
+      {/* ── 双屏地图前置。
+             地图是**控制器**：在上面选大学、选城市，下面的榜单整个跟着变。
+             控制器就该在它所控制的东西前面 —— 之前放在榜单之后，用户点完
+             地图还得往回滚才能看到变化，是反的。
+
+             左右布局 + 全幅撑满：并排时每张图拿到约 50vw × 400px 的横向容器，
+             世界地图（280°×50° 的极扁横向）终于填得满；上一版竖向容器怎么调
+             视野都只能缩成一颗小地球。移动端没有横向空间，退回上下堆叠。 */}
+      <section className="mt-12 sm:mt-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-8">
+          <p className="label text-ink/40">01 / MAP · 先选目标</p>
+          <hr className="mt-2 border-ink" />
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink/60">
+            左图点一所大学，右图立刻按生源校所在城市点亮，下面的榜单也跟着换。
+            首版只做英国方向，所以 {dataset.universities.length}{' '}
+            所大学里目前只有牛津和剑桥有录取数据， 其余是空心点 ——
+            不是地图坏了，是那些方向的单校数据拿不到（见{' '}
+            <a href="/about" className="text-ink/80">
+              关于页
+            </a>
+            ）。
+          </p>
+        </div>
+
+        {/* 全幅撑满：地图不受 max-w-6xl 约束，跟着屏幕走 */}
+        <div className="mt-5 grid border-y border-ink lg:grid-cols-2">
+          <div className="border-ink lg:border-r">
+            <WorldMap
+              universities={dataset.universities}
+              volumeById={volumeById}
+              selectedId={universityId}
+              onSelect={(id) => commit({ ...filters, universityId: id })}
+            />
+          </div>
+          <div className="border-t border-ink lg:border-t-0">
+            <ChinaMap
+              cities={dataset.cities}
+              heatByCityId={heatByCityId}
+              selectedCityId={filters.cityId}
+              onSelect={(id) => commit({ ...filters, cityId: id })}
+            />
+          </div>
+        </div>
+
+        {university && (
+          <div className="mx-auto max-w-6xl px-4 sm:px-8">
+            <p className="mt-5 max-w-3xl text-sm leading-relaxed text-ink/60">
+              {leverageCopy(university.leverage?.level ?? null, university.nameCn)}
+            </p>
+          </div>
+        )}
+      </section>
+
       {/* ── 可行性闸门 */}
-      <section className="mt-14 sm:mt-20">
-        <p className="label text-ink/40">01 / ELIGIBILITY</p>
+      <section className="mx-auto max-w-6xl px-4 sm:px-8 mt-14 sm:mt-20">
+        <p className="label text-ink/40">02 / ELIGIBILITY</p>
         <hr className="mt-2 border-ink" />
         <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">先看你报不报得了</h2>
         <div className="mt-6">
@@ -139,8 +188,8 @@ export default function HomeClient() {
       </section>
 
       {/* ── 榜单 */}
-      <section className="mt-14 sm:mt-20">
-        <p className="label text-ink/40">02 / RANKING</p>
+      <section className="mx-auto max-w-6xl px-4 sm:px-8 mt-14 sm:mt-20">
+        <p className="label text-ink/40">03 / RANKING</p>
         <hr className="mt-2 border-ink" />
         <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">
           {university ? `${university.nameCn}的中国生源校` : '中国大陆生源校'}
@@ -197,54 +246,6 @@ export default function HomeClient() {
             </div>
           )}
         </div>
-      </section>
-
-      {/* ── 双屏地图放在榜单之后。
-             原本它在最前面，占满整个首屏，把榜单和滑杆全推到折叠以下 ——
-             而滑杆的自动演示是 US-1.0 的核心，访客落地根本看不到。
-             「这是反着用的」已经由主标题和说明段落完成，地图从「第一视觉锤」
-             降级为「换一所大学看看」的探索工具：先给答案，再给工具。 */}
-      <section className="mt-14 sm:mt-20">
-        <p className="label text-ink/40">03 / MAP</p>
-        <hr className="mt-2 border-ink" />
-        <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">换一所大学，或换一个城市</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">
-          上图是我们收录的 {dataset.universities.length} 所大学，下图是生源校的城市分布。
-          首版只做英国方向，所以目前只有牛津和剑桥有录取数据，其余 28 所是空心点 ——
-          不是地图坏了，是那些方向的单校数据拿不到（见{' '}
-          <a href="/about" className="text-ink/80">
-            关于页
-          </a>
-          ）。
-        </p>
-
-        {/* 上下两条全幅横带，不并排。
-               并排时每张图只有约 330×500 的竖向容器，而世界地图内容是
-               280°×50° 的极扁横向——怎么调视野都填不满，只能缩成一颗小地球。
-               各自拿到合适的比例，图才立得住。 */}
-        <div className="mt-6 border border-ink">
-          <WorldMap
-            universities={dataset.universities}
-            volumeById={volumeById}
-            selectedId={universityId}
-            onSelect={(id) => commit({ ...filters, universityId: id })}
-          />
-        </div>
-
-        <div className="mt-5 border border-ink">
-          <ChinaMap
-            cities={dataset.cities}
-            heatByCityId={heatByCityId}
-            selectedCityId={filters.cityId}
-            onSelect={(id) => commit({ ...filters, cityId: id })}
-          />
-        </div>
-
-        {university && (
-          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-ink/60">
-            {leverageCopy(university.leverage?.level ?? null, university.nameCn)}
-          </p>
-        )}
       </section>
 
       {/* ── 对比 */}

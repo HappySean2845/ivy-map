@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-07-30T03:48:10.366Z",
+  "builtAt": "2026-07-30T06:54:45.152Z",
   "cities": [
     {
       "id": "shanghai",
@@ -306,10 +306,7 @@
       "lng": 0.1178,
       "lat": 52.2043,
       "cai": null,
-      "leverage": {
-        "hhi": 0.33117560603861257,
-        "level": "high"
-      }
+      "leverage": null
     },
     {
       "id": "imperial",
@@ -1852,28 +1849,6 @@
       "basis": "admits",
       "confidence": "L1",
       "sourceId": "keystone-2023-official"
-    },
-    {
-      "schoolId": "hzwy",
-      "universityId": "cambridge",
-      "year": 2024,
-      "track": "ALEVEL",
-      "admits": 6,
-      "offers": null,
-      "basis": "admits",
-      "confidence": "L2",
-      "sourceId": "ixedu-hz-2024"
-    },
-    {
-      "schoolId": "hzwy",
-      "universityId": "oxford",
-      "year": 2024,
-      "track": "ALEVEL",
-      "admits": 1,
-      "offers": null,
-      "basis": "admits",
-      "confidence": "L2",
-      "sourceId": "ixedu-hz-2024"
     }
   ],
   "sources": [
@@ -1953,7 +1928,7 @@
       "id": "pinghe-oxbridge-2025",
       "type": "media",
       "title": "上海平和双语学校2025届藤校&牛剑录取成绩（远播国际教育）",
-      "url": "http://m.guoji.114study.com/news/23580/all/",
+      "url": "https://m.guoji.114study.com/news/23580/all/",
       "publishedAt": "2025-04-01",
       "capturedAt": "2026-07-29",
       "confidence": "L2"
@@ -1962,7 +1937,7 @@
       "id": "pinghe-track-2025",
       "type": "media",
       "title": "上海平和2025升学成绩汇总！IB和AP方向如何选择？（远播国际教育）",
-      "url": "http://m.guoji.114study.com/school/417/news/24715/",
+      "url": "https://m.guoji.114study.com/school/417/news/24715/",
       "publishedAt": "2025-05-28",
       "capturedAt": "2026-07-29",
       "confidence": "L2"
@@ -2016,7 +1991,7 @@
       "id": "bendibao-oxbridge-sz-2023",
       "type": "media",
       "title": "2023深圳学校牛津剑桥预录取情况一览",
-      "url": "http://sz.bendibao.com/edu/2023129/914273.shtm",
+      "url": "https://sz.bendibao.com/edu/2023129/914273.shtm",
       "publishedAt": "2023-01-29",
       "capturedAt": "2026-07-29",
       "confidence": "L2"
@@ -2160,7 +2135,7 @@
       "id": "xinghewan-2025-gjxx",
       "type": "media",
       "title": "上海星河湾双语学校2025届升学录取喜报",
-      "url": "http://www.guojixuexiao.org/school/xhwsyxx/news/20205.html",
+      "url": "https://www.guojixuexiao.org/school/xhwsyxx/news/20205.html",
       "publishedAt": null,
       "capturedAt": "2026-07-29",
       "confidence": "L2"
@@ -2169,7 +2144,7 @@
       "id": "xinghewan-2024-gjxx",
       "type": "media",
       "title": "上海星河湾双语学校2024届升学录取喜报",
-      "url": "http://m.guojixuexiao.net/ischool/xhwsy/news/13721.html",
+      "url": "https://m.guojixuexiao.net/ischool/xhwsy/news/13721.html",
       "publishedAt": null,
       "capturedAt": "2026-07-29",
       "confidence": "L2"
@@ -2196,7 +2171,7 @@
       "id": "basis-sz-2025-gjxx",
       "type": "media",
       "title": "2025年深圳贝赛思国际学校斩获170份大学录取通知书",
-      "url": "http://m.guojixuexiao.net/ischool/basis/news/15915.html",
+      "url": "https://m.guojixuexiao.net/ischool/basis/news/15915.html",
       "publishedAt": null,
       "capturedAt": "2026-07-29",
       "confidence": "L2"

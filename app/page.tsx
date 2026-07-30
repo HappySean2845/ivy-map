@@ -45,10 +45,10 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="mx-auto max-w-6xl px-4 pb-24 sm:px-8">
+      <main className="pb-24">
         {/* ── HERO。建筑式背景字 + 巨型标题（design-system.md §5）。
                背景字永远不承载可读信息，只做尺度和纵深，全站只用这一次。 */}
-        <header className="relative isolate pt-10 sm:pt-16">
+        <header className="relative isolate mx-auto max-w-6xl px-4 pt-10 sm:px-8 sm:pt-16">
           <div
             aria-hidden="true"
             className="scaffold pointer-events-none absolute -top-8 -left-6 z-0 select-none sm:-top-20"

@@ -217,7 +217,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
 
   return (
     <div className="flex h-full w-full flex-col">
-      <div className="relative h-[260px] w-full sm:h-[380px]">
+      <div className="relative h-[300px] w-full sm:h-[440px]">
         <div
           ref={boxRef}
           className="absolute inset-0"
@@ -239,7 +239,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
           </div>
         )}
       </div>
-      <p className="border-t border-ink/15 px-3 py-2 text-[11px] leading-relaxed text-ink/40">
+      <p className="border-t border-ink/15 px-4 py-2 sm:px-6 text-[11px] leading-relaxed text-ink/40">
         实心 = 已有录取数据（{withData} 所），点越大录取量越大 · 空心 = 已收录但暂无数据（
         {points.length - withData} 所）· 底图只有陆地轮廓，不含国界
       </p>
