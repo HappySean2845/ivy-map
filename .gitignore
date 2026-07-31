@@ -5,6 +5,7 @@ venv/
 *.db
 *.sqlite3
 .env
+.data/
 .DS_Store
 .idea/
 .vscode/

@@ -18,6 +18,10 @@ export function dataStatus() {
     (s) => s.requirement.sourceId != null || s.requirement.nationality !== 'unknown',
   ).length
   const withDenominator = cohorts.filter((c) => c.graduates != null).length
+  const officialAdmissions = universities.reduce(
+    (count, university) => count + university.officialAdmissions.length,
+    0,
+  )
 
   // 首屏要讲的两个数（见下方注释）
   const schoolsWithAdmissions = new Set(admissions.map((a) => a.schoolId)).size
@@ -31,6 +35,7 @@ export function dataStatus() {
     sources: dataset.sources.length,
     schools: schools.length,
     universities: universities.length,
+    officialAdmissions,
     verifiedSchools: schools.filter((s) => s.verified).length,
     requirementCoverage: schools.length ? withRequirement / schools.length : 0,
     denominatorCoverage: cohorts.length ? withDenominator / cohorts.length : 0,

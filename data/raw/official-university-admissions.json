@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "records": [
+    {
+      "universityId": "cmu",
+      "academicYearStart": 2025,
+      "applied": 34867,
+      "admitted": 3859,
+      "enrolled": 1804,
+      "dimensions": {
+        "term": "fall",
+        "campus": "Pittsburgh",
+        "cohort": "first_time_first_year",
+        "population": "degree_seeking"
+      },
+      "confidence": "L1",
+      "sourceId": "cmu-official",
+      "sourceTitle": "Carnegie Mellon University (CMU) official Common Data Set",
+      "sourceUrl": "https://www.cmu.edu/ira/CDS/pdf/cds_2025_26/cds-2025-c-first-time-first-year-admission.pdf",
+      "capturedAt": "2026-07-31"
+    },
+    {
+      "universityId": "harvard",
+      "academicYearStart": 2025,
+      "applied": 47893,
+      "admitted": 2003,
+      "enrolled": 1675,
+      "dimensions": {
+        "term": "fall",
+        "cohort": "first_time_first_year",
+        "population": "degree_seeking"
+      },
+      "confidence": "L1",
+      "sourceId": "harvard-official",
+      "sourceTitle": "Harvard University official Common Data Set",
+      "sourceUrl": "https://bpb-us-e1.wpmucdn.com/sites.harvard.edu/dist/6/210/files/2026/07/CDS_2025-2026.pdf",
+      "capturedAt": "2026-07-31"
+    },
+    {
+      "universityId": "caltech",
+      "academicYearStart": 2024,
+      "applied": 13856,
+      "admitted": 356,
+      "enrolled": 218,
+      "dimensions": {
+        "term": "fall",
+        "cohort": "first_time_first_year",
+        "population": "degree_seeking"
+      },
+      "confidence": "L1",
+      "sourceId": "caltech-official",
+      "sourceTitle": "Caltech official Common Data Set",
+      "sourceUrl": "https://finance.caltech.edu/documents/31472/cds_2025.pdf",
+      "capturedAt": "2026-07-31"
+    },
+    {
+      "universityId": "northwestern",
+      "academicYearStart": 2024,
+      "applied": 49474,
+      "admitted": 3806,
+      "enrolled": 2105,
+      "dimensions": {
+        "term": "fall",
+        "cohort": "first_time_first_year",
+        "population": "degree_seeking"
+      },
+      "confidence": "L1",
+      "sourceId": "northwestern-official",
+      "sourceTitle": "Northwestern University official Common Data Set",
+      "sourceUrl": "https://enrollment.northwestern.edu/data/2024-2025.pdf",
+      "capturedAt": "2026-07-31"
+    },
+    {
+      "universityId": "uchicago",
+      "academicYearStart": 2024,
+      "applied": 43612,
+      "admitted": 1955,
+      "enrolled": 1726,
+      "dimensions": {
+        "term": "fall",
+        "cohort": "first_time_first_year",
+        "population": "degree_seeking"
+      },
+      "confidence": "L1",
+      "sourceId": "uchicago-official",
+      "sourceTitle": "University of Chicago official Common Data Set",
+      "sourceUrl": "https://bpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/8/2077/files/2025/08/CDS_2024-2025_to_publish.pdf",
+      "capturedAt": "2026-07-31"
+    },
+    {
+      "universityId": "cornell",
+      "academicYearStart": 2023,
+      "applied": 67846,
+      "admitted": 5358,
+      "enrolled": 3537,
+      "dimensions": {
+        "term": "fall",
+        "cohort": "first_time_first_year",
+        "population": "degree_seeking"
+      },
+      "confidence": "L1",
+      "sourceId": "cornell-official",
+      "sourceTitle": "Cornell University official Common Data Set",
+      "sourceUrl": "https://irp.cornell.edu/wp-content/uploads/2024/08/CDS_UNL2_2023_2024-v11.xlsx",
+      "capturedAt": "2026-07-31"
+    },
+    {
+      "universityId": "uw",
+      "academicYearStart": 2023,
+      "applied": 62428,
+      "admitted": 26552,
+      "enrolled": 7006,
+      "dimensions": {
+        "term": "fall",
+        "campus": "Seattle",
+        "cohort": "first_time_first_year",
+        "population": "degree_seeking"
+      },
+      "confidence": "L1",
+      "sourceId": "uw-official",
+      "sourceTitle": "University of Washington official Common Data Set",
+      "sourceUrl": "https://uw-s3-cdn.s3.us-west-2.amazonaws.com/wp-content/uploads/sites/162/2024/03/01124227/CDS_Seattle_2023_2024.xlsx",
+      "capturedAt": "2026-07-31"
+    }
+  ]
+}

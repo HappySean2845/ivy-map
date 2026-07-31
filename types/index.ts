@@ -59,6 +59,18 @@ export interface University {
   } | null
   /** 择校杠杆率。null = 样本不足，UI 必须显示「样本不足」而不是给结论 */
   leverage: { hhi: number; level: 'high' | 'mid' | 'low' } | null
+  /** 大学官方全校招生口径；与中国高中生源校 placement 数据严格分开。 */
+  officialAdmissions: OfficialAdmissionsSnapshot[]
+}
+
+export interface OfficialAdmissionsSnapshot {
+  academicYearStart: number
+  applied: number
+  admitted: number
+  enrolled: number
+  campus: string | null
+  confidence: Confidence
+  sourceId: string
 }
 
 /** 可行性闸门的准入条件（PRD E2）。所有字段允许 'unknown'，但不允许缺失。 */

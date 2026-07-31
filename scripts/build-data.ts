@@ -50,6 +50,20 @@ function readCsv(name: string): Record<string, string>[] {
   return data
 }
 
+function readJson(name: string): unknown {
+  const path = resolve(RAW, name)
+  if (!existsSync(path)) {
+    fail(`缺少数据文件：data/raw/${name}`)
+    return null
+  }
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'))
+  } catch (error) {
+    fail(`${name} JSON 解析失败：${error instanceof Error ? error.message : String(error)}`)
+    return null
+  }
+}
+
 const str = (v: string | undefined) => {
   const s = (v ?? '').trim()
   return s === '' ? null : s
@@ -74,6 +88,29 @@ const list = (v: string | undefined, sep = '|') =>
 // --- Schema -----------------------------------------------------------------
 
 const TrackEnum = z.enum(TRACKS)
+const OfficialAdmissionsInputSchema = z.object({
+  schemaVersion: z.literal(1),
+  records: z.array(
+    z.object({
+      universityId: z.string().min(1),
+      academicYearStart: z.number().int().min(1900).max(2100),
+      applied: z.number().int().nonnegative(),
+      admitted: z.number().int().nonnegative(),
+      enrolled: z.number().int().nonnegative(),
+      dimensions: z.object({
+        term: z.literal('fall'),
+        campus: z.string().min(1).optional(),
+        cohort: z.literal('first_time_first_year'),
+        population: z.literal('degree_seeking'),
+      }),
+      confidence: z.enum(CONFIDENCES),
+      sourceId: z.string().min(1),
+      sourceTitle: z.string().min(1),
+      sourceUrl: z.url(),
+      capturedAt: z.iso.date(),
+    }),
+  ),
+})
 const trackOf = (v: string | undefined, ctx: string): Track | null => {
   const p = TrackEnum.safeParse(str(v))
   if (!p.success) {
@@ -102,6 +139,18 @@ const rawUniversities = readCsv('universities.csv').map((r) => ({
   lng: num(r.lng) ?? 0,
   lat: num(r.lat) ?? 0,
 }))
+
+const officialAdmissionsParsed = OfficialAdmissionsInputSchema.safeParse(
+  readJson('official-university-admissions.json'),
+)
+if (!officialAdmissionsParsed.success) {
+  for (const issue of officialAdmissionsParsed.error.issues) {
+    fail(`official-university-admissions.json ${issue.path.join('.')}：${issue.message}`)
+  }
+}
+const officialAdmissionRecords = officialAdmissionsParsed.success
+  ? officialAdmissionsParsed.data.records
+  : []
 
 const requirementRows = readCsv('requirements.csv')
 const requirementBySchool = new Map(requirementRows.map((r) => [r.school_id, r]))
@@ -157,7 +206,7 @@ const schools = readCsv('schools.csv').map((r) => {
   }
 })
 
-const sources = readCsv('sources.csv').map((r) => ({
+const placementSources = readCsv('sources.csv').map((r) => ({
   id: r.id,
   type: (str(r.type) ?? 'official') as 'official' | 'media' | 'report' | 'crowdsourced',
   title: r.title,
@@ -166,9 +215,89 @@ const sources = readCsv('sources.csv').map((r) => ({
   capturedAt: str(r.captured_at) ?? '',
   confidence: (str(r.confidence) ?? 'L3') as (typeof CONFIDENCES)[number],
 }))
+const officialSourceById = new Map<
+  string,
+  {
+    id: string
+    type: 'official'
+    title: string
+    url: string
+    publishedAt: null
+    capturedAt: string
+    confidence: (typeof CONFIDENCES)[number]
+  }
+>()
+for (const record of officialAdmissionRecords) {
+  const existing = officialSourceById.get(record.sourceId)
+  if (
+    existing &&
+    (existing.title !== record.sourceTitle || existing.url !== record.sourceUrl)
+  ) {
+    fail(`官方来源 ${record.sourceId} 在发布数据中出现不一致的标题或 URL`)
+    continue
+  }
+  officialSourceById.set(record.sourceId, {
+    id: record.sourceId,
+    type: 'official',
+    title: record.sourceTitle,
+    url: record.sourceUrl,
+    publishedAt: null,
+    capturedAt: record.capturedAt,
+    confidence: record.confidence,
+  })
+}
+const placementSourceIds = new Set(placementSources.map((source) => source.id))
+for (const sourceId of officialSourceById.keys()) {
+  if (placementSourceIds.has(sourceId)) fail(`来源 ID 重复：${sourceId}`)
+}
+const sources = [...placementSources, ...officialSourceById.values()]
 const sourceIds = new Set(sources.map((s) => s.id))
 const schoolIds = new Set(schools.map((s) => s.id))
 const universityIds = new Set(rawUniversities.map((u) => u.id))
+
+const officialAdmissionsByUniversity = new Map<
+  string,
+  Array<{
+    academicYearStart: number
+    applied: number
+    admitted: number
+    enrolled: number
+    campus: string | null
+    confidence: (typeof CONFIDENCES)[number]
+    sourceId: string
+  }>
+>()
+const officialAdmissionKeys = new Set<string>()
+for (const record of officialAdmissionRecords) {
+  if (!universityIds.has(record.universityId)) {
+    fail(`官方招生数据引用了不存在的大学：${record.universityId}`)
+    continue
+  }
+  if (record.admitted > record.applied) {
+    fail(`大学 ${record.universityId}：录取数不能高于申请数`)
+  }
+  if (record.enrolled > record.admitted) {
+    fail(`大学 ${record.universityId}：入学数不能高于录取数`)
+  }
+  const campus = record.dimensions.campus ?? null
+  const key = `${record.universityId}|${record.academicYearStart}|${campus ?? ''}`
+  if (officialAdmissionKeys.has(key)) {
+    fail(`官方招生数据重复：${key}`)
+    continue
+  }
+  officialAdmissionKeys.add(key)
+  const snapshots = officialAdmissionsByUniversity.get(record.universityId) ?? []
+  snapshots.push({
+    academicYearStart: record.academicYearStart,
+    applied: record.applied,
+    admitted: record.admitted,
+    enrolled: record.enrolled,
+    campus,
+    confidence: record.confidence,
+    sourceId: record.sourceId,
+  })
+  officialAdmissionsByUniversity.set(record.universityId, snapshots)
+}
 
 const cohorts: Cohort[] = readCsv('cohorts.csv').flatMap((r, i) => {
   const track = trackOf(r.track, `cohorts.csv 第 ${i + 2} 行`)
@@ -279,7 +408,10 @@ const universities = rawUniversities.map((u) => {
     cohorts,
     alpha: 1,
   })
-  return { ...u, cai: null, leverage: computeLeverage(rows) }
+  const officialAdmissions = (officialAdmissionsByUniversity.get(u.id) ?? []).sort(
+    (left, right) => right.academicYearStart - left.academicYearStart,
+  )
+  return { ...u, cai: null, leverage: computeLeverage(rows), officialAdmissions }
 })
 
 // --- 首屏默认组合（PRD US-1.0）---------------------------------------------
@@ -347,6 +479,26 @@ if (admissions.length === 0) {
   if (unsourced > 0) fail(`有 ${unsourced} 条录取记录没有有效来源`)
 }
 
+for (const universityId of ['oxford', 'cambridge']) {
+  if (!universityIds.has(universityId)) fail(`强制保留大学缺失：${universityId}`)
+  if (!admissions.some((admission) => admission.universityId === universityId)) {
+    fail(`强制保留的 ${universityId} 生源校录取数据为空`)
+  }
+}
+for (const universityId of [
+  'harvard',
+  'cmu',
+  'caltech',
+  'uchicago',
+  'northwestern',
+  'cornell',
+  'uw',
+]) {
+  if (!officialAdmissionsByUniversity.has(universityId)) {
+    fail(`已复核官方招生数据缺失：${universityId}`)
+  }
+}
+
 const unverified = schools.filter((s) => !s.verified).length
 if (unverified > 0)
   warn(`${unverified} / ${schools.length} 所学校的身份信息尚未人工核对（verified=no）`)
@@ -376,6 +528,7 @@ console.log('IVY Map 数据构建')
 console.log('='.repeat(64))
 console.log(`城市 ${cities.length} · 大学 ${universities.length} · 高中 ${schools.length}`)
 console.log(`录取记录 ${admissions.length} · 届次 ${cohorts.length} · 来源 ${sources.length}`)
+console.log(`官方招生快照 ${officialAdmissionRecords.length}`)
 console.log(
   `门槛数据 ${schools.length - noRequirement}/${schools.length} · 分母覆盖 ${(denomCoverage * 100).toFixed(0)}%`,
 )

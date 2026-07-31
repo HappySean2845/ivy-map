@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-07-30T11:52:59.575Z",
+  "builtAt": "2026-07-31T15:24:22.660Z",
   "cities": [
     {
       "id": "shanghai",
@@ -75,7 +75,18 @@
       "lng": -71.1167,
       "lat": 42.377,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 47893,
+          "admitted": 2003,
+          "enrolled": 1675,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "harvard-official"
+        }
+      ]
     },
     {
       "id": "yale",
@@ -86,7 +97,8 @@
       "lng": -72.9223,
       "lat": 41.3163,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "princeton",
@@ -97,7 +109,8 @@
       "lng": -74.6551,
       "lat": 40.3431,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "columbia",
@@ -108,7 +121,8 @@
       "lng": -73.9626,
       "lat": 40.8075,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "brown",
@@ -119,7 +133,8 @@
       "lng": -71.4025,
       "lat": 41.8268,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "dartmouth",
@@ -130,7 +145,8 @@
       "lng": -72.2887,
       "lat": 43.7044,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "upenn",
@@ -141,7 +157,8 @@
       "lng": -75.1932,
       "lat": 39.9522,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "cornell",
@@ -152,7 +169,18 @@
       "lng": -76.4735,
       "lat": 42.4534,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2023,
+          "applied": 67846,
+          "admitted": 5358,
+          "enrolled": 3537,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "cornell-official"
+        }
+      ]
     },
     {
       "id": "mit",
@@ -163,7 +191,8 @@
       "lng": -71.0942,
       "lat": 42.3601,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "stanford",
@@ -174,7 +203,8 @@
       "lng": -122.1697,
       "lat": 37.4275,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "caltech",
@@ -185,7 +215,18 @@
       "lng": -118.1253,
       "lat": 34.1377,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2024,
+          "applied": 13856,
+          "admitted": 356,
+          "enrolled": 218,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "caltech-official"
+        }
+      ]
     },
     {
       "id": "uchicago",
@@ -196,7 +237,18 @@
       "lng": -87.5987,
       "lat": 41.7886,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2024,
+          "applied": 43612,
+          "admitted": 1955,
+          "enrolled": 1726,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "uchicago-official"
+        }
+      ]
     },
     {
       "id": "duke",
@@ -207,7 +259,8 @@
       "lng": -78.9382,
       "lat": 36.0014,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "northwestern",
@@ -218,7 +271,18 @@
       "lng": -87.6753,
       "lat": 42.0565,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2024,
+          "applied": 49474,
+          "admitted": 3806,
+          "enrolled": 2105,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "northwestern-official"
+        }
+      ]
     },
     {
       "id": "jhu",
@@ -229,7 +293,8 @@
       "lng": -76.6205,
       "lat": 39.3299,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "nyu",
@@ -240,7 +305,8 @@
       "lng": -73.9965,
       "lat": 40.7295,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "berkeley",
@@ -251,7 +317,8 @@
       "lng": -122.2585,
       "lat": 37.8719,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "ucla",
@@ -262,7 +329,8 @@
       "lng": -118.4452,
       "lat": 34.0689,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "cmu",
@@ -273,7 +341,18 @@
       "lng": -79.9436,
       "lat": 40.4433,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 34867,
+          "admitted": 3859,
+          "enrolled": 1804,
+          "campus": "Pittsburgh",
+          "confidence": "L1",
+          "sourceId": "cmu-official"
+        }
+      ]
     },
     {
       "id": "umich",
@@ -284,7 +363,30 @@
       "lng": -83.7382,
       "lat": 42.278,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
+    },
+    {
+      "id": "uw",
+      "nameCn": "华盛顿大学",
+      "nameEn": "University of Washington",
+      "country": "US",
+      "city": "Seattle WA",
+      "lng": -122.3035,
+      "lat": 47.6553,
+      "cai": null,
+      "leverage": null,
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2023,
+          "applied": 62428,
+          "admitted": 26552,
+          "enrolled": 7006,
+          "campus": "Seattle",
+          "confidence": "L1",
+          "sourceId": "uw-official"
+        }
+      ]
     },
     {
       "id": "oxford",
@@ -298,7 +400,8 @@
       "leverage": {
         "hhi": 0.2727286993228665,
         "level": "high"
-      }
+      },
+      "officialAdmissions": []
     },
     {
       "id": "cambridge",
@@ -312,7 +415,8 @@
       "leverage": {
         "hhi": 0.25564072820897626,
         "level": "high"
-      }
+      },
+      "officialAdmissions": []
     },
     {
       "id": "imperial",
@@ -323,7 +427,8 @@
       "lng": -0.1749,
       "lat": 51.4988,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "lse",
@@ -334,7 +439,8 @@
       "lng": -0.1167,
       "lat": 51.5144,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "ucl",
@@ -345,7 +451,8 @@
       "lng": -0.134,
       "lat": 51.5246,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "hku",
@@ -356,7 +463,8 @@
       "lng": 114.1372,
       "lat": 22.283,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "hkust",
@@ -367,7 +475,8 @@
       "lng": 114.2632,
       "lat": 22.3364,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "cuhk",
@@ -378,7 +487,8 @@
       "lng": 114.2069,
       "lat": 22.4196,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "toronto",
@@ -389,7 +499,8 @@
       "lng": -79.3957,
       "lat": 43.6629,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     },
     {
       "id": "utokyo",
@@ -400,7 +511,8 @@
       "lng": 139.762,
       "lat": 35.7128,
       "cai": null,
-      "leverage": null
+      "leverage": null,
+      "officialAdmissions": []
     }
   ],
   "schools": [
@@ -2703,6 +2815,69 @@
       "publishedAt": "2025-04-27",
       "capturedAt": "2026-07-30",
       "confidence": "L3"
+    },
+    {
+      "id": "cmu-official",
+      "type": "official",
+      "title": "Carnegie Mellon University (CMU) official Common Data Set",
+      "url": "https://www.cmu.edu/ira/CDS/pdf/cds_2025_26/cds-2025-c-first-time-first-year-admission.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "harvard-official",
+      "type": "official",
+      "title": "Harvard University official Common Data Set",
+      "url": "https://bpb-us-e1.wpmucdn.com/sites.harvard.edu/dist/6/210/files/2026/07/CDS_2025-2026.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "caltech-official",
+      "type": "official",
+      "title": "Caltech official Common Data Set",
+      "url": "https://finance.caltech.edu/documents/31472/cds_2025.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "northwestern-official",
+      "type": "official",
+      "title": "Northwestern University official Common Data Set",
+      "url": "https://enrollment.northwestern.edu/data/2024-2025.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "uchicago-official",
+      "type": "official",
+      "title": "University of Chicago official Common Data Set",
+      "url": "https://bpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/8/2077/files/2025/08/CDS_2024-2025_to_publish.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "cornell-official",
+      "type": "official",
+      "title": "Cornell University official Common Data Set",
+      "url": "https://irp.cornell.edu/wp-content/uploads/2024/08/CDS_UNL2_2023_2024-v11.xlsx",
+      "publishedAt": null,
+      "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "uw-official",
+      "type": "official",
+      "title": "University of Washington official Common Data Set",
+      "url": "https://uw-s3-cdn.s3.us-west-2.amazonaws.com/wp-content/uploads/sites/162/2024/03/01124227/CDS_Seattle_2023_2024.xlsx",
+      "publishedAt": null,
+      "capturedAt": "2026-07-31",
+      "confidence": "L1"
     }
   ],
   "defaultView": {

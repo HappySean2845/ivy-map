@@ -19,6 +19,7 @@ import { FilterBar } from '@/components/ranking/FilterBar'
 import { FeasibilityGate } from '@/components/ranking/FeasibilityGate'
 import { CompareTable } from '@/components/school/CompareTable'
 import { PosterButton } from '@/components/share/PosterButton'
+import { OfficialAdmissionsCard } from '@/components/university/OfficialAdmissionsCard'
 
 import { dataset, universityById, cityById } from '@/lib/data'
 import { DEFAULT_FILTERS, MAX_COMPARE, type Filters, type Gate } from '@/lib/filters'
@@ -62,6 +63,8 @@ export default function HomeClient() {
 
   // 浏览器前进/后退时跟随 URL
   useEffect(() => {
+    // 这里同步的是浏览器导航这一外部状态；本地 state 仍负责滑杆的即时响应。
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilters(parseFilters(searchParams))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams.toString()])
@@ -80,7 +83,7 @@ export default function HomeClient() {
     [router],
   )
 
-  const volumeById = useMemo(computeVolumeById, [])
+  const volumeById = useMemo(() => computeVolumeById(), [])
 
   const universityId = filters.universityId ?? DEFAULT_FILTERS.universityId
   const university = universityId ? universityById.get(universityId) : undefined
@@ -134,9 +137,8 @@ export default function HomeClient() {
           <hr className="mt-2 border-ink" />
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink/60">
             左图点一所大学，右图立刻按生源校所在城市点亮，下面的榜单也跟着换。
-            首版只做英国方向，所以 {dataset.universities.length}{' '}
-            所大学里目前只有牛津和剑桥有录取数据， 其余是空心点 ——
-            不是地图坏了，是那些方向的单校数据拿不到（见{' '}
+            生源校录取数据目前仍以牛津和剑桥为主；大学官方公布的全校申请、录取与入学数据会在地图下方单独展示，
+            不会混进高中榜单口径。其余空心点表示尚无生源校记录（见{' '}
             <a href="/about" className="text-ink/80">
               关于页
             </a>
@@ -166,6 +168,7 @@ export default function HomeClient() {
 
         {university && (
           <div className="mx-auto max-w-6xl px-4 sm:px-8">
+            <OfficialAdmissionsCard university={university} />
             <p className="mt-5 max-w-3xl text-sm leading-relaxed text-ink/60">
               {leverageCopy(university.leverage?.level ?? null, university.nameCn)}
             </p>

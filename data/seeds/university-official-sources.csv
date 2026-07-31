@@ -1,0 +1,31 @@
+source_id,institution_id,name_local,name_en,country_code,dataset_kind,canonical_url,fallback_url
+harvard-official,harvard,哈佛大学,Harvard University,US,cds,https://oira.harvard.edu/common-data-set/
+yale-official,yale,耶鲁大学,Yale University,US,cds,http://oir.yale.edu/
+princeton-official,princeton,普林斯顿大学,Princeton University,US,cds,https://ir.princeton.edu/other-university-data/common-data-set,https://ir.princeton.edu/document/606
+columbia-official,columbia,哥伦比亚大学,Columbia University,US,cds,https://opir.columbia.edu/view_the_data/cds
+brown-official,brown,布朗大学,Brown University,US,cds,https://oir.brown.edu/institutional-data
+dartmouth-official,dartmouth,达特茅斯学院,Dartmouth College,US,cds,https://www.dartmouth.edu/~oir/data-reporting/cds/index.html
+upenn-official,upenn,宾夕法尼亚大学,University of Pennsylvania,US,cds,http://ira.upenn.edu/penn-numbers/common-data-set
+cornell-official,cornell,康奈尔大学,Cornell University,US,cds,https://irp.dpb.cornell.edu/university-factbook/common-data-set
+mit-official,mit,麻省理工学院,MIT,US,cds,https://ir.mit.edu/project-topic/common-data-set
+stanford-official,stanford,斯坦福大学,Stanford University,US,cds,http://ucomm.stanford.edu/cds/
+caltech-official,caltech,加州理工学院,Caltech,US,cds,https://finance.caltech.edu/Resources/cds
+uchicago-official,uchicago,芝加哥大学,University of Chicago,US,cds,https://data.uchicago.edu/common-data-set/
+duke-official,duke,杜克大学,Duke University,US,cds,https://ir.provost.duke.edu/facts-figures/common-data-sets/
+northwestern-official,northwestern,西北大学,Northwestern University,US,cds,https://www.enrollment.northwestern.edu/data/common-data-set.html
+jhu-official,jhu,约翰霍普金斯大学,Johns Hopkins University,US,cds,https://oira.jhu.edu/common-data-set-2025-26/,https://oira.jhu.edu/wp-content/uploads/2025-2026-CDS-Johns-Hopkins-University.pdf
+nyu-official,nyu,纽约大学,New York University (NYU),US,cds,https://www.nyu.edu/employees/resources-and-services/administrative-services/institutional-research/factbook.html
+berkeley-official,berkeley,加州大学伯克利分校,UC Berkeley,US,cds,https://opa.berkeley.edu/campus-data/common-data-set
+ucla-official,ucla,加州大学洛杉矶分校,UCLA,US,cds,https://apb.ucla.edu/campus-statistics/common-data-set
+cmu-official,cmu,卡内基梅隆大学,Carnegie Mellon University (CMU),US,cds,https://www.cmu.edu/ira/CDS/index.html
+umich-official,umich,密歇根大学安娜堡分校,University of Michigan (Ann Arbor),US,cds,https://obp.umich.edu/campus-statistics/common-data-set/
+uw-official,uw,华盛顿大学,University of Washington,US,cds,https://www.washington.edu/opb/uw-data/external-reporting/common-data-set/
+cambridge-official,cambridge,剑桥大学,Cambridge University,UK,facts,https://www.information-hub.admin.cam.ac.uk/university-profile/student-numbers
+imperial-official,imperial,帝国理工学院,Imperial College London,UK,facts,https://www.imperial.ac.uk/planning
+lse-official,lse,伦敦政治经济学院,London School of Economics (LSE),UK,facts,https://www.lse.ac.uk/about-lse/lse-at-a-glance
+ucl-official,ucl,伦敦大学学院,University College London (UCL),UK,facts,https://www.ucl.ac.uk/about/who-we-are/facts-and-figures
+hku-official,hku,香港大学,University of Hong Kong (HKU),HK,facts,https://cdcf.ugc.edu.hk/stat/index.html#/statistics?lang=en-US
+hkust-official,hkust,香港科技大学,Hong Kong UST (HKUST),HK,facts,https://www.ust.hk/facts-figures
+cuhk-official,cuhk,香港中文大学,Chinese University of Hong Kong (CUHK),HK,facts,http://factsfigures.cuhk.edu.hk/
+toronto-official,toronto,多伦多大学,University of Toronto,CA,facts,https://data.utoronto.ca/reports/facts-and-figures/
+utokyo-official,utokyo,东京大学,University of Tokyo,JP,facts,https://www.u-tokyo.ac.jp/en/about/facts_figures.html

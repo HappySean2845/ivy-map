@@ -9,7 +9,10 @@
     "lint": "eslint",
     "data:build": "tsx scripts/build-data.ts",
     "test": "vitest run",
-    "data:links": "tsx scripts/check-links.ts"
+    "data:links": "tsx scripts/check-links.ts",
+    "data:crawl:official": "tsx scripts/data/crawl-official-sources.ts",
+    "data:import:sql": "tsx scripts/data/build-import-sql.ts",
+    "data:observations:sql": "tsx scripts/data/build-observation-import-sql.ts"
   },
   "dependencies": {
     "echarts": "^6.1.0",
