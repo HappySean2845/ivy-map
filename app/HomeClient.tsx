@@ -19,10 +19,18 @@ import { FilterBar } from '@/components/ranking/FilterBar'
 import { FeasibilityGate } from '@/components/ranking/FeasibilityGate'
 import { CompareTable } from '@/components/school/CompareTable'
 import { PosterButton } from '@/components/share/PosterButton'
+import { DataModeTabs } from '@/components/home/DataModeTabs'
 import { OfficialAdmissionsCard } from '@/components/university/OfficialAdmissionsCard'
+import { OfficialAdmissionsIndex } from '@/components/university/OfficialAdmissionsIndex'
 
 import { dataset, universityById, cityById } from '@/lib/data'
-import { DEFAULT_FILTERS, MAX_COMPARE, type Filters, type Gate } from '@/lib/filters'
+import {
+  DEFAULT_FILTERS,
+  MAX_COMPARE,
+  type DataMode,
+  type Filters,
+  type Gate,
+} from '@/lib/filters'
 import { parseFilters, toQueryString } from '@/lib/urlState'
 import { buildFeederRows, LATEST_YEAR, type FeederRowView } from '@/lib/view'
 import { sliderExplain, leverageCopy, emptyResultCopy } from '@/lib/copy'
@@ -84,9 +92,39 @@ export default function HomeClient() {
   )
 
   const volumeById = useMemo(() => computeVolumeById(), [])
+  const officialUniversities = useMemo(
+    () => dataset.universities.filter((item) => item.officialAdmissions.length > 0),
+    [],
+  )
+  const officialUSCount = useMemo(
+    () => officialUniversities.filter((item) => item.country === 'US').length,
+    [officialUniversities],
+  )
+  const feederUniversityCount = useMemo(
+    () => Object.values(volumeById).filter((volume) => volume > 0).length,
+    [volumeById],
+  )
 
-  const universityId = filters.universityId ?? DEFAULT_FILTERS.universityId
+  const fallbackUniversityId =
+    filters.dataMode === 'official'
+      ? (officialUniversities[0]?.id ?? null)
+      : DEFAULT_FILTERS.universityId
+  const universityId = filters.universityId ?? fallbackUniversityId
   const university = universityId ? universityById.get(universityId) : undefined
+
+  const switchDataMode = (nextMode: DataMode) => {
+    if (nextMode === filters.dataMode) return
+    const currentHasData =
+      nextMode === 'official'
+        ? (university?.officialAdmissions.length ?? 0) > 0
+        : universityId != null && (volumeById[universityId] ?? 0) > 0
+    const nextUniversityId = currentHasData
+      ? universityId
+      : nextMode === 'official'
+        ? (officialUniversities[0]?.id ?? null)
+        : DEFAULT_FILTERS.universityId
+    commit({ ...filters, dataMode: nextMode, universityId: nextUniversityId })
+  }
 
   const rows = useMemo(
     () => (universityId ? buildFeederRows({ universityId, filters }) : []),
@@ -135,10 +173,27 @@ export default function HomeClient() {
         <div className="mx-auto max-w-6xl px-4 sm:px-8">
           <p className="label text-ink/40">01 / MAP · 先选目标</p>
           <hr className="mt-2 border-ink" />
+          <DataModeTabs
+            value={filters.dataMode}
+            feederCount={feederUniversityCount}
+            officialCount={officialUniversities.length}
+            total={dataset.universities.length}
+            onChange={switchDataMode}
+          />
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink/60">
-            左图点一所大学，右图立刻按生源校所在城市点亮，下面的榜单也跟着换。
-            生源校录取数据目前仍以牛津和剑桥为主；大学官方公布的全校申请、录取与入学数据会在地图下方单独展示，
-            不会混进高中榜单口径。其余空心点表示尚无生源校记录（见{' '}
+            {filters.dataMode === 'official' ? (
+              <>
+                左图按大学官方申请、录取与入学数据点亮，区域按钮显示「有数据 /
+                收录总数」；右侧只列出三项完整且已经复核的大学。 当前美国已有 {officialUSCount}{' '}
+                所，空心点不使用估算值补齐。
+              </>
+            ) : (
+              <>
+                左图点一所大学，右图立刻按生源校所在城市点亮，下面的榜单也跟着换。
+                当前有出处的生源校去向仍集中在牛津和剑桥；其余空心点表示尚无高中去向记录。
+              </>
+            )}{' '}
+            （见{' '}
             <a href="/about" className="text-ink/80">
               关于页
             </a>
@@ -147,28 +202,47 @@ export default function HomeClient() {
         </div>
 
         {/* 全幅撑满：地图不受 max-w-6xl 约束，跟着屏幕走 */}
-        <div className="mt-5 grid border-y border-ink lg:grid-cols-2">
+        <div
+          id="data-mode-panel"
+          role="tabpanel"
+          aria-labelledby={`data-mode-tab-${filters.dataMode}`}
+          className="mt-5 grid border-y border-ink lg:grid-cols-2"
+        >
           <div className="border-ink lg:border-r">
             <WorldMap
+              key={filters.dataMode}
               universities={dataset.universities}
               volumeById={volumeById}
+              dataMode={filters.dataMode}
               selectedId={universityId}
               onSelect={(id) => commit({ ...filters, universityId: id })}
             />
           </div>
           <div className="border-t border-ink lg:border-t-0">
-            <ChinaMap
-              cities={dataset.cities}
-              heatByCityId={heatByCityId}
-              selectedCityId={filters.cityId}
-              onSelect={(id) => commit({ ...filters, cityId: id })}
-            />
+            {filters.dataMode === 'official' ? (
+              <OfficialAdmissionsIndex
+                universities={dataset.universities}
+                selectedId={universityId}
+                onSelect={(id) => commit({ ...filters, universityId: id })}
+              />
+            ) : (
+              <ChinaMap
+                cities={dataset.cities}
+                heatByCityId={heatByCityId}
+                selectedCityId={filters.cityId}
+                onSelect={(id) => commit({ ...filters, cityId: id })}
+              />
+            )}
           </div>
         </div>
 
-        {university && (
+        {university && filters.dataMode === 'official' && (
           <div className="mx-auto max-w-6xl px-4 sm:px-8">
             <OfficialAdmissionsCard university={university} />
+          </div>
+        )}
+        {university && filters.dataMode === 'feeders' && (
+          <div className="mx-auto max-w-6xl px-4 sm:px-8">
             <p className="mt-5 max-w-3xl text-sm leading-relaxed text-ink/60">
               {leverageCopy(university.leverage?.level ?? null, university.nameCn)}
             </p>
@@ -177,82 +251,86 @@ export default function HomeClient() {
       </section>
 
       {/* ── 可行性闸门 */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-8 mt-14 sm:mt-20">
-        <p className="label text-ink/40">02 / ELIGIBILITY</p>
-        <hr className="mt-2 border-ink" />
-        <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">先看你报不报得了</h2>
-        <div className="mt-6">
-          <FeasibilityGate
-            gate={filters.gate}
-            cities={dataset.cities}
-            onChange={(gate: Gate) => commit({ ...filters, gate })}
-          />
-        </div>
-      </section>
-
-      {/* ── 榜单 */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-8 mt-14 sm:mt-20">
-        <p className="label text-ink/40">03 / RANKING</p>
-        <hr className="mt-2 border-ink" />
-        <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">
-          {university ? `${university.nameCn}的中国生源校` : '中国大陆生源校'}
-        </h2>
-        <p className="mt-2 text-sm text-ink/60 tnum">
-          {cityLabel} · {trackLabel} · 2023–2025 三届加权 · 默认规模与人均密度各占一半
-        </p>
-
-        <div className="mt-6">
-          <FilterBar filters={filters} cities={dataset.cities} onChange={commit} />
-
-          <div className="mt-4">
-            <WeightSlider
-              alpha={filters.alpha}
-              onChange={(alpha) => commit({ ...filters, alpha })}
-              explain={explain}
-              autoDemo
+      {filters.dataMode === 'feeders' && (
+        <section className="mx-auto max-w-6xl px-4 sm:px-8 mt-14 sm:mt-20">
+          <p className="label text-ink/40">02 / ELIGIBILITY</p>
+          <hr className="mt-2 border-ink" />
+          <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">先看你报不报得了</h2>
+          <div className="mt-6">
+            <FeasibilityGate
+              gate={filters.gate}
+              cities={dataset.cities}
+              onChange={(gate: Gate) => commit({ ...filters, gate })}
             />
           </div>
+        </section>
+      )}
 
-          <div className="mt-4">
-            {empty ? (
-              <div className="border border-ink/15 bg-ink/[0.04] p-5 text-sm leading-relaxed">
-                <p>{empty.text}</p>
-                {empty.action && empty.nextFilters && (
-                  <button
-                    onClick={() => commit(empty.nextFilters!)}
-                    className="mt-3 border border-ink px-3 py-1.5 text-sm text-ink"
-                  >
-                    {empty.action}
-                  </button>
-                )}
-              </div>
-            ) : (
-              <FeederTable
-                rows={rows}
-                compare={filters.compare}
-                hideIneligible={filters.hideIneligible}
-                onToggleCompare={(id) => {
-                  const has = filters.compare.includes(id)
-                  const compare = has
-                    ? filters.compare.filter((x) => x !== id)
-                    : [...filters.compare, id].slice(-MAX_COMPARE)
-                  commit({ ...filters, compare })
-                }}
-                onOpen={(id) => router.push(`/school/${id}`)}
+      {/* ── 榜单 */}
+      {filters.dataMode === 'feeders' && (
+        <section className="mx-auto max-w-6xl px-4 sm:px-8 mt-14 sm:mt-20">
+          <p className="label text-ink/40">03 / RANKING</p>
+          <hr className="mt-2 border-ink" />
+          <h2 className="mt-5 text-2xl leading-tight sm:text-[40px]">
+            {university ? `${university.nameCn}的中国生源校` : '中国大陆生源校'}
+          </h2>
+          <p className="mt-2 text-sm text-ink/60 tnum">
+            {cityLabel} · {trackLabel} · 2023–2025 三届加权 · 默认规模与人均密度各占一半
+          </p>
+
+          <div className="mt-6">
+            <FilterBar filters={filters} cities={dataset.cities} onChange={commit} />
+
+            <div className="mt-4">
+              <WeightSlider
+                alpha={filters.alpha}
+                onChange={(alpha) => commit({ ...filters, alpha })}
+                explain={explain}
+                autoDemo
               />
+            </div>
+
+            <div className="mt-4">
+              {empty ? (
+                <div className="border border-ink/15 bg-ink/[0.04] p-5 text-sm leading-relaxed">
+                  <p>{empty.text}</p>
+                  {empty.action && empty.nextFilters && (
+                    <button
+                      onClick={() => commit(empty.nextFilters!)}
+                      className="mt-3 border border-ink px-3 py-1.5 text-sm text-ink"
+                    >
+                      {empty.action}
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <FeederTable
+                  rows={rows}
+                  compare={filters.compare}
+                  hideIneligible={filters.hideIneligible}
+                  onToggleCompare={(id) => {
+                    const has = filters.compare.includes(id)
+                    const compare = has
+                      ? filters.compare.filter((x) => x !== id)
+                      : [...filters.compare, id].slice(-MAX_COMPARE)
+                    commit({ ...filters, compare })
+                  }}
+                  onOpen={(id) => router.push(`/school/${id}`)}
+                />
+              )}
+            </div>
+
+            {rows.length > 0 && universityId && (
+              <div className="mt-6">
+                <PosterButton universityId={universityId} rows={rows} filters={filters} />
+              </div>
             )}
           </div>
-
-          {rows.length > 0 && universityId && (
-            <div className="mt-6">
-              <PosterButton universityId={universityId} rows={rows} filters={filters} />
-            </div>
-          )}
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── 对比 */}
-      {filters.compare.length >= 2 && (
+      {filters.dataMode === 'feeders' && filters.compare.length >= 2 && (
         <section className="mt-14 sm:mt-20">
           <p className="label text-ink/40">04 / COMPARE</p>
           <hr className="mt-2 border-ink" />

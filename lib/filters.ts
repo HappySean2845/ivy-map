@@ -13,6 +13,8 @@ import type { School, SchoolType, Track } from '@/types'
 // ---------------------------------------------------------------------------
 // 类型
 
+export type DataMode = 'feeders' | 'official'
+
 export interface Gate {
   nationality: 'cn' | 'foreign' | 'hk_mo_tw' | 'pr' | null
   localHukou: boolean | null
@@ -22,6 +24,7 @@ export interface Gate {
 }
 
 export interface Filters {
+  dataMode: DataMode
   universityId: string | null
   cityId: string | null // 榜单筛的城市
   tracks: Track[] // 空数组 = 不限
@@ -91,6 +94,7 @@ function pickDefaultUniversityId(): string | null {
  * （`{ ...DEFAULT_FILTERS, cityId: 'shanghai' }`）。
  */
 export const DEFAULT_FILTERS: Filters = {
+  dataMode: 'feeders',
   universityId: pickDefaultUniversityId(),
   cityId: dataset.defaultView?.cityId ?? null,
   tracks: dataset.defaultView ? [dataset.defaultView.track] : [],

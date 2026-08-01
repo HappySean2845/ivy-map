@@ -25,6 +25,7 @@ type Params = URLSearchParams | ReadonlyURLSearchParams
 
 /** 全部参数名。集中在这里，改名只改一处。 */
 const KEYS = [
+  'view', // 数据栏目：生源校去向 / 大学官方录取概况
   'u', // 目标大学
   'city', // 榜单筛的城市
   'track', // 赛道，逗号分隔
@@ -104,6 +105,7 @@ export function parseFilters(sp: Params): Filters {
   if (!touched) return { ...DEFAULT_FILTERS, gate: { ...EMPTY_GATE } }
 
   const u = sp.get('u')
+  const dataMode = sp.get('view') === 'official' ? 'official' : 'feeders'
   const city = sp.get('city')
   const alpha = parseNumber(sp.get('alpha'))
 
@@ -131,6 +133,7 @@ export function parseFilters(sp: Params): Filters {
   }
 
   return {
+    dataMode,
     // u= （空值）表示用户主动清空了大学；u 是无效 id 时回落到默认组合
     universityId:
       u == null
@@ -178,6 +181,7 @@ export function normalizeAlpha(n: number): number {
 export function toQueryString(f: Filters): string {
   const sp = new URLSearchParams()
 
+  if (f.dataMode === 'official') sp.set('view', 'official')
   if (f.universityId) sp.set('u', f.universityId)
   else sp.set('u', '') // 主动清空，和「没写过 u」区分开
   if (f.cityId) sp.set('city', f.cityId)

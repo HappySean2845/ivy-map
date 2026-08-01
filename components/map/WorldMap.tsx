@@ -29,10 +29,12 @@ import {
   type ScatterData,
 } from './echarts'
 import type { University } from '@/types'
+import type { DataMode } from '@/lib/filters'
 
 interface Props {
   universities: University[]
   volumeById: Record<string, number>
+  dataMode: DataMode
   selectedId: string | null
   onSelect(id: string): void
 }
@@ -107,7 +109,19 @@ interface Point {
   lng: number
   lat: number
   volume: number
+  metricText: string
   hasData: boolean
+  official: {
+    academicYearStart: number
+    applied: number
+    admitted: number
+    enrolled: number
+  } | null
+}
+
+function rate(numerator: number, denominator: number): string {
+  if (denominator === 0) return '—'
+  return `${((numerator / denominator) * 100).toFixed(1)}%`
 }
 
 function buildOption(
@@ -115,7 +129,8 @@ function buildOption(
   selectedId: string | null,
   t: MapTheme,
   view: { center: [number, number]; zoom: number },
-  zoomed: boolean,
+  dataMode: DataMode,
+  compact: boolean,
 ): ChartOption {
   const withData = points.filter((p) => p.hasData)
   const noData = points.filter((p) => !p.hasData)
@@ -128,7 +143,9 @@ function buildOption(
       nameCn: p.nameCn,
       nameEn: p.nameEn,
       volume: p.volume,
+      metricText: p.metricText,
       hasData: p.hasData,
+      official: p.official,
       isSelected: p.id === selectedId,
     })) as ScatterData
 
@@ -158,9 +175,14 @@ function buildOption(
       formatter: (raw: unknown) => {
         const d = (raw as { data: Point }).data
         const head = `<b>${esc(d.nameCn)}</b><br/><span style="opacity:.5">${esc(d.nameEn)}</span>`
-        return d.hasData
-          ? `${head}<br/>近三届加权录取 ${fmtNumber(d.volume)} 人`
-          : `${head}<br/><span style="opacity:.5">暂无收录数据</span>`
+        if (!d.hasData) {
+          const emptyLabel = dataMode === 'official' ? '暂无官方招生数据' : '暂无生源校去向数据'
+          return `${head}<br/><span style="opacity:.5">${emptyLabel}</span>`
+        }
+        if (dataMode === 'official' && d.official) {
+          return `${head}<br/>${d.official.academicYearStart}–${String(d.official.academicYearStart + 1).slice(-2)} 学年<br/>申请 ${fmtNumber(d.official.applied)} · 录取 ${fmtNumber(d.official.admitted)} · 入学 ${fmtNumber(d.official.enrolled)}`
+        }
+        return `${head}<br/>近三届加权录取 ${fmtNumber(d.volume)} 人`
       },
     },
     series: [
@@ -211,11 +233,12 @@ function buildOption(
         },
         label: {
           show: true,
-          position: 'right',
+          position: compact && dataMode === 'official' ? 'left' : 'right',
           distance: 7,
           formatter: (p: unknown) => {
-            const d = (p as { data: Point }).data
-            return `${d.nameCn} ${fmtNumber(d.volume)}`
+            const d = (p as { data: Point & { isSelected: boolean } }).data
+            if (compact && dataMode === 'official' && !d.isSelected) return ''
+            return `${d.nameCn} ${d.metricText}`
           },
           color: t.text,
           fontSize: 11,
@@ -239,7 +262,13 @@ function buildOption(
   } as ChartOption
 }
 
-export default function WorldMap({ universities, volumeById, selectedId, onSelect }: Props) {
+export default function WorldMap({
+  universities,
+  volumeById,
+  dataMode,
+  selectedId,
+  onSelect,
+}: Props) {
   const boxRef = useRef<HTMLDivElement>(null)
   const t = useMapTheme()
   const { chart, width, height } = useChart(boxRef)
@@ -247,7 +276,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
     attempt: 0,
     status: 'loading',
   })
-  const [regionId, setRegionId] = useState('all')
+  const [regionId, setRegionId] = useState(dataMode === 'official' ? 'us' : 'all')
   const onSelectRef = useLatest(onSelect)
 
   useEffect(() => {
@@ -262,17 +291,35 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
 
   const points: Point[] = useMemo(
     () =>
-      universities.map((u) => ({
-        id: u.id,
-        nameCn: u.nameCn,
-        nameEn: u.nameEn,
-        country: u.country,
-        lng: u.lng,
-        lat: u.lat,
-        volume: volumeById[u.id] ?? 0,
-        hasData: (volumeById[u.id] ?? 0) > 0,
-      })),
-    [universities, volumeById],
+      universities.map((u) => {
+        const feederVolume = volumeById[u.id] ?? 0
+        const snapshot = u.officialAdmissions[0] ?? null
+        const official = snapshot
+          ? {
+              academicYearStart: snapshot.academicYearStart,
+              applied: snapshot.applied,
+              admitted: snapshot.admitted,
+              enrolled: snapshot.enrolled,
+            }
+          : null
+        const hasData = dataMode === 'official' ? official !== null : feederVolume > 0
+        return {
+          id: u.id,
+          nameCn: u.nameCn,
+          nameEn: u.nameEn,
+          country: u.country,
+          lng: u.lng,
+          lat: u.lat,
+          volume: dataMode === 'official' ? (official?.admitted ?? 0) : feederVolume,
+          metricText:
+            dataMode === 'official' && official
+              ? rate(official.admitted, official.applied)
+              : fmtNumber(feederVolume),
+          hasData,
+          official,
+        }
+      }),
+    [universities, volumeById, dataMode],
   )
 
   useEffect(() => {
@@ -299,8 +346,8 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
 
   useEffect(() => {
     if (!chart || load.status !== 'ready' || width === 0 || height === 0) return
-    chart.setOption(buildOption(points, selectedId, t, view, region.match !== '*'), true)
-  }, [chart, load.status, points, selectedId, t, view, region, width, height])
+    chart.setOption(buildOption(points, selectedId, t, view, dataMode, width < 640), true)
+  }, [chart, load.status, points, selectedId, t, view, region, width, height, dataMode])
 
   const withData = points.filter((p) => p.hasData).length
 
@@ -313,6 +360,11 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
             r.match === '*'
               ? points.length
               : points.filter((p) => (r.match as string[]).includes(p.country)).length
+          const available =
+            r.match === '*'
+              ? withData
+              : points.filter((p) => (r.match as string[]).includes(p.country) && p.hasData)
+                  .length
           if (n === 0) return null
           return (
             <button
@@ -325,7 +377,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
               }`}
               data-tap
             >
-              {r.label} {n}
+              {r.label} {available}/{n}
             </button>
           )
         })}
@@ -352,7 +404,7 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
               }`}
             >
               {p.nameCn}
-              {p.hasData ? ` ${fmtNumber(p.volume)}` : ''}
+              {p.hasData ? ` ${p.metricText}` : ''}
             </button>
           ))
         )}
@@ -381,8 +433,17 @@ export default function WorldMap({ universities, volumeById, selectedId, onSelec
         )}
       </div>
       <p className="border-t border-ink/15 px-4 py-2 text-[11px] leading-relaxed text-ink/40 sm:px-6">
-        实心 = 已有录取数据（{withData} 所），标签后的数字是近三届加权录取人数 · 空心 =
-        已收录但暂无数据，名字见上方列表 · 底图只有陆地轮廓，不含国界
+        {dataMode === 'official' ? (
+          <>
+            实心 = 已有完整官方招生数据（{withData} 所），标签显示录取率 · 空心 = 尚无完整数据 ·
+            区域按钮显示有数据/收录总数 · 底图只有陆地轮廓，不含国界
+          </>
+        ) : (
+          <>
+            实心 = 已有生源校去向数据（{withData} 所），标签显示近三届加权录取人数 · 空心 =
+            尚无生源校记录 · 区域按钮显示有数据/收录总数 · 底图只有陆地轮廓，不含国界
+          </>
+        )}
       </p>
     </div>
   )
