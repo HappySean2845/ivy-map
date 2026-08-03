@@ -11,8 +11,10 @@
     "test": "vitest run",
     "data:links": "tsx scripts/check-links.ts",
     "data:crawl:official": "tsx scripts/data/crawl-official-sources.ts",
+    "data:crawl": "tsx scripts/data/crawl-official-sources.ts",
     "data:import:sql": "tsx scripts/data/build-import-sql.ts",
-    "data:observations:sql": "tsx scripts/data/build-observation-import-sql.ts"
+    "data:observations:sql": "tsx scripts/data/build-observation-import-sql.ts",
+    "data:feeder:sql": "tsx scripts/data/build-feeder-import-sql.ts"
   },
   "dependencies": {
     "echarts": "^6.1.0",

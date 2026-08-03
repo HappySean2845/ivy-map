@@ -22,8 +22,9 @@ import { PosterButton } from '@/components/share/PosterButton'
 import { DataModeTabs } from '@/components/home/DataModeTabs'
 import { OfficialAdmissionsCard } from '@/components/university/OfficialAdmissionsCard'
 import { OfficialAdmissionsIndex } from '@/components/university/OfficialAdmissionsIndex'
+import { FeederEvidencePanel } from '@/components/university/FeederEvidencePanel'
 
-import { dataset, universityById, cityById } from '@/lib/data'
+import { cityById, dataset, schoolById, universityById } from '@/lib/data'
 import {
   DEFAULT_FILTERS,
   MAX_COMPARE,
@@ -92,6 +93,13 @@ export default function HomeClient() {
   )
 
   const volumeById = useMemo(() => computeVolumeById(), [])
+  const evidenceById = useMemo(() => {
+    const out: Record<string, number> = {}
+    for (const row of dataset.feederEvidence) {
+      out[row.universityId] = (out[row.universityId] ?? 0) + row.countValue
+    }
+    return out
+  }, [])
   const officialUniversities = useMemo(
     () => dataset.universities.filter((item) => item.officialAdmissions.length > 0),
     [],
@@ -101,8 +109,12 @@ export default function HomeClient() {
     [officialUniversities],
   )
   const feederUniversityCount = useMemo(
-    () => Object.values(volumeById).filter((volume) => volume > 0).length,
-    [volumeById],
+    () =>
+      new Set([
+        ...Object.keys(volumeById).filter((id) => volumeById[id] > 0),
+        ...Object.keys(evidenceById).filter((id) => evidenceById[id] > 0),
+      ]).size,
+    [volumeById, evidenceById],
   )
 
   const fallbackUniversityId =
@@ -117,7 +129,8 @@ export default function HomeClient() {
     const currentHasData =
       nextMode === 'official'
         ? (university?.officialAdmissions.length ?? 0) > 0
-        : universityId != null && (volumeById[universityId] ?? 0) > 0
+        : universityId != null &&
+          ((volumeById[universityId] ?? 0) > 0 || (evidenceById[universityId] ?? 0) > 0)
     const nextUniversityId = currentHasData
       ? universityId
       : nextMode === 'official'
@@ -130,15 +143,27 @@ export default function HomeClient() {
     () => (universityId ? buildFeederRows({ universityId, filters }) : []),
     [universityId, filters],
   )
+  const selectedEvidence = useMemo(
+    () => dataset.feederEvidence.filter((row) => row.universityId === universityId),
+    [universityId],
+  )
 
   // 中国地图的热力：按生源校所在城市汇总加权录取量
   const heatByCityId = useMemo(() => {
     const out: Record<string, number> = {}
-    for (const r of rows) {
-      out[r.school.cityId] = (out[r.school.cityId] ?? 0) + r.volume
+    if (rows.length > 0) {
+      for (const r of rows) {
+        out[r.school.cityId] = (out[r.school.cityId] ?? 0) + r.volume
+      }
+    } else {
+      for (const row of selectedEvidence) {
+        const school = schoolById.get(row.schoolId)
+        if (school) out[school.cityId] = (out[school.cityId] ?? 0) + row.countValue
+      }
     }
     return out
-  }, [rows])
+  }, [rows, selectedEvidence])
+  const chinaMapValueKind = rows.length > 0 ? 'ranked' : 'evidence'
 
   // 滑杆解读：记住上一次的榜首，用来说清「谁换成了谁」
   const prevTopRef = useRef<{ name: string; volume: number; graduates: number | null } | null>(
@@ -190,7 +215,7 @@ export default function HomeClient() {
             ) : (
               <>
                 左图点一所大学，右图立刻按生源校所在城市点亮，下面的榜单也跟着换。
-                当前有出处的生源校去向仍集中在牛津和剑桥；其余空心点表示尚无高中去向记录。
+                实心点包含两类数据：可进入密度排名的赛道记录，以及未拆分赛道但可回溯原文的学校去向证据。
               </>
             )}{' '}
             （见{' '}
@@ -213,6 +238,7 @@ export default function HomeClient() {
               key={filters.dataMode}
               universities={dataset.universities}
               volumeById={volumeById}
+              evidenceById={evidenceById}
               dataMode={filters.dataMode}
               selectedId={universityId}
               onSelect={(id) => commit({ ...filters, universityId: id })}
@@ -229,6 +255,7 @@ export default function HomeClient() {
               <ChinaMap
                 cities={dataset.cities}
                 heatByCityId={heatByCityId}
+                valueKind={chinaMapValueKind}
                 selectedCityId={filters.cityId}
                 onSelect={(id) => commit({ ...filters, cityId: id })}
               />
@@ -243,6 +270,7 @@ export default function HomeClient() {
         )}
         {university && filters.dataMode === 'feeders' && (
           <div className="mx-auto max-w-6xl px-4 sm:px-8">
+            <FeederEvidencePanel university={university} evidence={selectedEvidence} />
             <p className="mt-5 max-w-3xl text-sm leading-relaxed text-ink/60">
               {leverageCopy(university.leverage?.level ?? null, university.nameCn)}
             </p>
@@ -293,8 +321,12 @@ export default function HomeClient() {
             <div className="mt-4">
               {empty ? (
                 <div className="border border-ink/15 bg-ink/[0.04] p-5 text-sm leading-relaxed">
-                  <p>{empty.text}</p>
-                  {empty.action && empty.nextFilters && (
+                  <p>
+                    {selectedEvidence.length > 0
+                      ? `上方已收录 ${selectedEvidence.length} 所高中的精确去向证据；由于原始来源没有拆分 AP / IB / A-Level，这些记录不会进入当前赛道密度排名。`
+                      : empty.text}
+                  </p>
+                  {selectedEvidence.length === 0 && empty.action && empty.nextFilters && (
                     <button
                       onClick={() => commit(empty.nextFilters!)}
                       className="mt-3 border border-ink px-3 py-1.5 text-sm text-ink"

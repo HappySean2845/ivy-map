@@ -88,8 +88,9 @@ export default function Home() {
             </div>
 
             <p className="mt-8 text-xs text-ink/40 tnum">
-              收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条录取记录 ·{' '}
-              {s.officialAdmissions} 组官方招生快照 · {s.sources} 个来源 ·{' '}
+              收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条排名录取 ·{' '}
+              {s.feederEvidence} 条去向证据 · {s.officialAdmissions} 组官方招生快照 ·{' '}
+              {s.sources} 个来源 ·{' '}
               <Link href="/about" className="text-ink/60">
                 数据来源与方法论 →
               </Link>

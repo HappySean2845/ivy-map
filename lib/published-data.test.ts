@@ -10,11 +10,30 @@ describe('published university data', () => {
     expect(dataset.admissions).toHaveLength(56)
     expect(dataset.admissions.some((row) => row.universityId === 'oxford')).toBe(true)
     expect(dataset.admissions.some((row) => row.universityId === 'cambridge')).toBe(true)
+    expect(dataset.feederEvidence).toHaveLength(39)
+    expect(dataset.feederEvidence.every((row) => row.track === null)).toBe(true)
+  })
+
+  it('publishes reviewed US feeder evidence without mixing it into ranking rows', () => {
+    const destinations = new Set(dataset.feederEvidence.map((row) => row.universityId))
+    expect(destinations.size).toBe(16)
+    expect(universityById.has('washu')).toBe(true)
+    expect(
+      dataset.feederEvidence
+        .filter((row) => row.universityId === 'washu')
+        .reduce((sum, row) => sum + row.countValue, 0),
+    ).toBe(13)
+    expect(dataset.admissions.some((row) => row.universityId === 'washu')).toBe(false)
+    expect(sourceById.get('jiaoyubao-beijing-us-early-2026')).toMatchObject({
+      type: 'media',
+      confidence: 'L2',
+    })
   })
 
   it('publishes the reviewed CDS batch without dropping the expanded catalog', () => {
     const status = dataStatus()
-    expect(status.universities).toBe(31)
+    expect(status.universities).toBe(32)
+    expect(status.feederEvidence).toBe(39)
     expect(status.officialAdmissions).toBe(19)
     expect(universityById.has('uw')).toBe(true)
 

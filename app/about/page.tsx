@@ -147,8 +147,9 @@ export default function AboutPage() {
         <p className=" text-xs tracking-widest text-ink/60">IVY MAP · 关于</p>
         <h1 className="mt-2 text-2xl leading-snug">数据来源与方法论</h1>
         <p className="mt-2 text-sm text-ink/60 tnum">
-          当前收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条录取记录 ·{' '}
-          {s.officialAdmissions} 组官方招生快照 · {s.sources} 个来源
+          当前收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条排名录取 ·{' '}
+          {s.feederEvidence} 条去向证据 · {s.officialAdmissions} 组官方招生快照 · {s.sources}{' '}
+          个来源
         </p>
         <hr className="mt-5 border-ink" />
       </header>

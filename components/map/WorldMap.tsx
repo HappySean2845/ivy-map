@@ -34,6 +34,7 @@ import type { DataMode } from '@/lib/filters'
 interface Props {
   universities: University[]
   volumeById: Record<string, number>
+  evidenceById: Record<string, number>
   dataMode: DataMode
   selectedId: string | null
   onSelect(id: string): void
@@ -117,6 +118,7 @@ interface Point {
     admitted: number
     enrolled: number
   } | null
+  feederKind: 'ranked' | 'evidence' | 'none'
 }
 
 function rate(numerator: number, denominator: number): string {
@@ -146,6 +148,7 @@ function buildOption(
       metricText: p.metricText,
       hasData: p.hasData,
       official: p.official,
+      feederKind: p.feederKind,
       isSelected: p.id === selectedId,
     })) as ScatterData
 
@@ -182,7 +185,9 @@ function buildOption(
         if (dataMode === 'official' && d.official) {
           return `${head}<br/>${d.official.academicYearStart}–${String(d.official.academicYearStart + 1).slice(-2)} 学年<br/>申请 ${fmtNumber(d.official.applied)} · 录取 ${fmtNumber(d.official.admitted)} · 入学 ${fmtNumber(d.official.enrolled)}`
         }
-        return `${head}<br/>近三届加权录取 ${fmtNumber(d.volume)} 人`
+        return d.feederKind === 'evidence'
+          ? `${head}<br/>2026Fall 早申 offer ${fmtNumber(d.volume)} 枚<br/><span style="opacity:.5">赛道未拆分，不参与密度排名</span>`
+          : `${head}<br/>近三届加权录取 ${fmtNumber(d.volume)} 人`
       },
     },
     series: [
@@ -265,6 +270,7 @@ function buildOption(
 export default function WorldMap({
   universities,
   volumeById,
+  evidenceById,
   dataMode,
   selectedId,
   onSelect,
@@ -293,6 +299,7 @@ export default function WorldMap({
     () =>
       universities.map((u) => {
         const feederVolume = volumeById[u.id] ?? 0
+        const feederEvidence = evidenceById[u.id] ?? 0
         const snapshot = u.officialAdmissions[0] ?? null
         const official = snapshot
           ? {
@@ -302,7 +309,9 @@ export default function WorldMap({
               enrolled: snapshot.enrolled,
             }
           : null
-        const hasData = dataMode === 'official' ? official !== null : feederVolume > 0
+        const feederKind =
+          feederVolume > 0 ? 'ranked' : feederEvidence > 0 ? 'evidence' : 'none'
+        const hasData = dataMode === 'official' ? official !== null : feederKind !== 'none'
         return {
           id: u.id,
           nameCn: u.nameCn,
@@ -310,16 +319,24 @@ export default function WorldMap({
           country: u.country,
           lng: u.lng,
           lat: u.lat,
-          volume: dataMode === 'official' ? (official?.admitted ?? 0) : feederVolume,
+          volume:
+            dataMode === 'official'
+              ? (official?.admitted ?? 0)
+              : feederKind === 'ranked'
+                ? feederVolume
+                : feederEvidence,
           metricText:
             dataMode === 'official' && official
               ? rate(official.admitted, official.applied)
-              : fmtNumber(feederVolume),
+              : feederKind === 'evidence'
+                ? `${fmtNumber(feederEvidence)}枚`
+                : fmtNumber(feederVolume),
           hasData,
           official,
+          feederKind,
         }
       }),
-    [universities, volumeById, dataMode],
+    [universities, volumeById, evidenceById, dataMode],
   )
 
   useEffect(() => {
@@ -440,8 +457,8 @@ export default function WorldMap({
           </>
         ) : (
           <>
-            实心 = 已有生源校去向数据（{withData} 所），标签显示近三届加权录取人数 · 空心 =
-            尚无生源校记录 · 区域按钮显示有数据/收录总数 · 底图只有陆地轮廓，不含国界
+            实心 = 已有生源校去向数据（{withData} 所），标签显示加权录取人数或已核实 offer 数 ·
+            空心 = 尚无生源校记录 · 区域按钮显示有数据/收录总数 · 底图只有陆地轮廓，不含国界
           </>
         )}
       </p>

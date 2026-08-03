@@ -52,13 +52,20 @@ function fitTo(pts: { lng: number; lat: number }[]) {
 interface Props {
   cities: City[]
   heatByCityId: Record<string, number>
+  valueKind: 'ranked' | 'evidence'
   selectedCityId: string | null
   onSelect(id: string | null): void
 }
 
 type MapState = 'loading' | 'ready' | 'error'
 
-export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelect }: Props) {
+export default function ChinaMap({
+  cities,
+  heatByCityId,
+  valueKind,
+  selectedCityId,
+  onSelect,
+}: Props) {
   const boxRef = useRef<HTMLDivElement>(null)
   const theme = useMapTheme()
   const { chart, width, height } = useChart(boxRef)
@@ -124,8 +131,11 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
 
   useEffect(() => {
     if (!chart || state !== 'ready' || width === 0 || height === 0) return
-    chart.setOption(buildOption(cities, heatByCityId, selectedCityId, theme, fit), true)
-  }, [chart, state, cities, heatByCityId, selectedCityId, theme, fit, width, height])
+    chart.setOption(
+      buildOption(cities, heatByCityId, valueKind, selectedCityId, theme, fit),
+      true,
+    )
+  }, [chart, state, cities, heatByCityId, valueKind, selectedCityId, theme, fit, width, height])
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -205,8 +215,10 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
       </div>
 
       <p className="shrink-0 border-t border-ink/15 px-4 py-2 text-[11px] leading-relaxed text-ink/40 sm:px-6">
-        实心 = 该城市有生源校数据，标签后的数字是近三届加权录取人数 · 空心 =
-        已收录学校但暂无数据，名字见上方列表
+        {valueKind === 'evidence'
+          ? '实心 = 该城市有精确去向证据，标签后的数字是已核实早申 offer 数'
+          : '实心 = 该城市有生源校数据，标签后的数字是近三届加权录取人数'}{' '}
+        · 空心 = 已收录学校但暂无数据，名字见上方列表
       </p>
     </div>
   )
@@ -217,6 +229,7 @@ export default function ChinaMap({ cities, heatByCityId, selectedCityId, onSelec
 function buildOption(
   cities: City[],
   heatByCityId: Record<string, number>,
+  valueKind: 'ranked' | 'evidence',
   selectedCityId: string | null,
   theme: MapTheme,
   fit: { center: [number, number]; zoom: number } | null,
@@ -301,7 +314,9 @@ function buildOption(
         const heat = p.data.heat ?? 0
         const line =
           heat > 0
-            ? `近三年加权录取 <b>${fmtNumber(heat)}</b> 人`
+            ? valueKind === 'evidence'
+              ? `已核实早申 offer <b>${fmtNumber(heat)}</b> 枚`
+              : `近三年加权录取 <b>${fmtNumber(heat)}</b> 人`
             : '暂无收录数据 <span style="opacity:.7">（不是 0）</span>'
         return [
           `<div style="font-weight:600">${esc(p.data.name ?? '')}</div>`,

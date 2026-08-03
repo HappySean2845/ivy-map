@@ -126,6 +126,21 @@ export interface Admission {
   conflict?: { otherSourceIds: string[]; values: number[] }
 }
 
+/** 有明确高中与大学、但未可靠拆到课程赛道的去向证据。只展示，不参与密度排名。 */
+export interface FeederEvidence {
+  schoolId: string
+  universityId: string
+  academicYearStart: number
+  admissionRound: 'early_combined' | 'combined' | 'unknown'
+  track: Track | null
+  countKind: Basis
+  countValue: number
+  studentScope: string
+  isComplete: boolean
+  confidence: Confidence
+  sourceId: string
+}
+
 export interface Source {
   id: string
   type: 'official' | 'media' | 'report' | 'crowdsourced'
@@ -146,6 +161,7 @@ export interface Dataset {
   schools: School[]
   cohorts: Cohort[]
   admissions: Admission[]
+  feederEvidence: FeederEvidence[]
   sources: Source[]
   /** 首屏默认组合（PRD US-1.0）。构建期校验它能演示出排名反转。 */
   defaultView: { universityId: string; cityId: string | null; track: Track } | null

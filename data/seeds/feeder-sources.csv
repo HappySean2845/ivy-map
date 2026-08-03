@@ -1,0 +1,2 @@
+source_id,institution_id,name_local,name_en,country_code,dataset_kind,canonical_url,fallback_url,current_artifact_url,institution_kind,source_type,confidence,source_title
+jiaoyubao-beijing-us-early-2026,jiaoyubao,教育宝,Jiaoyubao,CN,feeder_report,https://www.jiaoyubao.cn/news/n328168.html,,,system,media,L2,2026Fall北京公立国际部美本早申统计

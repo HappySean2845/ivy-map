@@ -20,6 +20,7 @@ import {
   type Track,
   type Admission,
   type Cohort,
+  type FeederEvidence,
 } from '../types/index.js'
 import { scoreFeeders, computeLeverage, hasRankReversal } from '../lib/scoring.js'
 
@@ -111,6 +112,33 @@ const OfficialAdmissionsInputSchema = z.object({
     }),
   ),
 })
+const FeederEvidenceInputSchema = z.object({
+  schemaVersion: z.literal(1),
+  reviewedAt: z.iso.datetime(),
+  sourceArtifact: z.object({
+    sourceId: z.string().min(1),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/),
+  }),
+  scope: z.object({
+    academicYearStart: z.number().int().min(1900).max(2100),
+    admissionRound: z.enum(['early_combined', 'combined', 'unknown']),
+    countKind: z.enum(BASES),
+    studentScope: z.string().min(1),
+    isComplete: z.boolean(),
+    confidence: z.enum(CONFIDENCES),
+  }),
+  records: z
+    .array(
+      z.object({
+        schoolId: z.string().min(1),
+        universityId: z.string().min(1),
+        track: z.enum(TRACKS).nullable(),
+        countValue: z.number().int().nonnegative(),
+        sourceLocator: z.record(z.string(), z.unknown()),
+      }),
+    )
+    .min(1),
+})
 const trackOf = (v: string | undefined, ctx: string): Track | null => {
   const p = TrackEnum.safeParse(str(v))
   if (!p.success) {
@@ -151,6 +179,15 @@ if (!officialAdmissionsParsed.success) {
 const officialAdmissionRecords = officialAdmissionsParsed.success
   ? officialAdmissionsParsed.data.records
   : []
+
+const feederEvidenceParsed = FeederEvidenceInputSchema.safeParse(
+  readJson('feeder-evidence.json'),
+)
+if (!feederEvidenceParsed.success) {
+  for (const issue of feederEvidenceParsed.error.issues) {
+    fail(`feeder-evidence.json ${issue.path.join('.')}：${issue.message}`)
+  }
+}
 
 const requirementRows = readCsv('requirements.csv')
 const requirementBySchool = new Map(requirementRows.map((r) => [r.school_id, r]))
@@ -254,6 +291,56 @@ const sources = [...placementSources, ...officialSourceById.values()]
 const sourceIds = new Set(sources.map((s) => s.id))
 const schoolIds = new Set(schools.map((s) => s.id))
 const universityIds = new Set(rawUniversities.map((u) => u.id))
+
+const feederEvidence: FeederEvidence[] = []
+const feederEvidenceKeys = new Set<string>()
+if (feederEvidenceParsed.success) {
+  const { scope, sourceArtifact } = feederEvidenceParsed.data
+  if (!sourceIds.has(sourceArtifact.sourceId)) {
+    fail(`生源去向证据引用了不存在的来源：${sourceArtifact.sourceId}`)
+  }
+  for (const [index, record] of feederEvidenceParsed.data.records.entries()) {
+    const where = `feeder-evidence.json records.${index}`
+    if (!schoolIds.has(record.schoolId)) {
+      fail(`${where}：学校 "${record.schoolId}" 不存在`)
+      continue
+    }
+    if (!universityIds.has(record.universityId)) {
+      fail(`${where}：大学 "${record.universityId}" 不存在`)
+      continue
+    }
+    if (Object.keys(record.sourceLocator).length === 0) {
+      fail(`${where}：缺少来源定位信息`)
+      continue
+    }
+    const key = [
+      record.schoolId,
+      record.universityId,
+      scope.academicYearStart,
+      scope.admissionRound,
+      record.track ?? '',
+      sourceArtifact.sourceId,
+    ].join('|')
+    if (feederEvidenceKeys.has(key)) {
+      fail(`${where}：重复的生源去向证据 ${key}`)
+      continue
+    }
+    feederEvidenceKeys.add(key)
+    feederEvidence.push({
+      schoolId: record.schoolId,
+      universityId: record.universityId,
+      academicYearStart: scope.academicYearStart,
+      admissionRound: scope.admissionRound,
+      track: record.track,
+      countKind: scope.countKind,
+      countValue: record.countValue,
+      studentScope: scope.studentScope,
+      isComplete: scope.isComplete,
+      confidence: scope.confidence,
+      sourceId: sourceArtifact.sourceId,
+    })
+  }
+}
 
 const officialAdmissionsByUniversity = new Map<
   string,
@@ -519,6 +606,7 @@ const dataset: Dataset = {
   schools,
   cohorts,
   admissions,
+  feederEvidence,
   sources,
   defaultView,
 }
@@ -527,7 +615,9 @@ console.log('\n' + '='.repeat(64))
 console.log('IVY Map 数据构建')
 console.log('='.repeat(64))
 console.log(`城市 ${cities.length} · 大学 ${universities.length} · 高中 ${schools.length}`)
-console.log(`录取记录 ${admissions.length} · 届次 ${cohorts.length} · 来源 ${sources.length}`)
+console.log(
+  `排名录取 ${admissions.length} · 非排名去向证据 ${feederEvidence.length} · 届次 ${cohorts.length} · 来源 ${sources.length}`,
+)
 console.log(`官方招生快照 ${officialAdmissionRecords.length}`)
 console.log(
   `门槛数据 ${schools.length - noRequirement}/${schools.length} · 分母覆盖 ${(denomCoverage * 100).toFixed(0)}%`,

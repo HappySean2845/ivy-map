@@ -17,7 +17,7 @@
 
 ## 录入顺序
 
-先 `sources.csv`，再 `admissions.csv` / `cohorts.csv`（它们要引用来源 id）。
+先 `sources.csv`，再 `admissions.csv` / `cohorts.csv` / `feeder-evidence.json`（它们要引用来源 id）。
 
 ### 1. `sources.csv` —— 先登记出处
 
@@ -47,6 +47,15 @@
 > 战报上写「斩获 N 枚 offer」→ 填 `offers`，`basis=offers`。构建时会按该校当年的人均 offer 系数折算成人头，**并自动把置信降一级**。
 >
 > 同一条数据既有人数又有 offer 口径时，**永远优先用人数**。
+
+### 2B. `feeder-evidence.json` —— 未拆分赛道的精确去向证据
+
+当公开来源明确给出「高中 × 大学 × 年份」的 exact count，但没有拆分 AP / IB / A-Level 时，记录到这里而不是 `admissions.csv`。这些行可以在去向证据卡片和地图上展示，但不会进入人均密度排名。
+
+- `sourceArtifact` 必须对应一次本地抓取的 SHA-256，抓取文件保存在已忽略的 `.data/runs/`。
+- `scope` 明确年份、录取阶段、人数或 offer 口径、覆盖人群和完整性。
+- 每行必须保留 `sourceLocator`；多赛道或未核验单赛道的学校，`track` 必须为 `null`。
+- 导入 PG 前运行 `pnpm data:feeder:sql -- --input ... --output ...` 生成幂等 SQL。
 
 ### 3. `cohorts.csv` —— 毕业生数（人均密度的分母）
 

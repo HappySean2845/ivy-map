@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-03T05:30:00Z",
+  "sourceArtifact": {
+    "sourceId": "jiaoyubao-beijing-us-early-2026",
+    "sha256": "1f9c5f606e66b828d9ae80b07b9267fa3a7ed7d6a1fba59a0bbfe111c69862da"
+  },
+  "scope": {
+    "academicYearStart": 2026,
+    "admissionRound": "early_combined",
+    "countKind": "offers",
+    "studentScope": "beijing_public_international_departments",
+    "isComplete": false,
+    "confidence": "L2"
+  },
+  "records": [
+    {
+      "schoolId": "bnusz",
+      "universityId": "princeton",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "普林斯顿大学",
+        "originLabel": "北师大实验国际部"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "stanford",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "斯坦福大学",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "yale",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "耶鲁大学",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "yale",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "耶鲁大学",
+        "originLabel": "人大附ICC"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "yale",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "耶鲁大学",
+        "originLabel": "四中IC"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "uchicago",
+      "track": null,
+      "countValue": 4,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "芝加哥大学",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "uchicago",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "芝加哥大学",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "uchicago",
+      "track": null,
+      "countValue": 3,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "芝加哥大学",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "uchicago",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "芝加哥大学",
+        "originLabel": "四中IC"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "jhu",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "约翰霍普金斯大学",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "jhu",
+      "track": null,
+      "countValue": 3,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "约翰霍普金斯大学",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "jhu",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "约翰霍普金斯大学",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "northwestern",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "西北大学",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "northwestern",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "西北大学",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "northwestern",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "西北大学",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "upenn",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "宾大",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "upenn",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 1,
+        "destinationLabel": "宾大",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "cornell",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "康奈尔",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "cornell",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "康奈尔",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "brown",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "布朗",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "dartmouth",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "达特茅斯",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "dartmouth",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "达特茅斯",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "columbia",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "哥伦比亚",
+        "originLabel": "四中IC"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "berkeley",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "伯克利",
+        "originLabel": "四中IC"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "umich",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "密歇根安娜堡分校",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "umich",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "密歇根安娜堡分校",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "umich",
+      "track": null,
+      "countValue": 3,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 2,
+        "destinationLabel": "密歇根安娜堡分校",
+        "originLabel": "四中IC"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "washu",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "圣路易斯华盛顿大学",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "washu",
+      "track": null,
+      "countValue": 4,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "圣路易斯华盛顿大学",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "washu",
+      "track": null,
+      "countValue": 3,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "圣路易斯华盛顿大学",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "washu",
+      "track": null,
+      "countValue": 4,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "圣路易斯华盛顿大学",
+        "originLabel": "四中IC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "cmu",
+      "track": null,
+      "countValue": 9,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "卡耐基梅隆",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "cmu",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "卡耐基梅隆",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "cmu",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "卡耐基梅隆",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "cmu",
+      "track": null,
+      "countValue": 1,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 3,
+        "destinationLabel": "卡耐基梅隆",
+        "originLabel": "四中IC"
+      }
+    },
+    {
+      "schoolId": "rdfz",
+      "universityId": "nyu",
+      "track": null,
+      "countValue": 12,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 4,
+        "destinationLabel": "纽约大学",
+        "originLabel": "ICC"
+      }
+    },
+    {
+      "schoolId": "bjshiyi",
+      "universityId": "nyu",
+      "track": null,
+      "countValue": 8,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 4,
+        "destinationLabel": "纽约大学",
+        "originLabel": "十一"
+      }
+    },
+    {
+      "schoolId": "bnusz",
+      "universityId": "nyu",
+      "track": null,
+      "countValue": 2,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 4,
+        "destinationLabel": "纽约大学",
+        "originLabel": "实验"
+      }
+    },
+    {
+      "schoolId": "bhsf",
+      "universityId": "nyu",
+      "track": null,
+      "countValue": 4,
+      "sourceLocator": {
+        "section": "综合大学",
+        "paragraph": 4,
+        "destinationLabel": "纽约大学",
+        "originLabel": "四中IC"
+      }
+    }
+  ]
+}

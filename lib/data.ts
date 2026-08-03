@@ -13,7 +13,7 @@ export const sourceById = new Map(dataset.sources.map((s) => [s.id, s]))
 
 /** 数据完备度 —— 首页要把这些数字讲出来，见下 */
 export function dataStatus() {
-  const { schools, cohorts, admissions, universities, defaultView } = dataset
+  const { schools, cohorts, admissions, feederEvidence, universities, defaultView } = dataset
   const withRequirement = schools.filter(
     (s) => s.requirement.sourceId != null || s.requirement.nationality !== 'unknown',
   ).length
@@ -31,6 +31,7 @@ export function dataStatus() {
 
   return {
     admissions: admissions.length,
+    feederEvidence: feederEvidence.length,
     cohorts: cohorts.length,
     sources: dataset.sources.length,
     schools: schools.length,

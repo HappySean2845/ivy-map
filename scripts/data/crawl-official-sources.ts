@@ -20,10 +20,14 @@ interface SeedRow {
   name_local: string
   name_en: string
   country_code: string
-  dataset_kind: 'cds' | 'facts'
+  dataset_kind: 'cds' | 'facts' | 'feeder_report'
   canonical_url: string
   fallback_url?: string
   current_artifact_url?: string
+  institution_kind?: 'university' | 'high_school' | 'government' | 'system'
+  source_type?: 'official' | 'government' | 'media' | 'report' | 'crowdsourced'
+  confidence?: 'L1' | 'L2' | 'L3'
+  source_title?: string
 }
 
 interface ArtifactAttempt {
@@ -148,8 +152,25 @@ function loadSeeds(path: string): SeedRow[] {
       if (!/^https?:$/.test(candidateUrl.protocol))
         throw new Error(`unsupported URL for ${row.source_id}: ${candidate}`)
     }
-    if (!['cds', 'facts'].includes(row.dataset_kind)) {
+    if (!['cds', 'facts', 'feeder_report'].includes(row.dataset_kind)) {
       throw new Error(`unsupported dataset_kind for ${row.source_id}: ${row.dataset_kind}`)
+    }
+    if (
+      row.institution_kind &&
+      !['university', 'high_school', 'government', 'system'].includes(row.institution_kind)
+    ) {
+      throw new Error(
+        `unsupported institution_kind for ${row.source_id}: ${row.institution_kind}`,
+      )
+    }
+    if (
+      row.source_type &&
+      !['official', 'government', 'media', 'report', 'crowdsourced'].includes(row.source_type)
+    ) {
+      throw new Error(`unsupported source_type for ${row.source_id}: ${row.source_type}`)
+    }
+    if (row.confidence && !['L1', 'L2', 'L3'].includes(row.confidence)) {
+      throw new Error(`unsupported confidence for ${row.source_id}: ${row.confidence}`)
     }
   }
   return parsed.data
@@ -376,10 +397,7 @@ async function crawlSource(
   }
   const documentLinks = discoveredLinks
     .filter((link) => link.kind === 'document')
-    .filter(
-      (link) =>
-        link.url !== seed.current_artifact_url && link.url !== seed.fallback_url,
-    )
+    .filter((link) => link.url !== seed.current_artifact_url && link.url !== seed.fallback_url)
     .slice(0, options.maxDocumentsPerSource)
 
   const documentDeadline = Date.now() + options.documentBudgetMs
@@ -414,7 +432,7 @@ async function main() {
   }
   if (seeds.length === 0) throw new Error('no source seeds selected')
   if (options.dryRun) {
-    console.log(`Validated ${seeds.length} official source seeds from ${options.seedFile}`)
+    console.log(`Validated ${seeds.length} source seeds from ${options.seedFile}`)
     return
   }
 
@@ -459,7 +477,7 @@ async function main() {
   const manifest: CrawlManifest = {
     schemaVersion: 1,
     runId: options.runId,
-    toolVersion: 'official-source-crawler/1',
+    toolVersion: 'source-crawler/2',
     seedFile: options.seedFile.slice(ROOT.length + 1),
     startedAt,
     finishedAt: new Date().toISOString(),

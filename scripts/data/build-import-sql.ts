@@ -38,6 +38,10 @@ interface Manifest {
       canonical_url: string
       fallback_url?: string
       current_artifact_url?: string
+      institution_kind?: 'university' | 'high_school' | 'government' | 'system'
+      source_type?: 'official' | 'government' | 'media' | 'report' | 'crowdsourced'
+      confidence?: 'L1' | 'L2' | 'L3'
+      source_title?: string
     }
     root: Attempt
     discoveredLinks: Array<{
@@ -92,9 +96,15 @@ function main() {
         : accessAttempt.status === 'fetched'
           ? 'fallback_fetched'
           : source.root.status
+    const institutionKind = seed.institution_kind || 'university'
+    const sourceType = seed.source_type || 'official'
+    const confidence = seed.confidence || 'L1'
+    const sourceTitle =
+      seed.source_title ||
+      `${seed.name_en} official ${seed.dataset_kind === 'cds' ? 'Common Data Set' : 'statistics'}`
     statements.push(
-      `INSERT INTO institutions (id, kind, name_en, name_local, country_code, status) VALUES (${sql(seed.institution_id)}, 'university', ${sql(seed.name_en)}, ${sql(seed.name_local)}, ${sql(seed.country_code)}, 'active') ON CONFLICT (id) DO UPDATE SET name_en = EXCLUDED.name_en, name_local = EXCLUDED.name_local, country_code = EXCLUDED.country_code, updated_at = now();`,
-      `INSERT INTO sources (id, institution_id, source_type, dataset_kind, title, canonical_url, confidence, access_status, http_status, final_url, error_detail, first_seen_at, last_checked_at) VALUES (${sql(seed.source_id)}, ${sql(seed.institution_id)}, 'official', ${sql(seed.dataset_kind)}, ${sql(`${seed.name_en} official ${seed.dataset_kind === 'cds' ? 'Common Data Set' : 'statistics'}`)}, ${sql(seed.canonical_url)}, 'L1', ${sql(accessStatus)}, ${sql(accessAttempt.httpStatus)}, ${sql(accessAttempt.finalUrl)}, ${sql(accessAttempt.errorDetail)}, ${sql(source.root.fetchedAt)}, ${sql(source.root.fetchedAt)}) ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title, canonical_url = EXCLUDED.canonical_url, access_status = EXCLUDED.access_status, http_status = EXCLUDED.http_status, final_url = EXCLUDED.final_url, error_detail = EXCLUDED.error_detail, last_checked_at = EXCLUDED.last_checked_at;`,
+      `INSERT INTO institutions (id, kind, name_en, name_local, country_code, status) VALUES (${sql(seed.institution_id)}, ${sql(institutionKind)}, ${sql(seed.name_en)}, ${sql(seed.name_local)}, ${sql(seed.country_code)}, 'active') ON CONFLICT (id) DO UPDATE SET kind = EXCLUDED.kind, name_en = EXCLUDED.name_en, name_local = EXCLUDED.name_local, country_code = EXCLUDED.country_code, updated_at = now();`,
+      `INSERT INTO sources (id, institution_id, source_type, dataset_kind, title, canonical_url, confidence, access_status, http_status, final_url, error_detail, first_seen_at, last_checked_at) VALUES (${sql(seed.source_id)}, ${sql(seed.institution_id)}, ${sql(sourceType)}, ${sql(seed.dataset_kind)}, ${sql(sourceTitle)}, ${sql(seed.canonical_url)}, ${sql(confidence)}, ${sql(accessStatus)}, ${sql(accessAttempt.httpStatus)}, ${sql(accessAttempt.finalUrl)}, ${sql(accessAttempt.errorDetail)}, ${sql(source.root.fetchedAt)}, ${sql(source.root.fetchedAt)}) ON CONFLICT (id) DO UPDATE SET source_type = EXCLUDED.source_type, dataset_kind = EXCLUDED.dataset_kind, title = EXCLUDED.title, canonical_url = EXCLUDED.canonical_url, confidence = EXCLUDED.confidence, access_status = EXCLUDED.access_status, http_status = EXCLUDED.http_status, final_url = EXCLUDED.final_url, error_detail = EXCLUDED.error_detail, last_checked_at = EXCLUDED.last_checked_at;`,
     )
 
     for (const attempt of [source.root, ...source.documents]) {
