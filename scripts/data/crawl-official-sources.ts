@@ -23,6 +23,7 @@ interface SeedRow {
   dataset_kind: 'cds' | 'facts'
   canonical_url: string
   fallback_url?: string
+  current_artifact_url?: string
 }
 
 interface ArtifactAttempt {
@@ -141,6 +142,12 @@ function loadSeeds(path: string): SeedRow[] {
     const url = new URL(row.canonical_url)
     if (!/^https?:$/.test(url.protocol))
       throw new Error(`unsupported URL: ${row.canonical_url}`)
+    for (const candidate of [row.fallback_url, row.current_artifact_url]) {
+      if (!candidate) continue
+      const candidateUrl = new URL(candidate)
+      if (!/^https?:$/.test(candidateUrl.protocol))
+        throw new Error(`unsupported URL for ${row.source_id}: ${candidate}`)
+    }
     if (!['cds', 'facts'].includes(row.dataset_kind)) {
       throw new Error(`unsupported dataset_kind for ${row.source_id}: ${row.dataset_kind}`)
     }
@@ -338,7 +345,25 @@ async function crawlSource(
       )
     : []
   const documents: ArtifactAttempt[] = []
-  if (rootResult.attempt.status !== 'fetched' && seed.fallback_url) {
+
+  if (seed.current_artifact_url) {
+    const currentArtifact = await fetchArtifact({
+      sourceId: seed.source_id,
+      artifactKind: 'document',
+      url: seed.current_artifact_url,
+      artifactsDir,
+      maxBytes: options.maxBytes,
+      ordinal: 0,
+    })
+    documents.push(currentArtifact.attempt)
+  }
+
+  if (
+    rootResult.attempt.status !== 'fetched' &&
+    seed.fallback_url &&
+    seed.fallback_url !== seed.current_artifact_url &&
+    !documents.some((attempt) => attempt.status === 'fetched')
+  ) {
     const fallback = await fetchArtifact({
       sourceId: seed.source_id,
       artifactKind: 'document',
@@ -351,6 +376,10 @@ async function crawlSource(
   }
   const documentLinks = discoveredLinks
     .filter((link) => link.kind === 'document')
+    .filter(
+      (link) =>
+        link.url !== seed.current_artifact_url && link.url !== seed.fallback_url,
+    )
     .slice(0, options.maxDocumentsPerSource)
 
   const documentDeadline = Date.now() + options.documentBudgetMs

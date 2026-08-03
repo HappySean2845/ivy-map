@@ -15,7 +15,7 @@ describe('published university data', () => {
   it('publishes the reviewed CDS batch without dropping the expanded catalog', () => {
     const status = dataStatus()
     expect(status.universities).toBe(31)
-    expect(status.officialAdmissions).toBe(7)
+    expect(status.officialAdmissions).toBe(19)
     expect(universityById.has('uw')).toBe(true)
 
     expect(universityById.get('harvard')?.officialAdmissions[0]).toMatchObject({
@@ -26,6 +26,30 @@ describe('published university data', () => {
       confidence: 'L1',
       sourceId: 'harvard-official',
     })
+
+    expect(universityById.get('brown')?.officialAdmissions[0]).toMatchObject({
+      academicYearStart: 2024,
+      applied: 48_904,
+      admitted: 2_638,
+      enrolled: 1_719,
+      sourceId: 'brown-official',
+    })
+    expect(universityById.get('columbia')?.officialAdmissions[0]).toMatchObject({
+      academicYearStart: 2024,
+      campus: 'Columbia College and Columbia Engineering',
+      applied: 60_247,
+      admitted: 2_325,
+      enrolled: 1_483,
+    })
+    expect(universityById.get('ucla')?.officialAdmissions[0]).toMatchObject({
+      academicYearStart: 2025,
+      campus: 'Los Angeles',
+      applied: 145_086,
+      admitted: 13_659,
+      enrolled: 6_553,
+    })
+    expect(universityById.get('jhu')?.officialAdmissions).toEqual([])
+    expect(universityById.get('nyu')?.officialAdmissions).toEqual([])
   })
 
   it('keeps every official snapshot linked to a published source', () => {

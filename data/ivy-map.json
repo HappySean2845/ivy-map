@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-07-31T15:24:22.660Z",
+  "builtAt": "2026-08-03T04:20:25.887Z",
   "cities": [
     {
       "id": "shanghai",
@@ -98,7 +98,17 @@
       "lat": 41.3163,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 50264,
+          "admitted": 2387,
+          "enrolled": 1633,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "yale-official"
+        }
+      ]
     },
     {
       "id": "princeton",
@@ -110,7 +120,17 @@
       "lat": 40.3431,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 42303,
+          "admitted": 1868,
+          "enrolled": 1408,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "princeton-official"
+        }
+      ]
     },
     {
       "id": "columbia",
@@ -122,7 +142,17 @@
       "lat": 40.8075,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2024,
+          "applied": 60247,
+          "admitted": 2325,
+          "enrolled": 1483,
+          "campus": "Columbia College and Columbia Engineering",
+          "confidence": "L1",
+          "sourceId": "columbia-official"
+        }
+      ]
     },
     {
       "id": "brown",
@@ -134,7 +164,17 @@
       "lat": 41.8268,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2024,
+          "applied": 48904,
+          "admitted": 2638,
+          "enrolled": 1719,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "brown-official"
+        }
+      ]
     },
     {
       "id": "dartmouth",
@@ -146,7 +186,17 @@
       "lat": 43.7044,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 28230,
+          "admitted": 1699,
+          "enrolled": 1205,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "dartmouth-official"
+        }
+      ]
     },
     {
       "id": "upenn",
@@ -158,7 +208,17 @@
       "lat": 39.9522,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2024,
+          "applied": 65236,
+          "admitted": 3523,
+          "enrolled": 2395,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "upenn-official"
+        }
+      ]
     },
     {
       "id": "cornell",
@@ -192,7 +252,17 @@
       "lat": 42.3601,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 29281,
+          "admitted": 1334,
+          "enrolled": 1152,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "mit-official"
+        }
+      ]
     },
     {
       "id": "stanford",
@@ -204,7 +274,17 @@
       "lat": 37.4275,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 60646,
+          "admitted": 2302,
+          "enrolled": 1839,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "stanford-official"
+        }
+      ]
     },
     {
       "id": "caltech",
@@ -260,7 +340,17 @@
       "lat": 36.0014,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 55541,
+          "admitted": 2910,
+          "enrolled": 1749,
+          "campus": null,
+          "confidence": "L1",
+          "sourceId": "duke-official"
+        }
+      ]
     },
     {
       "id": "northwestern",
@@ -318,7 +408,17 @@
       "lat": 37.8719,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 126864,
+          "admitted": 14524,
+          "enrolled": 6687,
+          "campus": "Berkeley",
+          "confidence": "L1",
+          "sourceId": "berkeley-official"
+        }
+      ]
     },
     {
       "id": "ucla",
@@ -330,7 +430,17 @@
       "lat": 34.0689,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 145086,
+          "admitted": 13659,
+          "enrolled": 6553,
+          "campus": "Los Angeles",
+          "confidence": "L1",
+          "sourceId": "ucla-official"
+        }
+      ]
     },
     {
       "id": "cmu",
@@ -364,7 +474,17 @@
       "lat": 42.278,
       "cai": null,
       "leverage": null,
-      "officialAdmissions": []
+      "officialAdmissions": [
+        {
+          "academicYearStart": 2025,
+          "applied": 109112,
+          "admitted": 17915,
+          "enrolled": 8178,
+          "campus": "Ann Arbor",
+          "confidence": "L1",
+          "sourceId": "umich-official"
+        }
+      ]
     },
     {
       "id": "uw",
@@ -2817,12 +2937,39 @@
       "confidence": "L3"
     },
     {
+      "id": "berkeley-official",
+      "type": "official",
+      "title": "UC Berkeley official Common Data Set",
+      "url": "https://docs.google.com/spreadsheets/d/1INsGFH6MhaO-MFMBZ1Dngcn84FeN-hc0BLS0-v8TL_k/export?format=xlsx",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
       "id": "cmu-official",
       "type": "official",
       "title": "Carnegie Mellon University (CMU) official Common Data Set",
       "url": "https://www.cmu.edu/ira/CDS/pdf/cds_2025_26/cds-2025-c-first-time-first-year-admission.pdf",
       "publishedAt": null,
       "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "dartmouth-official",
+      "type": "official",
+      "title": "Dartmouth College official Common Data Set",
+      "url": "https://www.dartmouth.edu/oir/pdfs/cds_2025-26.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
+      "id": "duke-official",
+      "type": "official",
+      "title": "Duke University official Common Data Set",
+      "url": "https://ir.provost.duke.edu/sites/default/files/CDS_PDF_2025-2026-20260622-website-published-version.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
       "confidence": "L1"
     },
     {
@@ -2835,12 +2982,84 @@
       "confidence": "L1"
     },
     {
+      "id": "mit-official",
+      "type": "official",
+      "title": "MIT official Common Data Set",
+      "url": "https://ir.mit.edu/projects/2025-26-common-data-set/",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
+      "id": "princeton-official",
+      "type": "official",
+      "title": "Princeton University official Common Data Set",
+      "url": "https://ir.princeton.edu/sites/g/files/toruqf2041/files/documents/CDS_2526_Princeton_v2.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
+      "id": "stanford-official",
+      "type": "official",
+      "title": "Stanford University official Common Data Set",
+      "url": "https://drive.google.com/uc?export=download&id=1GIPKgVj1d86dkmLkHI_mZVCk_iY6kiCp",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
+      "id": "ucla-official",
+      "type": "official",
+      "title": "UCLA official Common Data Set",
+      "url": "https://apb.ucla.edu/file/f8f5c864-93be-4b44-b646-7807a685749f",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
+      "id": "umich-official",
+      "type": "official",
+      "title": "University of Michigan (Ann Arbor) official Common Data Set",
+      "url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/cds_2025-26_umaa.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
+      "id": "yale-official",
+      "type": "official",
+      "title": "Yale University official Common Data Set",
+      "url": "https://oir.yale.edu/sites/default/files/yale_cds_2025-26_md_20260616.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
+      "id": "brown-official",
+      "type": "official",
+      "title": "Brown University official Common Data Set",
+      "url": "https://oir.brown.edu/institutional-data",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
+      "confidence": "L1"
+    },
+    {
       "id": "caltech-official",
       "type": "official",
       "title": "Caltech official Common Data Set",
       "url": "https://finance.caltech.edu/documents/31472/cds_2025.pdf",
       "publishedAt": null,
       "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "columbia-official",
+      "type": "official",
+      "title": "Columbia University official Common Data Set",
+      "url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2024-25_Columbia_College_and_Columbia_Engineering_CDS.pdf",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
       "confidence": "L1"
     },
     {
@@ -2859,6 +3078,15 @@
       "url": "https://bpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/8/2077/files/2025/08/CDS_2024-2025_to_publish.pdf",
       "publishedAt": null,
       "capturedAt": "2026-07-31",
+      "confidence": "L1"
+    },
+    {
+      "id": "upenn-official",
+      "type": "official",
+      "title": "University of Pennsylvania official Common Data Set",
+      "url": "https://upenn.app.box.com/index.php?rm=box_download_shared_file&shared_name=ckv4frz37rzxa4u6bdiv2h4yzykqm4ef&file_id=f_1909805807974",
+      "publishedAt": null,
+      "capturedAt": "2026-08-03",
       "confidence": "L1"
     },
     {

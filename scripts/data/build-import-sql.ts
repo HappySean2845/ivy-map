@@ -37,6 +37,7 @@ interface Manifest {
       dataset_kind: string
       canonical_url: string
       fallback_url?: string
+      current_artifact_url?: string
     }
     root: Attempt
     discoveredLinks: Array<{
