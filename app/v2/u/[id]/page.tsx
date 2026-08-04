@@ -8,9 +8,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { AdmitRateTrend } from '@/components/v2/AdmitRateTrend'
-import { FeederHandoff } from '@/components/v2/FeederHandoff'
 import { ScoreRadar } from '@/components/v2/ScoreRadar'
-import { ShortlistButton } from '@/components/v2/ShortlistButton'
+import { UniversityPathways } from '@/components/v2/UniversityPathways'
 import SourcePopover from '@/components/trust/SourcePopover'
 import { brandOf, readableInkOn } from '@/lib/v2/brand'
 import { countryLabel, profileById, scoreProvenance, viewOf } from '@/lib/v2/profile'
@@ -82,23 +81,16 @@ export default async function UniversityDetailPage({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <ShortlistButton
-              universityId={u.id}
-              className="border border-ink px-4 py-2 text-sm"
-              labels={{ on: '已收藏 ✓', off: '收藏这所' }}
-            />
-            {p.websiteUrl && (
-              <a
-                href={p.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-ink/70"
-              >
-                官网 →
-              </a>
-            )}
-          </div>
+          {p.websiteUrl && (
+            <a
+              href={p.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-ink/70"
+            >
+              官网 →
+            </a>
+          )}
         </div>
       </header>
 
@@ -139,10 +131,15 @@ export default async function UniversityDetailPage({
 
         <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
           <div className="shrink-0">
-            <ScoreRadar scores={scores} brandColor={p.brandColor} size={252} className="text-ink" />
+            <ScoreRadar
+              scores={scores}
+              brandColor={p.brandColor}
+              size={252}
+              className="text-ink"
+            />
             <p className="mt-2 max-w-[252px] text-[11px] leading-relaxed text-ink/40">
-              实心顶点 = 官方数据算出；空心顶点 = 编辑评估；虚线轴 = 暂无数据。
-              这张图<strong className="font-medium">不能按面积大小读</strong>
+              实心顶点 = 官方数据算出；空心顶点 = 编辑评估；虚线轴 = 暂无数据。 这张图
+              <strong className="font-medium">不能按面积大小读</strong>
               ，每根轴的方向见右侧。
             </p>
           </div>
@@ -152,7 +149,10 @@ export default async function UniversityDetailPage({
               const score = scores[dim]
               const measured = score.kind === 'measured'
               return (
-                <div key={dim} className="border-t border-ink/15 py-4 first:border-t-0 first:pt-0">
+                <div
+                  key={dim}
+                  className="border-t border-ink/15 py-4 first:border-t-0 first:pt-0"
+                >
                   <dt className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                     <span className="text-base">{PROFILE_DIM_LABEL[dim]}</span>
                     <span className="text-2xl tracking-tight tnum">
@@ -204,14 +204,7 @@ export default async function UniversityDetailPage({
         <AdmitRateTrend points={trend} brandColor={p.brandColor} universityNameCn={u.nameCn} />
       </section>
 
-      {/* ── 接回主线：国内生源校。三档措辞见 FeederHandoff */}
-      <section className="mt-12">
-        <p className="label text-ink/40">国内生源校</p>
-        <hr className="mt-2 border-ink" />
-        <div className="mt-4">
-          <FeederHandoff universityId={u.id} nameCn={u.nameCn} />
-        </div>
-      </section>
+      <UniversityPathways universityId={u.id} universityNameCn={u.nameCn} />
 
       {/* ── 复核状态。跟 School.verified 同一套纪律：没核对过就说没核对过 */}
       {!p.reviewed && (

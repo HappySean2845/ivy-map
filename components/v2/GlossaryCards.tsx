@@ -13,12 +13,17 @@ const GROUPS: { kind: TermKind; heading: string; note: string }[] = [
   {
     kind: 'curriculum',
     heading: '三条课程路线',
-    note: '互斥的三条路。孩子进哪所高中，基本就决定了走哪一条 —— 这也是「选高中」这件事分量所在。',
+    note: '高中可能单轨，也可能同时开设多条路线。真正要核对的是孩子所在的具体学部，而不是学校宣传册上出现过哪些课程名称。',
   },
   {
-    kind: 'score',
-    heading: '两份分数',
-    note: '不管走哪条路都要交的两份分数。',
+    kind: 'academic',
+    heading: '学业成绩与标化',
+    note: 'GPA 来自校内长期表现；SAT 是一次可重复参加的标准化考试。两者的来源、口径和招生政策都不同。',
+  },
+  {
+    kind: 'language',
+    heading: '两种语言成绩',
+    note: 'IELTS 和 TOEFL 都测英语能力，不是课程体系。大学是否接受、要求哪种量表以及是否卡单项，要看当年官方要求。',
   },
 ]
 
@@ -69,6 +74,17 @@ export function GlossaryCards() {
                     <Emphasis text={term.misconception} />
                   </p>
                 </div>
+
+                {term.sourceUrl && (
+                  <a
+                    href={term.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block text-xs text-ink/55"
+                  >
+                    {term.sourceLabel ?? '查看官方说明'} →
+                  </a>
+                )}
               </article>
             ))}
           </div>

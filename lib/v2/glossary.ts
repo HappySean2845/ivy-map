@@ -7,7 +7,7 @@
 // 该怎么用这个信息。真正有价值的是「没有 AP 文凭这回事」这种话 ——
 // 它会直接改变一个人怎么看学校的宣传材料。
 
-export type TermKind = 'curriculum' | 'score'
+export type TermKind = 'curriculum' | 'academic' | 'language'
 
 export interface Term {
   id: string
@@ -24,19 +24,22 @@ export interface Term {
   howItWorks: string
   /** 家长最常搞错的一点。这一条是这个页面存在的理由 */
   misconception: string
+  sourceUrl?: string
+  sourceLabel?: string
 }
 
 export const TERM_KIND_LABEL: Record<TermKind, string> = {
   curriculum: '课程体系',
-  score: '分数',
+  academic: '学业成绩',
+  language: '语言成绩',
 }
 
 /**
  * 引导语：先给家长一个能挂东西的框架，再讲细节。
- * 五个词不是并列的 —— 前三个是互斥的三条路，后两个是路上都要交的两份分数。
+ * 七个词不是并列的：课程体系、学业成绩和语言成绩是三个层级。
  */
 export const GLOSSARY_INTRO =
-  '这五个词经常被摆在一起说，但它们不是一个层级的东西。AP、IB、A-Level 是三条**互斥的课程路线**，孩子进哪所高中基本就决定了走哪条；GPA 和 SAT 是**两份分数**，不管走哪条路都要交。先分清这两层，再看学校宣传就不会被绕进去。'
+  '这七个词经常被摆在一起说，但它们不是一个层级。AP、IB、A-Level 是**高中课程路线**；GPA 和 SAT 描述**学业表现与标准化能力**；IELTS 和 TOEFL 证明**英语语言能力**。先分清这三层，再看学校宣传和大学要求就不会被绕进去。'
 
 export const TERMS: Term[] = [
   {
@@ -83,7 +86,7 @@ export const TERMS: Term[] = [
     name: 'GPA',
     fullName: 'Grade Point Average',
     nameCn: '平均学分绩点',
-    kind: 'score',
+    kind: 'academic',
     oneLine: '在校三年成绩的加权平均，通常按 4.0 制换算。',
     who: '所有申请美国大学的人。它是美国招生里权重最高的单项。',
     howItWorks:
@@ -96,13 +99,43 @@ export const TERMS: Term[] = [
     name: 'SAT',
     fullName: 'Scholastic Assessment Test',
     nameCn: '美国大学入学考试',
-    kind: 'score',
+    kind: 'academic',
     oneLine: '美国本科申请的标准化考试，满分 1600，分阅读文法与数学两部分。',
     who: '申请美国本科的人。部分学校目前是 test-optional（可选择不提交）。',
     howItWorks:
       '一年多次机会，可以反复考取最高分，部分学校接受拼分。2023 年起全面改为机考且题目自适应，考试时长比纸笔时代短。',
     misconception:
       '疫情后很多学校改成 test-optional，于是不少家长以为「不用考了」。但 **test-optional 不等于 test-blind** —— 不提交分数时，招生官只会把权重更多地压到 GPA 和课程难度上；而近两年一批顶尖学校已经在陆续恢复强制要求。另外，中国学生的数学部分在申请池里几乎没有区分度，真正拉开差距的是阅读文法。',
+  },
+  {
+    id: 'ielts',
+    name: 'IELTS',
+    fullName: 'International English Language Testing System',
+    nameCn: '雅思学术类考试',
+    kind: 'language',
+    oneLine: '听、说、读、写四项英语能力考试，每项与总分都按 0–9 分报告。',
+    who: '母语不是英语、且目标大学要求提供英语能力证明的申请者。是否接受、最低总分、单项门槛和豁免条件都由大学或专业自己规定。',
+    howItWorks:
+      '听力、阅读、写作、口语各有一个 band score；总分是四项平均值，并按官方规则取到最近的 0.5 分档。成绩单会同时显示总分和四个单项，不能只看总分。',
+    misconception:
+      '“总分到了”不等于“语言要求过了”。很多专业还会卡写作或口语单项；同一所大学的本科、研究生和不同专业也可能用不同门槛。**申请时要逐项核对总分、单项、成绩有效期和豁免规则。**',
+    sourceUrl: 'https://ielts.org/take-a-test/your-results/ielts-scoring-in-detail',
+    sourceLabel: 'IELTS 官方计分说明',
+  },
+  {
+    id: 'toefl',
+    name: 'TOEFL',
+    fullName: 'Test of English as a Foreign Language',
+    nameCn: '托福网考',
+    kind: 'language',
+    oneLine: '面向学术场景的英语能力考试，考阅读、听力、写作和口语四项。',
+    who: '母语不是英语、且目标大学接受 TOEFL 作为语言证明的申请者。大学会自行规定总分、单项和豁免要求。',
+    howItWorks:
+      '2026 年 1 月 21 日起，四个单项和总分改用 1–6 分、每 0.5 分一档；总分是四项平均后取到最近的 0.5 分。过渡两年内，成绩单还会同时给出可比的 0–120 总分。',
+    misconception:
+      '现在看到“托福 5 分”不是考砸了，而是新量表。**先看考试日期和大学写的是 1–6 还是旧 0–120 口径**；再看单项门槛，不能只拿一个换算表机械比较总分。',
+    sourceUrl: 'https://www.ets.org/toefl/test-takers/ibt/scores/understand-scores.html',
+    sourceLabel: 'ETS 官方计分说明',
   },
 ]
 

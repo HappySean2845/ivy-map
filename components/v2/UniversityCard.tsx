@@ -1,4 +1,4 @@
-// snapshot 卡片。刷卡、瀑布流、详情页顶部三处共用。
+// snapshot 卡片。大学目录与旧刷卡组件共用；当前产品只展示目录形态。
 //
 // 布局按手写稿：左上 logo、右边校名、中间简述与强项、右侧多边形评分、左下官网跳转。
 //
@@ -11,7 +11,6 @@ import Link from 'next/link'
 import { ScoreRadar } from '@/components/v2/ScoreRadar'
 import { brandOf, readableInkOn } from '@/lib/v2/brand'
 import { countryLabel, schoolYearLabel, type UniversityView } from '@/lib/v2/profile'
-import { PROFILE_DIM_LABEL } from '@/types/profile'
 
 export function UniversityCard({
   view,
@@ -19,7 +18,7 @@ export function UniversityCard({
   className = '',
 }: {
   view: UniversityView
-  /** deck 刷卡（信息最全）· grid 瀑布流（压缩到能扫的密度） */
+  /** deck 是旧刷卡组件的兼容形态；grid 是当前首页目录 */
   variant?: 'deck' | 'grid'
   className?: string
 }) {
@@ -44,7 +43,9 @@ export function UniversityCard({
             src={p.logoPath}
             alt=""
             aria-hidden
-            className={compact ? 'h-9 w-9 shrink-0 object-contain' : 'h-11 w-11 shrink-0 object-contain'}
+            className={
+              compact ? 'h-9 w-9 shrink-0 object-contain' : 'h-11 w-11 shrink-0 object-contain'
+            }
           />
         ) : (
           <span
@@ -59,7 +60,9 @@ export function UniversityCard({
         )}
 
         <div className="min-w-0 flex-1">
-          <h3 className={compact ? 'truncate text-[17px] leading-tight' : 'text-xl leading-tight'}>
+          <h3
+            className={compact ? 'truncate text-[17px] leading-tight' : 'text-xl leading-tight'}
+          >
             {u.nameCn}
           </h3>
           <p className="mt-0.5 truncate text-xs text-ink/50">{u.nameEn}</p>
@@ -74,7 +77,9 @@ export function UniversityCard({
       {p.vibe && (
         <div className="mt-3 shrink-0 border-t border-ink/15 px-4 pt-3 sm:px-5">
           {/* 刷卡卡片高度固定，简述再长也不能把下面的评分挤出去 */}
-          <p className={`leading-relaxed ${compact ? 'line-clamp-3 text-[13px]' : 'line-clamp-4 text-sm'}`}>
+          <p
+            className={`leading-relaxed ${compact ? 'line-clamp-3 text-[13px]' : 'line-clamp-4 text-sm'}`}
+          >
             {p.vibe}
           </p>
           <p className="mt-1.5 text-[10px] text-ink/40">编辑撰写</p>
@@ -113,19 +118,16 @@ export function UniversityCard({
         <ScoreRadar
           scores={scores}
           brandColor={p.brandColor}
-          size={compact ? 116 : 140}
-          showLabels={!compact}
+          size={compact ? 136 : 140}
+          showLabels
           className="shrink-0 text-ink"
         />
       </div>
 
-      {/* 紧凑模式没有标签，用一行字说明四根轴是什么 */}
+      {/* 方向直接写在卡片上，避免把四边形误读成「面积越大越好」。 */}
       {compact && (
         <p className="mt-2 px-4 text-[10px] leading-relaxed text-ink/40 sm:px-5">
-          上起顺时针：
-          {(['selectivity', 'affinity', 'safety', 'facilities'] as const)
-            .map((d) => PROFILE_DIM_LABEL[d])
-            .join(' · ')}
+          录取难度越外越难录；其余三项越外分别表示越友好、越安全、设施越完善。
         </p>
       )}
 
@@ -138,8 +140,6 @@ export function UniversityCard({
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-ink/70"
-            // 刷卡时点链接不该被判定成划卡
-            onPointerDown={(e) => e.stopPropagation()}
           >
             官网 →
           </a>
@@ -147,12 +147,8 @@ export function UniversityCard({
           <span className="text-xs text-ink/40">官网待补</span>
         )}
 
-        <Link
-          href={`/v2/u/${u.id}`}
-          className="text-xs text-ink/70"
-          onPointerDown={(e) => e.stopPropagation()}
-        >
-          {compact ? '看详情 →' : '看评分依据与趋势 →'}
+        <Link href={`/v2/u/${u.id}`} className="text-xs text-ink/70">
+          {compact ? '看画像、课程与对应高中 →' : '看评分依据与趋势 →'}
         </Link>
       </footer>
     </article>

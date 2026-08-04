@@ -1,54 +1,28 @@
-// 首页。
-//
-// 分工：**静态说明由服务端直出，交互部分才进 client 容器。**
-// 一开始整页都塞在 HomeClient 里，结果 SSR 出来的 HTML 只有 Suspense 兜底 ——
-// 搜索引擎什么都看不到，慢网络下用户先看到「正在载入」。而 US-1.0 要的恰恰是
-// 「落地 5 秒内看懂这是什么」，那就必须在第一份 HTML 里。
-//
-// 所以：产品主张、分母缺口、offer 膨胀说明 → 服务端；
-//       地图、筛选、滑杆、榜单 → HomeClient。
-
-import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import HomeClient from './HomeClient'
-import OfferInflationNote from '@/components/trust/OfferInflationNote'
-import { dataStatus, denominatorGapLine, universityById } from '@/lib/data'
-import { DEFAULT_FILTERS } from '@/lib/filters'
 
-const defaultUniversity = DEFAULT_FILTERS.universityId
-  ? universityById.get(DEFAULT_FILTERS.universityId)
-  : undefined
+import { Nav } from '@/components/v2/Nav'
+import { UniversityBrowser } from '@/components/v2/UniversityBrowser'
+import { courseAttributionData } from '@/lib/v2/course-attribution'
+import { profileById } from '@/lib/v2/profile'
+import { PROFILE_DIMS, PROFILE_DIM_DIRECTION, PROFILE_DIM_LABEL } from '@/types/profile'
 
-export function generateMetadata(): Metadata {
-  const name = defaultUniversity?.nameCn ?? '常春藤'
-  return {
-    title: `${name}的中国生源校 · 按人均命中率排序`,
-    description:
-      `想去${name}，国内该上哪所高中？反推近三届生源校榜单，` +
-      `按人均命中率而不是 offer 数排序，并告诉你报不报得了。数据均可溯源。`,
-  }
+export const metadata: Metadata = {
+  title: '大学画像、课程路径与国内生源校',
+  description:
+    '浏览大学画像、官方录取率与四维评分，再查看 AP、IB、A-Level 课程路径和对应的国内高中去向证据。',
 }
 
-export default function Home() {
-  const s = dataStatus()
+export default function HomePage() {
+  const linkedUniversityCount = new Set(
+    courseAttributionData.observations.map((observation) => observation.universityId),
+  ).size
 
   return (
     <>
-      {/* ── 顶部导航。参考站的写法：白底、无边框、右对齐纯文字链接、→ 即 affordance */}
-      <nav className="mx-auto flex max-w-6xl items-baseline justify-between px-4 pt-6 sm:px-8">
-        <Link href="/" className="label hover:no-underline">
-          IVY MAP
-        </Link>
-        <div className="label flex gap-5 text-ink/60">
-          <Link href="/about">关于 →</Link>
-        </div>
-      </nav>
-
-      <main className="pb-24">
-        {/* ── HERO。建筑式背景字 + 巨型标题（design-system.md §5）。
-               背景字永远不承载可读信息，只做尺度和纵深，全站只用这一次。 */}
-        <header className="relative isolate mx-auto max-w-6xl px-4 pt-10 sm:px-8 sm:pt-16">
+      <Nav />
+      <main className="mx-auto max-w-6xl px-4 pb-20 sm:px-8">
+        <header className="relative isolate pt-10 sm:pt-16">
           <div
             aria-hidden="true"
             className="scaffold pointer-events-none absolute -top-8 -left-6 z-0 select-none sm:-top-20"
@@ -57,58 +31,65 @@ export default function Home() {
           </div>
 
           <div className="relative z-10">
-            <p className="label text-ink/40">生源校研究 · FEEDER SCHOOL RESEARCH</p>
-
+            <p className="label text-ink/40">IVY MAP · 大学画像</p>
             <h1 className="mt-5 max-w-4xl text-[32px] leading-[1.05] tracking-tight sm:text-[56px]">
-              想去哪所大学
+              先看想去的大学
               <br />
-              就该上哪所高中
+              再看谁在往那里送人
             </h1>
 
             <hr className="mt-8 border-ink" />
 
-            <div className="mt-8 grid gap-8 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] sm:gap-12">
+            <div className="mt-8 grid gap-8 sm:grid-cols-2 sm:gap-12">
               <p className="max-w-xl text-[17px] leading-relaxed sm:text-[18px]">
-                留学工具都在回答「这所大学好不好」。但一个初二孩子的家长今年能动的杠杆，是
-                <strong className="font-medium">把孩子送进哪所高中</strong>
-                。所以这张地图是<strong className="font-medium">反着用</strong>
-                的：先选目标大学，再反推国内哪些高中真的在往那里送人。
+                每张卡片先讲清大学本身：位置、知名领域、官方录取率与四维画像。 点进详情，再沿着
+                <strong className="font-medium">课程路径</strong>反推国内哪些高中有
+                可查的去向记录，以及这些录取能不能归到 AP、IB 或 A-Level 学部。
               </p>
-
-              <div>
-                {/* ── 分母缺口。这是论点，不是免责声明，所以放在首屏显眼处、
-                     而不是塞进页脚。 */}
-                <p className="border-l border-ink pl-4 text-sm leading-relaxed text-ink/60">
-                  {denominatorGapLine()}
-                </p>
-                <div className="mt-5">
-                  <OfferInflationNote />
-                </div>
-              </div>
+              <p className="border-l border-ink pl-4 text-sm leading-relaxed text-ink/60">
+                已证实、方向性推断、来源未拆分会分开显示。来源没有拆到学部的记录只做去向证据，
+                不拿去算分赛道人均命中率。
+              </p>
             </div>
 
             <p className="mt-8 text-xs text-ink/40 tnum">
-              收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条排名录取 ·{' '}
-              {s.feederEvidence} 条去向证据 · {s.officialAdmissions} 组官方招生快照 ·{' '}
-              {s.sources} 个来源 ·{' '}
-              <Link href="/about" className="text-ink/60">
-                数据来源与方法论 →
+              {profileById.size} 所大学画像 · {linkedUniversityCount} 所大学已有国内高中数据 ·{' '}
+              {courseAttributionData.schools.length} 所高中 ·{' '}
+              {courseAttributionData.observations.length} 条逐年记录 ·{' '}
+              <Link href="/v2/glossary" className="text-ink/60">
+                先看课程与考试术语 →
               </Link>
             </p>
           </div>
         </header>
 
-        {/* useSearchParams 需要 Suspense 边界（Next 16）。
-            兜底只占交互区那一块，上面的说明已经直出了。 */}
-        <Suspense
-          fallback={
-            <p className="mt-16 text-sm text-ink/40 tnum">
-              正在载入 {s.admissions} 条录取记录…
+        <section className="mt-14 sm:mt-20">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="label text-ink/40">全部大学</p>
+              <h2 className="mt-3 text-2xl leading-tight sm:text-[32px]">
+                {profileById.size} 张大学卡片，全部展开
+              </h2>
+            </div>
+            <p className="max-w-md text-xs leading-relaxed text-ink/45">
+              四边形每根轴都在图上标明；实心顶点是官方数据，空心顶点是编辑评估。
             </p>
-          }
-        >
-          <HomeClient />
-        </Suspense>
+          </div>
+          <hr className="mt-4 border-ink" />
+
+          <dl className="grid gap-x-6 gap-y-2 border-b border-ink/15 py-3 text-xs sm:grid-cols-2">
+            {PROFILE_DIMS.map((dim) => (
+              <div key={dim} className="flex items-baseline gap-2">
+                <dt className="shrink-0 text-ink/70">{PROFILE_DIM_LABEL[dim]}</dt>
+                <dd className="text-ink/45">{PROFILE_DIM_DIRECTION[dim]}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-6">
+            <UniversityBrowser />
+          </div>
+        </section>
       </main>
     </>
   )

@@ -9,9 +9,9 @@ import Link from 'next/link'
 import { GlossaryCards } from '@/components/v2/GlossaryCards'
 
 export const metadata: Metadata = {
-  title: 'AP / IB / A-Level / GPA / SAT 到底差在哪',
+  title: 'AP / IB / A-Level / GPA / SAT / IELTS / TOEFL 到底差在哪',
   description:
-    'AP、IB、A-Level 是三条互斥的课程路线，GPA 和 SAT 是两份分数。每条配一句家长最常搞错的。',
+    '分清三种课程体系、两种学业成绩和 IELTS、TOEFL 两种语言成绩。每条配一句家长最常搞错的。',
 }
 
 export default function GlossaryPage() {
@@ -21,7 +21,7 @@ export default function GlossaryPage() {
         <p className="label text-ink/40">01 / 术语</p>
         <hr className="mt-2 border-ink" />
         <h1 className="mt-5 max-w-3xl text-[28px] leading-tight tracking-tight sm:text-[44px]">
-          五个词，两分钟
+          七个词，分成三层看
         </h1>
       </header>
 
@@ -29,30 +29,19 @@ export default function GlossaryPage() {
         <GlossaryCards />
       </div>
 
-      {/* ── 读完了，接着选路 */}
+      {/* ── 读完了，回到大学目录 */}
       <section className="mt-14 sm:mt-20">
         <p className="label text-ink/40">02 / 接下来</p>
         <hr className="mt-2 border-ink" />
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
-          <Link
-            href="/v2/pick-highschool"
-            className="group border border-ink p-5 hover:no-underline sm:p-6"
-          >
-            <h2 className="text-xl leading-tight group-hover:underline">我要选高中 →</h2>
-            <p className="mt-2 text-sm leading-relaxed text-ink/60">
-              已经有目标大学，想知道国内哪些高中在往那里送人。
-            </p>
-          </Link>
-          <Link
-            href="/v2/pick-university"
-            className="group border border-ink p-5 hover:no-underline sm:p-6"
-          >
-            <h2 className="text-xl leading-tight group-hover:underline">我要选大学 →</h2>
-            <p className="mt-2 text-sm leading-relaxed text-ink/60">
-              还没有目标，一所一所刷着看。
-            </p>
-          </Link>
-        </div>
+        <Link
+          href="/"
+          className="group mt-6 block border border-ink p-5 hover:no-underline sm:p-6"
+        >
+          <h2 className="text-xl leading-tight group-hover:underline">去看全部大学 →</h2>
+          <p className="mt-2 text-sm leading-relaxed text-ink/60">
+            从大学画像进入详情，再看课程路径和对应的国内高中去向证据。
+          </p>
+        </Link>
       </section>
     </>
   )
