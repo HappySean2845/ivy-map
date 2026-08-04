@@ -22,11 +22,13 @@ import {
   type Cohort,
   type FeederEvidence,
 } from '../types/index.js'
+import { CURATED_DIMS, type ProfileDataset, type UniversityProfile } from '../types/profile.js'
 import { scoreFeeders, computeLeverage, hasRankReversal } from '../lib/scoring.js'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const RAW = resolve(ROOT, 'data/raw')
 const OUT = resolve(ROOT, 'data/ivy-map.json')
+const PROFILE_OUT = resolve(ROOT, 'data/university-profiles.json')
 
 // --- 报告 -------------------------------------------------------------------
 
@@ -597,6 +599,99 @@ if (noRequirement > 0) {
   )
 }
 
+// --- v2 大学画像 ------------------------------------------------------------
+// 独立产物 data/university-profiles.json，不并进 Dataset。
+// 门禁比事实层松一档（策展分允许无来源），但**声称是 measured 就必须给来源** ——
+// 否则「编辑打的分」和「官方算出来的数」会在雷达图上混成一团，
+// 而那正是这张图唯一不能出的错。
+
+const ProfileScoreSchema = z
+  .object({
+    value: z.number().min(0).max(100).nullable(),
+    basis: z.string().min(1),
+    kind: z.enum(['measured', 'editorial']),
+    sourceIds: z.array(z.string().min(1)),
+  })
+  .strict()
+
+const ProfileInputSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    _note: z.array(z.string()).optional(),
+    profiles: z.array(
+      z
+        .object({
+          universityId: z.string().min(1),
+          websiteUrl: z.url().nullable(),
+          logoPath: z.string().min(1).nullable(),
+          brandColor: z
+            .string()
+            .regex(/^#[0-9A-Fa-f]{6}$/, '校色必须是 #RRGGBB 形式')
+            .nullable(),
+          monogram: z.string().min(1).max(4),
+          foundedYear: z.number().int().min(1000).max(2100).nullable(),
+          strengths: z.array(z.string().min(1)),
+          vibe: z.string().min(1).nullable(),
+          scores: z.object(
+            Object.fromEntries(CURATED_DIMS.map((d) => [d, ProfileScoreSchema])) as Record<
+              (typeof CURATED_DIMS)[number],
+              typeof ProfileScoreSchema
+            >,
+          ),
+          reviewed: z.boolean(),
+        })
+        .strict(),
+    ),
+  })
+  .strict()
+
+const profileParsed = ProfileInputSchema.safeParse(readJson('university-profiles.json'))
+if (!profileParsed.success) {
+  for (const issue of profileParsed.error.issues) {
+    fail(`[v2 profiles] university-profiles.json ${issue.path.join('.')}：${issue.message}`)
+  }
+}
+
+const profiles: UniversityProfile[] = profileParsed.success ? profileParsed.data.profiles : []
+const profileIds = new Set<string>()
+for (const p of profiles) {
+  if (!universityIds.has(p.universityId)) {
+    fail(`[v2 profiles] 画像引用了不存在的大学：${p.universityId}`)
+  }
+  if (profileIds.has(p.universityId)) {
+    fail(`[v2 profiles] 画像重复：${p.universityId}`)
+  }
+  profileIds.add(p.universityId)
+
+  for (const dim of CURATED_DIMS) {
+    const s = p.scores[dim]
+    // 声称是实测就必须能查 —— 这条不留活口
+    if (s.kind === 'measured' && s.sourceIds.length === 0) {
+      fail(`[v2 profiles] ${p.universityId}.${dim}：kind=measured 但没有来源`)
+    }
+    for (const id of s.sourceIds) {
+      if (!sourceIds.has(id)) {
+        fail(`[v2 profiles] ${p.universityId}.${dim}：来源 "${id}" 不存在`)
+      }
+    }
+    // 有分必须有口径说明，没分也必须说清缺什么
+    if (s.value == null && s.kind === 'measured') {
+      warn(`[v2 profiles] ${p.universityId}.${dim}：measured 但无值，雷达图会断轴`)
+    }
+  }
+}
+
+const missingProfiles = [...universityIds].filter((id) => !profileIds.has(id))
+if (missingProfiles.length > 0) {
+  warn(
+    `[v2 profiles] ${missingProfiles.length} 所大学没有画像，刷卡时会被跳过：${missingProfiles.join('、')}`,
+  )
+}
+const unreviewed = profiles.filter((p) => !p.reviewed).length
+if (unreviewed > 0) {
+  warn(`[v2 profiles] ${unreviewed} / ${profiles.length} 份画像未人工复核（详情页已明示）`)
+}
+
 // --- 输出 -------------------------------------------------------------------
 
 const dataset: Dataset = {
@@ -619,6 +714,7 @@ console.log(
   `排名录取 ${admissions.length} · 非排名去向证据 ${feederEvidence.length} · 届次 ${cohorts.length} · 来源 ${sources.length}`,
 )
 console.log(`官方招生快照 ${officialAdmissionRecords.length}`)
+console.log(`v2 大学画像 ${profiles.length}/${universityIds.size}`)
 console.log(
   `门槛数据 ${schools.length - noRequirement}/${schools.length} · 分母覆盖 ${(denomCoverage * 100).toFixed(0)}%`,
 )
@@ -639,4 +735,12 @@ if (errors.length) {
 
 writeFileSync(OUT, JSON.stringify(dataset, null, 2))
 const kb = (Buffer.byteLength(JSON.stringify(dataset)) / 1024).toFixed(1)
-console.log(`\n✓  已写入 data/ivy-map.json（${kb} KB）\n`)
+console.log(`\n✓  已写入 data/ivy-map.json（${kb} KB）`)
+
+// builtAt 沿用 dataset 的，两份产物必须是同一时刻的快照
+const profileDataset: ProfileDataset = { builtAt: dataset.builtAt, profiles }
+writeFileSync(PROFILE_OUT, JSON.stringify(profileDataset, null, 2))
+const profileKb = (Buffer.byteLength(JSON.stringify(profileDataset)) / 1024).toFixed(1)
+console.log(
+  `✓  已写入 data/university-profiles.json（${profileKb} KB · ${profiles.length} 份画像）\n`,
+)
