@@ -26,6 +26,18 @@ describe('published course attribution data', () => {
     ).toBeGreaterThan(0)
   })
 
+  it('reuses legacy hit rates without estimating missing denominators', () => {
+    const oxford = universityCourseEvidence('oxford')
+    const harvard = universityCourseEvidence('harvard')
+    const ulink = oxford.schools.find((school) => school.school.id === 'ulink')
+    const scie = oxford.schools.find((school) => school.school.id === 'scie')
+
+    expect(ulink?.regionLabel).toBe('上海')
+    expect(ulink?.hitRate).toBeGreaterThan(0)
+    expect(scie?.regionLabel).toBe('深圳')
+    expect(harvard.schools.every((school) => school.hitRate == null)).toBe(true)
+  })
+
   it('does not turn inferred or possible records into confirmed tracks', () => {
     for (const observation of courseAttributionData.observations) {
       if (observation.attributionStatus !== 'confirmed') {

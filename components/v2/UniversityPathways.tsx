@@ -10,6 +10,7 @@ import {
   universityCourseEvidence,
   type SchoolAttributionView,
 } from '@/lib/v2/course-attribution'
+import { RegionSchoolTabs, type RegionSchoolGroup } from '@/components/v2/RegionSchoolTabs'
 
 const STATUS_STYLE: Record<AttributionStatus, string> = {
   confirmed: 'border-ink bg-ink text-paper',
@@ -26,6 +27,8 @@ const COUNT_KIND_LABEL: Record<CourseAdmissionObservation['countKind'], string> 
   enrolled: '入学人数',
   interviews: '面试',
 }
+
+const REGION_ORDER = ['北京', '上海', '广州', '深圳', '广东 / 港澳', '江浙', '其他']
 
 function attributionKey(attribution: AdmissionAttribution) {
   return `${attribution.curriculumCode}:${attribution.status}:${attribution.exclusionRisk}`
@@ -45,6 +48,12 @@ function yearRange(years: number[]) {
   if (years.length === 0) return '年份未明'
   if (years.length === 1) return `${years[0]}`
   return `${years.at(-1)}–${years[0]}`
+}
+
+function formatHitRate(rate: number | null) {
+  if (rate == null) return '—'
+  const percentage = rate * 100
+  return `${percentage >= 10 ? percentage.toFixed(1) : percentage.toFixed(2)}%`
 }
 
 export function UniversityPathways({
@@ -70,6 +79,35 @@ export function UniversityPathways({
       </section>
     )
   }
+
+  const schoolsByRegion = new Map<string, SchoolAttributionView[]>()
+  for (const school of evidence.schools) {
+    schoolsByRegion.set(school.regionLabel, [
+      ...(schoolsByRegion.get(school.regionLabel) ?? []),
+      school,
+    ])
+  }
+  const regionLabels = [...schoolsByRegion.keys()].sort(
+    (left, right) =>
+      (REGION_ORDER.indexOf(left) === -1 ? REGION_ORDER.length : REGION_ORDER.indexOf(left)) -
+        (REGION_ORDER.indexOf(right) === -1 ? REGION_ORDER.length : REGION_ORDER.indexOf(right)) ||
+      left.localeCompare(right, 'zh'),
+  )
+  const regionGroups: RegionSchoolGroup[] = regionLabels.map((label, regionIndex) => {
+    const schools = schoolsByRegion.get(label) ?? []
+    return {
+      id: `school-region-${regionIndex}`,
+      label,
+      count: schools.length,
+      content: (
+        <ul className="mt-6 grid items-start gap-4 lg:grid-cols-2">
+          {schools.map((view, schoolIndex) => (
+            <FeederSchoolCard key={view.school.id} view={view} index={schoolIndex + 1} />
+          ))}
+        </ul>
+      ),
+    }
+  })
 
   return (
     <>
@@ -112,12 +150,11 @@ export function UniversityPathways({
             {courseAttributionData.source.capturedAt.slice(0, 10)} 整理
           </p>
         </div>
-
-        <ul className="mt-6 grid items-start gap-4 lg:grid-cols-2">
-          {evidence.schools.map((view, index) => (
-            <FeederSchoolCard key={view.school.id} view={view} index={index + 1} />
-          ))}
-        </ul>
+        <p className="mt-3 max-w-3xl text-xs leading-relaxed text-ink/45">
+          先选地区，再看该地区的高中。命中率沿用旧榜单口径：近三届加权录取人数 ÷
+          对应赛道加权毕业生数；缺少毕业生分母时显示“—”。
+        </p>
+        <RegionSchoolTabs groups={regionGroups} />
       </section>
     </>
   )
@@ -144,8 +181,18 @@ function FeederSchoolCard({ view, index }: { view: SchoolAttributionView; index:
             <p className="mt-1 text-xs text-ink/45">{view.school.nameEn}</p>
           )}
           <p className="mt-1.5 text-xs text-ink/55 tnum">
-            {view.school.region} · {yearRange(view.years)} · {view.observations.length} 条记录 ·
+            {view.regionLabel} · {yearRange(view.years)} · {view.observations.length} 条记录 ·
             原文计数合计 {view.reportedTotal}
+          </p>
+        </div>
+        <div className="ml-auto shrink-0 border-l border-ink/15 pl-4 text-right">
+          <p className="label text-ink/40">命中率</p>
+          <p
+            className={`mt-1 text-xl tracking-tight tnum ${
+              view.hitRate == null ? 'text-ink/30' : 'text-ink'
+            }`}
+          >
+            {formatHitRate(view.hitRate)}
           </p>
         </div>
       </header>
