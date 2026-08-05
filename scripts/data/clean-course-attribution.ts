@@ -44,6 +44,15 @@ interface CatalogUniversity {
   country: string
 }
 
+interface CatalogCohort {
+  school_id: string
+  year: string
+  track: 'AP' | 'IB' | 'ALEVEL'
+  graduates: string
+  total_offers: string
+  source_id: string
+}
+
 interface SchoolBlock {
   title: string
   displayName: string
@@ -112,6 +121,22 @@ interface ObservationRecord {
   attributions: AttributionRecord[]
 }
 
+interface CohortRecord {
+  schoolId: string
+  year: number
+  scope: 'school' | 'department'
+  curriculumCode: 'AP' | 'IB' | 'ALEVEL' | null
+  graduates: number
+  totalOffers: number | null
+  sourceKind: 'research_markdown' | 'legacy_csv'
+  sourceReference: string
+  sourceLine: number | null
+  sourceExcerpt: string
+  confidence: 'L1' | 'L2' | 'L3'
+  reviewStatus: 'extracted' | 'reviewed'
+  cohortHash: string
+}
+
 interface CleanResult {
   schemaVersion: 1
   source: {
@@ -122,6 +147,7 @@ interface CleanResult {
   }
   schools: CleanSchool[]
   programs: ProgramRecord[]
+  cohorts: CohortRecord[]
   observations: ObservationRecord[]
   report: {
     detectedSchoolBlocks: number
@@ -129,6 +155,11 @@ interface CleanResult {
     matchedExistingSchools: number
     newSchools: number
     programRows: number
+    cohortRows: number
+    markdownCohortRows: number
+    legacyCohortRows: number
+    conflictingCohortClaims: number
+    inconsistentCohortClaims: number
     observationRows: number
     attributionRows: number
     observationsByStatus: Record<AttributionStatus, number>
@@ -551,6 +582,197 @@ function yearForLine(line: string, currentYear: number | null): number | null {
   return currentYear
 }
 
+function cohortHash(record: Omit<CohortRecord, 'cohortHash'>): string {
+  return hash(
+    canonicalJson({
+      sourceReference: record.sourceReference,
+      schoolId: record.schoolId,
+      year: record.year,
+      scope: record.scope,
+      curriculumCode: record.curriculumCode,
+      graduates: record.graduates,
+      sourceLine: record.sourceLine,
+    }),
+  )
+}
+
+function curriculumFromCohortLabel(label: string): 'AP' | 'IB' | 'ALEVEL' | null {
+  if (/^AP$/i.test(label)) return 'AP'
+  if (/^IB(?:DP)?$/i.test(label)) return 'IB'
+  if (/^(?:A[ -]?Level|AL)$/i.test(label)) return 'ALEVEL'
+  return null
+}
+
+function ambiguousCohortClaim(text: string, start: number, end: number): boolean {
+  if (/累计|历届|十五届|多校区|[五六]校区合计/.test(text)) return true
+  const local = text.slice(Math.max(0, start - 12), Math.min(text.length, end + 6))
+  const prefix = text.slice(Math.max(0, start - 8), start)
+  return /约|≈|~|～|不足|不到|少于|至多/.test(local) || /\d+\s*[–—-]\s*$/.test(prefix)
+}
+
+function markdownCohorts(block: SchoolBlock, schoolId: string): CohortRecord[] {
+  const records: CohortRecord[] = []
+  let currentYear: number | null = null
+
+  const push = (
+    sourceLine: { number: number; text: string },
+    year: number,
+    scope: CohortRecord['scope'],
+    curriculumCode: CohortRecord['curriculumCode'],
+    graduates: number,
+  ) => {
+    if (graduates <= 0 || graduates > 1000) return
+    const base: Omit<CohortRecord, 'cohortHash'> = {
+      schoolId,
+      year,
+      scope,
+      curriculumCode,
+      graduates,
+      totalOffers: null,
+      sourceKind: 'research_markdown',
+      sourceReference: 'course-attribution-2023-2026',
+      sourceLine: sourceLine.number,
+      sourceExcerpt: sourceLine.text.trim().slice(0, 1000),
+      confidence: 'L2',
+      reviewStatus: 'reviewed',
+    }
+    records.push({ ...base, cohortHash: cohortHash(base) })
+  }
+
+  for (const sourceLine of block.lines) {
+    const text = sourceLine.text.replaceAll('**', '').replaceAll('`', '').trim()
+    const yearHeading = text
+      .replace(/[#_]/g, '')
+      .trim()
+      .match(/^(20(?:20|21|22|23|24|25|26))(?:\s*届)?(?:\b|\s|[（(:：])/)
+    if (yearHeading) currentYear = Number(yearHeading[1])
+    const year = yearForLine(text.replace(/^#+\s*/, ''), currentYear)
+    if (!year || !/毕业生|人届/.test(text)) continue
+
+    const departmentPatterns = [
+      /\b(AP|IB(?:DP)?|A[ -]?Level|AL)\b\s*(?:部|项目|课程|学部|方向)?\s*[（(:：]?\s*(\d{1,3})\s*(?:名(?:准)?毕业生|人届|人(?!次))/gi,
+      /\b(AP|IB(?:DP)?|A[ -]?Level|AL)\b\s*(?:部|项目|课程|学部|方向)?\s*毕业生\s*(\d{1,3})\s*人/gi,
+      /\b(AP|IB(?:DP)?|A[ -]?Level|AL)\b\s*20\d{2}\s*届[^：:]{0,10}[：:]\s*(\d{1,3})\s*(?:名(?:准)?毕业生|人届|人(?!次))/gi,
+    ]
+    const departmentSpans: Array<[number, number]> = []
+    for (const departmentPattern of departmentPatterns) {
+      for (const match of text.matchAll(departmentPattern)) {
+        const curriculumCode = curriculumFromCohortLabel(match[1])
+        if (!curriculumCode || match.index == null) continue
+        const end = match.index + match[0].length
+        if (ambiguousCohortClaim(text, match.index, end)) continue
+        departmentSpans.push([match.index, end])
+        push(sourceLine, year, 'department', curriculumCode, Number(match[2]))
+      }
+    }
+
+    const schoolPatterns = [
+      /(\d{1,3})\s*名(?:国际高中|准)?毕业生/g,
+      /毕业生(?:人数|规模)?\s*[:：]?\s*(\d{1,3})\s*人/g,
+    ]
+    for (const pattern of schoolPatterns) {
+      for (const match of text.matchAll(pattern)) {
+        if (match.index == null) continue
+        const end = match.index + match[0].length
+        if (ambiguousCohortClaim(text, match.index, end)) continue
+        if (departmentSpans.some(([start, stop]) => match.index! < stop && end > start))
+          continue
+        const nearby = text.slice(Math.max(0, match.index - 24), end)
+        if (/\b(?:AP|IB(?:DP)?|A[ -]?Level|AL)\b.{0,16}毕业生/i.test(nearby)) continue
+        push(sourceLine, year, 'school', null, Number(match[1]))
+      }
+    }
+  }
+
+  return records
+}
+
+function legacyCohorts(rows: CatalogCohort[]): CohortRecord[] {
+  return rows.flatMap((row) => {
+    const year = Number(row.year)
+    const graduates = Number(row.graduates)
+    if (!Number.isInteger(year) || !Number.isInteger(graduates) || graduates <= 0) return []
+    const totalOffers = row.total_offers ? Number(row.total_offers) : null
+    const base: Omit<CohortRecord, 'cohortHash'> = {
+      schoolId: row.school_id,
+      year,
+      scope: 'department',
+      curriculumCode: row.track,
+      graduates,
+      totalOffers: Number.isInteger(totalOffers) ? totalOffers : null,
+      sourceKind: 'legacy_csv',
+      sourceReference: row.source_id,
+      sourceLine: null,
+      sourceExcerpt: `data/raw/cohorts.csv: ${row.school_id}, ${year}, ${row.track}`,
+      confidence: 'L2',
+      reviewStatus: 'reviewed',
+    }
+    return [{ ...base, cohortHash: cohortHash(base) }]
+  })
+}
+
+function mergeCohortClaims(records: CohortRecord[]): {
+  cohorts: CohortRecord[]
+  conflicts: number
+  inconsistencies: number
+} {
+  const groups = new Map<string, CohortRecord[]>()
+  for (const record of records) {
+    const key = `${record.schoolId}|${record.year}|${record.scope}|${record.curriculumCode ?? ''}`
+    groups.set(key, [...(groups.get(key) ?? []), record])
+  }
+
+  const cohorts: CohortRecord[] = []
+  let conflicts = 0
+  for (const claims of groups.values()) {
+    const graduateValues = new Set(claims.map((claim) => claim.graduates))
+    if (graduateValues.size > 1) {
+      conflicts += 1
+      continue
+    }
+    const preferred = [...claims].sort(
+      (left, right) =>
+        Number(right.sourceKind === 'legacy_csv') - Number(left.sourceKind === 'legacy_csv') ||
+        Number(right.totalOffers != null) - Number(left.totalOffers != null) ||
+        (left.sourceLine ?? Number.MAX_SAFE_INTEGER) -
+          (right.sourceLine ?? Number.MAX_SAFE_INTEGER),
+    )[0]
+    cohorts.push(preferred)
+  }
+  const rejectedHashes = new Set<string>()
+  const cohortsBySchoolYear = new Map<string, CohortRecord[]>()
+  for (const cohort of cohorts) {
+    const key = `${cohort.schoolId}|${cohort.year}`
+    cohortsBySchoolYear.set(key, [...(cohortsBySchoolYear.get(key) ?? []), cohort])
+  }
+  let inconsistencies = 0
+  for (const rows of cohortsBySchoolYear.values()) {
+    const school = rows.find((row) => row.scope === 'school')
+    const departments = rows.filter((row) => row.scope === 'department')
+    if (!school || departments.length === 0) continue
+    const departmentTotal = departments.reduce((sum, row) => sum + row.graduates, 0)
+    if (departmentTotal <= school.graduates) continue
+    const legacyDepartments = departments.filter((row) => row.sourceKind === 'legacy_csv')
+    const rejected = legacyDepartments.length ? legacyDepartments : departments
+    for (const row of rejected) rejectedHashes.add(row.cohortHash)
+    inconsistencies += rejected.length
+  }
+
+  return {
+    cohorts: cohorts
+      .filter((cohort) => !rejectedHashes.has(cohort.cohortHash))
+      .sort(
+        (left, right) =>
+          left.schoolId.localeCompare(right.schoolId) ||
+          right.year - left.year ||
+          left.scope.localeCompare(right.scope) ||
+          (left.curriculumCode ?? '').localeCompare(right.curriculumCode ?? ''),
+      ),
+    conflicts,
+    inconsistencies,
+  }
+}
+
 function admissionRound(text: string): ObservationRecord['admissionRound'] {
   if (/全轮次|RD\s*\d+\s*[+＋]\s*ED|ED\s*\d+\s*[+＋]\s*RD/i.test(text)) return 'combined'
   if (/ED1/i.test(text)) return 'ED1'
@@ -886,6 +1108,7 @@ function buildCleanResult(
   inputPath: string,
   schoolCatalog: CatalogSchool[],
   universityCatalog: CatalogUniversity[],
+  cohortCatalog: CatalogCohort[],
 ): CleanResult {
   const markdown = readFileSync(inputPath, 'utf8')
   const blocks = extractSchoolBlocks(markdown)
@@ -902,6 +1125,7 @@ function buildCleanResult(
     multi_year_aggregate: 0,
   }
   const allObservations: ObservationRecord[] = []
+  const allCohorts = legacyCohorts(cohortCatalog)
 
   for (const block of blocks) {
     const schoolId = schoolIdFor(block)
@@ -931,6 +1155,7 @@ function buildCleanResult(
     const availablePrograms = [...programsByKey.values()].filter(
       (program) => program.schoolId === schoolId,
     )
+    allCohorts.push(...markdownCohorts(block, schoolId))
     const observations = extractObservations(block, schoolId, availablePrograms, skipped)
     for (const observation of observations) {
       if (!universityIds.has(observation.universityId)) {
@@ -1042,6 +1267,10 @@ function buildCleanResult(
     seen.add(key)
     return true
   })
+  const cohortMerge = mergeCohortClaims(
+    allCohorts.filter((cohort) => schoolMap.has(cohort.schoolId)),
+  )
+  const cohorts = cohortMerge.cohorts
 
   const schools = [...schoolMap.values()].sort((a, b) => a.id.localeCompare(b.id))
   const programs = [...programsByKey.values()].sort(
@@ -1071,6 +1300,7 @@ function buildCleanResult(
     },
     schools,
     programs,
+    cohorts,
     observations,
     report: {
       detectedSchoolBlocks: blocks.length,
@@ -1078,6 +1308,12 @@ function buildCleanResult(
       matchedExistingSchools: schools.filter((school) => school.matchedExisting).length,
       newSchools: schools.filter((school) => !school.matchedExisting).length,
       programRows: programs.length,
+      cohortRows: cohorts.length,
+      markdownCohortRows: cohorts.filter((cohort) => cohort.sourceKind === 'research_markdown')
+        .length,
+      legacyCohortRows: cohorts.filter((cohort) => cohort.sourceKind === 'legacy_csv').length,
+      conflictingCohortClaims: cohortMerge.conflicts,
+      inconsistentCohortClaims: cohortMerge.inconsistencies,
       observationRows: observations.length,
       attributionRows: observations.reduce(
         (sum, observation) => sum + observation.attributions.length,
@@ -1108,6 +1344,9 @@ function buildSql(result: CleanResult, universities: CatalogUniversity[]): strin
     `INSERT INTO crawl_runs (run_id, tool_version, seed_file, started_at, finished_at, status, seed_count, fetched_source_count, failed_source_count, artifact_count, discovered_link_count, manifest_sha256, imported_at) VALUES (${sql(runId)}, 'course-attribution-cleaner/1', ${sql(result.source.filename)}, ${sql(result.source.capturedAt)}::timestamptz, ${sql(result.source.capturedAt)}::timestamptz, 'completed', 1, 1, 0, 1, 0, ${sql(result.source.sha256)}, now()) ON CONFLICT (run_id) DO UPDATE SET imported_at = now();`,
     `INSERT INTO source_artifacts (source_id, first_seen_run_id, last_seen_run_id, artifact_kind, requested_url, final_url, sha256, mime_type, byte_size, local_path, captured_at) VALUES (${sql(sourceId)}, ${sql(runId)}, ${sql(runId)}, 'document', ${sql(sourceUrn)}, NULL, ${sql(result.source.sha256)}, 'text/markdown', ${result.source.byteSize}, ${sql(`.data/course-attribution/${result.source.filename}`)}, ${sql(result.source.capturedAt)}::timestamptz) ON CONFLICT (source_id, sha256) DO UPDATE SET last_seen_run_id = EXCLUDED.last_seen_run_id, byte_size = EXCLUDED.byte_size, local_path = EXCLUDED.local_path, captured_at = EXCLUDED.captured_at;`,
   )
+  statements.push(
+    `DELETE FROM institution_cohorts WHERE source_kind IN ('research_markdown', 'legacy_csv');`,
+  )
 
   for (const university of universities) {
     statements.push(
@@ -1127,6 +1366,20 @@ function buildSql(result: CleanResult, universities: CatalogUniversity[]): strin
     })
     statements.push(
       `INSERT INTO institution_curricula (institution_id, curriculum_code, role, valid_from_year, first_graduating_year, valid_to_year, is_single_track, source_artifact_id, source_locator, source_confidence, review_status, program_hash) VALUES (${sql(program.schoolId)}, ${sql(program.curriculumCode)}, ${sql(program.role)}, ${sql(program.validFromYear)}, ${sql(program.firstGraduatingYear)}, ${sql(program.validToYear)}, ${sql(program.isSingleTrack)}, ${artifactSelect}, ${sql(locator)}::jsonb, 'L2', 'reviewed', ${sql(program.programHash)}) ON CONFLICT (program_hash) DO UPDATE SET role = EXCLUDED.role, valid_from_year = EXCLUDED.valid_from_year, first_graduating_year = EXCLUDED.first_graduating_year, valid_to_year = EXCLUDED.valid_to_year, is_single_track = EXCLUDED.is_single_track, source_locator = EXCLUDED.source_locator, review_status = EXCLUDED.review_status;`,
+    )
+  }
+  for (const cohort of result.cohorts) {
+    const locator = canonicalJson({
+      document:
+        cohort.sourceKind === 'research_markdown'
+          ? result.source.filename
+          : 'data/raw/cohorts.csv',
+      line: cohort.sourceLine,
+      excerpt: cohort.sourceExcerpt,
+    })
+    const cohortArtifact = cohort.sourceKind === 'research_markdown' ? artifactSelect : 'NULL'
+    statements.push(
+      `INSERT INTO institution_cohorts (institution_id, academic_year_start, scope, curriculum_code, graduates, total_offers, source_kind, source_reference, source_artifact_id, source_locator, confidence, review_status, cohort_hash) VALUES (${sql(cohort.schoolId)}, ${cohort.year}, ${sql(cohort.scope)}, ${sql(cohort.curriculumCode)}, ${cohort.graduates}, ${sql(cohort.totalOffers)}, ${sql(cohort.sourceKind)}, ${sql(cohort.sourceReference)}, ${cohortArtifact}, ${sql(locator)}::jsonb, ${sql(cohort.confidence)}, ${sql(cohort.reviewStatus)}, ${sql(cohort.cohortHash)}) ON CONFLICT (cohort_hash) DO UPDATE SET graduates = EXCLUDED.graduates, total_offers = EXCLUDED.total_offers, source_artifact_id = EXCLUDED.source_artifact_id, source_locator = EXCLUDED.source_locator, confidence = EXCLUDED.confidence, review_status = EXCLUDED.review_status;`,
     )
   }
   for (const observation of result.observations) {
@@ -1166,6 +1419,7 @@ function validateResult(result: CleanResult, universities: CatalogUniversity[]):
   )
   const observationHashes = new Set<string>()
   const attributionHashes = new Set<string>()
+  const cohortHashes = new Set<string>()
 
   if (schoolIds.size !== result.schools.length) throw new Error('duplicate cleaned school id')
   if (result.report.detectedSchoolBlocks < 150)
@@ -1177,6 +1431,24 @@ function validateResult(result: CleanResult, universities: CatalogUniversity[]):
   for (const program of result.programs) {
     if (!schoolIds.has(program.schoolId))
       throw new Error(`program has unknown school: ${program.schoolId}`)
+  }
+  for (const cohort of result.cohorts) {
+    if (!schoolIds.has(cohort.schoolId)) {
+      throw new Error(`cohort has unknown school: ${cohort.schoolId}`)
+    }
+    if (cohort.year < 2000 || cohort.year > 2026) {
+      throw new Error(`cohort has invalid year: ${cohort.year}`)
+    }
+    if (!Number.isInteger(cohort.graduates) || cohort.graduates <= 0) {
+      throw new Error(`cohort has invalid graduates: ${cohort.cohortHash}`)
+    }
+    if ((cohort.scope === 'department') !== (cohort.curriculumCode != null)) {
+      throw new Error(`cohort scope/curriculum mismatch: ${cohort.cohortHash}`)
+    }
+    if (cohortHashes.has(cohort.cohortHash)) {
+      throw new Error(`duplicate cohort hash: ${cohort.cohortHash}`)
+    }
+    cohortHashes.add(cohort.cohortHash)
   }
   for (const observation of result.observations) {
     if (!schoolIds.has(observation.schoolId)) {
@@ -1246,7 +1518,8 @@ function main() {
   const outputDir = resolve(outputArg)
   const schools = readCsv<CatalogSchool>(resolve('data/raw/schools.csv'))
   const universities = readCsv<CatalogUniversity>(resolve('data/raw/universities.csv'))
-  const result = buildCleanResult(inputPath, schools, universities)
+  const cohorts = readCsv<CatalogCohort>(resolve('data/raw/cohorts.csv'))
+  const result = buildCleanResult(inputPath, schools, universities, cohorts)
   validateResult(result, universities)
 
   mkdirSync(outputDir, { recursive: true })

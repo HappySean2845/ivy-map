@@ -8,6 +8,7 @@ import {
 import {
   courseAttributionData,
   universityCourseEvidence,
+  type DestinationDensity,
   type SchoolAttributionView,
 } from '@/lib/v2/course-attribution'
 import { RegionSchoolTabs, type RegionSchoolGroup } from '@/components/v2/RegionSchoolTabs'
@@ -50,10 +51,14 @@ function yearRange(years: number[]) {
   return `${years.at(-1)}–${years[0]}`
 }
 
-function formatHitRate(rate: number | null) {
-  if (rate == null) return '—'
-  const percentage = rate * 100
-  return `${percentage >= 10 ? percentage.toFixed(1) : percentage.toFixed(2)}%`
+function formatDensity(density: DestinationDensity) {
+  const value = density.perHundred
+  return `${value >= 10 ? value.toFixed(1) : value.toFixed(2)} / 百人`
+}
+
+function densityYears(density: DestinationDensity) {
+  const years = yearRange(density.years)
+  return density.partial ? `${years} · 部分年份` : years
 }
 
 export function UniversityPathways({
@@ -90,8 +95,14 @@ export function UniversityPathways({
   const regionLabels = [...schoolsByRegion.keys()].sort(
     (left, right) =>
       (REGION_ORDER.indexOf(left) === -1 ? REGION_ORDER.length : REGION_ORDER.indexOf(left)) -
-        (REGION_ORDER.indexOf(right) === -1 ? REGION_ORDER.length : REGION_ORDER.indexOf(right)) ||
-      left.localeCompare(right, 'zh'),
+        (REGION_ORDER.indexOf(right) === -1
+          ? REGION_ORDER.length
+          : REGION_ORDER.indexOf(right)) || left.localeCompare(right, 'zh'),
+  )
+  const schoolDensityCount = evidence.schools.filter((school) => school.schoolDensity).length
+  const departmentDensityCount = evidence.schools.reduce(
+    (sum, school) => sum + school.departmentDensities.length,
+    0,
   )
   const regionGroups: RegionSchoolGroup[] = regionLabels.map((label, regionIndex) => {
     const schools = schoolsByRegion.get(label) ?? []
@@ -146,13 +157,14 @@ export function UniversityPathways({
             {evidence.schools.length} 所高中有去向证据
           </h2>
           <p className="text-xs text-ink/45 tnum">
-            {evidence.observations.length} 条记录 ·{' '}
+            {schoolDensityCount} 所整校可算 · {departmentDensityCount} 条学部可算 ·{' '}
             {courseAttributionData.source.capturedAt.slice(0, 10)} 整理
           </p>
         </div>
         <p className="mt-3 max-w-3xl text-xs leading-relaxed text-ink/45">
-          先选地区，再看该地区的高中。命中率沿用旧榜单口径：近三届加权录取人数 ÷
-          对应赛道加权毕业生数；缺少毕业生分母时显示“—”。
+          先选地区，再看该地区的高中。整校去向密度是同年公开录取记录数 ÷ 全校毕业生数 ×
+          100；学部去向密度只在课程归因和该学部毕业生数都已证实时计算。它不是申请录取率，
+          同一学生可能持有多份 offer；缺少分母时明确标为“待补毕业生数”。
         </p>
         <RegionSchoolTabs groups={regionGroups} />
       </section>
@@ -168,6 +180,12 @@ function FeederSchoolCard({ view, index }: { view: SchoolAttributionView; index:
   const otherPrograms = view.programs.filter(
     (program) => !['AP', 'IB', 'ALEVEL'].includes(program.curriculumCode),
   )
+  const headlineDensity = view.schoolDensity ?? view.departmentDensities[0] ?? null
+  const headlineLabel = view.schoolDensity
+    ? '整校去向密度'
+    : headlineDensity?.curriculumCode
+      ? `${CURRICULUM_LABEL[headlineDensity.curriculumCode]} 学部去向密度`
+      : '去向密度'
 
   return (
     <li className="border border-ink/20 p-5 sm:p-6">
@@ -186,14 +204,17 @@ function FeederSchoolCard({ view, index }: { view: SchoolAttributionView; index:
           </p>
         </div>
         <div className="ml-auto shrink-0 border-l border-ink/15 pl-4 text-right">
-          <p className="label text-ink/40">命中率</p>
+          <p className="label max-w-28 text-ink/40">{headlineLabel}</p>
           <p
-            className={`mt-1 text-xl tracking-tight tnum ${
-              view.hitRate == null ? 'text-ink/30' : 'text-ink'
+            className={`mt-1 tracking-tight tnum ${
+              headlineDensity ? 'text-xl text-ink' : 'max-w-28 text-xs text-ink/35'
             }`}
           >
-            {formatHitRate(view.hitRate)}
+            {headlineDensity ? formatDensity(headlineDensity) : '待补毕业生数'}
           </p>
+          {headlineDensity && (
+            <p className="mt-1 text-[10px] text-ink/35 tnum">{densityYears(headlineDensity)}</p>
+          )}
         </div>
       </header>
 
@@ -238,6 +259,29 @@ function FeederSchoolCard({ view, index }: { view: SchoolAttributionView; index:
                 {attribution.exclusionRisk ? ' · 有排除风险' : ''}
               </span>
             ))}
+          </dd>
+        </div>
+
+        <div className="mt-3 grid gap-2 sm:grid-cols-[5rem_1fr]">
+          <dt className="label text-ink/40">密度分母</dt>
+          <dd className="flex flex-wrap gap-1.5">
+            {view.schoolDensity && (
+              <span className="border border-ink/20 px-2 py-0.5 text-xs tnum">
+                整校 · {formatDensity(view.schoolDensity)} · {densityYears(view.schoolDensity)}
+              </span>
+            )}
+            {view.departmentDensities.map((density) => (
+              <span
+                key={density.curriculumCode}
+                className="border border-ink/20 px-2 py-0.5 text-xs tnum"
+              >
+                {CURRICULUM_LABEL[density.curriculumCode!]} 学部 · {formatDensity(density)} ·{' '}
+                {densityYears(density)}
+              </span>
+            ))}
+            {!view.schoolDensity && view.departmentDensities.length === 0 && (
+              <span className="text-xs text-ink/45">待补同届毕业生数，暂不计算</span>
+            )}
           </dd>
         </div>
       </dl>

@@ -7,6 +7,7 @@ import {
   type CourseAdmissionObservation,
   type CourseAttributionDataset,
   type CourseAttributionSchool,
+  type CourseCohort,
   type SchoolProgram,
 } from '@/types/course-attribution'
 
@@ -29,8 +30,17 @@ export interface SchoolAttributionView {
   reportedTotal: number
   bestStatus: AttributionStatus
   regionLabel: string
-  /** 旧榜单的人均命中率口径；null 表示分母缺失，不能估算。 */
-  hitRate: number | null
+  schoolDensity: DestinationDensity | null
+  departmentDensities: DestinationDensity[]
+}
+
+export interface DestinationDensity {
+  scope: 'school' | 'department'
+  curriculumCode: 'AP' | 'IB' | 'ALEVEL' | null
+  /** 每 100 名毕业生对应的公开目标大学录取记录数。 */
+  perHundred: number
+  years: number[]
+  partial: boolean
 }
 
 export interface CurriculumRouteStat {
@@ -54,7 +64,22 @@ for (const program of courseAttributionData.programs) {
   current.push(program)
   programsBySchool.set(program.schoolId, current)
 }
-
+const cohortsBySchool = new Map<string, CourseCohort[]>()
+for (const cohort of courseAttributionData.cohorts) {
+  const current = cohortsBySchool.get(cohort.schoolId) ?? []
+  current.push(cohort)
+  cohortsBySchool.set(cohort.schoolId, current)
+}
+const reviewedLegacyCohortKeys = new Set(
+  courseAttributionData.cohorts
+    .filter(
+      (cohort) => cohort.sourceKind === 'legacy_csv' && cohort.reviewStatus === 'reviewed',
+    )
+    .map((cohort) => `${cohort.schoolId}|${cohort.year}|${cohort.curriculumCode ?? ''}`),
+)
+const reviewedLegacyCohorts = dataset.cohorts.filter((cohort) =>
+  reviewedLegacyCohortKeys.has(`${cohort.schoolId}|${cohort.year}|${cohort.track}`),
+)
 const latestLegacyAdmissionYear = dataset.admissions.length
   ? Math.max(...dataset.admissions.map((admission) => admission.year))
   : undefined
@@ -80,20 +105,147 @@ function regionLabel(school: CourseAttributionSchool): string {
   }
 }
 
-function hitRatesForUniversity(universityId: string): Map<string, number> {
+function destinationDensity(
+  observations: CourseAdmissionObservation[],
+  cohorts: CourseCohort[],
+  scope: DestinationDensity['scope'],
+  curriculumCode: DestinationDensity['curriculumCode'],
+): DestinationDensity | null {
+  const scopedCohorts = cohorts.filter(
+    (cohort) =>
+      cohort.scope === scope &&
+      cohort.curriculumCode === curriculumCode &&
+      cohort.reviewStatus === 'reviewed',
+  )
+  const scopedObservations =
+    scope === 'school'
+      ? observations
+      : observations.filter(
+          (observation) =>
+            observation.track === curriculumCode &&
+            observation.attributionStatus === 'confirmed',
+        )
+  if (scopedCohorts.length === 0 || scopedObservations.length === 0) return null
+
+  // Multiple sources and rounds can coexist for one school/university/year. Taking the
+  // largest published count keeps this a conservative lower bound without double-counting.
+  const countByYear = new Map<number, number>()
+  for (const observation of scopedObservations) {
+    countByYear.set(
+      observation.year,
+      Math.max(countByYear.get(observation.year) ?? 0, observation.countValue),
+    )
+  }
+  const cohortByYear = new Map(scopedCohorts.map((cohort) => [cohort.year, cohort]))
+  const overlapYears = [...countByYear.keys()]
+    .filter((year) => cohortByYear.has(year))
+    .sort((left, right) => right - left)
+  if (overlapYears.length === 0) return null
+
+  const latestYear = overlapYears[0]
+  let weightedCount = 0
+  let weightedGraduates = 0
+  const years: number[] = []
+  for (const year of overlapYears) {
+    const offset = latestYear - year
+    const weight = [0.5, 0.3, 0.2][offset] ?? 0
+    if (weight === 0) continue
+    const graduates = cohortByYear.get(year)?.graduates
+    const count = countByYear.get(year)
+    if (!graduates || count == null) continue
+    weightedCount += weight * count
+    weightedGraduates += weight * graduates
+    years.push(year)
+  }
+  if (weightedGraduates === 0) return null
+
+  const recentObservationYears = new Set(
+    scopedObservations
+      .map((observation) => observation.year)
+      .filter((year) => year <= latestYear && latestYear - year <= 2),
+  )
+  return {
+    scope,
+    curriculumCode,
+    perHundred: (weightedCount / weightedGraduates) * 100,
+    years,
+    partial: years.length < recentObservationYears.size,
+  }
+}
+
+function densitiesForSchool(
+  observations: CourseAdmissionObservation[],
+  cohorts: CourseCohort[],
+  legacyDepartmentDensities: DestinationDensity[],
+  programs: SchoolProgram[],
+): Pick<SchoolAttributionView, 'schoolDensity' | 'departmentDensities'> {
+  const departmentDensities = new Map(
+    legacyDepartmentDensities.flatMap((density) =>
+      density.curriculumCode ? [[density.curriculumCode, density] as const] : [],
+    ),
+  )
+  for (const curriculumCode of ['AP', 'IB', 'ALEVEL'] as const) {
+    const hasDepartmentCohort = cohorts.some(
+      (cohort) => cohort.scope === 'department' && cohort.curriculumCode === curriculumCode,
+    )
+    const isSingleTrack = programs.some(
+      (program) => program.curriculumCode === curriculumCode && program.isSingleTrack,
+    )
+    const effectiveCohorts =
+      !hasDepartmentCohort && isSingleTrack
+        ? [
+            ...cohorts,
+            ...cohorts
+              .filter((cohort) => cohort.scope === 'school')
+              .map((cohort): CourseCohort => ({
+                ...cohort,
+                scope: 'department',
+                curriculumCode,
+              })),
+          ]
+        : cohorts
+    const density = destinationDensity(
+      observations,
+      effectiveCohorts,
+      'department',
+      curriculumCode,
+    )
+    if (density) departmentDensities.set(curriculumCode, density)
+  }
+  return {
+    schoolDensity: destinationDensity(observations, cohorts, 'school', null),
+    departmentDensities: [...departmentDensities.values()],
+  }
+}
+
+function legacyDepartmentDensitiesForUniversity(
+  universityId: string,
+): Map<string, DestinationDensity[]> {
   const admissions = dataset.admissions.filter(
     (admission) => admission.universityId === universityId,
   )
-  const rows = scoreFeeders({
-    admissions,
-    cohorts: dataset.cohorts,
-    alpha: 0,
-    latestYear: latestLegacyAdmissionYear,
-  })
-
-  return new Map(
-    rows.flatMap((row) => (row.density == null ? [] : [[row.schoolId, row.density] as const])),
-  )
+  const bySchool = new Map<string, DestinationDensity[]>()
+  for (const curriculumCode of ['AP', 'IB', 'ALEVEL'] as const) {
+    const rows = scoreFeeders({
+      admissions,
+      cohorts: reviewedLegacyCohorts,
+      alpha: 0,
+      tracks: [curriculumCode],
+      latestYear: latestLegacyAdmissionYear,
+    })
+    for (const row of rows) {
+      if (row.density == null) continue
+      const density: DestinationDensity = {
+        scope: 'department',
+        curriculumCode,
+        perHundred: row.density * 100,
+        years: row.densityYears,
+        partial: row.densityPartial,
+      }
+      bySchool.set(row.schoolId, [...(bySchool.get(row.schoolId) ?? []), density])
+    }
+  }
+  return bySchool
 }
 
 function bestStatus(observations: CourseAdmissionObservation[]): AttributionStatus {
@@ -141,7 +293,7 @@ function routeStats(observations: CourseAdmissionObservation[]): CurriculumRoute
 }
 
 export function universityCourseEvidence(universityId: string): UniversityCourseEvidence {
-  const hitRateBySchool = hitRatesForUniversity(universityId)
+  const legacyDepartmentDensities = legacyDepartmentDensitiesForUniversity(universityId)
   const observations = courseAttributionData.observations
     .filter((observation) => observation.universityId === universityId)
     .sort(
@@ -160,14 +312,21 @@ export function universityCourseEvidence(universityId: string): UniversityCourse
     .flatMap(([schoolId, schoolObservations]): SchoolAttributionView[] => {
       const school = schoolById.get(schoolId)
       if (!school) return []
+      const schoolPrograms = [...(programsBySchool.get(schoolId) ?? [])].sort(
+        (left, right) =>
+          (CURRICULUM_WEIGHT.get(left.curriculumCode) ?? 99) -
+          (CURRICULUM_WEIGHT.get(right.curriculumCode) ?? 99),
+      )
+      const densities = densitiesForSchool(
+        schoolObservations,
+        cohortsBySchool.get(schoolId) ?? [],
+        legacyDepartmentDensities.get(schoolId) ?? [],
+        schoolPrograms,
+      )
       return [
         {
           school,
-          programs: [...(programsBySchool.get(schoolId) ?? [])].sort(
-            (left, right) =>
-              (CURRICULUM_WEIGHT.get(left.curriculumCode) ?? 99) -
-              (CURRICULUM_WEIGHT.get(right.curriculumCode) ?? 99),
-          ),
+          programs: schoolPrograms,
           observations: schoolObservations,
           years: [...new Set(schoolObservations.map((observation) => observation.year))].sort(
             (left, right) => right - left,
@@ -178,7 +337,7 @@ export function universityCourseEvidence(universityId: string): UniversityCourse
           ),
           bestStatus: bestStatus(schoolObservations),
           regionLabel: regionLabel(school),
-          hitRate: hitRateBySchool.get(schoolId) ?? null,
+          ...densities,
         },
       ]
     })

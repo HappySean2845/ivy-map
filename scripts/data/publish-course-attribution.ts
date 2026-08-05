@@ -22,6 +22,7 @@ const cleaned = JSON.parse(readFileSync(input, 'utf8')) as {
     region: string
   }>
   programs: CourseAttributionDataset['programs']
+  cohorts: CourseAttributionDataset['cohorts']
   observations: CourseAttributionDataset['observations']
 }
 
@@ -52,6 +53,20 @@ const published: CourseAttributionDataset = {
     isSingleTrack: program.isSingleTrack,
     sourceLine: program.sourceLine,
   })),
+  cohorts: cleaned.cohorts.map((cohort) => ({
+    schoolId: cohort.schoolId,
+    year: cohort.year,
+    scope: cohort.scope,
+    curriculumCode: cohort.curriculumCode,
+    graduates: cohort.graduates,
+    totalOffers: cohort.totalOffers,
+    sourceKind: cohort.sourceKind,
+    sourceReference: cohort.sourceReference,
+    sourceLine: cohort.sourceLine,
+    sourceExcerpt: plainText(cohort.sourceExcerpt),
+    confidence: cohort.confidence,
+    reviewStatus: cohort.reviewStatus,
+  })),
   observations: cleaned.observations.map((observation) => ({
     schoolId: observation.schoolId,
     universityId: observation.universityId,
@@ -76,5 +91,5 @@ const published: CourseAttributionDataset = {
 writeFileSync(output, `${JSON.stringify(published, null, 2)}\n`)
 console.log(
   `Published ${published.schools.length} schools, ${published.programs.length} programs, ` +
-    `${published.observations.length} university observations to ${output}`,
+    `${published.cohorts.length} cohorts, ${published.observations.length} university observations to ${output}`,
 )

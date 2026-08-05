@@ -78,6 +78,21 @@ export interface AdmissionAttribution {
   exclusionRisk: boolean
 }
 
+export interface CourseCohort {
+  schoolId: string
+  year: number
+  scope: 'school' | 'department'
+  curriculumCode: 'AP' | 'IB' | 'ALEVEL' | null
+  graduates: number
+  totalOffers: number | null
+  sourceKind: 'research_markdown' | 'legacy_csv'
+  sourceReference: string
+  sourceLine: number | null
+  sourceExcerpt: string
+  confidence: 'L1' | 'L2' | 'L3'
+  reviewStatus: 'extracted' | 'reviewed'
+}
+
 export interface CourseAdmissionObservation {
   schoolId: string
   universityId: string
@@ -100,5 +115,6 @@ export interface CourseAttributionDataset {
   }
   schools: CourseAttributionSchool[]
   programs: SchoolProgram[]
+  cohorts: CourseCohort[]
   observations: CourseAdmissionObservation[]
 }
