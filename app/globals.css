@@ -177,6 +177,15 @@ textarea:focus {
   border-color: var(--ink);
 }
 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
 /* 宽内容自己滚，页面本体永不横向滚动 */
 .scroll-x {
   overflow-x: auto;
