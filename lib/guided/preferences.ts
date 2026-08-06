@@ -21,10 +21,26 @@ export const INTERESTS = [
 export type InterestId = (typeof INTERESTS)[number]['id']
 
 export const CURRICULA = [
-  { id: 'AP', label: 'AP / 美高路线' },
-  { id: 'IB', label: 'IB 路线' },
-  { id: 'ALEVEL', label: 'A-Level 路线' },
-  { id: 'UNKNOWN', label: '还没有决定' },
+  {
+    id: 'AP',
+    label: 'AP / 美国高中路线',
+    description: '按单科选课和考试，通常搭配美国高中课程使用，选课相对灵活。',
+  },
+  {
+    id: 'IB',
+    label: 'IB 路线',
+    description: '完整的两年制课程：六门学科加论文和实践活动，比较看重均衡发展。',
+  },
+  {
+    id: 'ALEVEL',
+    label: 'A-Level 路线',
+    description: '通常集中学习三到四门课程，适合方向较明确或有偏科优势的学生。',
+  },
+  {
+    id: 'UNKNOWN',
+    label: '我还不清楚 / 学校还没定',
+    description: '可以先跳过；我们不会因为这一项排除大学。',
+  },
 ] as const
 
 export type GuidedCurriculum = (typeof CURRICULA)[number]['id']

@@ -5,6 +5,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
 
 import { JOURNEY_STEPS } from '@/lib/guided/content'
+import { CURRICULA } from '@/lib/guided/preferences'
 
 export function JourneyExperience() {
   const routeRef = useRef<HTMLDivElement>(null)
@@ -104,6 +105,30 @@ export function JourneyExperience() {
                   <p className="label mt-8 border-l border-ink pl-3 text-ink/45">
                     {step.signal}
                   </p>
+
+                  {step.id === 'curriculum' && (
+                    <div className="mt-7 border-t border-ink/15">
+                      {CURRICULA.filter((curriculum) => curriculum.id !== 'UNKNOWN').map(
+                        (curriculum) => (
+                          <div
+                            key={curriculum.id}
+                            className="grid gap-1 border-b border-ink/15 py-3 sm:grid-cols-[7rem_1fr] sm:gap-4"
+                          >
+                            <p className="text-sm">{curriculum.label.replace(' 路线', '')}</p>
+                            <p className="text-xs leading-relaxed text-ink/50">
+                              {curriculum.description}
+                            </p>
+                          </div>
+                        ),
+                      )}
+                      <Link
+                        href="/v2/glossary#ap"
+                        className="mt-4 inline-flex min-h-10 items-center text-xs text-ink/55"
+                      >
+                        看完整术语解释 →
+                      </Link>
+                    </div>
+                  )}
 
                   {step.id === 'selection' && (
                     <Link

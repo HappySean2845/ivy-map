@@ -35,7 +35,8 @@ const QUESTIONS = [
     number: '03',
     eyebrow: '课程路线',
     title: '你正在读，或者倾向哪条路线？',
-    description: '这会优先寻找已经有对应 AP、IB 或 A-Level 高中去向证据的大学。',
+    description:
+      '不用先弄懂所有术语。选最接近的一项，我们会优先寻找已有对应课程去向证据的大学；不清楚也可以继续。',
   },
   {
     number: '04',
@@ -120,11 +121,19 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
                   />
                 )}
                 {step === 2 && (
-                  <SingleChoice
-                    options={CURRICULA}
-                    selected={answers.curriculum}
-                    onChange={(curriculum) => updateAnswers({ ...answers, curriculum })}
-                  />
+                  <div>
+                    <SingleChoice
+                      options={CURRICULA}
+                      selected={answers.curriculum}
+                      onChange={(curriculum) => updateAnswers({ ...answers, curriculum })}
+                    />
+                    <Link
+                      href="/v2/glossary#ap"
+                      className="mt-4 inline-flex min-h-10 items-center text-xs text-ink/55"
+                    >
+                      还是分不清？看 AP、IB 和 A-Level 的完整解释 →
+                    </Link>
+                  </div>
                 )}
                 {step === 3 && (
                   <PriorityChoice
@@ -255,6 +264,7 @@ function SingleChoice({
         <ChoiceButton
           key={option.id}
           label={option.label}
+          description={option.description}
           selected={selected === option.id}
           onClick={() => onChange(option.id)}
         />
@@ -306,11 +316,13 @@ function PriorityChoice({
 
 function ChoiceButton({
   label,
+  description,
   selected,
   disabled = false,
   onClick,
 }: {
   label: string
+  description?: string
   selected: boolean
   disabled?: boolean
   onClick: () => void
@@ -325,7 +337,16 @@ function ChoiceButton({
         selected ? 'bg-ink text-paper' : 'bg-paper hover:bg-ink/[0.04]'
       }`}
     >
-      <span>{label}</span>
+      <span>
+        <span className="block">{label}</span>
+        {description && (
+          <span
+            className={`mt-2 block text-xs leading-relaxed ${selected ? 'text-paper/60' : 'text-ink/45'}`}
+          >
+            {description}
+          </span>
+        )}
+      </span>
       <span aria-hidden className="text-lg">
         {selected ? '×' : '+'}
       </span>
