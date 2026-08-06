@@ -1,6 +1,6 @@
 'use client'
 
-// 主站顶部导航。大学目录是首页，术语是唯一的辅助页面。
+// 主站顶部导航。入口页负责分流；这里服务已经进入数据区的用户。
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -8,7 +8,8 @@ import { usePathname } from 'next/navigation'
 import { SearchBox } from '@/components/v2/SearchBox'
 
 const LINKS = [
-  { href: '/', label: '大学' },
+  { href: '/universities', label: '大学' },
+  { href: '/guide', label: '新手引导' },
   { href: '/v2/glossary', label: '术语' },
 ]
 
@@ -16,13 +17,19 @@ export function Nav() {
   const pathname = usePathname()
 
   const isActive = (href: string) =>
-    href === '/' ? pathname === '/' || pathname.startsWith('/v2/u/') : pathname === href
+    href === '/universities'
+      ? pathname === '/universities' || pathname.startsWith('/v2/u/')
+      : pathname === href || (href === '/guide' && pathname.startsWith('/guide/'))
 
   return (
     <nav className="border-b border-ink/15">
       <div className="mx-auto max-w-6xl px-4 py-3 sm:px-8">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          <Link href="/" className="label shrink-0 hover:no-underline">
+          <Link
+            href="/"
+            className="label shrink-0 hover:no-underline"
+            aria-label="回到入口选择"
+          >
             IVY MAP
           </Link>
 
