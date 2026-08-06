@@ -14,6 +14,7 @@
     "data:crawl": "tsx scripts/data/crawl-official-sources.ts",
     "data:import:sql": "tsx scripts/data/build-import-sql.ts",
     "data:observations:sql": "tsx scripts/data/build-observation-import-sql.ts",
+    "data:admission-trends:sql": "tsx scripts/data/build-admission-trend-import.ts",
     "data:feeder:sql": "tsx scripts/data/build-feeder-import-sql.ts"
   },
   "dependencies": {
