@@ -51,9 +51,15 @@ flyctl ssh console -a llm-gateway-pg \
   -C "sh -lc 'export PGPASSWORD=\"\$OPERATOR_PASSWORD\"; psql -q -h \"\$FLY_APP_NAME.internal\" -p 5432 -U postgres -d ivy_map -v ON_ERROR_STOP=1 -f -'" \
   < db/queries/export_frontend_admission_rates.sql \
   > data/raw/admission-rate-trends.json
+flyctl ssh console -a llm-gateway-pg \
+  -C "sh -lc 'export PGPASSWORD=\"\$OPERATOR_PASSWORD\"; psql -q -h \"\$FLY_APP_NAME.internal\" -p 5432 -U postgres -d ivy_map -v ON_ERROR_STOP=1 -f -'" \
+  < db/queries/export_frontend_admission_counts.sql \
+  > data/raw/admission-count-trends.json
 pnpm data:build
 ```
 
 `db/queries/export_frontend_admission_rates.sql` selects only `reviewed`/`published` rate observations, attaches exact application/outcome counts where available, preserves rolling periods, and exposes `value_min/value_max` for privacy-suppressed ranges. The current reviewed export contains 522 points, 32 independent scope series, and 28 universities.
+
+`db/queries/export_frontend_admission_counts.sql` publishes the three Hong Kong universities' `mainland_admitted_count` evidence as a separate typed series. Reviewed actual counts may appear on cards; extracted estimates and planned places are limited to the detail timeline and keep explicit labels. CUHK carries a `not_applicable_early_batch` rate state rather than a fabricated denominator.
 
 The build assigns exactly one primary series per university for cards and the selectivity axis. It prioritizes all-applicant institutional scope, then international/international-program scope, while every China-specific, pathway-specific, or alternate-denominator series remains available through the detail-page scope switch. Different scope signatures are never merged into one line.

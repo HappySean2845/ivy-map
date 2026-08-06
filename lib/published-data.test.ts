@@ -109,4 +109,60 @@ describe('published university data', () => {
 
     for (const point of points) expect(sourceById.has(point.sourceId)).toBe(true)
   })
+
+  it('publishes Hong Kong counts without inventing admission-rate denominators', () => {
+    const status = dataStatus()
+    expect(status.admissionCountUniversities).toBe(3)
+    expect(status.admissionCountSeries).toBe(3)
+    expect(status.admissionCountPoints).toBe(19)
+    expect(sourceById.get('admission-rate-trends-2026-08-06-hk-mainland-counts')).toMatchObject(
+      {
+        type: 'report',
+        confidence: 'L2',
+      },
+    )
+
+    const hku = universityById.get('hku')?.admissionCountSeries[0]
+    expect(hku?.points).toHaveLength(6)
+    expect(hku?.points.find((point) => point.academicYearStart === 2023)).toMatchObject({
+      kind: 'actual',
+      value: 578,
+      reviewStatus: 'reviewed',
+    })
+    expect(hku?.points.find((point) => point.academicYearStart === 2024)).toMatchObject({
+      kind: 'estimated',
+      value: 780,
+      reviewStatus: 'extracted',
+    })
+
+    const cuhk = universityById.get('cuhk')?.admissionCountSeries[0]
+    expect(cuhk?.scope).toMatchObject({
+      admissionsSystem: 'gaokao_early_batch',
+      rateAvailability: 'not_applicable_early_batch',
+    })
+    expect(cuhk?.points.find((point) => point.academicYearStart === 2024)).toMatchObject({
+      kind: 'actual',
+      value: 413,
+    })
+    expect(cuhk?.points.find((point) => point.academicYearStart === 2025)).toMatchObject({
+      kind: 'planned',
+      valueMin: 400,
+      valueMax: 406,
+    })
+
+    const hkust = universityById.get('hkust')?.admissionCountSeries[0]
+    expect(hkust?.points.find((point) => point.academicYearStart === 2024)).toMatchObject({
+      kind: 'estimated',
+      valueText: '>250 (Gaokao applicants)',
+    })
+    expect(hkust?.points.filter((point) => point.academicYearStart === 2025)).toHaveLength(2)
+
+    for (const universityId of ['hku', 'hkust', 'cuhk']) {
+      const university = universityById.get(universityId)
+      expect(university?.admissionRateSeries).toEqual([])
+      for (const series of university?.admissionCountSeries ?? []) {
+        for (const point of series.points) expect(sourceById.has(point.sourceId)).toBe(true)
+      }
+    }
+  })
 })

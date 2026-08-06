@@ -63,6 +63,8 @@ export interface University {
   officialAdmissions: OfficialAdmissionsSnapshot[]
   /** 经复核的官方录取/成功率序列；不同申请人群与分母永远拆开。 */
   admissionRateSeries: AdmissionRateSeries[]
+  /** 香港等无可靠申请分母体系的招生人数序列；绝不冒充录取率。 */
+  admissionCountSeries: AdmissionCountSeries[]
 }
 
 export interface OfficialAdmissionsSnapshot {
@@ -117,6 +119,44 @@ export interface AdmissionRateSeries {
   primary: boolean
   scope: AdmissionRateScope
   points: AdmissionRatePoint[]
+}
+
+export const ADMISSION_COUNT_KINDS = ['actual', 'estimated', 'planned'] as const
+export type AdmissionCountKind = (typeof ADMISSION_COUNT_KINDS)[number]
+
+export const ADMISSION_RATE_AVAILABILITY = [
+  'missing_denominator',
+  'not_applicable_early_batch',
+] as const
+export type AdmissionRateAvailability = (typeof ADMISSION_RATE_AVAILABILITY)[number]
+
+export interface AdmissionCountScope {
+  applicantScope: string
+  pathway: string | null
+  admissionsSystem: string | null
+  sourceMetric: string
+  rateAvailability: AdmissionRateAvailability
+}
+
+export interface AdmissionCountPoint {
+  academicYearStart: number
+  kind: AdmissionCountKind
+  /** 精确值或带“约”语义的单值；范围/文本口径时为 null。 */
+  value: number | null
+  valueMin: number | null
+  valueMax: number | null
+  /** 例如“>250 (Gaokao applicants)”；不得强转成精确值。 */
+  valueText: string | null
+  confidence: Confidence
+  reviewStatus: 'extracted' | 'reviewed' | 'published'
+  sourceId: string
+  citation: string | null
+}
+
+export interface AdmissionCountSeries {
+  id: string
+  scope: AdmissionCountScope
+  points: AdmissionCountPoint[]
 }
 
 /** 可行性闸门的准入条件（PRD E2）。所有字段允许 'unknown'，但不允许缺失。 */

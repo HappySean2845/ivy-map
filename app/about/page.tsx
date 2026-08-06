@@ -149,7 +149,8 @@ export default function AboutPage() {
         <p className="mt-2 text-sm text-ink/60 tnum">
           当前收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条排名录取 ·{' '}
           {s.feederEvidence} 条去向证据 · {s.admissionRateUniversities} 所大学 /{' '}
-          {s.admissionRatePoints} 个时期的官方录取率 · {s.sources} 个来源
+          {s.admissionRatePoints} 个时期的官方录取率 · {s.admissionCountUniversities} 所大学 /{' '}
+          {s.admissionCountPoints} 条招生人数记录 · {s.sources} 个来源
         </p>
         <hr className="mt-5 border-ink" />
       </header>

@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-08-06T12:43:57.792Z",
+  "builtAt": "2026-08-06T14:16:29.323Z",
   "cities": [
     {
       "id": "shanghai",
@@ -364,7 +364,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "yale",
@@ -664,7 +665,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "princeton",
@@ -964,7 +966,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "columbia",
@@ -1264,7 +1267,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "brown",
@@ -1564,7 +1568,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "dartmouth",
@@ -1864,7 +1869,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "upenn",
@@ -2164,7 +2170,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "cornell",
@@ -2464,7 +2471,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "mit",
@@ -2764,7 +2772,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "stanford",
@@ -3077,7 +3086,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "caltech",
@@ -3377,7 +3387,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "uchicago",
@@ -3677,7 +3688,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "duke",
@@ -3990,7 +4002,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "northwestern",
@@ -4290,7 +4303,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "jhu",
@@ -4580,7 +4594,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "nyu",
@@ -4870,7 +4885,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "berkeley",
@@ -5170,7 +5186,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "ucla",
@@ -5470,7 +5487,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "cmu",
@@ -5770,7 +5788,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "umich",
@@ -6070,7 +6089,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "uw",
@@ -6370,7 +6390,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "washu",
@@ -6660,7 +6681,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "oxford",
@@ -6930,7 +6952,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "cambridge",
@@ -7265,7 +7288,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "imperial",
@@ -7454,7 +7478,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "lse",
@@ -7467,7 +7492,8 @@
       "cai": null,
       "leverage": null,
       "officialAdmissions": [],
-      "admissionRateSeries": []
+      "admissionRateSeries": [],
+      "admissionCountSeries": []
     },
     {
       "id": "ucl",
@@ -7510,7 +7536,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "hku",
@@ -7523,7 +7550,93 @@
       "cai": null,
       "leverage": null,
       "officialAdmissions": [],
-      "admissionRateSeries": []
+      "admissionRateSeries": [],
+      "admissionCountSeries": [
+        {
+          "id": "hku:eyJhcHBsaWNhbnRTY29wZSI6Im1haW5sYW5kX2NoaW5hIiwicGF0aHdheSI6Im1haW5sYW5kX3VuZGVyZ3JhZHVhdGVfc2NoZW1lIiwiYWRtaXNzaW9uc1N5c3RlbSI6Im1haW5sYW5kX3VuZGVyZ3JhZHVhdGVfc2NoZW1lIiwic291cmNlTWV0cmljIjoibWFpbmxhbmRfYWRtaXR0ZWRfY291bnQiLCJyYXRlQXZhaWxhYmlsaXR5IjoibWlzc2luZ19kZW5vbWluYXRvciJ9",
+          "scope": {
+            "applicantScope": "mainland_china",
+            "pathway": "mainland_undergraduate_scheme",
+            "admissionsSystem": "mainland_undergraduate_scheme",
+            "sourceMetric": "mainland_admitted_count",
+            "rateAvailability": "missing_denominator"
+          },
+          "points": [
+            {
+              "academicYearStart": 2020,
+              "kind": "actual",
+              "value": 475,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2021,
+              "kind": "actual",
+              "value": 758,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2022,
+              "kind": "actual",
+              "value": 761,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2023,
+              "kind": "actual",
+              "value": 578,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2024,
+              "kind": "estimated",
+              "value": 780,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "extracted",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2025,
+              "kind": "planned",
+              "value": 400,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "extracted",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "hkust",
@@ -7536,7 +7649,105 @@
       "cai": null,
       "leverage": null,
       "officialAdmissions": [],
-      "admissionRateSeries": []
+      "admissionRateSeries": [],
+      "admissionCountSeries": [
+        {
+          "id": "hkust:eyJhcHBsaWNhbnRTY29wZSI6Im1haW5sYW5kX2NoaW5hIiwicGF0aHdheSI6Im1haW5sYW5kX3VuZGVyZ3JhZHVhdGVfc2NoZW1lIiwiYWRtaXNzaW9uc1N5c3RlbSI6Im1haW5sYW5kX3VuZGVyZ3JhZHVhdGVfc2NoZW1lIiwic291cmNlTWV0cmljIjoibWFpbmxhbmRfYWRtaXR0ZWRfY291bnQiLCJyYXRlQXZhaWxhYmlsaXR5IjoibWlzc2luZ19kZW5vbWluYXRvciJ9",
+          "scope": {
+            "applicantScope": "mainland_china",
+            "pathway": "mainland_undergraduate_scheme",
+            "admissionsSystem": "mainland_undergraduate_scheme",
+            "sourceMetric": "mainland_admitted_count",
+            "rateAvailability": "missing_denominator"
+          },
+          "points": [
+            {
+              "academicYearStart": 2020,
+              "kind": "actual",
+              "value": 253,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2021,
+              "kind": "actual",
+              "value": 244,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2022,
+              "kind": "actual",
+              "value": 238,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2023,
+              "kind": "actual",
+              "value": 280,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2024,
+              "kind": "estimated",
+              "value": null,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": ">250 (Gaokao applicants)",
+              "confidence": "L2",
+              "reviewStatus": "extracted",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2025,
+              "kind": "estimated",
+              "value": null,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": ">300",
+              "confidence": "L2",
+              "reviewStatus": "extracted",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2025,
+              "kind": "planned",
+              "value": 250,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "extracted",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "cuhk",
@@ -7549,7 +7760,93 @@
       "cai": null,
       "leverage": null,
       "officialAdmissions": [],
-      "admissionRateSeries": []
+      "admissionRateSeries": [],
+      "admissionCountSeries": [
+        {
+          "id": "cuhk:eyJhcHBsaWNhbnRTY29wZSI6Im1haW5sYW5kX2NoaW5hIiwicGF0aHdheSI6Im1haW5sYW5kX3VuZGVyZ3JhZHVhdGVfc2NoZW1lIiwiYWRtaXNzaW9uc1N5c3RlbSI6Imdhb2thb19lYXJseV9iYXRjaCIsInNvdXJjZU1ldHJpYyI6Im1haW5sYW5kX2FkbWl0dGVkX2NvdW50IiwicmF0ZUF2YWlsYWJpbGl0eSI6Im5vdF9hcHBsaWNhYmxlX2Vhcmx5X2JhdGNoIn0",
+          "scope": {
+            "applicantScope": "mainland_china",
+            "pathway": "mainland_undergraduate_scheme",
+            "admissionsSystem": "gaokao_early_batch",
+            "sourceMetric": "mainland_admitted_count",
+            "rateAvailability": "not_applicable_early_batch"
+          },
+          "points": [
+            {
+              "academicYearStart": 2020,
+              "kind": "actual",
+              "value": 322,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2021,
+              "kind": "actual",
+              "value": 403,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2022,
+              "kind": "actual",
+              "value": 426,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2023,
+              "kind": "actual",
+              "value": 430,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2024,
+              "kind": "actual",
+              "value": 413,
+              "valueMin": null,
+              "valueMax": null,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "reviewed",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            },
+            {
+              "academicYearStart": 2025,
+              "kind": "planned",
+              "value": null,
+              "valueMin": 400,
+              "valueMax": 406,
+              "valueText": null,
+              "confidence": "L2",
+              "reviewStatus": "extracted",
+              "sourceId": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+              "citation": "UGC / 各校内地招生公告 / 中文教育媒体汇编"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "toronto",
@@ -7657,7 +7954,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     },
     {
       "id": "utokyo",
@@ -8002,7 +8300,8 @@
             }
           ]
         }
-      ]
+      ],
+      "admissionCountSeries": []
     }
   ],
   "schools": [
@@ -11012,6 +11311,15 @@
       "publishedAt": null,
       "capturedAt": "2026-08-06",
       "confidence": "L1"
+    },
+    {
+      "id": "admission-rate-trends-2026-08-06-hk-mainland-counts",
+      "type": "report",
+      "title": "IV Map 录取率历年趋势（32校） · 香港内地招生人数",
+      "url": null,
+      "publishedAt": null,
+      "capturedAt": "2026-08-06",
+      "confidence": "L2"
     }
   ],
   "defaultView": {

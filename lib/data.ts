@@ -32,6 +32,16 @@ export function dataStatus() {
       university.admissionRateSeries.reduce((sum, series) => sum + series.points.length, 0),
     0,
   )
+  const admissionCountSeries = universities.reduce(
+    (count, university) => count + university.admissionCountSeries.length,
+    0,
+  )
+  const admissionCountPoints = universities.reduce(
+    (count, university) =>
+      count +
+      university.admissionCountSeries.reduce((sum, series) => sum + series.points.length, 0),
+    0,
+  )
 
   // 首屏要讲的两个数（见下方注释）
   const schoolsWithAdmissions = new Set(admissions.map((a) => a.schoolId)).size
@@ -51,6 +61,11 @@ export function dataStatus() {
     admissionRatePoints,
     admissionRateUniversities: universities.filter(
       (university) => university.admissionRateSeries.length > 0,
+    ).length,
+    admissionCountSeries,
+    admissionCountPoints,
+    admissionCountUniversities: universities.filter(
+      (university) => university.admissionCountSeries.length > 0,
     ).length,
     verifiedSchools: schools.filter((s) => s.verified).length,
     requirementCoverage: schools.length ? withRequirement / schools.length : 0,

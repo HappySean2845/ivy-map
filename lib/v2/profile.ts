@@ -19,6 +19,11 @@ import {
 } from '@/types/profile'
 import type { AdmissionRatePoint, AdmissionRateSeries, University } from '@/types'
 import {
+  admissionCountRateNote,
+  latestReviewedAdmissionCountPoint,
+  primaryAdmissionCountSeries,
+} from '@/lib/v2/admission-counts'
+import {
   admissionRateOutcomeLabel,
   admissionRatePeriodLabel,
   admissionRatePointValue,
@@ -92,6 +97,16 @@ export function selectivityScore(university: University): ProfileScore {
   const trend = admitRateTrend(university)
   const latest = trend.at(-1)
   if (!latest) {
+    const countSeries = primaryAdmissionCountSeries(university.admissionCountSeries)
+    const latestCount = latestReviewedAdmissionCountPoint(countSeries)
+    if (countSeries) {
+      return {
+        value: null,
+        basis: `${admissionCountRateNote(countSeries)}招生人数不进入录取难度评分。`,
+        kind: 'measured',
+        sourceIds: latestCount ? [latestCount.sourceId] : [],
+      }
+    }
     return {
       value: null,
       basis: '尚未收录该校经复核的官方申请与录取人数，不用估算值补空',
@@ -124,6 +139,8 @@ export interface UniversityView {
   trend: AdmissionRatePoint[]
   rateSeries: AdmissionRateSeries[]
   primaryRateSeries: AdmissionRateSeries | null
+  countSeries: University['admissionCountSeries']
+  primaryCountSeries: University['admissionCountSeries'][number] | null
 }
 
 /** 四个维度的完整分：三个来自策展文件，录取难度现算。 */
@@ -142,6 +159,7 @@ export function viewOf(universityId: string): UniversityView | null {
   const profile = profileById.get(universityId)
   if (!university || !profile) return null
   const rateSeries = university.admissionRateSeries
+  const countSeries = university.admissionCountSeries
   return {
     university,
     profile,
@@ -149,6 +167,8 @@ export function viewOf(universityId: string): UniversityView | null {
     trend: admitRateTrend(university),
     rateSeries,
     primaryRateSeries: primaryAdmissionRateSeries(rateSeries),
+    countSeries,
+    primaryCountSeries: primaryAdmissionCountSeries(countSeries),
   }
 }
 

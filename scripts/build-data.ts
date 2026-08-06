@@ -17,9 +17,13 @@ import {
   CONFIDENCES,
   SCHOOL_TYPES,
   ADMISSION_RATE_BASES,
+  ADMISSION_COUNT_KINDS,
+  ADMISSION_RATE_AVAILABILITY,
   type Dataset,
   type Track,
   type Admission,
+  type AdmissionCountScope,
+  type AdmissionCountSeries,
   type AdmissionRateScope,
   type AdmissionRateSeries,
   type Cohort,
@@ -169,6 +173,52 @@ const AdmissionRateInputSchema = z.object({
       }),
   ),
 })
+const AdmissionCountInputSchema = z.object({
+  schemaVersion: z.literal(1),
+  records: z.array(
+    z
+      .object({
+        universityId: z.string().min(1),
+        academicYearStart: z.number().int().min(1900).max(2100),
+        kind: z.enum(ADMISSION_COUNT_KINDS),
+        value: z.number().int().nonnegative().nullable(),
+        valueMin: z.number().int().nonnegative().nullable(),
+        valueMax: z.number().int().nonnegative().nullable(),
+        valueText: z.string().min(1).nullable(),
+        dimensions: z.object({
+          applicant_scope: z.string().min(1),
+          pathway: z.string().min(1).nullable(),
+          admissions_system: z.string().min(1).nullable(),
+          source_metric: z.string().min(1),
+          rate_availability: z.enum(ADMISSION_RATE_AVAILABILITY),
+        }),
+        confidence: z.enum(CONFIDENCES),
+        reviewStatus: z.enum(['extracted', 'reviewed', 'published']),
+        sourceId: z.string().min(1),
+        sourceTitle: z.string().min(1),
+        sourceUrl: z.url().nullable(),
+        capturedAt: z.iso.date(),
+        citation: z.string().min(1).nullable(),
+      })
+      .superRefine((record, ctx) => {
+        const exact = record.value != null
+        const range = record.valueMin != null && record.valueMax != null
+        const text = record.valueText != null
+        if (Number(exact) + Number(range) + Number(text) !== 1) {
+          ctx.addIssue({
+            code: 'custom',
+            message: '招生人数必须是精确/约数单值、完整范围或文本边界三者之一',
+          })
+        }
+        if (range && record.valueMin! > record.valueMax!) {
+          ctx.addIssue({ code: 'custom', message: '招生人数区间下限不能高于上限' })
+        }
+        if (record.kind === 'actual' && record.reviewStatus === 'extracted') {
+          ctx.addIssue({ code: 'custom', message: '未复核记录必须标为 estimated 或 planned' })
+        }
+      }),
+  ),
+})
 const FeederEvidenceInputSchema = z.object({
   schemaVersion: z.literal(1),
   reviewedAt: z.iso.datetime(),
@@ -247,6 +297,18 @@ if (!admissionRatesParsed.success) {
 }
 const admissionRateRecords = admissionRatesParsed.success
   ? admissionRatesParsed.data.records
+  : []
+
+const admissionCountsParsed = AdmissionCountInputSchema.safeParse(
+  readJson('admission-count-trends.json'),
+)
+if (!admissionCountsParsed.success) {
+  for (const issue of admissionCountsParsed.error.issues) {
+    fail(`admission-count-trends.json ${issue.path.join('.')}：${issue.message}`)
+  }
+}
+const admissionCountRecords = admissionCountsParsed.success
+  ? admissionCountsParsed.data.records
   : []
 
 const feederEvidenceParsed = FeederEvidenceInputSchema.safeParse(
@@ -346,6 +408,24 @@ for (const record of admissionRateRecords) {
   if (existing) {
     if (existing.url != null && record.sourceUrl != null && existing.url !== record.sourceUrl) {
       fail(`录取率来源 ${record.sourceId} 与官方招生快照的 URL 不一致`)
+    }
+    continue
+  }
+  officialSourceById.set(record.sourceId, {
+    id: record.sourceId,
+    type: record.sourceUrl == null ? 'report' : 'official',
+    title: record.sourceTitle,
+    url: record.sourceUrl,
+    publishedAt: null,
+    capturedAt: record.capturedAt,
+    confidence: record.confidence,
+  })
+}
+for (const record of admissionCountRecords) {
+  const existing = officialSourceById.get(record.sourceId)
+  if (existing) {
+    if (existing.url != null && record.sourceUrl != null && existing.url !== record.sourceUrl) {
+      fail(`招生人数来源 ${record.sourceId} 与现有招生来源的 URL 不一致`)
     }
     continue
   }
@@ -555,6 +635,74 @@ for (const seriesList of admissionRateSeriesByUniversity.values()) {
   if (seriesList[0]) seriesList[0].primary = true
 }
 
+const admissionCountSeriesByUniversity = new Map<string, AdmissionCountSeries[]>()
+const admissionCountSeriesByKey = new Map<string, AdmissionCountSeries>()
+const admissionCountPointKeys = new Set<string>()
+
+for (const record of admissionCountRecords) {
+  if (!universityIds.has(record.universityId)) {
+    fail(`招生人数趋势引用了不存在的大学：${record.universityId}`)
+    continue
+  }
+  if (!sourceIds.has(record.sourceId)) {
+    fail(`招生人数趋势引用了不存在的来源：${record.sourceId}`)
+    continue
+  }
+
+  const scope: AdmissionCountScope = {
+    applicantScope: record.dimensions.applicant_scope,
+    pathway: record.dimensions.pathway,
+    admissionsSystem: record.dimensions.admissions_system,
+    sourceMetric: record.dimensions.source_metric,
+    rateAvailability: record.dimensions.rate_availability,
+  }
+  const scopeKey = JSON.stringify(scope)
+  const seriesKey = `${record.universityId}|${scopeKey}`
+  let series = admissionCountSeriesByKey.get(seriesKey)
+  if (!series) {
+    series = {
+      id: `${record.universityId}:${Buffer.from(scopeKey).toString('base64url')}`,
+      scope,
+      points: [],
+    }
+    admissionCountSeriesByKey.set(seriesKey, series)
+    admissionCountSeriesByUniversity.set(record.universityId, [
+      ...(admissionCountSeriesByUniversity.get(record.universityId) ?? []),
+      series,
+    ])
+  }
+
+  const pointKey = `${seriesKey}|${record.academicYearStart}|${record.kind}`
+  if (admissionCountPointKeys.has(pointKey)) {
+    fail(`招生人数趋势重复：${pointKey}`)
+    continue
+  }
+  admissionCountPointKeys.add(pointKey)
+  series.points.push({
+    academicYearStart: record.academicYearStart,
+    kind: record.kind,
+    value: record.value,
+    valueMin: record.valueMin,
+    valueMax: record.valueMax,
+    valueText: record.valueText,
+    confidence: record.confidence,
+    reviewStatus: record.reviewStatus,
+    sourceId: record.sourceId,
+    citation: record.citation,
+  })
+}
+
+const countKindOrder = new Map(ADMISSION_COUNT_KINDS.map((kind, index) => [kind, index]))
+for (const seriesList of admissionCountSeriesByUniversity.values()) {
+  for (const series of seriesList) {
+    series.points.sort(
+      (left, right) =>
+        left.academicYearStart - right.academicYearStart ||
+        (countKindOrder.get(left.kind) ?? 0) - (countKindOrder.get(right.kind) ?? 0),
+    )
+  }
+}
+
 const cohorts: Cohort[] = readCsv('cohorts.csv').flatMap((r, i) => {
   const track = trackOf(r.track, `cohorts.csv 第 ${i + 2} 行`)
   if (!track) return []
@@ -668,12 +816,14 @@ const universities = rawUniversities.map((u) => {
     (left, right) => right.academicYearStart - left.academicYearStart,
   )
   const admissionRateSeries = admissionRateSeriesByUniversity.get(u.id) ?? []
+  const admissionCountSeries = admissionCountSeriesByUniversity.get(u.id) ?? []
   return {
     ...u,
     cai: null,
     leverage: computeLeverage(rows),
     officialAdmissions,
     admissionRateSeries,
+    admissionCountSeries,
   }
 })
 
@@ -890,6 +1040,9 @@ console.log(
 console.log(`官方招生快照 ${officialAdmissionRecords.length}`)
 console.log(
   `官方录取率 ${admissionRateRecords.length} 个点 · ${admissionRateSeriesByKey.size} 个独立口径`,
+)
+console.log(
+  `招生人数趋势 ${admissionCountRecords.length} 个点 · ${admissionCountSeriesByKey.size} 个独立口径`,
 )
 console.log(`v2 大学画像 ${profiles.length}/${universityIds.size}`)
 console.log(

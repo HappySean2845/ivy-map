@@ -11,6 +11,12 @@ import Link from 'next/link'
 import { ScoreRadar } from '@/components/v2/ScoreRadar'
 import { brandOf, readableInkOn } from '@/lib/v2/brand'
 import {
+  admissionCountRateNote,
+  admissionCountSeriesLabel,
+  formatAdmissionCount,
+  latestReviewedAdmissionCountPoint,
+} from '@/lib/v2/admission-counts'
+import {
   admissionRatePeriodLabel,
   admissionRateScopeNote,
   admissionRateSeriesLabel,
@@ -28,9 +34,17 @@ export function UniversityCard({
   variant?: 'deck' | 'grid'
   className?: string
 }) {
-  const { university: u, profile: p, scores, trend, primaryRateSeries } = view
+  const {
+    university: u,
+    profile: p,
+    scores,
+    trend,
+    primaryRateSeries,
+    primaryCountSeries,
+  } = view
   const brand = brandOf(p.brandColor)
   const latest = trend.at(-1)
+  const latestCount = latestReviewedAdmissionCountPoint(primaryCountSeries)
   const compact = variant === 'grid'
 
   return (
@@ -105,10 +119,14 @@ export function UniversityCard({
             ))}
           </ul>
 
-          {/* 录取率：只有一个学年的数据时就显示这个数，不画一条没有斜率的线 */}
+          {/* 招生主指标：有率显示率；没有可靠分母时显示人数，绝不反推百分比。 */}
           <div className="mt-3">
             <p className="label text-ink/40">
-              {primaryRateSeries ? admissionRateSeriesLabel(primaryRateSeries) : '官方录取率'}
+              {primaryRateSeries
+                ? admissionRateSeriesLabel(primaryRateSeries)
+                : primaryCountSeries
+                  ? admissionCountSeriesLabel()
+                  : '官方录取率'}
             </p>
             {latest ? (
               <>
@@ -123,6 +141,18 @@ export function UniversityCard({
                     {admissionRateScopeNote(primaryRateSeries)}
                   </p>
                 )}
+              </>
+            ) : latestCount && primaryCountSeries ? (
+              <>
+                <p className="mt-1 text-lg tracking-tight tnum">
+                  {formatAdmissionCount(latestCount)}
+                  <span className="ml-1.5 text-[11px] text-ink/50">
+                    {latestCount.academicYearStart} 年
+                  </span>
+                </p>
+                <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-ink/45">
+                  {admissionCountRateNote(primaryCountSeries)}
+                </p>
               </>
             ) : (
               <p className="mt-1 text-sm text-ink/40">尚未收录</p>

@@ -8,6 +8,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { AdmitRateTrend } from '@/components/v2/AdmitRateTrend'
+import { AdmissionCountTrend } from '@/components/v2/AdmissionCountTrend'
 import { ScoreRadar } from '@/components/v2/ScoreRadar'
 import { UniversityPathways } from '@/components/v2/UniversityPathways'
 import SourcePopover from '@/components/trust/SourcePopover'
@@ -45,7 +46,7 @@ export default async function UniversityDetailPage({
   const view = viewOf(id)
   if (!view) notFound()
 
-  const { university: u, profile: p, scores, rateSeries } = view
+  const { university: u, profile: p, scores, rateSeries, countSeries } = view
   const brand = brandOf(p.brandColor)
   const provenance = scoreProvenance(scores)
 
@@ -199,13 +200,27 @@ export default async function UniversityDetailPage({
         </p>
       </section>
 
-      {/* ── 录取率趋势 */}
+      {/* ── 招生趋势：百分比和人数是两种事实，分别呈现。 */}
       <section className="mt-12">
-        <AdmitRateTrend
-          series={rateSeries}
-          brandColor={p.brandColor}
-          universityNameCn={u.nameCn}
-        />
+        <div className="space-y-6">
+          {rateSeries.length > 0 && (
+            <AdmitRateTrend
+              series={rateSeries}
+              brandColor={p.brandColor}
+              universityNameCn={u.nameCn}
+            />
+          )}
+          {countSeries.length > 0 && (
+            <AdmissionCountTrend series={countSeries} brandColor={p.brandColor} />
+          )}
+          {rateSeries.length === 0 && countSeries.length === 0 && (
+            <AdmitRateTrend
+              series={rateSeries}
+              brandColor={p.brandColor}
+              universityNameCn={u.nameCn}
+            />
+          )}
+        </div>
       </section>
 
       <UniversityPathways universityId={u.id} universityNameCn={u.nameCn} />
@@ -214,7 +229,7 @@ export default async function UniversityDetailPage({
       {!p.reviewed && (
         <p className="mt-12 border-t border-ink/15 pt-4 text-xs leading-relaxed text-ink/40">
           这份画像的建校年份、知名领域、风格简述与校色尚未逐条人工复核。
-          官方录取率来自已复核的一手来源，可点上方「来源」查看原文。
+          官方录取率或招生人数来自已复核来源，可点上方「来源」查看原文。
         </p>
       )}
     </>
