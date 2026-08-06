@@ -69,7 +69,7 @@ export function FeederEvidencePanel({ university, evidence }: Props) {
 
       <div className="border-t border-ink/15 px-5 py-3 text-xs leading-relaxed text-ink/50 sm:px-6">
         口径：早申合计 · offer 数 · L2 二手来源 · 非完整名单
-        {source && (
+        {source?.url && (
           <>
             {' · '}
             <a

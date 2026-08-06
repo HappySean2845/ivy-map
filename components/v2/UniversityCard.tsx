@@ -10,7 +10,13 @@ import Link from 'next/link'
 
 import { ScoreRadar } from '@/components/v2/ScoreRadar'
 import { brandOf, readableInkOn } from '@/lib/v2/brand'
-import { countryLabel, schoolYearLabel, type UniversityView } from '@/lib/v2/profile'
+import {
+  admissionRatePeriodLabel,
+  admissionRateScopeNote,
+  admissionRateSeriesLabel,
+  formatAdmissionRate,
+} from '@/lib/v2/admission-rates'
+import { countryLabel, type UniversityView } from '@/lib/v2/profile'
 
 export function UniversityCard({
   view,
@@ -22,7 +28,7 @@ export function UniversityCard({
   variant?: 'deck' | 'grid'
   className?: string
 }) {
-  const { university: u, profile: p, scores, trend } = view
+  const { university: u, profile: p, scores, trend, primaryRateSeries } = view
   const brand = brandOf(p.brandColor)
   const latest = trend.at(-1)
   const compact = variant === 'grid'
@@ -101,14 +107,23 @@ export function UniversityCard({
 
           {/* 录取率：只有一个学年的数据时就显示这个数，不画一条没有斜率的线 */}
           <div className="mt-3">
-            <p className="label text-ink/40">官方录取率</p>
+            <p className="label text-ink/40">
+              {primaryRateSeries ? admissionRateSeriesLabel(primaryRateSeries) : '官方录取率'}
+            </p>
             {latest ? (
-              <p className="mt-1 text-lg tracking-tight tnum">
-                {(latest.rate * 100).toFixed(1)}%
-                <span className="ml-1.5 text-[11px] text-ink/50">
-                  {schoolYearLabel(latest.academicYearStart)}
-                </span>
-              </p>
+              <>
+                <p className="mt-1 text-lg tracking-tight tnum">
+                  {formatAdmissionRate(latest)}
+                  <span className="ml-1.5 text-[11px] text-ink/50">
+                    {admissionRatePeriodLabel(latest)}
+                  </span>
+                </p>
+                {primaryRateSeries && (
+                  <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-ink/45">
+                    {admissionRateScopeNote(primaryRateSeries)}
+                  </p>
+                )}
+              </>
             ) : (
               <p className="mt-1 text-sm text-ink/40">尚未收录</p>
             )}

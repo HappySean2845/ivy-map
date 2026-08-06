@@ -45,7 +45,7 @@ export default async function UniversityDetailPage({
   const view = viewOf(id)
   if (!view) notFound()
 
-  const { university: u, profile: p, scores, trend } = view
+  const { university: u, profile: p, scores, rateSeries } = view
   const brand = brandOf(p.brandColor)
   const provenance = scoreProvenance(scores)
 
@@ -201,7 +201,11 @@ export default async function UniversityDetailPage({
 
       {/* ── 录取率趋势 */}
       <section className="mt-12">
-        <AdmitRateTrend points={trend} brandColor={p.brandColor} universityNameCn={u.nameCn} />
+        <AdmitRateTrend
+          series={rateSeries}
+          brandColor={p.brandColor}
+          universityNameCn={u.nameCn}
+        />
       </section>
 
       <UniversityPathways universityId={u.id} universityNameCn={u.nameCn} />

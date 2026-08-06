@@ -78,15 +78,8 @@ export interface UniversityProfile {
   reviewed: boolean
 }
 
-/** 录取率趋势的一个点。从 officialAdmissions 现算，不单独存。 */
-export interface AdmitRatePoint {
-  academicYearStart: number
-  applied: number
-  admitted: number
-  /** 0–1 */
-  rate: number
-  sourceId: string
-}
+/** 兼容旧组件命名；真实数据现在来自带 scope 的 AdmissionRateSeries。 */
+export type { AdmissionRatePoint as AdmitRatePoint } from './index'
 
 /** 构建产物 data/university-profiles.json */
 export interface ProfileDataset {

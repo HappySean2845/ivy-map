@@ -78,4 +78,35 @@ describe('published university data', () => {
       }
     }
   })
+
+  it('publishes reviewed scoped admission-rate trends without dropping legacy data', () => {
+    const series = dataset.universities.flatMap((university) => university.admissionRateSeries)
+    const points = series.flatMap((item) => item.points)
+    const covered = dataset.universities.filter(
+      (university) => university.admissionRateSeries.length > 0,
+    )
+
+    expect(series).toHaveLength(32)
+    expect(points).toHaveLength(522)
+    expect(covered).toHaveLength(28)
+    expect(universityById.get('jhu')?.admissionRateSeries[0]?.points).toHaveLength(20)
+    expect(universityById.get('nyu')?.admissionRateSeries[0]?.points).toHaveLength(20)
+
+    const cambridge = universityById.get('cambridge')?.admissionRateSeries ?? []
+    expect(cambridge).toHaveLength(2)
+    expect(cambridge.find((item) => item.primary)?.scope.applicantScope).toBe('all')
+    expect(cambridge.find((item) => item.primary)?.points.at(-1)?.rate).toBeCloseTo(0.163)
+    expect(cambridge.find((item) => !item.primary)?.points.at(-1)?.rate).toBeCloseTo(0.098)
+
+    const imperialRanges = (universityById.get('imperial')?.admissionRateSeries ?? [])
+      .flatMap((item) => item.points)
+      .filter((point) => point.rateMin != null && point.rateMax != null)
+    expect(imperialRanges).toHaveLength(3)
+
+    expect(
+      universityById.get('utokyo')?.admissionRateSeries.find((item) => item.primary)?.scope,
+    ).toMatchObject({ applicantScope: 'international_program', pathway: 'PEAK' })
+
+    for (const point of points) expect(sourceById.has(point.sourceId)).toBe(true)
+  })
 })

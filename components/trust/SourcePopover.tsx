@@ -142,14 +142,18 @@ export default function SourcePopover({
           <ul className="flex flex-col gap-3">
             {sources.map((s) => (
               <li key={s.id} className="text-xs leading-relaxed">
-                <a
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-ink underline underline-offset-2 hover:text-ink"
-                >
-                  {s.title}
-                </a>
+                {s.url ? (
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-ink underline underline-offset-2 hover:text-ink"
+                  >
+                    {s.title}
+                  </a>
+                ) : (
+                  <span className="font-medium text-ink">{s.title}</span>
+                )}
                 <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-ink/60">
                   <span>{SOURCE_TYPE_LABEL[s.type]}</span>
                   <span aria-hidden>·</span>

@@ -61,6 +61,8 @@ export interface University {
   leverage: { hhi: number; level: 'high' | 'mid' | 'low' } | null
   /** 大学官方全校招生口径；与中国高中生源校 placement 数据严格分开。 */
   officialAdmissions: OfficialAdmissionsSnapshot[]
+  /** 经复核的官方录取/成功率序列；不同申请人群与分母永远拆开。 */
+  admissionRateSeries: AdmissionRateSeries[]
 }
 
 export interface OfficialAdmissionsSnapshot {
@@ -71,6 +73,50 @@ export interface OfficialAdmissionsSnapshot {
   campus: string | null
   confidence: Confidence
   sourceId: string
+}
+
+export const ADMISSION_RATE_BASES = [
+  'admitted_over_applications',
+  'confirmed_places_over_applications',
+  'offers_over_applications',
+  'admitted_over_exam_candidates',
+] as const
+export type AdmissionRateBasis = (typeof ADMISSION_RATE_BASES)[number]
+
+export interface AdmissionRateScope {
+  rateBasis: AdmissionRateBasis
+  applicantScope: string | null
+  admissionsSystem: string | null
+  pathway: string | null
+  sourceMetric: string | null
+  periodKind: string | null
+  geographyDefinition: string | null
+  aggregation: string | null
+}
+
+export interface AdmissionRatePoint {
+  academicYearStart: number | null
+  periodStart: string | null
+  periodEnd: string | null
+  /** 精确值，0–1；隐私抑制区间时为 null。 */
+  rate: number | null
+  /** 区间上下限，0–1；精确值时均为 null。 */
+  rateMin: number | null
+  rateMax: number | null
+  applied: number | null
+  outcome: number | null
+  confidence: Confidence
+  sourceId: string
+  citation: string | null
+}
+
+export interface AdmissionRateSeries {
+  /** 由大学和完整 scope 签名构成的稳定键。 */
+  id: string
+  /** 只有一条主口径进入卡片和录取难度轴；详情页仍展示全部口径。 */
+  primary: boolean
+  scope: AdmissionRateScope
+  points: AdmissionRatePoint[]
 }
 
 /** 可行性闸门的准入条件（PRD E2）。所有字段允许 'unknown'，但不允许缺失。 */
@@ -145,7 +191,8 @@ export interface Source {
   id: string
   type: 'official' | 'media' | 'report' | 'crowdsourced'
   title: string
-  url: string
+  /** 本地研究附件可能只有可审计引用、没有公开 URL；不得编造链接。 */
+  url: string | null
   publishedAt: string | null
   capturedAt: string
   confidence: Confidence

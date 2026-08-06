@@ -12,13 +12,20 @@ import raw from '@/data/university-profiles.json'
 import {
   CURATED_DIMS,
   PROFILE_DIMS,
-  type AdmitRatePoint,
   type ProfileDataset,
   type ProfileDim,
   type ProfileScore,
   type UniversityProfile,
 } from '@/types/profile'
-import type { University } from '@/types'
+import type { AdmissionRatePoint, AdmissionRateSeries, University } from '@/types'
+import {
+  admissionRateOutcomeLabel,
+  admissionRatePeriodLabel,
+  admissionRatePointValue,
+  admissionRateSeriesLabel,
+  formatAdmissionRate,
+  primaryAdmissionRateSeries,
+} from '@/lib/v2/admission-rates'
 
 const profileData = raw as unknown as ProfileDataset
 
@@ -45,15 +52,24 @@ export function countryLabel(code: string): string {
  * 目前每所大学只有一个学年的官方快照，所以这个数组长度通常是 1 ——
  * 卡片必须能优雅处理「只有一个点」的情况（显示数字，不画一条没有斜率的线）。
  */
-export function admitRateTrend(university: University): AdmitRatePoint[] {
+export function admitRateTrend(university: University): AdmissionRatePoint[] {
+  const primary = primaryAdmissionRateSeries(university.admissionRateSeries)
+  if (primary) return primary.points
+
   return university.officialAdmissions
     .filter((s) => s.applied > 0)
     .map((s) => ({
       academicYearStart: s.academicYearStart,
+      periodStart: null,
+      periodEnd: null,
       applied: s.applied,
-      admitted: s.admitted,
+      outcome: s.admitted,
       rate: s.admitted / s.applied,
+      rateMin: null,
+      rateMax: null,
+      confidence: s.confidence,
       sourceId: s.sourceId,
+      citation: null,
     }))
     .sort((a, b) => a.academicYearStart - b.academicYearStart)
 }
@@ -83,12 +99,16 @@ export function selectivityScore(university: University): ProfileScore {
       sourceIds: [],
     }
   }
-  const pct = (latest.rate * 100).toFixed(1)
+  const primary = primaryAdmissionRateSeries(university.admissionRateSeries)
+  const rateLabel = primary ? admissionRateSeriesLabel(primary) : '官方录取率'
+  const period = admissionRatePeriodLabel(latest)
+  const counts =
+    latest.applied != null && latest.outcome != null
+      ? `（${latest.applied.toLocaleString('en-US')} 人申请 / ${latest.outcome.toLocaleString('en-US')} 人${primary ? admissionRateOutcomeLabel(primary) : '录取'}）`
+      : ''
   return {
-    value: Math.round((1 - latest.rate) * 100),
-    basis:
-      `${schoolYearLabel(latest.academicYearStart)} 学年官方录取率 ${pct}%` +
-      `（${latest.applied.toLocaleString('en-US')} 人申请 / ${latest.admitted.toLocaleString('en-US')} 人录取）`,
+    value: Math.round((1 - admissionRatePointValue(latest)) * 100),
+    basis: `${period} ${rateLabel} ${formatAdmissionRate(latest)}${counts}`,
     kind: 'measured',
     sourceIds: [latest.sourceId],
   }
@@ -101,7 +121,9 @@ export interface UniversityView {
   university: University
   profile: UniversityProfile
   scores: Record<ProfileDim, ProfileScore>
-  trend: AdmitRatePoint[]
+  trend: AdmissionRatePoint[]
+  rateSeries: AdmissionRateSeries[]
+  primaryRateSeries: AdmissionRateSeries | null
 }
 
 /** 四个维度的完整分：三个来自策展文件，录取难度现算。 */
@@ -119,11 +141,14 @@ export function viewOf(universityId: string): UniversityView | null {
   const university = universityById.get(universityId)
   const profile = profileById.get(universityId)
   if (!university || !profile) return null
+  const rateSeries = university.admissionRateSeries
   return {
     university,
     profile,
     scores: resolveScores(university, profile),
     trend: admitRateTrend(university),
+    rateSeries,
+    primaryRateSeries: primaryAdmissionRateSeries(rateSeries),
   }
 }
 

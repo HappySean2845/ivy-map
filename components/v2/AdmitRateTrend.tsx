@@ -1,94 +1,158 @@
-// 官方录取率趋势。
-//
-// **本来计划用 ECharts，改成了手写 SVG。** 原因是数据的真实形状：
-// 一所大学最多也就 5–6 个学年的 CDS 记录，而 ECharts 的 LineChart 目前
-// 还没被 components/map/echarts.ts 注册（那里只引了 scatter + geo）——
-// 为一条六个点的折线往 bundle 里加一个图表类型，不划算。
-//
-// 更要紧的是**当前每所大学只有一个学年的快照**。所以这个组件的主要工作
-// 不是画线，而是**在只有一个点时不要假装有趋势**：显示那个数字，并说清
-// 为什么没有线。补齐多年数据之后，同一个组件自动开始画线。
+'use client'
+
+import { useState } from 'react'
 
 import SourcePopover from '@/components/trust/SourcePopover'
+import {
+  admissionRateOutcomeLabel,
+  admissionRatePeriodLabel,
+  admissionRatePointValue,
+  admissionRateScopeNote,
+  admissionRateSeriesLabel,
+  formatAdmissionRate,
+  primaryAdmissionRateSeries,
+} from '@/lib/v2/admission-rates'
 import { brandOf } from '@/lib/v2/brand'
-import { schoolYearLabel } from '@/lib/v2/profile'
-import type { AdmitRatePoint } from '@/types/profile'
+import type { AdmissionRatePoint, AdmissionRateSeries } from '@/types'
 
 const W = 560
-const H = 168
-const PAD = { top: 22, right: 20, bottom: 26, left: 20 }
+const H = 188
+const PAD = { top: 28, right: 20, bottom: 30, left: 20 }
 
 export function AdmitRateTrend({
-  points,
+  series,
   brandColor,
   universityNameCn,
 }: {
-  points: AdmitRatePoint[]
+  series: AdmissionRateSeries[]
   brandColor: string | null
   universityNameCn: string
 }) {
-  const brand = brandOf(brandColor)
+  const initial = primaryAdmissionRateSeries(series)
+  const [selectedId, setSelectedId] = useState(initial?.id ?? '')
+  const active = series.find((item) => item.id === selectedId) ?? initial
 
-  if (points.length === 0) {
+  if (!active) {
     return (
       <div className="border-y border-ink/15 py-4">
         <p className="label text-ink/40">录取率趋势</p>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">
           尚未收录{universityNameCn}经复核的官方申请与录取人数。
           <strong className="font-medium">这里不使用估算值补空</strong> ——
-          没有分子分母就没有录取率，写一个近似值只会让人以为它是真的。
+          没有分子分母就没有录取率。
         </p>
       </div>
     )
   }
-
-  if (points.length === 1) {
-    const only = points[0]
-    return (
-      <div className="border-y border-ink/15 py-4">
-        <p className="label text-ink/40">录取率趋势</p>
-        <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-          <SourcePopover sourceIds={[only.sourceId]}>
-            <span className="text-3xl tracking-tight tnum">{(only.rate * 100).toFixed(1)}%</span>
-          </SourcePopover>
-          <span className="text-sm text-ink/60 tnum">
-            {schoolYearLabel(only.academicYearStart)} 学年 · {only.applied.toLocaleString('en-US')}{' '}
-            人申请 / {only.admitted.toLocaleString('en-US')} 人录取
-          </span>
-        </div>
-        <p className="mt-2.5 max-w-2xl text-xs leading-relaxed text-ink/50">
-          目前只收录到一个学年，<strong className="font-medium">画不出趋势</strong> ——
-          一个点连不成线。多年份的 Common Data Set 还在补，补齐后这里会自动变成折线。
-        </p>
-      </div>
-    )
-  }
-
-  const rates = points.map((p) => p.rate)
-  const lo = Math.min(...rates)
-  const hi = Math.max(...rates)
-  // 上下各留一点空间，否则最高最低点会贴在边框上
-  const span = Math.max(hi - lo, 0.005)
-  const yMin = Math.max(0, lo - span * 0.35)
-  const yMax = hi + span * 0.35
-
-  const innerW = W - PAD.left - PAD.right
-  const innerH = H - PAD.top - PAD.bottom
-  const xOf = (i: number) =>
-    PAD.left + (points.length === 1 ? innerW / 2 : (innerW * i) / (points.length - 1))
-  const yOf = (rate: number) => PAD.top + innerH * (1 - (rate - yMin) / (yMax - yMin))
-
-  const line = points.map((p, i) => `${xOf(i).toFixed(1)},${yOf(p.rate).toFixed(1)}`).join(' ')
-  const first = points[0]
-  const last = points[points.length - 1]
-  const delta = (last.rate - first.rate) * 100
 
   return (
     <div className="border-y border-ink/15 py-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="label text-ink/40">录取率趋势</p>
+        <div>
+          <p className="label text-ink/40">录取率趋势</p>
+          <h3 className="mt-1 text-lg">{admissionRateSeriesLabel(active)}</h3>
+        </div>
+        <p className="text-xs text-ink/50 tnum">
+          {active.points.length} 个时期 · {active.scope.admissionsSystem ?? '院校官方口径'}
+        </p>
+      </div>
+
+      {series.length > 1 && (
+        <div
+          role="group"
+          aria-label={`${universityNameCn}录取率口径`}
+          className="mt-4 flex flex-wrap gap-2"
+        >
+          {series.map((item) => {
+            const selected = item.id === active.id
+            return (
+              <button
+                key={item.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => setSelectedId(item.id)}
+                className={`min-h-11 border px-3 py-2 text-left text-xs transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+                  selected
+                    ? 'border-ink bg-ink text-paper'
+                    : 'border-ink/20 bg-paper text-ink hover:border-ink'
+                }`}
+              >
+                {admissionRateSeriesLabel(item)}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      <p className="mt-3 text-xs leading-relaxed text-ink/55">
+        {admissionRateScopeNote(active)}。不同人群、不同分母各画一条线，不混算。
+      </p>
+
+      <TrendBody series={active} brandColor={brandColor} />
+    </div>
+  )
+}
+
+function TrendBody({
+  series,
+  brandColor,
+}: {
+  series: AdmissionRateSeries
+  brandColor: string | null
+}) {
+  const { points } = series
+  const brand = brandOf(brandColor)
+  const latest = points.at(-1)
+
+  if (!latest) return null
+
+  if (points.length === 1) {
+    return (
+      <div className="mt-4">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+          <SourcePopover sourceIds={[latest.sourceId]}>
+            <span className="text-3xl tracking-tight tnum">{formatAdmissionRate(latest)}</span>
+          </SourcePopover>
+          <span className="text-sm text-ink/60 tnum">{admissionRatePeriodLabel(latest)}</span>
+        </div>
+        <PointDetail point={latest} series={series} />
+        <p className="mt-2.5 max-w-2xl text-xs leading-relaxed text-ink/50">
+          目前这个口径只收录到一个时期，所以只显示数值，不画一条没有斜率的线。
+        </p>
+      </div>
+    )
+  }
+
+  const allRates = points.flatMap((point) => {
+    if (point.rate != null) return [point.rate]
+    return [point.rateMin, point.rateMax].filter((value): value is number => value != null)
+  })
+  const lo = Math.min(...allRates)
+  const hi = Math.max(...allRates)
+  const span = Math.max(hi - lo, 0.005)
+  const yMin = Math.max(0, lo - span * 0.25)
+  const yMax = hi + span * 0.25
+  const innerW = W - PAD.left - PAD.right
+  const innerH = H - PAD.top - PAD.bottom
+  const xOf = (index: number) => PAD.left + (innerW * index) / (points.length - 1)
+  const yOf = (rate: number) => PAD.top + innerH * (1 - (rate - yMin) / (yMax - yMin))
+  const line = points
+    .map(
+      (point, index) =>
+        `${xOf(index).toFixed(1)},${yOf(admissionRatePointValue(point)).toFixed(1)}`,
+    )
+    .join(' ')
+  const first = points[0]
+  const delta = (admissionRatePointValue(latest) - admissionRatePointValue(first)) * 100
+  const labelEvery = Math.max(1, Math.ceil(points.length / 6))
+
+  return (
+    <div className="mt-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="text-xs text-ink/60 tnum">
-          {schoolYearLabel(first.academicYearStart)} → {schoolYearLabel(last.academicYearStart)} ·{' '}
+          {admissionRatePeriodLabel(first)} → {admissionRatePeriodLabel(latest)}
+        </p>
+        <p className="text-xs text-ink/60 tnum">
           {delta > 0 ? '+' : ''}
           {delta.toFixed(1)} 个百分点
         </p>
@@ -96,13 +160,12 @@ export function AdmitRateTrend({
 
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        className="mt-3 w-full text-ink"
+        className="mt-2 w-full text-ink"
         role="img"
         aria-label={points
-          .map((p) => `${schoolYearLabel(p.academicYearStart)} 学年 ${(p.rate * 100).toFixed(1)}%`)
+          .map((point) => `${admissionRatePeriodLabel(point)} ${formatAdmissionRate(point)}`)
           .join('，')}
       >
-        {/* 基线，不画完整网格 —— 六个点的图加网格只是噪声 */}
         <line
           x1={PAD.left}
           y1={PAD.top + innerH}
@@ -111,38 +174,87 @@ export function AdmitRateTrend({
           stroke="currentColor"
           strokeOpacity={0.15}
         />
-        <polyline points={line} fill="none" stroke={brand} strokeWidth={1.5} />
-        {points.map((p, i) => (
-          <g key={p.academicYearStart}>
-            <circle cx={xOf(i)} cy={yOf(p.rate)} r={3.5} fill={brand} />
-            <text
-              x={xOf(i)}
-              y={yOf(p.rate) - 9}
-              textAnchor="middle"
-              fontSize={11}
-              fill="currentColor"
-              className="tnum"
-            >
-              {(p.rate * 100).toFixed(1)}%
-            </text>
-            <text
-              x={xOf(i)}
-              y={H - 8}
-              textAnchor="middle"
-              fontSize={10}
-              fill="currentColor"
-              fillOpacity={0.5}
-              className="tnum"
-            >
-              {p.academicYearStart}
-            </text>
-          </g>
-        ))}
+        <polyline points={line} fill="none" stroke={brand} strokeWidth={1.6} />
+        {points.map((point, index) => {
+          const x = xOf(index)
+          const y = yOf(admissionRatePointValue(point))
+          const showLabel =
+            index === 0 || index === points.length - 1 || index % labelEvery === 0
+          return (
+            <g key={`${point.academicYearStart ?? point.periodStart}-${index}`}>
+              {point.rateMin != null && point.rateMax != null && (
+                <line
+                  x1={x}
+                  x2={x}
+                  y1={yOf(point.rateMax)}
+                  y2={yOf(point.rateMin)}
+                  stroke={brand}
+                  strokeWidth={3}
+                  strokeLinecap="square"
+                />
+              )}
+              <circle cx={x} cy={y} r={3.4} fill={brand}>
+                <title>{`${admissionRatePeriodLabel(point)} ${formatAdmissionRate(point)}`}</title>
+              </circle>
+              {showLabel && (
+                <>
+                  <text
+                    x={x}
+                    y={y - 9}
+                    textAnchor="middle"
+                    fontSize={10}
+                    fill="currentColor"
+                    className="tnum"
+                  >
+                    {formatAdmissionRate(point)}
+                  </text>
+                  <text
+                    x={x}
+                    y={H - 8}
+                    textAnchor="middle"
+                    fontSize={10}
+                    fill="currentColor"
+                    fillOpacity={0.5}
+                    className="tnum"
+                  >
+                    {point.academicYearStart ?? point.periodEnd?.slice(0, 4)}
+                  </text>
+                </>
+              )}
+            </g>
+          )
+        })}
       </svg>
 
-      <SourcePopover sourceIds={points.map((p) => p.sourceId)}>
-        <span className="text-xs text-ink/60">查看各年官方来源 →</span>
-      </SourcePopover>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <PointDetail point={latest} series={series} />
+        <SourcePopover sourceIds={points.map((point) => point.sourceId)}>
+          <span className="text-xs text-ink/60">查看各期来源 →</span>
+        </SourcePopover>
+      </div>
+    </div>
+  )
+}
+
+function PointDetail({
+  point,
+  series,
+}: {
+  point: AdmissionRatePoint
+  series: AdmissionRateSeries
+}) {
+  return (
+    <div className="mt-2 max-w-2xl text-xs leading-relaxed text-ink/55">
+      {point.applied != null && point.outcome != null && (
+        <p className="tnum">
+          最新一期：{point.applied.toLocaleString('en-US')} 人申请 /{' '}
+          {point.outcome.toLocaleString('en-US')} 人{admissionRateOutcomeLabel(series)}
+        </p>
+      )}
+      {point.rate == null && point.rateMin != null && point.rateMax != null && (
+        <p>区间来自官方隐私抑制规则；图上用区间中点定位，但数值始终显示上下限。</p>
+      )}
+      {point.citation && <p>引用口径：{point.citation}</p>}
     </div>
   )
 }

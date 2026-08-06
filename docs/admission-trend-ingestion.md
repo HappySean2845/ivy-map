@@ -43,4 +43,17 @@ The importer records the three source artifacts by SHA-256. It preserves an exis
 
 ## Frontend publication
 
-Database ingestion does not alter the current bundled frontend JSON. A separate export/query should select `review_status IN ('reviewed', 'published')`, group lines by `dimensions.rate_basis`, and expose `value_min/value_max` where the source is a range.
+Database ingestion does not alter the bundled frontend JSON automatically. Export the reviewed snapshot from Fly after an import:
+
+```bash
+set -euo pipefail
+flyctl ssh console -a llm-gateway-pg \
+  -C "sh -lc 'export PGPASSWORD=\"\$OPERATOR_PASSWORD\"; psql -q -h \"\$FLY_APP_NAME.internal\" -p 5432 -U postgres -d ivy_map -v ON_ERROR_STOP=1 -f -'" \
+  < db/queries/export_frontend_admission_rates.sql \
+  > data/raw/admission-rate-trends.json
+pnpm data:build
+```
+
+`db/queries/export_frontend_admission_rates.sql` selects only `reviewed`/`published` rate observations, attaches exact application/outcome counts where available, preserves rolling periods, and exposes `value_min/value_max` for privacy-suppressed ranges. The current reviewed export contains 522 points, 32 independent scope series, and 28 universities.
+
+The build assigns exactly one primary series per university for cards and the selectivity axis. It prioritizes all-applicant institutional scope, then international/international-program scope, while every China-specific, pathway-specific, or alternate-denominator series remains available through the detail-page scope switch. Different scope signatures are never merged into one line.
