@@ -32,10 +32,16 @@ import {
   formatAdmissionRate,
   primaryAdmissionRateSeries,
 } from '@/lib/v2/admission-rates'
+import { enrichUniversityProfile } from '@/lib/v2/university-enrichment'
 
 const profileData = raw as unknown as ProfileDataset
 
-export const profileById = new Map(profileData.profiles.map((p) => [p.universityId, p]))
+export const profileById = new Map(
+  profileData.profiles.map((profile) => {
+    const enriched = enrichUniversityProfile(profile)
+    return [enriched.universityId, enriched] as const
+  }),
+)
 
 export const COUNTRY_LABEL: Record<string, string> = {
   US: '美国',

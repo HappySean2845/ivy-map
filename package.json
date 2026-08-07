@@ -15,7 +15,8 @@
     "data:import:sql": "tsx scripts/data/build-import-sql.ts",
     "data:observations:sql": "tsx scripts/data/build-observation-import-sql.ts",
     "data:admission-trends:sql": "tsx scripts/data/build-admission-trend-import.ts",
-    "data:feeder:sql": "tsx scripts/data/build-feeder-import-sql.ts"
+    "data:feeder:sql": "tsx scripts/data/build-feeder-import-sql.ts",
+    "data:enrichment:clean": "tsx scripts/data/clean-university-enrichment.ts"
   },
   "dependencies": {
     "echarts": "^6.1.0",

@@ -11,9 +11,11 @@ import { AdmitRateTrend } from '@/components/v2/AdmitRateTrend'
 import { AdmissionCountTrend } from '@/components/v2/AdmissionCountTrend'
 import { ProfileFingerprint } from '@/components/v2/ProfileFingerprint'
 import { UniversityPathways } from '@/components/v2/UniversityPathways'
+import { UniversityRequirements } from '@/components/v2/UniversityRequirements'
 import SourcePopover from '@/components/trust/SourcePopover'
 import { brandOf, readableInkOn } from '@/lib/v2/brand'
 import { countryLabel, profileById, traitProvenance, viewOf } from '@/lib/v2/profile'
+import { requirementProfile } from '@/lib/v2/university-enrichment'
 import {
   PROFILE_TRAITS,
   PROFILE_TRAIT_DIRECTION,
@@ -54,6 +56,7 @@ export default async function UniversityDetailPage({
   const { university: u, profile: p, fingerprint, rateSeries, countSeries } = view
   const brand = brandOf(p.brandColor)
   const provenance = traitProvenance(fingerprint)
+  const requirements = requirementProfile(u.id)
 
   return (
     <>
@@ -208,6 +211,8 @@ export default async function UniversityDetailPage({
           录取开放度只描述学校或对应项目公布的整体比例，不是对个人录取概率的预测。
         </p>
       </section>
+
+      {requirements && <UniversityRequirements profile={requirements} />}
 
       {/* ── 招生趋势：百分比和人数是两种事实，分别呈现。 */}
       <section className="mt-12">
