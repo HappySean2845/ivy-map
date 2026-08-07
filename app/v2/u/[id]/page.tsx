@@ -12,8 +12,9 @@ import { AdmissionCountTrend } from '@/components/v2/AdmissionCountTrend'
 import { ProfileFingerprint } from '@/components/v2/ProfileFingerprint'
 import { UniversityPathways } from '@/components/v2/UniversityPathways'
 import { UniversityRequirements } from '@/components/v2/UniversityRequirements'
+import { UniversityLogo } from '@/components/v2/UniversityLogo'
 import SourcePopover from '@/components/trust/SourcePopover'
-import { brandOf, readableInkOn } from '@/lib/v2/brand'
+import { brandOf } from '@/lib/v2/brand'
 import { countryLabel, profileById, traitProvenance, viewOf } from '@/lib/v2/profile'
 import { requirementProfile } from '@/lib/v2/university-enrichment'
 import {
@@ -66,18 +67,7 @@ export default async function UniversityDetailPage({
 
         <div className="mt-5 flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-start gap-4">
-            {p.logoPath ? (
-              // eslint-disable-next-line @next/next/no-img-element -- 本地 SVG 校徽
-              <img src={p.logoPath} alt="" aria-hidden className="h-14 w-14 object-contain" />
-            ) : (
-              <span
-                aria-hidden
-                className="grid h-14 w-14 shrink-0 place-items-center text-base font-medium tracking-tight"
-                style={{ background: brand, color: readableInkOn(p.brandColor) }}
-              >
-                {p.monogram}
-              </span>
-            )}
+            <UniversityLogo profile={p} size="detail" eager />
             <div>
               <h1 className="text-[26px] leading-tight tracking-tight sm:text-[40px]">
                 {u.nameCn}

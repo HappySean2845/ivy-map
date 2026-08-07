@@ -1,0 +1,774 @@
+{
+  "schemaVersion": 1,
+  "publishedAt": "2026-08-07",
+  "logos": [
+    {
+      "universityId": "harvard",
+      "path": "/university-logos/harvard.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Harvard_University_coat_of_arms.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Harvard%20University%20coat%20of%20arms.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Harvard%20University%20coat%20of%20arms.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 251640,
+        "width": 240.75,
+        "height": 234,
+        "sha256": "190e26720ca75c623e97ee4547773ef8470f6116b8d6cefe31c7fada2d3b0f3b"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 50642,
+        "width": 192,
+        "height": 187,
+        "sha256": "a0e0f3ad7ad202198b99ba5172f2fd7814fae14a609e1a3c20e2ee3219b964fb"
+      }
+    },
+    {
+      "universityId": "yale",
+      "path": "/university-logos/yale.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Yale_University_Shield_1.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Yale%20University%20Shield%201.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Yale%20University%20Shield%201.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 20314,
+        "width": 279.2,
+        "height": 292.73,
+        "sha256": "e5ff35f9fd8f83bdf45c9fad095b2484e20707e3b374241bf9d4c008801a17e5"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 21203,
+        "width": 183,
+        "height": 192,
+        "sha256": "3223edd03d16a03a028ffb56f1a7b7099f91d6ffc641f162c3b2f68c307945bf"
+      }
+    },
+    {
+      "universityId": "princeton",
+      "path": "/university-logos/princeton.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Princeton_seal.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Princeton%20seal.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Princeton%20seal.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 33709,
+        "width": 210,
+        "height": 268,
+        "sha256": "db5be7f3d4db80fae1e78a03cf4a39b592ea9d3d7782de32ebc773346cc6987b"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 10485,
+        "width": 150,
+        "height": 192,
+        "sha256": "026dbde18d39fb2e416f6f3e719c49b8e3109b5af7e4520e3d5bfe85155a394b"
+      }
+    },
+    {
+      "universityId": "columbia",
+      "path": "/university-logos/columbia.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Coat_of_Arms_of_Columbia_University.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20Columbia%20University.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20Columbia%20University.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 1345085,
+        "width": 270,
+        "height": 352,
+        "sha256": "f54994ad8954e7712ff33396e2b5a518b7c070fd2cc16c2f27c63f8d9464da68"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 29971,
+        "width": 147,
+        "height": 192,
+        "sha256": "1ab8eb586425c1d9ee4bde34bec2c890756bcfde151f355ed150d339a6d69aab"
+      }
+    },
+    {
+      "universityId": "brown",
+      "path": "/university-logos/brown.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Brown_Coat_of_Arms.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Brown%20Coat%20of%20Arms.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Brown%20Coat%20of%20Arms.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 171270,
+        "width": 307,
+        "height": 444,
+        "sha256": "930293a62d8a032e9e64d1ccd6ac83d0443ddd87f34b484f723e299e4e350665"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 35524,
+        "width": 133,
+        "height": 192,
+        "sha256": "0d1a7abfed94568e57c9490b97704d9a69d409450f032dc4f71d66e73d5d86f2"
+      }
+    },
+    {
+      "universityId": "dartmouth",
+      "path": "/university-logos/dartmouth.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Dartmouth_College_logo.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Dartmouth%20College%20logo.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Dartmouth%20College%20logo.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 6327,
+        "width": 512,
+        "height": 54.240002,
+        "sha256": "c6a337e324b55fc2a9f6cc578c55275bd9828283f4dd4ab9e5951df49eac2fd8"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 4317,
+        "width": 192,
+        "height": 20,
+        "sha256": "bdb805b0bbf17f4f1f1f1c0fd72101a36305e625cc8d75df74938cb3044f2fb7"
+      }
+    },
+    {
+      "universityId": "upenn",
+      "path": "/university-logos/upenn.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Shield_of_the_University_of_Pennsylvania.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Shield%20of%20the%20University%20of%20Pennsylvania.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Shield%20of%20the%20University%20of%20Pennsylvania.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 13135,
+        "width": 144,
+        "height": 161.214,
+        "sha256": "6af9c3e7842231ad9a3857cdd28964def355897ab74a08baabad4150477666c3"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 17574,
+        "width": 171,
+        "height": 192,
+        "sha256": "0525b45a6bc0762232483a424562ab09edb86fd51c62b6c50cffb3fdb5915d06"
+      }
+    },
+    {
+      "universityId": "cornell",
+      "path": "/university-logos/cornell.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Cornell_University_seal.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cornell%20University%20seal.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cornell%20University%20seal.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 29687,
+        "width": 99,
+        "height": 99,
+        "sha256": "63b9ed0b356b60d824afa28eb47699b72e838ab44122cb35894e69f4fe2e11d0"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 33722,
+        "width": 192,
+        "height": 192,
+        "sha256": "0193000af774c170d843f6f2064e27b0dca5aa79f3939d5adb2c45e6a7f63027"
+      }
+    },
+    {
+      "universityId": "mit",
+      "path": "/university-logos/mit.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "mark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:MIT_2023_red_logo.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/MIT%202023%20red%20logo.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/MIT%202023%20red%20logo.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 751,
+        "width": 449,
+        "height": 252,
+        "sha256": "717f753937cb6c2383916b1a2ebda407902a73b347f861242a50bb0b552f11ab"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 1302,
+        "width": 192,
+        "height": 108,
+        "sha256": "80fbde75020628ac29e3907416cc4ab84f1948faf243575f667965f5cfeb0652"
+      }
+    },
+    {
+      "universityId": "stanford",
+      "path": "/university-logos/stanford.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Seal_of_Leland_Stanford_Junior_University.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Seal%20of%20Leland%20Stanford%20Junior%20University.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Seal%20of%20Leland%20Stanford%20Junior%20University.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 468279,
+        "width": 3008.64014,
+        "height": 3008.6402,
+        "sha256": "399175574b50356cb2b90fbbc22f4f969efd0b1bc5bb5ac2349a110abb0eef15"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 47057,
+        "width": 192,
+        "height": 192,
+        "sha256": "267d1cae7ca5d969e2c3ffaaea2837174fdb1b56c622c719ea5ef703c1f90d71"
+      }
+    },
+    {
+      "universityId": "caltech",
+      "path": "/university-logos/caltech.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Caltech_Logo.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Caltech%20Logo.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Caltech%20Logo.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 3674,
+        "width": 207.575,
+        "height": 50.034809,
+        "sha256": "739e81aba2ecd48a385c0ae1100abf96b81950f00e3ddedd1f3244b28f73a236"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 5903,
+        "width": 192,
+        "height": 46,
+        "sha256": "ef1cb927bc9831bce010c38121783d358901fc291b20031506671cce7c861fc7"
+      }
+    },
+    {
+      "universityId": "uchicago",
+      "path": "/university-logos/uchicago.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:University_of_Chicago_wordmark.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Chicago%20wordmark.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Chicago%20wordmark.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 22851,
+        "width": 250,
+        "height": 62.734,
+        "sha256": "98dd58fa2286bcd324fffb3df41621f2944c1fccf5a4219eec52c7a1f4d92463"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 7480,
+        "width": 192,
+        "height": 48,
+        "sha256": "e9b51da88e63dc6fc88ae5f210a1f002b4ce03f9adc4aa39188590fd37135047"
+      }
+    },
+    {
+      "universityId": "duke",
+      "path": "/university-logos/duke.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Duke_University_logo.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Duke%20University%20logo.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Duke%20University%20logo.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 10930,
+        "width": 200.75751,
+        "height": 87.715622,
+        "sha256": "cb129e0e6ec071b76ab21dd066c795c6f3bb4f0546d80c57e2a5ac5c47e64ef7"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 7911,
+        "width": 192,
+        "height": 84,
+        "sha256": "0c938db324a0af8b42154a0254f631a6233670c3233e95134f3550a2cb3d14b6"
+      }
+    },
+    {
+      "universityId": "northwestern",
+      "path": "/university-logos/northwestern.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Northwestern_University_seal.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Northwestern%20University%20seal.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Northwestern%20University%20seal.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 109665,
+        "width": 166.71,
+        "height": 166.71,
+        "sha256": "826ce13bad0edec87b18ced58b2a62873dfb70899d059b763606e55d372c0a3d"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 36997,
+        "width": 192,
+        "height": 192,
+        "sha256": "4e8fc236bac62f1ceff4a1c2cde32df4421d21c12ba55e31d4ad2c031bedbda3"
+      }
+    },
+    {
+      "universityId": "jhu",
+      "path": "/university-logos/jhu.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Johns_Hopkins_University_logo.png",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Johns%20Hopkins%20University%20logo.png",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Johns%20Hopkins%20University%20logo.png",
+      "original": {
+        "mimeType": "image/png",
+        "byteSize": 60629,
+        "width": 786,
+        "height": 191,
+        "sha256": "81d78fd32f8304dbdb89c673cd31cf6399f23f8c8e9b3a523086d330710f7622"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 12955,
+        "width": 192,
+        "height": 46,
+        "sha256": "eb07358ea9b5527dec6e284128384cf5603b02eacd2a2ea35f3dee2b9b434d17"
+      }
+    },
+    {
+      "universityId": "nyu",
+      "path": "/university-logos/nyu.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Nyu_short_color.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Nyu%20short%20color.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Nyu%20short%20color.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 3536,
+        "width": 105.70667,
+        "height": 36,
+        "sha256": "8d8aa4254db5c22815440610155ed7426a994a68a32ab3e9b16d750dcc10efc7"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 4320,
+        "width": 192,
+        "height": 65,
+        "sha256": "13080087cc0da6f939e02f65003b1319632dcf11d18a175c11c91dd685f2cd38"
+      }
+    },
+    {
+      "universityId": "berkeley",
+      "path": "/university-logos/berkeley.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Seal_of_University_of_California%2C_Berkeley.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Seal%20of%20University%20of%20California%2C%20Berkeley.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Seal%20of%20University%20of%20California%2C%20Berkeley.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 122020,
+        "width": 665.52734,
+        "height": 665.52734,
+        "sha256": "ea2db45494acddf68943cb2c5c1517f5547da120ee2dba6eacf717548ee21b46"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 45574,
+        "width": 192,
+        "height": 192,
+        "sha256": "cd87a2cd95c12779564729b2b0a538b41b928e9fe5aca6b7b39aa54166fbd1c7"
+      }
+    },
+    {
+      "universityId": "ucla",
+      "path": "/university-logos/ucla.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "mark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:The_University_of_California_UCLA.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/The%20University%20of%20California%20UCLA.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/The%20University%20of%20California%20UCLA.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 67938,
+        "width": 204.13771,
+        "height": 204.2,
+        "sha256": "e5bf20dac98b91d64409267668e63faecb4611a3106ef1d5ef923e989364c1c0"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 42373,
+        "width": 192,
+        "height": 192,
+        "sha256": "d9edc1eda34ac7a6186d0dcc37a85a2867a6862f4a03bdc3a57c3e19426bf618"
+      }
+    },
+    {
+      "universityId": "cmu",
+      "path": "/university-logos/cmu.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Carnegie_Mellon_University_wordmark.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Carnegie%20Mellon%20University%20wordmark.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Carnegie%20Mellon%20University%20wordmark.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 12813,
+        "width": 178.5,
+        "height": 16,
+        "sha256": "4b136e1440debc7735d2545b664cc3ba0c6676ab69aca01abb2f4bbe017e59f8"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 4480,
+        "width": 192,
+        "height": 17,
+        "sha256": "78bede7eb94ccbf6405dc951cc6a7ddafd118867004eba3fc4b7b3205e69b49c"
+      }
+    },
+    {
+      "universityId": "umich",
+      "path": "/university-logos/umich.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:University_of_Michigan_logo.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Michigan%20logo.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Michigan%20logo.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 10544,
+        "width": 214.01,
+        "height": 42.567,
+        "sha256": "fb27dcdb3e90b3fc02565c08e9f51eeec25d554bac3881db838b0ce5c1ecbd76"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 7711,
+        "width": 192,
+        "height": 38,
+        "sha256": "99851c178de8d52b53b3ca200d21aa64f83f860aeed2f93ab2ca286975123b9e"
+      }
+    },
+    {
+      "universityId": "uw",
+      "path": "/university-logos/uw.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "mark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:University_of_Washington_Block_W_logo_RGB_brand_colors.SVG",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Washington%20Block%20W%20logo%20RGB%20brand%20colors.SVG",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Washington%20Block%20W%20logo%20RGB%20brand%20colors.SVG",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 2992,
+        "width": 1499,
+        "height": 1033,
+        "sha256": "a597e0dd1eb3cc4ce891d77860c81c210c6a218d32051bb20f809fbe200d8095"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 12458,
+        "width": 192,
+        "height": 132,
+        "sha256": "11eb2b43d1a167dcf3477246ca51dcd0911d10b7b11f80c819809496d3927b25"
+      }
+    },
+    {
+      "universityId": "washu",
+      "path": "/university-logos/washu.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Washu_textlogo.png",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Washu%20textlogo.png",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Washu%20textlogo.png",
+      "original": {
+        "mimeType": "image/png",
+        "byteSize": 24058,
+        "width": 724,
+        "height": 178,
+        "sha256": "ebddf3b31b8235bbf40aa777731800b809ff7ce4a1c49162e276acb08aaf8563"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 9368,
+        "width": 192,
+        "height": 47,
+        "sha256": "af2dd6ab476c788da0d26decb41ff93685c398aed8f2f476a4e236e49661ccdd"
+      }
+    },
+    {
+      "universityId": "oxford",
+      "path": "/university-logos/oxford.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Arms_of_University_of_Oxford.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Arms%20of%20University%20of%20Oxford.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Arms%20of%20University%20of%20Oxford.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 371653,
+        "width": 500,
+        "height": 602,
+        "sha256": "09a29033f5f0a8b60ff5b6c98044e24adfa6ffa3b0868705d1388a50aa0f84b3"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 29457,
+        "width": 159,
+        "height": 192,
+        "sha256": "0400e8d7b3da8e37cef9d7d2aee4cff1aeceb932861f4b2a2e82bec1e16a8f71"
+      }
+    },
+    {
+      "universityId": "cambridge",
+      "path": "/university-logos/cambridge.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Coat_of_Arms_of_the_University_of_Cambridge.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20the%20University%20of%20Cambridge.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20the%20University%20of%20Cambridge.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 172743,
+        "width": 2,
+        "height": 2338.7742,
+        "sha256": "814c64992abd7479d4e1049b8d085011799b1cce117bf4d3a4160da405c5c896"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 18266,
+        "width": 164,
+        "height": 192,
+        "sha256": "a67246e3c5e72fb129d8945233bd15d70281a9f4251017c1bdb86a4dc1f3aa26"
+      }
+    },
+    {
+      "universityId": "imperial",
+      "path": "/university-logos/imperial.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Shield_of_Imperial_College_London.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Shield%20of%20Imperial%20College%20London.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Shield%20of%20Imperial%20College%20London.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 346241,
+        "width": 576.34277,
+        "height": 702.11218,
+        "sha256": "7478316acaf29f01c91777b16870aa4bcd9117599bd56ab7e4895044357670af"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 31496,
+        "width": 158,
+        "height": 192,
+        "sha256": "2c8e8aa22f7a3f71e6e86b3b122e2c8494a2a15dae3d0edfee44b51f8c17ac43"
+      }
+    },
+    {
+      "universityId": "lse",
+      "path": "/university-logos/lse.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:London_School_of_Economics_Coat_of_Arms.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/London%20School%20of%20Economics%20Coat%20of%20Arms.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/London%20School%20of%20Economics%20Coat%20of%20Arms.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 93246,
+        "width": 394.2,
+        "height": 448.9,
+        "sha256": "31c7994ef406788482e828a84e8e6a2ee51053a652763a0856367a4f771cde77"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 32161,
+        "width": 169,
+        "height": 192,
+        "sha256": "8819df91a16faa2ca75e534678bbd58ff93192ca62dd4cd5557a56da949c9c69"
+      }
+    },
+    {
+      "universityId": "ucl",
+      "path": "/university-logos/ucl.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "crest",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:UCL_Crest.svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/UCL%20Crest.svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/UCL%20Crest.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 319842,
+        "width": 891.06055,
+        "height": 1075.189,
+        "sha256": "62189c963053bd0adce864782d636d5ed383e050e5ce9b04387227bf88ce0531"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 35161,
+        "width": 159,
+        "height": 192,
+        "sha256": "cda3c9fb3ae16fac2cba81db17dd101c05a2941f77a1052784ab61083ce94aa8"
+      }
+    },
+    {
+      "universityId": "hku",
+      "path": "/university-logos/hku.png",
+      "sourceClass": "official",
+      "assetKind": "wordmark",
+      "sourcePage": "https://www.hku.hk/",
+      "requestedAssetUrl": "https://www.hku.hk/assets/img/hku-115.svg?t=1760950144",
+      "resolvedAssetUrl": "https://www.hku.hk/assets/img/hku-115.svg?t=1760950144",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 94439,
+        "width": 543.005,
+        "height": 120,
+        "sha256": "112944fc5797fc911b55645ce50647404f4732af9223e48c4863021da348601f"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 6765,
+        "width": 192,
+        "height": 42,
+        "sha256": "e537a934762007a5ce62acbdd38737e91bf7040908c471ac53db824c7a311f1d"
+      }
+    },
+    {
+      "universityId": "hkust",
+      "path": "/university-logos/hkust.png",
+      "sourceClass": "official",
+      "assetKind": "mark",
+      "sourcePage": "https://www.hkust.edu.hk/",
+      "requestedAssetUrl": "https://www.hkust.edu.hk/sites/default/files/2024-03/HKUST_logo_1.svg",
+      "resolvedAssetUrl": "https://www.hkust.edu.hk/sites/default/files/2024-03/HKUST_logo_1.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 5902,
+        "width": 187,
+        "height": 60,
+        "sha256": "7653f73b7a5b51c65c3f87f7a95ed9586a4ba2b516a61063b70ec5d4649a31c6"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 4476,
+        "width": 192,
+        "height": 62,
+        "sha256": "1e2ab6b8526eca64d25fe308956a82385464e6bae46fc80bfb3107b524d573b9"
+      }
+    },
+    {
+      "universityId": "cuhk",
+      "path": "/university-logos/cuhk.png",
+      "sourceClass": "official",
+      "assetKind": "wordmark",
+      "sourcePage": "https://www.cuhk.edu.hk/english/index.html",
+      "requestedAssetUrl": "https://www.cuhk.edu.hk/english/images/cuhk_logo_2x.png?20221027",
+      "resolvedAssetUrl": "https://www.cuhk.edu.hk/english/images/cuhk_logo_2x.png?20221027",
+      "original": {
+        "mimeType": "image/png",
+        "byteSize": 30385,
+        "width": 556,
+        "height": 100,
+        "sha256": "8c5631e97c7e486600369b129eaae5690cad62e3813ac4c7869a8f2599371301"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 9629,
+        "width": 192,
+        "height": 34,
+        "sha256": "0bbbe9d82c6d37d91884c5063f004e5c52151bd8208bc7fcaeca41f426bca8c1"
+      }
+    },
+    {
+      "universityId": "toronto",
+      "path": "/university-logos/toronto.png",
+      "sourceClass": "official",
+      "assetKind": "wordmark",
+      "sourcePage": "https://www.utoronto.ca/",
+      "requestedAssetUrl": "https://www.utoronto.ca/themes/custom/bootstrap_uoft/logo.svg",
+      "resolvedAssetUrl": "https://www.utoronto.ca/themes/custom/bootstrap_uoft/logo.svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 119511,
+        "width": 428.5,
+        "height": 159,
+        "sha256": "f0d288b6c5b6daabf0b1fe7f5c370d87fce674b2c51bc4a7bda3dc8ca283875e"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": "#1e3765",
+        "byteSize": 9490,
+        "width": 192,
+        "height": 71,
+        "sha256": "3eb4161d5eda110463147503dc3b09f31171a7bbf6257585afcb01771acebafb"
+      }
+    },
+    {
+      "universityId": "utokyo",
+      "path": "/university-logos/utokyo.png",
+      "sourceClass": "wikimedia_commons",
+      "assetKind": "wordmark",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:University_of_Tokyo_logo_(2024).svg",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Tokyo%20logo%20(2024).svg",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/University%20of%20Tokyo%20logo%20(2024).svg",
+      "original": {
+        "mimeType": "image/svg+xml",
+        "byteSize": 8230,
+        "width": 100,
+        "height": 100,
+        "sha256": "3d4153283584a3190d313c0cd206597154ffab1b710a22915b1bddef27b818ef"
+      },
+      "display": {
+        "mimeType": "image/png",
+        "background": null,
+        "byteSize": 6780,
+        "width": 192,
+        "height": 46,
+        "sha256": "c4dd151414a17896ad8c6b60315ec317cf75d29068eb6ebbe1878fb8eccffc56"
+      }
+    }
+  ]
+}

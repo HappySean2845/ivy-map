@@ -9,7 +9,8 @@
 import Link from 'next/link'
 
 import { ProfileFingerprint } from '@/components/v2/ProfileFingerprint'
-import { brandOf, readableInkOn } from '@/lib/v2/brand'
+import { UniversityLogo } from '@/components/v2/UniversityLogo'
+import { brandOf } from '@/lib/v2/brand'
 import {
   admissionCountRateNote,
   admissionCountSeriesLabel,
@@ -57,27 +58,7 @@ export function UniversityCard({
       {/* ── 身份。shrink-0：卡片是固定高度的，390px 上内容一多，
              不锁住 header 和 footer 就会被中间区挤压变形 */}
       <header className="flex shrink-0 items-start gap-3 px-4 pt-4 sm:px-5">
-        {p.logoPath ? (
-          // eslint-disable-next-line @next/next/no-img-element -- 本地 SVG 校徽，不需要 Image 的优化管线
-          <img
-            src={p.logoPath}
-            alt=""
-            aria-hidden
-            className={
-              compact ? 'h-9 w-9 shrink-0 object-contain' : 'h-11 w-11 shrink-0 object-contain'
-            }
-          />
-        ) : (
-          <span
-            aria-hidden
-            className={`grid shrink-0 place-items-center font-medium tracking-tight ${
-              compact ? 'h-9 w-9 text-[11px]' : 'h-11 w-11 text-[13px]'
-            }`}
-            style={{ background: brand, color: readableInkOn(p.brandColor) }}
-          >
-            {p.monogram}
-          </span>
-        )}
+        <UniversityLogo profile={p} size={compact ? 'compact' : 'card'} />
 
         <div className="min-w-0 flex-1">
           <h3

@@ -4,7 +4,7 @@
     {
       "universityId": "harvard",
       "websiteUrl": "https://www.harvard.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/harvard.png",
       "brandColor": "#A51C30",
       "monogram": "H",
       "foundedYear": 1636,
@@ -40,7 +40,7 @@
     {
       "universityId": "yale",
       "websiteUrl": "https://www.yale.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/yale.png",
       "brandColor": "#00356B",
       "monogram": "Y",
       "foundedYear": 1701,
@@ -76,7 +76,7 @@
     {
       "universityId": "princeton",
       "websiteUrl": "https://www.princeton.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/princeton.png",
       "brandColor": "#E77500",
       "monogram": "P",
       "foundedYear": 1746,
@@ -112,7 +112,7 @@
     {
       "universityId": "columbia",
       "websiteUrl": "https://www.columbia.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/columbia.png",
       "brandColor": "#1D4F91",
       "monogram": "C",
       "foundedYear": 1754,
@@ -148,7 +148,7 @@
     {
       "universityId": "brown",
       "websiteUrl": "https://www.brown.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/brown.png",
       "brandColor": "#4E3629",
       "monogram": "B",
       "foundedYear": 1764,
@@ -184,7 +184,7 @@
     {
       "universityId": "dartmouth",
       "websiteUrl": "https://www.dartmouth.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/dartmouth.png",
       "brandColor": "#00693E",
       "monogram": "D",
       "foundedYear": 1769,
@@ -220,7 +220,7 @@
     {
       "universityId": "upenn",
       "websiteUrl": "https://www.upenn.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/upenn.png",
       "brandColor": "#011F5B",
       "monogram": "P",
       "foundedYear": 1740,
@@ -256,7 +256,7 @@
     {
       "universityId": "cornell",
       "websiteUrl": "https://www.cornell.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/cornell.png",
       "brandColor": "#B31B1B",
       "monogram": "C",
       "foundedYear": 1865,
@@ -292,7 +292,7 @@
     {
       "universityId": "mit",
       "websiteUrl": "https://www.mit.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/mit.png",
       "brandColor": "#A31F34",
       "monogram": "MIT",
       "foundedYear": 1861,
@@ -328,7 +328,7 @@
     {
       "universityId": "stanford",
       "websiteUrl": "https://www.stanford.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/stanford.png",
       "brandColor": "#8C1515",
       "monogram": "S",
       "foundedYear": 1885,
@@ -364,7 +364,7 @@
     {
       "universityId": "caltech",
       "websiteUrl": "https://www.caltech.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/caltech.png",
       "brandColor": "#FF6C0C",
       "monogram": "CIT",
       "foundedYear": 1891,
@@ -400,7 +400,7 @@
     {
       "universityId": "uchicago",
       "websiteUrl": "https://www.uchicago.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/uchicago.png",
       "brandColor": "#800000",
       "monogram": "UC",
       "foundedYear": 1890,
@@ -436,7 +436,7 @@
     {
       "universityId": "duke",
       "websiteUrl": "https://www.duke.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/duke.png",
       "brandColor": "#012169",
       "monogram": "D",
       "foundedYear": 1838,
@@ -472,7 +472,7 @@
     {
       "universityId": "northwestern",
       "websiteUrl": "https://www.northwestern.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/northwestern.png",
       "brandColor": "#4E2A84",
       "monogram": "NU",
       "foundedYear": 1851,
@@ -508,7 +508,7 @@
     {
       "universityId": "jhu",
       "websiteUrl": "https://www.jhu.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/jhu.png",
       "brandColor": "#002D72",
       "monogram": "JHU",
       "foundedYear": 1876,
@@ -544,7 +544,7 @@
     {
       "universityId": "nyu",
       "websiteUrl": "https://www.nyu.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/nyu.png",
       "brandColor": "#57068C",
       "monogram": "NYU",
       "foundedYear": 1831,
@@ -580,7 +580,7 @@
     {
       "universityId": "berkeley",
       "websiteUrl": "https://www.berkeley.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/berkeley.png",
       "brandColor": "#003262",
       "monogram": "UCB",
       "foundedYear": 1868,
@@ -616,7 +616,7 @@
     {
       "universityId": "ucla",
       "websiteUrl": "https://www.ucla.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/ucla.png",
       "brandColor": "#2774AE",
       "monogram": "UCLA",
       "foundedYear": 1919,
@@ -652,7 +652,7 @@
     {
       "universityId": "cmu",
       "websiteUrl": "https://www.cmu.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/cmu.png",
       "brandColor": "#C41230",
       "monogram": "CMU",
       "foundedYear": 1900,
@@ -688,7 +688,7 @@
     {
       "universityId": "umich",
       "websiteUrl": "https://umich.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/umich.png",
       "brandColor": "#00274C",
       "monogram": "UM",
       "foundedYear": 1817,
@@ -724,7 +724,7 @@
     {
       "universityId": "uw",
       "websiteUrl": "https://www.washington.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/uw.png",
       "brandColor": "#4B2E83",
       "monogram": "UW",
       "foundedYear": 1861,
@@ -760,7 +760,7 @@
     {
       "universityId": "washu",
       "websiteUrl": "https://wustl.edu",
-      "logoPath": null,
+      "logoPath": "/university-logos/washu.png",
       "brandColor": "#A51417",
       "monogram": "WU",
       "foundedYear": 1853,
@@ -796,7 +796,7 @@
     {
       "universityId": "oxford",
       "websiteUrl": "https://www.ox.ac.uk",
-      "logoPath": null,
+      "logoPath": "/university-logos/oxford.png",
       "brandColor": "#002147",
       "monogram": "OX",
       "foundedYear": 1096,
@@ -832,7 +832,7 @@
     {
       "universityId": "cambridge",
       "websiteUrl": "https://www.cam.ac.uk",
-      "logoPath": null,
+      "logoPath": "/university-logos/cambridge.png",
       "brandColor": "#003C71",
       "monogram": "CAM",
       "foundedYear": 1209,
@@ -868,7 +868,7 @@
     {
       "universityId": "imperial",
       "websiteUrl": "https://www.imperial.ac.uk",
-      "logoPath": null,
+      "logoPath": "/university-logos/imperial.png",
       "brandColor": "#003E74",
       "monogram": "IC",
       "foundedYear": 1907,
@@ -904,7 +904,7 @@
     {
       "universityId": "lse",
       "websiteUrl": "https://www.lse.ac.uk",
-      "logoPath": null,
+      "logoPath": "/university-logos/lse.png",
       "brandColor": "#E5231B",
       "monogram": "LSE",
       "foundedYear": 1895,
@@ -940,7 +940,7 @@
     {
       "universityId": "ucl",
       "websiteUrl": "https://www.ucl.ac.uk",
-      "logoPath": null,
+      "logoPath": "/university-logos/ucl.png",
       "brandColor": "#500778",
       "monogram": "UCL",
       "foundedYear": 1826,
@@ -976,7 +976,7 @@
     {
       "universityId": "hku",
       "websiteUrl": "https://www.hku.hk",
-      "logoPath": null,
+      "logoPath": "/university-logos/hku.png",
       "brandColor": "#00563F",
       "monogram": "HKU",
       "foundedYear": 1911,
@@ -1012,7 +1012,7 @@
     {
       "universityId": "hkust",
       "websiteUrl": "https://www.hkust.edu.hk",
-      "logoPath": null,
+      "logoPath": "/university-logos/hkust.png",
       "brandColor": "#003366",
       "monogram": "UST",
       "foundedYear": 1991,
@@ -1048,7 +1048,7 @@
     {
       "universityId": "cuhk",
       "websiteUrl": "https://www.cuhk.edu.hk",
-      "logoPath": null,
+      "logoPath": "/university-logos/cuhk.png",
       "brandColor": "#652D86",
       "monogram": "CU",
       "foundedYear": 1963,
@@ -1084,7 +1084,7 @@
     {
       "universityId": "toronto",
       "websiteUrl": "https://www.utoronto.ca",
-      "logoPath": null,
+      "logoPath": "/university-logos/toronto.png",
       "brandColor": "#002A5C",
       "monogram": "UT",
       "foundedYear": 1827,
@@ -1120,7 +1120,7 @@
     {
       "universityId": "utokyo",
       "websiteUrl": "https://www.u-tokyo.ac.jp",
-      "logoPath": null,
+      "logoPath": "/university-logos/utokyo.png",
       "brandColor": "#004098",
       "monogram": "UT",
       "foundedYear": 1877,
