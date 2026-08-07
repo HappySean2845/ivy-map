@@ -9,7 +9,7 @@ describe('guided preference state', () => {
       destinations: ['US', 'UK'] as const,
       interests: ['engineering', 'business'] as const,
       curriculum: 'AP' as const,
-      priorities: ['safety', 'evidence'] as const,
+      priorities: ['campus', 'evidence'] as const,
     }
     const params = guideSearchParams({
       destinations: [...answers.destinations],
@@ -22,7 +22,7 @@ describe('guided preference state', () => {
       destinations: ['US', 'UK'],
       interests: ['engineering', 'business'],
       curriculum: 'AP',
-      priorities: ['safety', 'evidence'],
+      priorities: ['campus', 'evidence'],
     })
   })
 

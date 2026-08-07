@@ -1,6 +1,6 @@
 // snapshot 卡片。大学目录与旧刷卡组件共用；当前产品只展示目录形态。
 //
-// 布局按手写稿：左上 logo、右边校名、中间简述与强项、右侧多边形评分、左下官网跳转。
+// 布局按手写稿：左上 logo、右边校名、中间简述与强项、右侧画像指纹、左下官网跳转。
 //
 // 校色只出现在两处 —— 顶部 3px 色带和 monogram 方块底（见 docs/design-system-v2.md）。
 // 正文、边框、数字全部黑白。这不是保守：这张卡的主要用途是被截图发家长群，
@@ -8,7 +8,7 @@
 
 import Link from 'next/link'
 
-import { ScoreRadar } from '@/components/v2/ScoreRadar'
+import { ProfileFingerprint } from '@/components/v2/ProfileFingerprint'
 import { brandOf, readableInkOn } from '@/lib/v2/brand'
 import {
   admissionCountRateNote,
@@ -37,7 +37,7 @@ export function UniversityCard({
   const {
     university: u,
     profile: p,
-    scores,
+    fingerprint,
     trend,
     primaryRateSeries,
     primaryCountSeries,
@@ -106,7 +106,7 @@ export function UniversityCard({
         </div>
       )}
 
-      {/* ── 强项专业 + 雷达图。min-h-0 让这一块承担全部压缩，
+      {/* ── 强项专业 + 画像指纹。min-h-0 让这一块承担全部压缩，
              溢出的部分被 overflow-hidden 裁掉，而不是把 footer 顶出去 */}
       <div className="mt-3 flex min-h-0 flex-1 items-start gap-3 overflow-hidden border-t border-ink/15 px-4 pt-3 sm:px-5">
         <div className="min-w-0 flex-1">
@@ -160,21 +160,14 @@ export function UniversityCard({
           </div>
         </div>
 
-        <ScoreRadar
-          scores={scores}
+        <ProfileFingerprint
+          fingerprint={fingerprint}
           brandColor={p.brandColor}
-          size={compact ? 136 : 140}
-          showLabels
+          size={compact ? 140 : 148}
+          labelMode="short"
           className="shrink-0 text-ink"
         />
       </div>
-
-      {/* 方向直接写在卡片上，避免把四边形误读成「面积越大越好」。 */}
-      {compact && (
-        <p className="mt-2 px-4 text-[10px] leading-relaxed text-ink/40 sm:px-5">
-          录取难度越外越难录；其余三项越外分别表示越友好、越安全、设施越完善。
-        </p>
-      )}
 
       {/* ── 左下角官网跳转 + 详情。shrink-0：官网链接是手写稿明确要的，
              不能因为上面内容多就被挤掉 */}
@@ -193,7 +186,7 @@ export function UniversityCard({
         )}
 
         <Link href={`/v2/u/${u.id}`} className="text-xs text-ink/70">
-          {compact ? '看画像、课程与对应高中 →' : '看评分依据与趋势 →'}
+          {compact ? '看画像、课程与对应高中 →' : '看画像依据与趋势 →'}
         </Link>
       </footer>
     </article>

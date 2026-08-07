@@ -3,7 +3,7 @@ import './globals.css'
 
 const TITLE = 'IVY Map · 大学画像与国内生源校'
 const DESC =
-  '浏览大学画像、官方录取率与四维评分，再查看 AP、IB、A-Level 课程路径和对应国内高中去向证据。'
+  '浏览大学画像、官方录取率与四维画像指纹，再查看 AP、IB、A-Level 课程路径和对应国内高中去向证据。'
 
 // US-8.5：微信分享主要读 title，所以 title 要能独立说清产品是什么
 export const metadata: Metadata = {

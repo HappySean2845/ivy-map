@@ -1,20 +1,21 @@
 // v2 画像的读取与派生。
 //
 // 这一层的职责是把两个事实源拼成一张卡片能用的形状：
-//   - data/university-profiles.json  策展字段（校色、风格、三个软维度的编辑评分）
+//   - data/university-profiles.json  策展字段（校色、风格、三个五档编辑特征）
 //   - data/ivy-map.json 的 officialAdmissions  官方申请/录取数
 //
-// 录取难度**不在策展文件里**，在这里现算。抄一份进策展文件就是第二个事实源，
+// 录取开放度**不在策展文件里**，在这里按官方录取率分档。抄一份进策展文件就是第二个事实源，
 // 官方数据一更新两边立刻不一致。
 
 import { universityById, dataset } from '@/lib/data'
 import raw from '@/data/university-profiles.json'
 import {
-  CURATED_DIMS,
-  PROFILE_DIMS,
+  CURATED_TRAITS,
+  PROFILE_TRAITS,
   type ProfileDataset,
-  type ProfileDim,
-  type ProfileScore,
+  type ProfileLevel,
+  type ProfileTrait,
+  type ProfileTraitRating,
   type UniversityProfile,
 } from '@/types/profile'
 import type { AdmissionRatePoint, AdmissionRateSeries, University } from '@/types'
@@ -84,16 +85,16 @@ export function schoolYearLabel(start: number): string {
   return `${start}–${String(start + 1).slice(-2)}`
 }
 
-/**
- * 录取难度分。
- *
- * `(1 - 录取率) × 100`，**零任意参数**：3.6% 的录取率算出 96 分，
- * 而 96 这个数字一句话就能解释清楚 ——「96.4% 的申请者被拒」。
- *
- * 用对数或分段映射能把藤校之间的差距拉开、图看着更好看，但每个折点都是我们拍的，
- * 拍出来的曲线没办法向家长解释。这个产品宁可要一条能解释的直线。
- */
-export function selectivityScore(university: University): ProfileScore {
+/** 绝对录取率区间。用命名区间，不用样本内百分位制造差异。 */
+export function admissionOpennessLevel(rate: number): ProfileLevel {
+  if (rate < 0.05) return 1
+  if (rate < 0.08) return 2
+  if (rate <= 0.12) return 3
+  if (rate <= 0.3) return 4
+  return 5
+}
+
+export function admissionOpenness(university: University): ProfileTraitRating {
   const trend = admitRateTrend(university)
   const latest = trend.at(-1)
   if (!latest) {
@@ -101,14 +102,14 @@ export function selectivityScore(university: University): ProfileScore {
     const latestCount = latestReviewedAdmissionCountPoint(countSeries)
     if (countSeries) {
       return {
-        value: null,
-        basis: `${admissionCountRateNote(countSeries)}招生人数不进入录取难度评分。`,
+        level: null,
+        basis: `${admissionCountRateNote(countSeries)}招生人数不进入录取开放度分档。`,
         kind: 'measured',
         sourceIds: latestCount ? [latestCount.sourceId] : [],
       }
     }
     return {
-      value: null,
+      level: null,
       basis: '尚未收录该校经复核的官方申请与录取人数，不用估算值补空',
       kind: 'measured',
       sourceIds: [],
@@ -122,7 +123,7 @@ export function selectivityScore(university: University): ProfileScore {
       ? `（${latest.applied.toLocaleString('en-US')} 人申请 / ${latest.outcome.toLocaleString('en-US')} 人${primary ? admissionRateOutcomeLabel(primary) : '录取'}）`
       : ''
   return {
-    value: Math.round((1 - admissionRatePointValue(latest)) * 100),
+    level: admissionOpennessLevel(admissionRatePointValue(latest)),
     basis: `${period} ${rateLabel} ${formatAdmissionRate(latest)}${counts}`,
     kind: 'measured',
     sourceIds: [latest.sourceId],
@@ -135,7 +136,7 @@ export function selectivityScore(university: University): ProfileScore {
 export interface UniversityView {
   university: University
   profile: UniversityProfile
-  scores: Record<ProfileDim, ProfileScore>
+  fingerprint: Record<ProfileTrait, ProfileTraitRating>
   trend: AdmissionRatePoint[]
   rateSeries: AdmissionRateSeries[]
   primaryRateSeries: AdmissionRateSeries | null
@@ -143,14 +144,14 @@ export interface UniversityView {
   primaryCountSeries: University['admissionCountSeries'][number] | null
 }
 
-/** 四个维度的完整分：三个来自策展文件，录取难度现算。 */
-export function resolveScores(
+/** 四个维度的完整指纹：三个来自策展文件，录取开放度现算。 */
+export function resolveFingerprint(
   university: University,
   profile: UniversityProfile,
-): Record<ProfileDim, ProfileScore> {
-  const out = {} as Record<ProfileDim, ProfileScore>
-  out.selectivity = selectivityScore(university)
-  for (const dim of CURATED_DIMS) out[dim] = profile.scores[dim]
+): Record<ProfileTrait, ProfileTraitRating> {
+  const out = {} as Record<ProfileTrait, ProfileTraitRating>
+  out.admissionOpenness = admissionOpenness(university)
+  for (const trait of CURATED_TRAITS) out[trait] = profile.traits[trait]
   return out
 }
 
@@ -163,7 +164,7 @@ export function viewOf(universityId: string): UniversityView | null {
   return {
     university,
     profile,
-    scores: resolveScores(university, profile),
+    fingerprint: resolveFingerprint(university, profile),
     trend: admitRateTrend(university),
     rateSeries,
     primaryRateSeries: primaryAdmissionRateSeries(rateSeries),
@@ -197,15 +198,15 @@ export function deckOrder(): UniversityView[] {
     .sort((a, b) => shuffleKey(a.university.id) - shuffleKey(b.university.id))
 }
 
-/** 每根轴的 measured / editorial / 缺数据 计数，详情页要把这个讲出来。 */
-export function scoreProvenance(scores: Record<ProfileDim, ProfileScore>) {
+/** 每根轴的 measured / editorial / 缺数据计数。 */
+export function traitProvenance(fingerprint: Record<ProfileTrait, ProfileTraitRating>) {
   let measured = 0
   let editorial = 0
   let missing = 0
-  for (const dim of PROFILE_DIMS) {
-    const s = scores[dim]
-    if (s.value == null) missing++
-    else if (s.kind === 'measured') measured++
+  for (const trait of PROFILE_TRAITS) {
+    const rating = fingerprint[trait]
+    if (rating.level == null) missing++
+    else if (rating.kind === 'measured') measured++
     else editorial++
   }
   return { measured, editorial, missing }
