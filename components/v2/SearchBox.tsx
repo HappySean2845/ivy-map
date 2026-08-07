@@ -16,7 +16,7 @@ import { searchUniversities } from '@/lib/v2/search'
 
 export function SearchBox({
   onPick,
-  placeholder = '搜索大学（中文名 / 英文名 / 缩写）',
+  placeholder = '搜索大学名称 / 缩写',
   autoFocus = false,
   className = '',
 }: {
@@ -91,14 +91,24 @@ export function SearchBox({
         aria-controls={listId}
         aria-autocomplete="list"
         aria-label="搜索大学"
-        className="w-full text-sm"
+        className="w-full rounded-full border-line bg-surface py-2.5 pl-4 pr-10 text-sm"
       />
+
+      <span
+        aria-hidden
+        className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-leaf"
+      >
+        <svg viewBox="0 0 20 20" className="size-4" fill="none">
+          <circle cx="8.5" cy="8.5" r="4.75" stroke="currentColor" strokeWidth="1.5" />
+          <path d="m12 12 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      </span>
 
       {showList && (
         <ul
           id={listId}
           role="listbox"
-          className="absolute top-full right-0 left-0 z-50 mt-1 max-h-[60vh] overflow-y-auto border border-ink bg-paper"
+          className="absolute top-full right-0 left-0 z-50 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-line bg-surface p-1.5 shadow-[var(--shadow-card)]"
         >
           {hits.length === 0 ? (
             <li className="px-3 py-2.5 text-sm text-ink/50">
@@ -111,8 +121,8 @@ export function SearchBox({
                   type="button"
                   onClick={() => pick(hit.university.id)}
                   onMouseEnter={() => setActive(i)}
-                  className={`flex w-full items-baseline justify-between gap-3 px-3 py-2.5 text-left ${
-                    i === active ? 'bg-ink text-paper' : ''
+                  className={`flex w-full items-baseline justify-between gap-3 rounded-xl px-3 py-2.5 text-left ${
+                    i === active ? 'bg-forest text-paper' : 'hover:bg-mint'
                   }`}
                   data-tap
                 >

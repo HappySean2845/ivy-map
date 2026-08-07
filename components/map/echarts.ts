@@ -5,7 +5,7 @@
 //
 // 三件事都在这里收口：
 //   1. 注册用到的 chart / component / renderer（下面这份清单就是全部）
-//   2. 深浅色两套配色（站点用 prefers-color-scheme，图表得跟着变）
+//   2. 与站点一致的植物志配色
 //   3. 中国地图 GeoJSON 的加载与注册（npm 包里没有，只能运行时 fetch）
 
 import { ScatterChart } from 'echarts/charts'
@@ -27,10 +27,7 @@ echarts.use([ScatterChart, GeoComponent, GridComponent, TooltipComponent, Canvas
 export { echarts }
 
 export type ChartOption = ComposeOption<
-  | ScatterSeriesOption
-  | GeoComponentOption
-  | GridComponentOption
-  | TooltipComponentOption
+  ScatterSeriesOption | GeoComponentOption | GridComponentOption | TooltipComponentOption
 >
 
 /** scatter 的 data 数组类型。我们往 item 上挂了自定义字段，赋值处需要 cast。 */
@@ -58,25 +55,22 @@ export interface MapTheme {
 }
 
 /**
- * 唯一一套配色：纯黑白（design-system.md §1）。
- *
- * 上一版有 LIGHT/DARK 两套 emerald 系配色，现在删掉——设计系统只有 #000 和
- * #fff，热力靠 opacity 阶梯而不是色阶。地图上的层级全部由「实心 / 空心 /
- * 不同透明度」承担，这样截图、黑白打印、色弱视觉下都无损。
+ * 唯一一套浅色植物志配色。深绿承担选择与数据，浅绿底图保留地图层级；
+ * 实心 / 空心仍然是有数据与暂无数据的双重编码，不只依赖颜色。
  */
-const BW: MapTheme = {
+const BOTANICAL: MapTheme = {
   dark: false,
-  accent: '#000000',
-  accentStrong: '#000000',
-  accentFill: 'rgba(0, 0, 0, 0.62)',
-  ring: '#000000',
-  text: '#000000',
-  textDim: 'rgba(0, 0, 0, 0.45)',
-  land: '#ffffff',
-  landBorder: '#000000',
-  tooltipBg: '#ffffff',
-  tooltipBorder: '#000000',
-  tooltipText: '#000000',
+  accent: '#286149',
+  accentStrong: '#123c2e',
+  accentFill: 'rgba(40, 97, 73, 0.68)',
+  ring: '#477b60',
+  text: '#173d2e',
+  textDim: 'rgba(23, 61, 46, 0.52)',
+  land: '#eef4e9',
+  landBorder: '#9db9a3',
+  tooltipBg: '#fbfcf7',
+  tooltipBorder: '#b8cdbb',
+  tooltipText: '#173d2e',
 }
 
 /** 热力的 opacity 阶梯。0 = 无数据（空心），其余按权重分档。 */
@@ -88,10 +82,10 @@ export function heatOpacity(value: number, max: number): number {
   return HEAT_STEPS[i]
 }
 
-/** 设计系统只有 light，所以这里恒定返回黑白一套。保留 hook 形态是为了
+/** 设计系统只有 light，所以这里恒定返回一套。保留 hook 形态是为了
     调用方不用改，也方便以后真要加主题时只动这一处。 */
 export function useMapTheme(): MapTheme {
-  return BW
+  return BOTANICAL
 }
 
 // ---------------------------------------------------------------------------
@@ -199,8 +193,8 @@ let worldPromise: Promise<void> | null = null
  *
  *   1. **合规**：面向中国用户的产品画错国界是事故。没有国界线，就没有
  *      画错国界的可能——把整类风险移除掉，比小心地画一遍更稳。
- *   2. **画风**：纯白陆地剪影 + 1px 黑描边，正好就是野兽派参考的样子。
- *      国界线在这个体量下只是噪声——我们要展示的是 30 个大学点，不是政区。
+ *   2. **画风**：雾绿陆地剪影 + 绿灰描边，国界线在这个体量下只是噪声——
+ *      我们要展示的是大学点，不是政区。
  *
  * ECharts 的 npm 包不含任何地图数据，所以只能运行时 fetch + registerMap。
  */

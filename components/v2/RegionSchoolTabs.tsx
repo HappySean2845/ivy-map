@@ -19,7 +19,7 @@ export function RegionSchoolTabs({ groups }: { groups: RegionSchoolGroup[] }) {
       <div
         role="tablist"
         aria-label="按地区筛选高中"
-        className="flex overflow-x-auto border-y border-ink"
+        className="flex overflow-x-auto rounded-2xl bg-cream p-1.5"
       >
         {groups.map((group) => {
           const selected = group.id === selectedId
@@ -32,12 +32,16 @@ export function RegionSchoolTabs({ groups }: { groups: RegionSchoolGroup[] }) {
               aria-selected={selected}
               aria-controls={`${group.id}-panel`}
               onClick={() => setSelectedId(group.id)}
-              className={`shrink-0 border-r border-ink px-4 py-3 text-left last:border-r-0 ${
-                selected ? 'bg-ink text-paper' : 'text-ink hover:bg-ink/5'
+              className={`shrink-0 rounded-xl px-4 py-2.5 text-left transition-colors ${
+                selected
+                  ? 'bg-forest text-paper'
+                  : 'text-ink/60 hover:bg-mint hover:text-forest'
               }`}
             >
               <span className="text-sm">{group.label}</span>
-              <span className={`ml-2 text-[11px] tnum ${selected ? 'text-paper/60' : 'text-ink/40'}`}>
+              <span
+                className={`ml-2 text-[11px] tnum ${selected ? 'text-paper/60' : 'text-ink/40'}`}
+              >
                 {group.count}
               </span>
             </button>

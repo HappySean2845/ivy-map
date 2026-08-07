@@ -36,14 +36,19 @@ export function GlossaryCards() {
 
       {GROUPS.map((group) => (
         <section key={group.kind} className="mt-12 sm:mt-16">
-          <p className="label text-ink/40">{TERM_KIND_LABEL[group.kind]}</p>
-          <hr className="mt-2 border-ink" />
-          <h2 className="mt-4 text-2xl leading-tight sm:text-[32px]">{group.heading}</h2>
+          <p className="label text-leaf">{TERM_KIND_LABEL[group.kind]}</p>
+          <h2 className="mt-3 text-2xl leading-tight text-forest-deep sm:text-[34px]">
+            {group.heading}
+          </h2>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">{group.note}</p>
 
           <div className="mt-6 flex flex-col gap-6">
             {TERMS.filter((t) => t.kind === group.kind).map((term) => (
-              <article key={term.id} id={term.id} className="border border-ink/15 p-5 sm:p-6">
+              <article
+                key={term.id}
+                id={term.id}
+                className="rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] sm:p-7"
+              >
                 <header className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h3 className="text-2xl leading-none tracking-tight sm:text-[28px]">
                     {term.name}
@@ -54,7 +59,7 @@ export function GlossaryCards() {
 
                 <p className="mt-4 text-[15px] leading-relaxed sm:text-base">{term.oneLine}</p>
 
-                <dl className="mt-5 grid gap-4 border-t border-ink/15 pt-4 sm:grid-cols-2">
+                <dl className="mt-5 grid gap-4 border-t border-line pt-4 sm:grid-cols-2">
                   <div>
                     <dt className="label text-ink/40">谁在走这条路</dt>
                     <dd className="mt-1.5 text-sm leading-relaxed text-ink/70">{term.who}</dd>
@@ -68,8 +73,8 @@ export function GlossaryCards() {
                 </dl>
 
                 {/* 反白块 = 全站的「当前选中 / 最重要」语言（design-system.md §1） */}
-                <div className="mt-5 bg-ink p-4 text-paper sm:p-5">
-                  <p className="label text-paper/60">家长最常搞错的</p>
+                <div className="mt-5 rounded-2xl bg-forest-deep p-4 text-paper sm:p-5">
+                  <p className="label text-sage">家长最常搞错的</p>
                   <p className="mt-2 text-sm leading-relaxed">
                     <Emphasis text={term.misconception} />
                   </p>

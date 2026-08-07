@@ -234,11 +234,6 @@ function buildOption(
   theme: MapTheme,
   fit: { center: [number, number]; zoom: number } | null,
 ): ChartOption {
-  const maxHeat = cities.reduce((m, c) => Math.max(m, heatByCityId[c.id] ?? 0), 0)
-
-  const sizeOf = (heat: number) =>
-    heat > 0 && maxHeat > 0 ? 10 + 22 * Math.sqrt(heat / maxHeat) : 6
-
   const toItem = (c: City) => {
     const heat = heatByCityId[c.id] ?? 0
     const selected = c.id === selectedCityId

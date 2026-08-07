@@ -36,20 +36,21 @@ export default async function SchoolPage({ params }: { params: Promise<{ id: str
 
   return (
     <main className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
-      <nav className="pt-8 text-sm">
-        <Link href="/" className="text-ink">
-          ← 返回生源校榜单
+      <nav className="pt-5 text-sm">
+        <Link href="/universities" className="secondary-action">
+          ← 返回大学目录
         </Link>
       </nav>
 
-      <header className="mt-4">
-        <p className=" text-xs tracking-widest text-ink/60">IVY MAP · 学校档案</p>
-        <h1 className="mt-2 text-2xl leading-snug sm:text-3xl">{school.nameCn}</h1>
+      <header className="soft-panel mt-5 p-6 sm:p-8">
+        <p className="label text-leaf">IVY MAP · 学校档案</p>
+        <h1 className="mt-3 text-3xl leading-snug text-forest-deep sm:text-[42px]">
+          {school.nameCn}
+        </h1>
         <p className="mt-1.5 text-sm text-ink/60">
           {city}
           {school.district ? ` · ${school.district}` : ''}
         </p>
-        <hr className="mt-5 border-ink" />
       </header>
 
       <div className="mt-6">

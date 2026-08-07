@@ -64,23 +64,23 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
   }
 
   return (
-    <main className="min-h-[calc(100svh-65px)] px-4 sm:px-8">
-      <div className="mx-auto max-w-6xl py-5 sm:py-8">
-        <header className="flex items-center justify-between gap-4 border-b border-ink pb-4">
-          <Link href="/guide" className="label hover:no-underline">
+    <main className="min-h-[calc(100svh-65px)] px-3 sm:px-6">
+      <div className="mx-auto max-w-7xl py-3 sm:py-5">
+        <header className="flex items-center justify-between gap-4 rounded-full border border-line bg-surface px-4 py-3 shadow-[var(--shadow-sm)]">
+          <Link href="/guide" className="label text-forest hover:no-underline">
             <span className="sm:hidden">IVY MAP · 择校</span>
             <span className="hidden sm:inline">IVY MAP · 一步步择校</span>
           </Link>
-          <Link href="/universities" className="text-xs text-ink/55">
+          <Link href="/universities" className="secondary-action min-h-9 px-4 text-xs">
             全部大学 →
           </Link>
         </header>
 
-        <div className="grid min-h-[calc(100svh-150px)] lg:grid-cols-[1fr_0.38fr]">
-          <section className="flex flex-col justify-between py-10 lg:border-r lg:border-ink lg:pr-14 lg:py-16">
+        <div className="soft-panel mt-4 grid min-h-[calc(100svh-150px)] gap-3 p-3 lg:grid-cols-[1fr_0.38fr]">
+          <section className="flex flex-col justify-between rounded-[24px] bg-surface p-5 sm:p-8 lg:p-12">
             <div>
               <div className="flex items-baseline justify-between gap-5">
-                <p className="label text-ink/40">
+                <p className="label text-leaf">
                   {question.number} / 04 · {question.eyebrow}
                 </p>
                 <span className="text-xs text-ink/35 tnum">
@@ -88,14 +88,14 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
                 </span>
               </div>
 
-              <div className="mt-3 h-px bg-ink/15">
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-cream">
                 <div
-                  className="h-px bg-ink transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  className="h-full rounded-full bg-leaf transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   style={{ transform: `scaleX(${(step + 1) / 4})`, transformOrigin: 'left' }}
                 />
               </div>
 
-              <h1 className="mt-10 max-w-3xl text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.94] tracking-[-0.045em]">
+              <h1 className="mt-10 max-w-3xl text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.94] tracking-[-0.045em] text-forest-deep">
                 {question.title}
               </h1>
               <p className="mt-5 max-w-2xl text-sm leading-relaxed text-ink/55 sm:text-base">
@@ -144,20 +144,17 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
               </div>
             </div>
 
-            <div className="mt-12 flex items-center justify-between border-t border-ink pt-5">
+            <div className="mt-12 flex items-center justify-between border-t border-line pt-5">
               {step > 0 ? (
                 <button
                   type="button"
                   onClick={() => setStep((current) => current - 1)}
-                  className="min-h-11 text-sm text-ink/55"
+                  className="secondary-action text-sm"
                 >
                   ← 上一步
                 </button>
               ) : (
-                <Link
-                  href="/guide"
-                  className="inline-flex min-h-11 items-center text-sm text-ink/55"
-                >
+                <Link href="/guide" className="secondary-action text-sm">
                   ← 回到路线
                 </Link>
               )}
@@ -169,15 +166,15 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
                     ? finish
                     : () => setStep((current) => current + 1)
                 }
-                className="min-h-11 border-b border-ink text-sm"
+                className="primary-action text-sm"
               >
                 {step === QUESTIONS.length - 1 ? '查看我的比较结果 →' : '下一步 →'}
               </button>
             </div>
           </section>
 
-          <aside className="border-t border-ink py-8 lg:border-t-0 lg:py-16 lg:pl-10">
-            <p className="label text-ink/40">你的方向</p>
+          <aside className="rounded-[24px] bg-cream p-5 sm:p-8 lg:p-9">
+            <p className="label text-leaf">你的方向</p>
             <dl className="mt-6 space-y-6 text-sm">
               <AnswerSummary
                 label="目的地"
@@ -201,7 +198,7 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
                 value={answers.priorities.map((id) => labelFor(PRIORITIES, id)).join('、')}
               />
             </dl>
-            <p className="mt-10 border-l border-ink/25 pl-3 text-xs leading-relaxed text-ink/45">
+            <p className="mt-10 rounded-2xl bg-mint p-4 text-xs leading-relaxed text-ink/55">
               我们只用这些条件整理顺序并写出理由，不会根据四个答案计算个人录取概率。
             </p>
           </aside>
@@ -230,7 +227,7 @@ function MultiChoice<T extends DestinationId | InterestId>({
   }
 
   return (
-    <div className="grid border-t border-ink sm:grid-cols-2">
+    <div className="grid gap-2 sm:grid-cols-2">
       <ChoiceButton
         label={emptyLabel}
         selected={selected.length === 0}
@@ -259,7 +256,7 @@ function SingleChoice({
   onChange: (selected: GuidedCurriculum) => void
 }) {
   return (
-    <div className="grid border-t border-ink sm:grid-cols-2">
+    <div className="grid gap-2 sm:grid-cols-2">
       {options.map((option) => (
         <ChoiceButton
           key={option.id}
@@ -290,7 +287,7 @@ function PriorityChoice({
   }
 
   return (
-    <div className="grid border-t border-ink sm:grid-cols-2">
+    <div className="grid gap-2 sm:grid-cols-2">
       {PRIORITIES.map((option) => (
         <button
           key={option.id}
@@ -298,8 +295,10 @@ function PriorityChoice({
           aria-pressed={selected.includes(option.id)}
           disabled={!selected.includes(option.id) && selected.length >= 2}
           onClick={() => toggle(option.id)}
-          className={`min-h-28 border-r border-b border-ink p-4 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
-            selected.includes(option.id) ? 'bg-ink text-paper' : 'bg-paper hover:bg-ink/[0.04]'
+          className={`min-h-28 rounded-2xl border border-line p-4 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
+            selected.includes(option.id)
+              ? 'border-forest bg-forest text-paper'
+              : 'bg-paper hover:border-leaf hover:bg-mint'
           }`}
         >
           <span className="block text-base">{option.label}</span>
@@ -333,8 +332,10 @@ function ChoiceButton({
       aria-pressed={selected}
       disabled={disabled}
       onClick={onClick}
-      className={`flex min-h-20 items-center justify-between gap-4 border-r border-b border-ink px-4 py-5 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
-        selected ? 'bg-ink text-paper' : 'bg-paper hover:bg-ink/[0.04]'
+      className={`flex min-h-20 items-center justify-between gap-4 rounded-2xl border border-line px-4 py-5 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
+        selected
+          ? 'border-forest bg-forest text-paper'
+          : 'bg-paper hover:border-leaf hover:bg-mint'
       }`}
     >
       <span>
@@ -356,8 +357,8 @@ function ChoiceButton({
 
 function AnswerSummary({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border-t border-ink/15 pt-3 first:border-t-0 first:pt-0">
-      <dt className="label text-ink/35">{label}</dt>
+    <div className="border-t border-line pt-3 first:border-t-0 first:pt-0">
+      <dt className="label text-leaf">{label}</dt>
       <dd className="mt-1.5 leading-relaxed">{value}</dd>
     </div>
   )

@@ -1,65 +1,87 @@
 @import 'tailwindcss';
 
-/* ===========================================================================
-   IVY Map 设计 token —— 严格对应 docs/design-system.md
+/* ==========================================================================
+   IVY Map design tokens
 
-   野兽派编辑风：只有黑和白，类型是唯一的建筑材料。
-   零彩色、零圆角、零阴影、零深色模式。层级靠 opacity 和字号跨度。
-
-   为什么纯黑白不只是审美：主用户会截图发家长群，黑白在截图、转发压缩、
-   黑白打印、色弱视觉下全部无损；而且零彩色 = 零暗示，和「只摆数据不煽动」
-   的立场一致。
-   =========================================================================== */
+   Direction: a calm, botanical admissions handbook. Deep evergreen carries
+   trust and structure; soft leaf green marks choices and next steps; warm
+   ivory keeps long-form data pages comfortable to read.
+   ========================================================================== */
 
 :root {
-  --ink: #000000;
-  --paper: #ffffff;
+  --ink: oklch(27% 0.055 157);
+  --paper: oklch(97.8% 0.012 112);
+  --surface: oklch(99.2% 0.006 112);
+  --forest: oklch(31% 0.073 157);
+  --forest-deep: oklch(22% 0.052 158);
+  --leaf: oklch(52% 0.105 150);
+  --sage: oklch(78% 0.082 143);
+  --mint: oklch(93% 0.032 143);
+  --cream: oklch(94.5% 0.025 101);
+  --line: oklch(82% 0.028 145);
 
-  /* 中文走系统栈——几 MB 的中文 web font 在微信里等不起。
-     Inter 只影响拉丁文与数字。 */
+  /* Chinese stays on a fast local stack. A Song-style display face gives
+     the headings a handbook/editorial character without shipping a large
+     CJK webfont. */
   --font-sans:
-    Inter, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Segoe UI',
-    sans-serif;
+    'Avenir Next', Avenir, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei',
+    'Segoe UI', sans-serif;
+  --font-display: 'Songti SC', STSong, 'Noto Serif CJK SC', 'Source Han Serif SC', serif;
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --shadow-sm: 0 1px 2px color-mix(in oklch, var(--forest-deep) 8%, transparent);
+  --shadow-card:
+    0 1px 2px color-mix(in oklch, var(--forest-deep) 7%, transparent),
+    0 18px 46px color-mix(in oklch, var(--forest-deep) 7%, transparent);
 }
 
 @theme inline {
   --color-ink: var(--ink);
   --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-leaf: var(--leaf);
+  --color-sage: var(--sage);
+  --color-mint: var(--mint);
+  --color-cream: var(--cream);
+  --color-line: var(--line);
 
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 
-  /* 全部 0px。参考站的 don't 第二条。 */
-  --radius-sm: 0px;
-  --radius-DEFAULT: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-full: 0px;
+  --radius-sm: 8px;
+  --radius-DEFAULT: 12px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 30px;
+  --radius-full: 9999px;
 
-  /* 区块间距：桌面 80–120px。移动端在组件里用 sm: 断点压到 48px。 */
   --spacing-section: 80px;
   --spacing-section-lg: 120px;
 }
 
-/* --------------------------------------------------------------------------- */
-
 html {
   background: var(--paper);
-  /* 只有 light。黑白系统不需要深色变体。 */
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  /* 移动端正文不小于 15px——家长年龄偏大 */
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--sage);
+  color: var(--forest-deep);
 }
 
 @media (min-width: 640px) {
@@ -68,113 +90,208 @@ body {
   }
 }
 
-/* 字重只用 400 / 500。600 以上中文会糊。 */
 h1,
-h2,
-h3,
-h4 {
-  font-weight: 500;
-  line-height: 1.11;
-  letter-spacing: -0.01em;
+h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
 }
 
-/* 数字一律等宽对齐——榜单重排时数字不该左右跳动 */
+h3,
+h4 {
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+}
+
 .tnum,
 table,
 [data-numeric] {
   font-variant-numeric: tabular-nums;
 }
 
-/* 全大写小标签。中文没有大写，所以这个类只用于拉丁文串
-   （IVY MAP / A-LEVEL / L1）和被当作专名的短词。 */
 .label {
   font-size: 11px;
   line-height: 1.2;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-weight: 650;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
 }
 
-/* 链接是裸文字 + →，没有按钮 chrome */
 a {
-  color: inherit;
   text-decoration: none;
 }
+
 a:hover {
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: 4px;
 }
 
-/* 建筑式背景字（design-system.md §5）。
-   永远不承载可读信息，只做尺度和纵深。只在首屏用一次。 */
+/* Large outline type remains as a quiet cartographic layer rather than the
+   main visual language. */
 .scaffold {
-  font-size: clamp(140px, 34vw, 560px);
-  line-height: 0.78;
-  font-weight: 500;
-  letter-spacing: -0.03em;
   color: transparent;
-  -webkit-text-stroke: 1px var(--ink);
-  opacity: 0.1;
-  user-select: none;
+  font-family: var(--font-display);
+  font-size: clamp(140px, 34vw, 560px);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.78;
+  opacity: 0.08;
   pointer-events: none;
+  user-select: none;
   white-space: nowrap;
+  -webkit-text-stroke: 1px var(--leaf);
 }
 
-/* 脚注式来源标注（design-system.md §7）。
-   论文引注的形式本身就在说「我说的话你可以去查」。 */
-.footnote-ref {
-  font-size: 0.68em;
-  vertical-align: super;
-  line-height: 0;
-  margin-left: 1px;
-  cursor: pointer;
-  color: color-mix(in srgb, var(--ink) 70%, transparent);
-  font-variant-numeric: normal;
+/* Reusable botanical surfaces. They are intentionally quiet: separation is
+   created by tint and space, with shadows reserved for interactive cards. */
+.soft-panel {
+  background: var(--mint);
+  border: 1px solid color-mix(in oklch, var(--leaf) 24%, var(--line));
+  border-radius: 30px;
 }
+
+.soft-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.forest-panel {
+  background: var(--forest-deep);
+  color: var(--paper);
+  border-radius: 30px;
+}
+
+.eyebrow-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  background: var(--mint);
+  color: var(--forest);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.primary-action,
+.secondary-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 9999px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.primary-action {
+  background: var(--forest);
+  color: var(--paper);
+}
+
+.secondary-action {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--forest);
+}
+
+@media (hover: hover) {
+  .primary-action:hover,
+  .secondary-action:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  .primary-action:hover {
+    background: var(--forest-deep);
+  }
+
+  .secondary-action:hover {
+    border-color: var(--leaf);
+    background: var(--mint);
+  }
+}
+
+.footnote-ref {
+  margin-left: 1px;
+  color: color-mix(in oklch, var(--ink) 70%, transparent);
+  cursor: pointer;
+  font-size: 0.68em;
+  font-variant-numeric: normal;
+  line-height: 0;
+  vertical-align: super;
+}
+
 .footnote-ref:hover {
-  color: var(--ink);
+  color: var(--forest);
   text-decoration: underline;
 }
 
-/* 报刊表格：表头下 1px 实色黑，行间 hairline，无斑马纹 */
 table {
-  border-collapse: collapse;
   width: 100%;
-}
-thead th {
-  border-bottom: 1px solid var(--ink);
-  font-weight: 500;
-  text-align: left;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding-bottom: 6px;
-}
-tbody tr + tr > * {
-  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-collapse: collapse;
 }
 
-/* 表单控件也是 0 圆角 + 1px 黑边 */
+thead th {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--forest);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+tbody tr + tr > * {
+  border-top: 1px solid color-mix(in oklch, var(--ink) 12%, transparent);
+}
+
 input,
 select,
 textarea,
 button {
+  border-radius: 12px;
   font: inherit;
-  border-radius: 0;
 }
+
 input,
 select,
 textarea {
-  background: var(--paper);
-  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
-  padding: 6px 8px;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
 }
+
+input::placeholder,
+textarea::placeholder {
+  color: color-mix(in oklch, var(--ink) 52%, var(--paper));
+}
+
 input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--ink);
+  border-color: var(--leaf);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--sage) 48%, transparent);
 }
 
 button:focus-visible,
@@ -182,17 +299,25 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--leaf);
   outline-offset: 3px;
 }
 
-/* 宽内容自己滚，页面本体永不横向滚动 */
+/* Existing full-border surfaces inherit the new rounded language even before
+   a component opts into one of the richer surface utilities above. */
+:where(article, section, aside, div, ul, a)[class~='border']:not([class*='rounded-']) {
+  border-radius: 18px;
+}
+
+[role='tablist'][class~='border'] {
+  overflow: hidden;
+}
+
 .scroll-x {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* 点击目标不小于 44×44（design-system.md §6.2） */
 @media (pointer: coarse) {
   button,
   a[role='button'],
@@ -202,6 +327,10 @@ textarea:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {

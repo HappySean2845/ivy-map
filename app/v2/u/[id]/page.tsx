@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation'
 import { AdmitRateTrend } from '@/components/v2/AdmitRateTrend'
 import { AdmissionCountTrend } from '@/components/v2/AdmissionCountTrend'
 import { ProfileFingerprint } from '@/components/v2/ProfileFingerprint'
+import { ShortlistButton } from '@/components/v2/ShortlistButton'
 import { UniversityPathways } from '@/components/v2/UniversityPathways'
 import { UniversityRequirements } from '@/components/v2/UniversityRequirements'
 import SourcePopover from '@/components/trust/SourcePopover'
@@ -61,25 +62,35 @@ export default async function UniversityDetailPage({
   return (
     <>
       {/* ── 身份 */}
-      <header className="pt-8 sm:pt-12">
-        <div aria-hidden className="h-[3px] w-full" style={{ background: brand }} />
+      <header className="soft-panel relative mt-5 overflow-hidden px-5 py-8 sm:mt-7 sm:px-8 sm:py-10">
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-[5px]"
+          style={{ background: brand }}
+        />
 
-        <div className="mt-5 flex flex-wrap items-start justify-between gap-4">
+        <div className="flex flex-wrap items-start justify-between gap-6">
           <div className="flex items-start gap-4">
             {p.logoPath ? (
               // eslint-disable-next-line @next/next/no-img-element -- 本地 SVG 校徽
-              <img src={p.logoPath} alt="" aria-hidden className="h-14 w-14 object-contain" />
+              <img
+                src={p.logoPath}
+                alt=""
+                aria-hidden
+                className="h-16 w-16 rounded-2xl border border-line bg-surface p-2 object-contain shadow-[var(--shadow-sm)] sm:h-20 sm:w-20"
+              />
             ) : (
               <span
                 aria-hidden
-                className="grid h-14 w-14 shrink-0 place-items-center text-base font-medium tracking-tight"
+                className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-base font-medium tracking-tight shadow-[var(--shadow-sm)] sm:h-20 sm:w-20"
                 style={{ background: brand, color: readableInkOn(p.brandColor) }}
               >
                 {p.monogram}
               </span>
             )}
             <div>
-              <h1 className="text-[26px] leading-tight tracking-tight sm:text-[40px]">
+              <p className="label mb-2 text-leaf">大学画像</p>
+              <h1 className="text-[32px] leading-tight tracking-tight text-forest-deep sm:text-[48px]">
                 {u.nameCn}
               </h1>
               <p className="mt-1 text-sm text-ink/60">{u.nameEn}</p>
@@ -90,38 +101,48 @@ export default async function UniversityDetailPage({
             </div>
           </div>
 
-          {p.websiteUrl && (
-            <a
-              href={p.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-ink/70"
-            >
-              官网 →
-            </a>
-          )}
+          <div className="flex flex-wrap items-center gap-2">
+            <ShortlistButton
+              universityId={u.id}
+              className="secondary-action text-sm"
+              labels={{ on: '已加入收藏', off: '加入收藏' }}
+            />
+            {p.websiteUrl && (
+              <a
+                href={p.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="secondary-action text-sm"
+              >
+                访问学校官网 <span aria-hidden>↗</span>
+              </a>
+            )}
+          </div>
         </div>
       </header>
 
       {/* ── 风格简述 */}
       {p.vibe && (
-        <section className="mt-10">
-          <p className="label text-ink/40">风格简述</p>
-          <hr className="mt-2 border-ink" />
-          <p className="mt-4 max-w-3xl text-[17px] leading-relaxed sm:text-[18px]">{p.vibe}</p>
-          <p className="mt-2 text-xs text-ink/40">
+        <section className="mt-7 rounded-[24px] border border-line bg-surface p-5 sm:p-7">
+          <p className="label text-leaf">风格简述</p>
+          <p className="mt-4 max-w-4xl font-display text-[21px] leading-relaxed text-forest-deep sm:text-[26px]">
+            {p.vibe}
+          </p>
+          <p className="mt-3 text-xs text-ink/45">
             由 IVY Map 编辑撰写，不是官方表述，也不是排名结论。
           </p>
         </section>
       )}
 
       {/* ── 知名领域 */}
-      <section className="mt-12">
-        <p className="label text-ink/40">知名领域</p>
-        <hr className="mt-2 border-ink" />
-        <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+      <section className="mt-10">
+        <p className="label text-leaf">知名领域</p>
+        <ul className="mt-4 flex flex-wrap gap-2">
           {p.strengths.map((strength) => (
-            <li key={strength} className="text-lg">
+            <li
+              key={strength}
+              className="rounded-full bg-mint px-4 py-2 text-base font-medium text-forest"
+            >
               {strength}
             </li>
           ))}
@@ -134,18 +155,20 @@ export default async function UniversityDetailPage({
       </section>
 
       {/* ── 四维画像指纹。卡片给形状，这里给依据 */}
-      <section className="mt-12">
-        <p className="label text-ink/40">四维画像指纹</p>
-        <hr className="mt-2 border-ink" />
+      <section className="mt-12 rounded-[30px] border border-line bg-surface p-5 sm:p-8">
+        <p className="label text-leaf">四维画像指纹</p>
+        <h2 className="mt-3 text-2xl text-forest-deep sm:text-[34px]">
+          一眼看形状，也能逐项追问
+        </h2>
 
         <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
-          <div className="shrink-0">
+          <div className="shrink-0 rounded-[24px] bg-cream p-4">
             <ProfileFingerprint
               fingerprint={fingerprint}
               brandColor={p.brandColor}
               size={252}
               labelMode="short"
-              className="text-ink"
+              className="text-forest"
             />
             <p className="mt-2 max-w-[252px] text-[11px] leading-relaxed text-ink/40">
               轴旁数字为 1–5
@@ -160,11 +183,11 @@ export default async function UniversityDetailPage({
               return (
                 <div
                   key={trait}
-                  className="border-t border-ink/15 py-4 first:border-t-0 first:pt-0"
+                  className="border-t border-line py-4 first:border-t-0 first:pt-0"
                 >
                   <dt className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                     <span className="text-base">{PROFILE_TRAIT_LABEL[trait]}</span>
-                    <span className="text-2xl tracking-tight tnum">
+                    <span className="text-2xl font-semibold tracking-tight text-forest tnum">
                       {rating.level ?? '—'}
                       {rating.level != null && (
                         <span className="ml-0.5 text-xs text-ink/40">/5</span>
@@ -183,8 +206,8 @@ export default async function UniversityDetailPage({
                     >
                       <span
                         aria-hidden
-                        className="inline-block h-2 w-2 border border-ink"
-                        style={{ background: measured ? 'var(--ink)' : 'var(--paper)' }}
+                        className="inline-block h-2.5 w-2.5 rounded-full border border-forest"
+                        style={{ background: measured ? 'var(--forest)' : 'var(--surface)' }}
                       />
                       {measured ? '官方数据' : '编辑评估'}
                     </span>
@@ -205,7 +228,7 @@ export default async function UniversityDetailPage({
           </dl>
         </div>
 
-        <p className="mt-4 border-t border-ink/15 pt-3 text-xs leading-relaxed text-ink/50 tnum">
+        <p className="mt-5 rounded-2xl bg-cream px-4 py-3 text-xs leading-relaxed text-ink/55 tnum">
           四项中 {provenance.measured} 项来自可追溯数据、{provenance.editorial} 项是五档编辑评估
           {provenance.missing > 0 && `、${provenance.missing} 项暂无可比数据`}。
           录取开放度只描述学校或对应项目公布的整体比例，不是对个人录取概率的预测。

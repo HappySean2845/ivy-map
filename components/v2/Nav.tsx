@@ -11,6 +11,7 @@ const LINKS = [
   { href: '/universities', label: '大学' },
   { href: '/guide', label: '新手引导' },
   { href: '/v2/glossary', label: '术语' },
+  { href: '/v2/shortlist', label: '收藏' },
 ]
 
 export function Nav() {
@@ -22,34 +23,41 @@ export function Nav() {
       : pathname === href || (href === '/guide' && pathname.startsWith('/guide/'))
 
   return (
-    <nav className="border-b border-ink/15">
-      <div className="mx-auto max-w-6xl px-4 py-3 sm:px-8">
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+    <nav className="sticky top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4">
+      <div className="mx-auto max-w-7xl rounded-[24px] border border-line bg-paper px-3 py-3 shadow-[var(--shadow-sm)] sm:px-4">
+        <div className="flex flex-wrap items-center gap-3">
           <Link
             href="/"
-            className="label shrink-0 hover:no-underline"
+            className="flex shrink-0 items-center gap-2.5 hover:no-underline"
             aria-label="回到入口选择"
           >
-            IVY MAP
+            <span className="grid size-8 place-items-center rounded-full bg-forest font-display text-base font-semibold text-paper">
+              I
+            </span>
+            <span className="label text-forest">IVY MAP</span>
           </Link>
 
-          <div className="label flex flex-1 gap-4 text-ink/60">
-            {LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={isActive(link.href) ? 'page' : undefined}
-                className={isActive(link.href) ? 'text-ink' : undefined}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="order-3 flex w-full gap-1 overflow-x-auto sm:order-none sm:w-auto sm:flex-1 sm:pl-2">
+            {LINKS.map((link) => {
+              const active = isActive(link.href)
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`shrink-0 rounded-full px-3 py-2 text-xs font-semibold hover:no-underline ${
+                    active
+                      ? 'bg-mint text-forest'
+                      : 'text-ink/55 hover:bg-cream hover:text-forest'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </div>
-        </div>
 
-        {/* 搜索独占一行：390px 上和上面那排挤在一起会两边都不好用 */}
-        <div className="mt-2.5 sm:mt-3 sm:max-w-md">
-          <SearchBox />
+          <SearchBox className="ml-auto w-[min(54vw,22rem)] sm:w-[19rem]" />
         </div>
       </div>
     </nav>

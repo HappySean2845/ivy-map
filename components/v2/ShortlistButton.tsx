@@ -24,7 +24,8 @@ export function ShortlistButton({
       type="button"
       onClick={() => toggle(universityId)}
       aria-pressed={saved}
-      className={`${saved ? 'bg-ink text-paper' : 'bg-paper text-ink/60'} ${className}`}
+      disabled={!ready}
+      className={`${saved ? 'bg-forest text-paper' : 'bg-surface text-ink/60'} ${ready ? '' : 'opacity-0'} ${className}`}
       data-tap
     >
       {saved ? labels.on : labels.off}

@@ -24,12 +24,12 @@ export function ShortlistView() {
 
   if (views.length === 0) {
     return (
-      <div className="mt-8 border border-ink/15 p-6">
+      <div className="mt-8 rounded-[24px] border border-line bg-surface p-6">
         <p className="text-sm leading-relaxed">
           还没有收藏。去刷卡时右划，或者在网格里点「收藏」。
         </p>
-        <Link href="/v2/pick-university" className="mt-4 inline-block text-sm">
-          开始刷 →
+        <Link href="/universities" className="primary-action mt-4 text-sm">
+          浏览大学 <span aria-hidden>→</span>
         </Link>
       </div>
     )
@@ -37,13 +37,13 @@ export function ShortlistView() {
 
   return (
     <div className="mt-8">
-      <ul className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {views.map((view) => (
           <li key={view.university.id} className="relative">
             <UniversityCard view={view} variant="grid" className="h-full" />
             <ShortlistButton
               universityId={view.university.id}
-              className="absolute top-[3px] right-0 border-b border-l border-ink px-2.5 py-1 text-[11px]"
+              className="absolute right-3 top-3 rounded-full border border-line px-3 py-1.5 text-[11px] shadow-[var(--shadow-sm)]"
               labels={{ on: '移除', off: '收藏' }}
             />
           </li>
@@ -53,8 +53,8 @@ export function ShortlistView() {
       <p className="mt-6 text-xs leading-relaxed text-ink/40 tnum">
         {views.length} 所。收藏只存在这台设备的浏览器里 ——
         换设备、换浏览器或清缓存都会没有，需要长期保留的话请自己记一份。
-        <Link href="/v2/pick-university" className="ml-2 text-ink/60">
-          继续刷 →
+        <Link href="/universities" className="ml-2 text-forest">
+          继续浏览 →
         </Link>
       </p>
     </div>

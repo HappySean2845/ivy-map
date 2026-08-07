@@ -7,7 +7,7 @@ export function UniversityBrowser() {
   const views = deckOrder()
 
   return (
-    <ul className="grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {views.map((view) => (
         <li key={view.university.id}>
           <UniversityCard view={view} variant="grid" className="h-full" />

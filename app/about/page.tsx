@@ -136,36 +136,37 @@ const QA: { q: string; a: React.ReactNode }[] = [
 export default function AboutPage() {
   const s = dataStatus()
   return (
-    <main className="mx-auto max-w-2xl px-4 pb-16 sm:px-6">
-      <nav className="pt-8 text-sm">
-        <Link href="/" className="text-ink">
-          ← 返回生源校榜单
+    <main className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
+      <nav className="pt-5 text-sm">
+        <Link href="/universities" className="secondary-action">
+          ← 返回大学目录
         </Link>
       </nav>
 
-      <header className="mt-4">
-        <p className=" text-xs tracking-widest text-ink/60">IVY MAP · 关于</p>
-        <h1 className="mt-2 text-2xl leading-snug">数据来源与方法论</h1>
-        <p className="mt-2 text-sm text-ink/60 tnum">
+      <header className="soft-panel mt-5 p-6 sm:p-9">
+        <p className="label text-leaf">IVY MAP · 关于</p>
+        <h1 className="mt-3 text-3xl leading-snug text-forest-deep sm:text-[44px]">
+          数据来源与方法论
+        </h1>
+        <p className="mt-4 text-sm leading-relaxed text-ink/60 tnum">
           当前收录 {s.universities} 所大学 · {s.schools} 所高中 · {s.admissions} 条排名录取 ·{' '}
           {s.feederEvidence} 条去向证据 · {s.admissionRateUniversities} 所大学 /{' '}
           {s.admissionRatePoints} 个时期的官方录取率 · {s.admissionCountUniversities} 所大学 /{' '}
           {s.admissionCountPoints} 条招生人数记录 · {s.sources} 个来源
         </p>
-        <hr className="mt-5 border-ink" />
       </header>
 
-      <div className="mt-6 space-y-8">
+      <div className="mt-8 space-y-4">
         {QA.map(({ q, a }) => (
-          <section key={q}>
-            <h2 className=" text-base">{q}</h2>
+          <section key={q} className="rounded-[20px] border border-line bg-surface p-5 sm:p-6">
+            <h2 className="text-xl text-forest-deep">{q}</h2>
             <div className="mt-2 space-y-2 text-[15px] leading-relaxed text-ink">{a}</div>
           </section>
         ))}
       </div>
 
-      <section className="mt-10 border-t border-ink/15 pt-6">
-        <h2 className=" text-base">本次没有做的</h2>
+      <section className="mt-8 rounded-[20px] bg-cream p-5 sm:p-6">
+        <h2 className="text-xl text-forest-deep">本次没有做的</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-ink/60">
           美国方向的单校榜单（战报只报档位，拆到单校即编造）、AI 择校顾问、时间轴规划、
           路径与成本对比、同城对标、多年趋势预警。需求都已拆解完成，只是本轮没做。

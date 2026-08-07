@@ -30,11 +30,11 @@ export function AdmissionCountTrend({
   const qualified = active.points.filter((point) => point.kind !== 'actual')
 
   return (
-    <div className="border-y border-ink/15 py-4">
+    <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
-          <p className="label text-ink/40">内地招生记录</p>
-          <h3 className="mt-1 text-lg">{admissionCountSeriesLabel()}</h3>
+          <p className="label text-leaf">内地招生记录</p>
+          <h3 className="mt-1 text-lg text-forest-deep">{admissionCountSeriesLabel()}</h3>
         </div>
         <p className="text-xs text-ink/50 tnum">{active.points.length} 条年度记录</p>
       </div>
@@ -59,8 +59,8 @@ export function AdmissionCountTrend({
       <CountChart points={active.points} brandColor={brandColor} />
 
       {qualified.length > 0 && (
-        <div className="mt-4 border-t border-ink/15 pt-3">
-          <p className="label text-ink/40">估算与计划单独列示</p>
+        <div className="mt-4 border-t border-line pt-3">
+          <p className="label text-leaf">估算与计划单独列示</p>
           <ul className="mt-2 grid gap-x-6 gap-y-1.5 text-xs text-ink/60 sm:grid-cols-2">
             {qualified.map((point) => (
               <li
@@ -77,7 +77,7 @@ export function AdmissionCountTrend({
         </div>
       )}
 
-      <div className="mt-4 flex flex-wrap items-start justify-between gap-3 border-t border-ink/15 pt-3">
+      <div className="mt-4 flex flex-wrap items-start justify-between gap-3 border-t border-line pt-3">
         <p className="max-w-2xl text-xs leading-relaxed text-ink/50">
           实心点是经复核的实际录取人数；空心点是估算或下限；虚线方块是计划名额。
           这些人数不能用于四维图的“录取难度”评分。

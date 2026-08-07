@@ -13,7 +13,7 @@ export default function V2Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Nav />
-      <main className="mx-auto max-w-6xl px-4 pb-20 sm:px-8">{children}</main>
+      <main className="mx-auto max-w-7xl px-4 pb-20 sm:px-8">{children}</main>
     </>
   )
 }

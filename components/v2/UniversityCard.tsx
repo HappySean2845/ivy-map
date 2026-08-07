@@ -1,14 +1,12 @@
 // snapshot 卡片。大学目录与旧刷卡组件共用；当前产品只展示目录形态。
 //
 // 布局按手写稿：左上 logo、右边校名、中间简述与强项、右侧画像指纹、左下官网跳转。
-//
-// 校色只出现在两处 —— 顶部 3px 色带和 monogram 方块底（见 docs/design-system-v2.md）。
-// 正文、边框、数字全部黑白。这不是保守：这张卡的主要用途是被截图发家长群，
-// 微信压缩之后校色会失真，所有信息必须在纯黑白下依然完整。
+// 学校品牌色只做识别，页面层级统一由 IVY Map 的墨绿、浅绿与暖白承担。
 
 import Link from 'next/link'
 
 import { ProfileFingerprint } from '@/components/v2/ProfileFingerprint'
+import { ShortlistButton } from '@/components/v2/ShortlistButton'
 import { brandOf, readableInkOn } from '@/lib/v2/brand'
 import {
   admissionCountRateNote,
@@ -49,7 +47,7 @@ export function UniversityCard({
 
   return (
     <article
-      className={`flex h-full flex-col overflow-hidden border border-ink bg-paper ${className}`}
+      className={`group flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-surface shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-leaf hover:shadow-[var(--shadow-card)] ${className}`}
     >
       {/* 校色带 —— 全卡唯一的大面积彩色，纯装饰 */}
       <div aria-hidden className="h-[3px] shrink-0" style={{ background: brand }} />
@@ -64,14 +62,16 @@ export function UniversityCard({
             alt=""
             aria-hidden
             className={
-              compact ? 'h-9 w-9 shrink-0 object-contain' : 'h-11 w-11 shrink-0 object-contain'
+              compact
+                ? 'h-10 w-10 shrink-0 rounded-xl border border-line bg-cream p-1.5 object-contain'
+                : 'h-12 w-12 shrink-0 rounded-xl border border-line bg-cream p-1.5 object-contain'
             }
           />
         ) : (
           <span
             aria-hidden
-            className={`grid shrink-0 place-items-center font-medium tracking-tight ${
-              compact ? 'h-9 w-9 text-[11px]' : 'h-11 w-11 text-[13px]'
+            className={`grid shrink-0 place-items-center rounded-xl font-medium tracking-tight ${
+              compact ? 'h-10 w-10 text-[11px]' : 'h-12 w-12 text-[13px]'
             }`}
             style={{ background: brand, color: readableInkOn(p.brandColor) }}
           >
@@ -86,7 +86,7 @@ export function UniversityCard({
             {u.nameCn}
           </h3>
           <p className="mt-0.5 truncate text-xs text-ink/50">{u.nameEn}</p>
-          <p className="mt-1 text-xs text-ink/60 tnum">
+          <p className="mt-1 text-xs text-ink/55 tnum">
             {countryLabel(u.country)} · {u.city}
             {p.foundedYear != null && ` · ${p.foundedYear} 年建校`}
           </p>
@@ -95,25 +95,28 @@ export function UniversityCard({
 
       {/* ── 风格简述。标注是编辑撰写，不和官方数据混为一谈 */}
       {p.vibe && (
-        <div className="mt-3 shrink-0 border-t border-ink/15 px-4 pt-3 sm:px-5">
+        <div className="mx-4 mt-4 shrink-0 rounded-2xl bg-mint px-3.5 py-3 sm:mx-5">
           {/* 刷卡卡片高度固定，简述再长也不能把下面的评分挤出去 */}
           <p
             className={`leading-relaxed ${compact ? 'line-clamp-3 text-[13px]' : 'line-clamp-4 text-sm'}`}
           >
             {p.vibe}
           </p>
-          <p className="mt-1.5 text-[10px] text-ink/40">编辑撰写</p>
+          <p className="mt-1.5 text-[10px] font-medium text-leaf">编辑印象</p>
         </div>
       )}
 
       {/* ── 强项专业 + 画像指纹。min-h-0 让这一块承担全部压缩，
              溢出的部分被 overflow-hidden 裁掉，而不是把 footer 顶出去 */}
-      <div className="mt-3 flex min-h-0 flex-1 items-start gap-3 overflow-hidden border-t border-ink/15 px-4 pt-3 sm:px-5">
+      <div className="mt-4 flex min-h-0 flex-1 items-start gap-3 overflow-hidden px-4 sm:px-5">
         <div className="min-w-0 flex-1">
-          <p className="label text-ink/40">知名领域</p>
-          <ul className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1">
+          <p className="label text-leaf">知名领域</p>
+          <ul className="mt-2 flex flex-wrap gap-1.5">
             {p.strengths.map((s) => (
-              <li key={s} className={compact ? 'text-[13px]' : 'text-sm'}>
+              <li
+                key={s}
+                className={`rounded-full bg-cream px-2.5 py-1 ${compact ? 'text-[12px]' : 'text-sm'}`}
+              >
                 {s}
               </li>
             ))}
@@ -121,7 +124,7 @@ export function UniversityCard({
 
           {/* 招生主指标：有率显示率；没有可靠分母时显示人数，绝不反推百分比。 */}
           <div className="mt-3">
-            <p className="label text-ink/40">
+            <p className="label text-leaf">
               {primaryRateSeries
                 ? admissionRateSeriesLabel(primaryRateSeries)
                 : primaryCountSeries
@@ -130,7 +133,7 @@ export function UniversityCard({
             </p>
             {latest ? (
               <>
-                <p className="mt-1 text-lg tracking-tight tnum">
+                <p className="mt-1 text-xl font-semibold tracking-tight text-forest tnum">
                   {formatAdmissionRate(latest)}
                   <span className="ml-1.5 text-[11px] text-ink/50">
                     {admissionRatePeriodLabel(latest)}
@@ -144,7 +147,7 @@ export function UniversityCard({
               </>
             ) : latestCount && primaryCountSeries ? (
               <>
-                <p className="mt-1 text-lg tracking-tight tnum">
+                <p className="mt-1 text-xl font-semibold tracking-tight text-forest tnum">
                   {formatAdmissionCount(latestCount)}
                   <span className="ml-1.5 text-[11px] text-ink/50">
                     {latestCount.academicYearStart} 年
@@ -160,24 +163,26 @@ export function UniversityCard({
           </div>
         </div>
 
-        <ProfileFingerprint
-          fingerprint={fingerprint}
-          brandColor={p.brandColor}
-          size={compact ? 140 : 148}
-          labelMode="short"
-          className="shrink-0 text-ink"
-        />
+        <div className="shrink-0 rounded-2xl bg-paper p-1">
+          <ProfileFingerprint
+            fingerprint={fingerprint}
+            brandColor={p.brandColor}
+            size={compact ? 132 : 144}
+            labelMode="short"
+            className="text-forest"
+          />
+        </div>
       </div>
 
       {/* ── 左下角官网跳转 + 详情。shrink-0：官网链接是手写稿明确要的，
              不能因为上面内容多就被挤掉 */}
-      <footer className="mt-3 flex shrink-0 items-center justify-between gap-3 border-t border-ink px-4 py-3 sm:px-5">
+      <footer className="mt-4 flex shrink-0 items-center justify-between gap-3 border-t border-line px-4 py-3.5 sm:px-5">
         {p.websiteUrl ? (
           <a
             href={p.websiteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-ink/70"
+            className="text-xs text-ink/55"
           >
             官网 →
           </a>
@@ -185,9 +190,19 @@ export function UniversityCard({
           <span className="text-xs text-ink/40">官网待补</span>
         )}
 
-        <Link href={`/v2/u/${u.id}`} className="text-xs text-ink/70">
-          {compact ? '看画像、课程与对应高中 →' : '看画像依据与趋势 →'}
-        </Link>
+        <div className="flex items-center gap-2">
+          <ShortlistButton
+            universityId={u.id}
+            className="rounded-full border border-line px-3 py-2 text-xs font-semibold"
+            labels={{ on: '已收藏', off: '收藏' }}
+          />
+          <Link
+            href={`/v2/u/${u.id}`}
+            className="rounded-full bg-forest px-3.5 py-2 text-xs font-semibold text-paper transition-colors hover:bg-forest-deep hover:no-underline"
+          >
+            {compact ? '看详情 →' : '看画像依据与趋势 →'}
+          </Link>
+        </div>
       </footer>
     </article>
   )

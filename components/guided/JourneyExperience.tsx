@@ -18,20 +18,23 @@ export function JourneyExperience() {
 
   return (
     <main className="overflow-hidden">
-      <nav className="sticky top-0 z-40 border-b border-ink/15 bg-paper/[0.94] px-4 py-3 backdrop-blur-sm sm:px-8">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
-          <Link href="/" className="label hover:no-underline">
-            <span className="sm:hidden">IVY MAP · 路线</span>
-            <span className="hidden sm:inline">IVY MAP · 新手路线</span>
+      <nav className="sticky top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full border border-line bg-paper px-3 py-2.5 shadow-[var(--shadow-sm)] sm:px-4">
+          <Link href="/" className="flex items-center gap-2.5 hover:no-underline">
+            <span className="grid size-8 place-items-center rounded-full bg-forest font-display text-base font-semibold text-paper">
+              I
+            </span>
+            <span className="label text-forest sm:hidden">IVY MAP · 路线</span>
+            <span className="label hidden text-forest sm:inline">IVY MAP · 新手路线</span>
           </Link>
-          <Link href="/universities" className="text-xs text-ink/60">
+          <Link href="/universities" className="secondary-action min-h-9 px-4 text-xs">
             <span className="sm:hidden">跳过 →</span>
             <span className="hidden sm:inline">跳过，直接看数据 →</span>
           </Link>
         </div>
       </nav>
 
-      <header className="relative isolate mx-auto flex min-h-[78svh] max-w-6xl items-end px-4 pb-16 pt-20 sm:px-8 sm:pb-24">
+      <header className="soft-panel relative isolate mx-auto mt-5 flex min-h-[72svh] max-w-7xl items-end overflow-hidden px-5 pb-12 pt-20 sm:mt-7 sm:px-10 sm:pb-16 lg:px-14">
         <div aria-hidden className="scaffold absolute -top-3 -left-8 -z-10 opacity-[0.07]">
           01—07
         </div>
@@ -44,7 +47,7 @@ export function JourneyExperience() {
               很长的路
             </h1>
           </div>
-          <div className="border-l border-ink pl-5">
+          <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
             <p className="text-[17px] leading-relaxed sm:text-xl">
               从课程体系到 Offer，七个阶段会把一个模糊的想法，慢慢变成可以行动的方向。
             </p>
@@ -55,14 +58,14 @@ export function JourneyExperience() {
         </div>
       </header>
 
-      <div ref={routeRef} className="relative mx-auto max-w-6xl px-4 sm:px-8">
+      <div ref={routeRef} className="relative mx-auto mt-10 max-w-6xl px-4 sm:px-8">
         <div
           aria-hidden
-          className="absolute top-0 bottom-0 left-[30px] w-px bg-ink/12 md:left-1/2"
+          className="absolute bottom-0 left-[30px] top-0 w-px bg-line md:left-1/2"
         />
         <motion.div
           aria-hidden
-          className="absolute top-0 bottom-0 left-[30px] w-px origin-top bg-ink md:left-1/2"
+          className="absolute bottom-0 left-[30px] top-0 w-px origin-top bg-leaf md:left-1/2"
           style={{ scaleY: reducedMotion ? 1 : scrollYProgress, opacity: progressOpacity }}
         />
 
@@ -76,9 +79,9 @@ export function JourneyExperience() {
               >
                 <span
                   aria-hidden
-                  className="absolute top-1/2 left-[22px] z-10 grid h-4 w-4 -translate-y-1/2 place-items-center border border-ink bg-paper md:left-1/2 md:-translate-x-[7px]"
+                  className="absolute left-[20px] top-1/2 z-10 grid h-5 w-5 -translate-y-1/2 place-items-center rounded-full border border-leaf bg-mint md:left-1/2 md:-translate-x-[9px]"
                 >
-                  <span className="h-1 w-1 bg-ink" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-forest" />
                 </span>
 
                 <motion.article
@@ -86,7 +89,7 @@ export function JourneyExperience() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.45 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className={`border-t border-ink pt-5 md:max-w-[28rem] ${
+                  className={`rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] md:max-w-[28rem] sm:p-6 ${
                     onLeft
                       ? 'md:mr-14 md:justify-self-end md:pr-2'
                       : 'md:col-start-2 md:ml-14 md:pl-2'
@@ -102,17 +105,17 @@ export function JourneyExperience() {
                     {step.title}
                   </h2>
                   <p className="mt-5 text-base leading-relaxed text-ink/65">{step.body}</p>
-                  <p className="label mt-8 border-l border-ink pl-3 text-ink/45">
+                  <p className="label mt-8 rounded-r-xl border-l-2 border-leaf bg-mint py-2 pl-3 text-forest">
                     {step.signal}
                   </p>
 
                   {step.id === 'curriculum' && (
-                    <div className="mt-7 border-t border-ink/15">
+                    <div className="mt-7 border-t border-line">
                       {CURRICULA.filter((curriculum) => curriculum.id !== 'UNKNOWN').map(
                         (curriculum) => (
                           <div
                             key={curriculum.id}
-                            className="grid gap-1 border-b border-ink/15 py-3 sm:grid-cols-[7rem_1fr] sm:gap-4"
+                            className="grid gap-1 border-b border-line py-3 sm:grid-cols-[7rem_1fr] sm:gap-4"
                           >
                             <p className="text-sm">{curriculum.label.replace(' 路线', '')}</p>
                             <p className="text-xs leading-relaxed text-ink/50">
@@ -131,10 +134,7 @@ export function JourneyExperience() {
                   )}
 
                   {step.id === 'selection' && (
-                    <Link
-                      href="/guide/choose"
-                      className="mt-8 inline-flex min-h-11 items-center border-b border-ink text-sm"
-                    >
+                    <Link href="/guide/choose" className="primary-action mt-8 text-sm">
                       我已经想开始选校 →
                     </Link>
                   )}
@@ -160,7 +160,7 @@ function MapReveal({ reducedMotion }: { reducedMotion: boolean }) {
   ]
 
   return (
-    <section className="relative isolate mt-20 overflow-hidden bg-ink px-4 py-20 text-paper sm:px-8 sm:py-28">
+    <section className="relative isolate mx-3 mt-20 overflow-hidden rounded-[30px] bg-forest-deep px-5 py-20 text-paper sm:mx-6 sm:px-8 sm:py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <motion.div
           initial={reducedMotion ? false : { opacity: 0, y: 24 }}
@@ -168,7 +168,7 @@ function MapReveal({ reducedMotion }: { reducedMotion: boolean }) {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="label text-paper/45">无数条路径，汇成一张地图</p>
+          <p className="label text-sage">无数条路径，汇成一张地图</p>
           <h2 className="mt-6 text-[clamp(2.8rem,7vw,6.6rem)] leading-[0.9] tracking-[-0.05em]">
             每一段旅程
             <br />
@@ -181,13 +181,13 @@ function MapReveal({ reducedMotion }: { reducedMotion: boolean }) {
           <div className="mt-10 flex flex-wrap gap-x-7 gap-y-4">
             <Link
               href="/guide/choose"
-              className="inline-flex min-h-12 items-center border-b border-paper text-base"
+              className="inline-flex min-h-12 items-center rounded-full bg-sage px-5 text-base font-semibold text-forest-deep hover:no-underline"
             >
               开始一步步择校 →
             </Link>
             <Link
               href="/universities"
-              className="inline-flex min-h-12 items-center text-sm text-paper/60"
+              className="inline-flex min-h-12 items-center rounded-full border border-paper/25 px-5 text-sm text-paper/70 hover:no-underline"
             >
               直接看全部数据
             </Link>

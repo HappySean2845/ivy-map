@@ -8,9 +8,9 @@
 //
 //   用 Natural Earth 的 **land** 数据（只有陆地轮廓，没有任何国界线）。
 //   没有国界线，就没有画错国界的可能——整类风险被移除，而不是被小心绕过。
-//   纯白陆地剪影 + 1px 黑描边，正好就是野兽派参考的样子。
+//   雾绿陆地剪影 + 绿灰描边，融入新的植物志式视觉系统。
 //
-// 视觉语言（design-system.md §1）：
+// 视觉语言（design-system.md §2）：
 //   实心点 = 有录取数据，点越大录取量越大
 //   空心点 = 已收录但暂无数据（靠形状区分，不靠颜色）
 
@@ -174,7 +174,7 @@ function buildOption(
       borderWidth: 1,
       padding: [8, 10],
       textStyle: { color: t.tooltipText, fontSize: 12 },
-      extraCssText: 'box-shadow:none;border-radius:0;',
+      extraCssText: 'box-shadow:0 10px 30px rgba(10,45,35,.12);border-radius:12px;',
       formatter: (raw: unknown) => {
         const d = (raw as { data: Point }).data
         const head = `<b>${esc(d.nameCn)}</b><br/><span style="opacity:.5">${esc(d.nameEn)}</span>`

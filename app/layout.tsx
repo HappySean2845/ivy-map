@@ -18,10 +18,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="zh-CN" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <div className="flex-1">{children}</div>
-        <footer className="border-t border-ink/15 px-5 py-6 text-xs leading-relaxed text-ink/60">
-          {/* PRD §12 免责声明 —— 页脚与分享长图两处必须出现 */}
-          本站数据来自学校官方公开发布、公开媒体报道及公开行业报告，由 IVY Map
-          整理，可能存在滞后或误差，不构成任何录取承诺或升学建议。数据如有出入，欢迎通过反馈入口提交更正。
+        <footer className="mx-3 mb-3 mt-16 rounded-[28px] bg-forest-deep px-5 py-6 text-xs leading-relaxed text-paper/70 sm:mx-6 sm:px-8 sm:py-7">
+          <div className="mx-auto grid max-w-6xl gap-3 sm:grid-cols-[auto_1fr] sm:gap-8">
+            <p className="label text-sage">IVY MAP · 数据说明</p>
+            {/* PRD §12 免责声明 —— 页脚与分享长图两处必须出现 */}
+            <p className="max-w-4xl">
+              本站数据来自学校官方公开发布、公开媒体报道及公开行业报告，由 IVY Map
+              整理，可能存在滞后或误差，不构成任何录取承诺或升学建议。数据如有出入，欢迎通过反馈入口提交更正。
+            </p>
+          </div>
         </footer>
       </body>
     </html>

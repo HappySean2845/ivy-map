@@ -19,10 +19,10 @@ import { RegionSchoolTabs, type RegionSchoolGroup } from '@/components/v2/Region
 import type { DestinationShareObservation } from '@/types/university-enrichment'
 
 const STATUS_STYLE: Record<AttributionStatus, string> = {
-  confirmed: 'border-ink bg-ink text-paper',
-  inferred: 'border-ink text-ink',
-  possible: 'border-ink/25 text-ink/55',
-  excluded: 'border-ink/15 text-ink/40 line-through',
+  confirmed: 'border-forest bg-forest text-paper',
+  inferred: 'border-leaf bg-mint text-forest',
+  possible: 'border-line bg-cream text-ink/60',
+  excluded: 'border-line text-ink/40 line-through',
 }
 
 const COUNT_KIND_LABEL: Record<CourseAdmissionObservation['countKind'], string> = {
@@ -91,9 +91,8 @@ export function UniversityPathways({
 
   if (evidence.schools.length === 0) {
     return (
-      <section className="mt-12">
-        <p className="label text-ink/40">课程与国内生源校</p>
-        <hr className="mt-2 border-ink" />
+      <section className="mt-12 rounded-[24px] border border-line bg-surface p-5 sm:p-7">
+        <p className="label text-leaf">课程与国内生源校</p>
         <h2 className="mt-5 text-xl leading-tight">
           还没有收录往{universityNameCn}的高中去向记录
         </h2>
@@ -147,16 +146,18 @@ export function UniversityPathways({
   return (
     <>
       <section className="mt-12">
-        <p className="label text-ink/40">课程路径</p>
-        <hr className="mt-2 border-ink" />
-        <div className="mt-5 grid border border-ink sm:grid-cols-3">
+        <p className="label text-leaf">课程路径</p>
+        <h2 className="mt-3 text-2xl text-forest-deep sm:text-[34px]">
+          从课程体系看可追溯的去向
+        </h2>
+        <div className="mt-5 grid overflow-hidden rounded-[24px] border border-line bg-surface sm:grid-cols-3">
           {evidence.routes.map((route, index) => (
             <div
               key={route.curriculumCode}
-              className={`p-5 sm:p-6 ${index > 0 ? 'border-t border-ink sm:border-t-0 sm:border-l' : ''}`}
+              className={`p-5 sm:p-6 ${index > 0 ? 'border-t border-line sm:border-l sm:border-t-0' : ''}`}
             >
-              <p className="label text-ink/40">{CURRICULUM_LABEL[route.curriculumCode]}</p>
-              <p className="mt-3 text-3xl tracking-tight tnum">
+              <p className="label text-leaf">{CURRICULUM_LABEL[route.curriculumCode]}</p>
+              <p className="mt-3 text-3xl font-semibold tracking-tight text-forest tnum">
                 {route.confirmedSchools}
                 <span className="ml-1 text-xs text-ink/40">所已证实</span>
               </p>
@@ -174,10 +175,9 @@ export function UniversityPathways({
       </section>
 
       <section className="mt-12">
-        <p className="label text-ink/40">对应高中</p>
-        <hr className="mt-2 border-ink" />
+        <p className="label text-leaf">对应高中</p>
         <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-2xl leading-tight sm:text-[32px]">
+          <h2 className="text-2xl leading-tight text-forest-deep sm:text-[32px]">
             {evidence.schools.length} 所高中有去向证据
           </h2>
           <p className="text-xs text-ink/45 tnum">
@@ -223,7 +223,7 @@ function FeederSchoolCard({
   const latestShare = orderedShares[0] ?? null
 
   return (
-    <li className="border border-ink/20 p-5 sm:p-6">
+    <li className="rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-leaf hover:shadow-[var(--shadow-card)] sm:p-6">
       <header className="flex items-start gap-3">
         <span className="label mt-1 shrink-0 text-ink/35 tnum">
           {String(index).padStart(2, '0')}
@@ -238,11 +238,13 @@ function FeederSchoolCard({
             原文计数合计 {view.reportedTotal}
           </p>
         </div>
-        <div className="ml-auto shrink-0 border-l border-ink/15 pl-4 text-right">
-          <p className="label max-w-28 text-ink/40">{headlineLabel}</p>
+        <div className="ml-auto shrink-0 rounded-2xl bg-cream px-3 py-2.5 text-right">
+          <p className="label max-w-28 text-leaf">{headlineLabel}</p>
           <p
             className={`mt-1 tracking-tight tnum ${
-              headlineDensity ? 'text-xl text-ink' : 'max-w-28 text-xs text-ink/35'
+              headlineDensity
+                ? 'text-xl font-semibold text-forest'
+                : 'max-w-28 text-xs text-ink/35'
             }`}
           >
             {headlineDensity ? formatDensity(headlineDensity) : '待补毕业生数'}
@@ -253,7 +255,7 @@ function FeederSchoolCard({
         </div>
       </header>
 
-      <dl className="mt-4 border-t border-ink/15 pt-4 text-sm">
+      <dl className="mt-4 border-t border-line pt-4 text-sm">
         <div className="grid gap-2 sm:grid-cols-[5rem_1fr]">
           <dt className="label text-ink/40">学校课程</dt>
           <dd className="flex flex-wrap gap-1.5">
@@ -261,7 +263,7 @@ function FeederSchoolCard({
               primaryPrograms.map((program) => (
                 <span
                   key={program.curriculumCode}
-                  className="border border-ink/20 px-2 py-0.5 text-xs"
+                  className="rounded-full border border-line bg-mint px-2.5 py-1 text-xs text-forest"
                 >
                   {CURRICULUM_LABEL[program.curriculumCode]}
                   {program.isSingleTrack ? ' · 单轨' : ''}
@@ -271,7 +273,7 @@ function FeederSchoolCard({
               <span className="text-xs text-ink/45">AP / IB / A-Level 课程未核实</span>
             )}
             {otherPrograms.length > 0 && (
-              <span className="border border-ink/15 px-2 py-0.5 text-xs text-ink/45">
+              <span className="rounded-full border border-line px-2.5 py-1 text-xs text-ink/50">
                 另有{' '}
                 {otherPrograms
                   .map((program) => CURRICULUM_LABEL[program.curriculumCode])
@@ -287,7 +289,7 @@ function FeederSchoolCard({
             {attributions.map((attribution) => (
               <span
                 key={attributionKey(attribution)}
-                className={`border px-2 py-0.5 text-xs ${STATUS_STYLE[attribution.status]}`}
+                className={`rounded-full border px-2.5 py-1 text-xs ${STATUS_STYLE[attribution.status]}`}
               >
                 {CURRICULUM_LABEL[attribution.curriculumCode]} ·{' '}
                 {ATTRIBUTION_STATUS_LABEL[attribution.status]}
@@ -301,14 +303,14 @@ function FeederSchoolCard({
           <dt className="label text-ink/40">密度分母</dt>
           <dd className="flex flex-wrap gap-1.5">
             {view.schoolDensity && (
-              <span className="border border-ink/20 px-2 py-0.5 text-xs tnum">
+              <span className="rounded-full border border-line bg-cream px-2.5 py-1 text-xs tnum">
                 整校 · {formatDensity(view.schoolDensity)} · {densityYears(view.schoolDensity)}
               </span>
             )}
             {view.departmentDensities.map((density) => (
               <span
                 key={density.curriculumCode}
-                className="border border-ink/20 px-2 py-0.5 text-xs tnum"
+                className="rounded-full border border-line bg-cream px-2.5 py-1 text-xs tnum"
               >
                 {CURRICULUM_LABEL[density.curriculumCode!]} 学部 · {formatDensity(density)} ·{' '}
                 {densityYears(density)}
@@ -321,7 +323,7 @@ function FeederSchoolCard({
         </div>
 
         {latestShare && (
-          <div className="mt-3 grid gap-2 border-t border-ink/10 pt-3 sm:grid-cols-[5rem_1fr]">
+          <div className="mt-3 grid gap-2 rounded-2xl bg-mint p-3 sm:grid-cols-[5rem_1fr]">
             <dt className="label text-ink/40">大学生源占比</dt>
             <dd>
               {latestShare.share != null && latestShare.denominator != null ? (
@@ -341,11 +343,13 @@ function FeederSchoolCard({
               ) : (
                 <p className="text-xs leading-relaxed text-ink/50">
                   {latestShare.year} 已收录 {latestShare.numerator} 条
-                  {OUTCOME_LABEL[latestShare.outcomeKind]}，但大学对应中国学生总数待补，暂不计算比例。
+                  {OUTCOME_LABEL[latestShare.outcomeKind]}
+                  ，但大学对应中国学生总数待补，暂不计算比例。
                 </p>
               )}
               <p className="mt-1.5 text-[11px] leading-relaxed text-ink/40">
-                表示这所高中占该大学对应中国学生录取或 offer 总数的比例，不是学生个人命中率，也不是上方“每百名高中毕业生”的去向密度。
+                表示这所高中占该大学对应中国学生录取或 offer
+                总数的比例，不是学生个人命中率，也不是上方“每百名高中毕业生”的去向密度。
               </p>
 
               {orderedShares.length > 1 && (
@@ -353,7 +357,7 @@ function FeederSchoolCard({
                   <summary className="cursor-pointer text-[11px] text-ink/55">
                     查看 {orderedShares.length} 年记录
                   </summary>
-                  <ol className="mt-2 space-y-1.5 border-l border-ink/15 pl-3">
+                  <ol className="mt-2 space-y-1.5 border-l border-leaf/30 pl-3">
                     {orderedShares.map((observation) => (
                       <li
                         key={`${observation.year}:${observation.outcomeKind}`}
@@ -361,7 +365,8 @@ function FeederSchoolCard({
                       >
                         {observation.year} · {observation.numerator}
                         {observation.denominator != null && ` / ${observation.denominator}`}
-                        {observation.share != null && ` = ${formatDestinationShare(observation.share)}`}
+                        {observation.share != null &&
+                          ` = ${formatDestinationShare(observation.share)}`}
                         {' · '}
                         {OUTCOME_LABEL[observation.outcomeKind]}
                         {observation.denominatorStatus === 'estimated' && ' · 估算分母'}
@@ -375,15 +380,15 @@ function FeederSchoolCard({
         )}
       </dl>
 
-      <details className="mt-4 border-t border-ink/15 pt-3">
-        <summary className="cursor-pointer text-xs text-ink/60">
+      <details className="mt-4 rounded-2xl bg-cream px-4 py-3">
+        <summary className="cursor-pointer text-xs font-semibold text-forest">
           查看 {view.observations.length} 条逐年原文记录
         </summary>
         <ol className="mt-3 space-y-3">
           {view.observations.map((observation, observationIndex) => (
             <li
               key={`${observation.year}:${observation.sourceLine}:${observationIndex}`}
-              className="border-t border-ink/10 pt-3 text-xs leading-relaxed first:border-t-0 first:pt-0"
+              className="border-t border-line pt-3 text-xs leading-relaxed first:border-t-0 first:pt-0"
             >
               <p className="text-ink/70 tnum">
                 {observation.year} · {COUNT_KIND_LABEL[observation.countKind]}{' '}

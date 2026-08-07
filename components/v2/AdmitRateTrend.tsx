@@ -34,8 +34,8 @@ export function AdmitRateTrend({
 
   if (!active) {
     return (
-      <div className="border-y border-ink/15 py-4">
-        <p className="label text-ink/40">录取率趋势</p>
+      <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
+        <p className="label text-leaf">录取率趋势</p>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">
           尚未收录{universityNameCn}经复核的官方申请与录取人数。
           <strong className="font-medium">这里不使用估算值补空</strong> ——
@@ -46,11 +46,11 @@ export function AdmitRateTrend({
   }
 
   return (
-    <div className="border-y border-ink/15 py-4">
+    <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
-          <p className="label text-ink/40">录取率趋势</p>
-          <h3 className="mt-1 text-lg">{admissionRateSeriesLabel(active)}</h3>
+          <p className="label text-leaf">录取率趋势</p>
+          <h3 className="mt-1 text-lg text-forest-deep">{admissionRateSeriesLabel(active)}</h3>
         </div>
         <p className="text-xs text-ink/50 tnum">
           {active.points.length} 个时期 · {active.scope.admissionsSystem ?? '院校官方口径'}
@@ -71,10 +71,10 @@ export function AdmitRateTrend({
                 type="button"
                 aria-pressed={selected}
                 onClick={() => setSelectedId(item.id)}
-                className={`min-h-11 border px-3 py-2 text-left text-xs transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+                className={`min-h-11 rounded-full border px-3 py-2 text-left text-xs transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf ${
                   selected
-                    ? 'border-ink bg-ink text-paper'
-                    : 'border-ink/20 bg-paper text-ink hover:border-ink'
+                    ? 'border-forest bg-forest text-paper'
+                    : 'border-line bg-paper text-ink hover:border-leaf hover:bg-mint'
                 }`}
               >
                 {admissionRateSeriesLabel(item)}
