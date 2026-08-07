@@ -143,8 +143,9 @@ export function ProfileFingerprint({
         PROFILE_TRAITS.map((trait) => {
           const point = polar(AXIS_DEG[trait], radius + pad * 0.54, center, center)
           const deg = AXIS_DEG[trait]
+          const horizontal = deg === 0 || deg === 180
           const anchor = deg === 0 ? 'end' : deg === 180 ? 'start' : 'middle'
-          const yOffset = deg === -90 ? -1 : deg === 90 ? 8 : 3
+          const yOffset = deg === -90 ? -1 : deg === 90 ? 8 : -7
           const level = fingerprint[trait].level
           const label =
             labelMode === 'full' ? PROFILE_TRAIT_LABEL[trait] : PROFILE_TRAIT_SHORT_LABEL[trait]
@@ -157,6 +158,10 @@ export function ProfileFingerprint({
               fontSize={labelMode === 'full' ? (size < 190 ? 9 : 11) : size < 150 ? 9.5 : 10.5}
               fill="currentColor"
               fillOpacity={level == null ? 0.35 : 0.64}
+              stroke="var(--paper)"
+              strokeWidth={horizontal ? 4 : 3}
+              strokeLinejoin="round"
+              paintOrder="stroke"
             >
               {label} {level ?? '—'}
             </text>
