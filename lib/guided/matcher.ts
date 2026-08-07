@@ -1,6 +1,10 @@
 import { universityCourseEvidence } from '@/lib/v2/course-attribution'
 import { deckOrder, type UniversityView } from '@/lib/v2/profile'
-import type { CuratedDim } from '@/types/profile'
+import {
+  PROFILE_TRAIT_LABEL,
+  PROFILE_TRAIT_LEVEL_LABEL,
+  type CuratedTrait,
+} from '@/types/profile'
 
 import {
   CURRICULA,
@@ -23,10 +27,10 @@ const INTEREST_PATTERNS: Record<InterestId, RegExp> = {
   science: /数学|物理|化学|天文|自然科学|心理学/,
 }
 
-const PRIORITY_DIM: Partial<Record<PriorityId, CuratedDim>> = {
-  affinity: 'affinity',
-  safety: 'safety',
-  facilities: 'facilities',
+const PRIORITY_TRAIT: Partial<Record<PriorityId, CuratedTrait>> = {
+  ecosystem: 'chinaEcosystem',
+  campus: 'campusImmersion',
+  breadth: 'academicBreadth',
 }
 
 export interface GuidedMatch {
@@ -110,15 +114,15 @@ export function matchUniversities(answers: GuideAnswers): GuidedMatch[] {
       }
 
       for (const priority of answers.priorities) {
-        const dim = PRIORITY_DIM[priority]
-        if (!dim) continue
-        const value = view.scores[dim].value
-        if (value == null) continue
-        score += value / 25
-        if (value >= 75) {
-          const priorityLabel =
-            priority === 'affinity' ? '中国学生环境' : priority === 'safety' ? '安全性' : '设施'
-          reasons.push(`${priorityLabel}编辑画像较高（${value}/100）`)
+        const trait = PRIORITY_TRAIT[priority]
+        if (!trait) continue
+        const level = view.fingerprint[trait].level
+        if (level == null) continue
+        score += level
+        if (level >= 4) {
+          reasons.push(
+            `${PROFILE_TRAIT_LABEL[trait]}为${PROFILE_TRAIT_LEVEL_LABEL[trait][level]}（${level}/5，编辑评估）`,
+          )
         }
       }
 

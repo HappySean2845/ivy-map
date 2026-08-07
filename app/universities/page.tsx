@@ -5,12 +5,12 @@ import { Nav } from '@/components/v2/Nav'
 import { UniversityBrowser } from '@/components/v2/UniversityBrowser'
 import { courseAttributionData } from '@/lib/v2/course-attribution'
 import { profileById } from '@/lib/v2/profile'
-import { PROFILE_DIMS, PROFILE_DIM_DIRECTION, PROFILE_DIM_LABEL } from '@/types/profile'
+import { PROFILE_TRAITS, PROFILE_TRAIT_DIRECTION, PROFILE_TRAIT_LABEL } from '@/types/profile'
 
 export const metadata: Metadata = {
   title: '大学画像、课程路径与国内生源校',
   description:
-    '浏览大学画像、官方录取率与四维评分，再查看 AP、IB、A-Level 课程路径和对应的国内高中去向证据。',
+    '浏览大学画像、官方录取率与四维画像指纹，再查看 AP、IB、A-Level 课程路径和对应的国内高中去向证据。',
 }
 
 export default function UniversitiesPage() {
@@ -42,7 +42,8 @@ export default function UniversitiesPage() {
 
             <div className="mt-8 grid gap-8 sm:grid-cols-2 sm:gap-12">
               <p className="max-w-xl text-[17px] leading-relaxed sm:text-[18px]">
-                每张卡片先讲清大学本身：位置、知名领域、官方录取率与四维画像。 点进详情，再沿着
+                每张卡片先讲清大学本身：位置、知名领域、官方录取率与四维画像指纹。
+                点进详情，再沿着
                 <strong className="font-medium">课程路径</strong>反推国内哪些高中有
                 可查的去向记录，以及这些录取能不能归到 AP、IB 或 A-Level 学部。
               </p>
@@ -72,19 +73,25 @@ export default function UniversitiesPage() {
               </h2>
             </div>
             <p className="max-w-md text-xs leading-relaxed text-ink/45">
-              四边形每根轴都在图上标明；实心顶点是官方数据，空心顶点是编辑评估。
+              画像指纹使用五档而不是百分制，只描述学校差异，不计算总分。
             </p>
           </div>
           <hr className="mt-4 border-ink" />
 
-          <dl className="grid gap-x-6 gap-y-2 border-b border-ink/15 py-3 text-xs sm:grid-cols-2">
-            {PROFILE_DIMS.map((dim) => (
-              <div key={dim} className="flex items-baseline gap-2">
-                <dt className="shrink-0 text-ink/70">{PROFILE_DIM_LABEL[dim]}</dt>
-                <dd className="text-ink/45">{PROFILE_DIM_DIRECTION[dim]}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="border-b border-ink/15 py-3">
+            <dl className="grid gap-x-6 gap-y-2 text-xs sm:grid-cols-2">
+              {PROFILE_TRAITS.map((trait) => (
+                <div key={trait} className="flex items-baseline gap-2">
+                  <dt className="shrink-0 text-ink/70">{PROFILE_TRAIT_LABEL[trait]}</dt>
+                  <dd className="text-ink/45">{PROFILE_TRAIT_DIRECTION[trait]}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-3 text-[11px] leading-relaxed text-ink/40">
+              轴旁数字为 1–5
+              档。实心顶点来自官方数据，空心顶点为编辑评估，断轴表示暂无可比数据；面积大小不代表学校好坏。
+            </p>
+          </div>
 
           <div className="mt-6">
             <UniversityBrowser />

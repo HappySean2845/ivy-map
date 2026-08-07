@@ -30,7 +30,11 @@ import {
   type FeederEvidence,
   type Source,
 } from '../types/index.js'
-import { CURATED_DIMS, type ProfileDataset, type UniversityProfile } from '../types/profile.js'
+import {
+  CURATED_TRAITS,
+  type ProfileDataset,
+  type UniversityProfile,
+} from '../types/profile.js'
 import { scoreFeeders, computeLeverage, hasRankReversal } from '../lib/scoring.js'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -925,13 +929,14 @@ if (noRequirement > 0) {
 
 // --- v2 大学画像 ------------------------------------------------------------
 // 独立产物 data/university-profiles.json，不并进 Dataset。
-// 门禁比事实层松一档（策展分允许无来源），但**声称是 measured 就必须给来源** ——
-// 否则「编辑打的分」和「官方算出来的数」会在雷达图上混成一团，
-// 而那正是这张图唯一不能出的错。
+// 门禁比事实层松一档（编辑档位允许无来源），但**声称是 measured 就必须给来源**。
+// 五档画像必须保持分布，否则指纹只会变成装饰。
 
-const ProfileScoreSchema = z
+const ProfileTraitSchema = z
   .object({
-    value: z.number().min(0).max(100).nullable(),
+    level: z
+      .union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)])
+      .nullable(),
     basis: z.string().min(1),
     kind: z.enum(['measured', 'editorial']),
     sourceIds: z.array(z.string().min(1)),
@@ -940,7 +945,7 @@ const ProfileScoreSchema = z
 
 const ProfileInputSchema = z
   .object({
-    schemaVersion: z.literal(1),
+    schemaVersion: z.literal(2),
     _note: z.array(z.string()).optional(),
     profiles: z.array(
       z
@@ -956,11 +961,10 @@ const ProfileInputSchema = z
           foundedYear: z.number().int().min(1000).max(2100).nullable(),
           strengths: z.array(z.string().min(1)),
           vibe: z.string().min(1).nullable(),
-          scores: z.object(
-            Object.fromEntries(CURATED_DIMS.map((d) => [d, ProfileScoreSchema])) as Record<
-              (typeof CURATED_DIMS)[number],
-              typeof ProfileScoreSchema
-            >,
+          traits: z.object(
+            Object.fromEntries(
+              CURATED_TRAITS.map((trait) => [trait, ProfileTraitSchema]),
+            ) as Record<(typeof CURATED_TRAITS)[number], typeof ProfileTraitSchema>,
           ),
           reviewed: z.boolean(),
         })
@@ -987,21 +991,37 @@ for (const p of profiles) {
   }
   profileIds.add(p.universityId)
 
-  for (const dim of CURATED_DIMS) {
-    const s = p.scores[dim]
+  for (const trait of CURATED_TRAITS) {
+    const rating = p.traits[trait]
     // 声称是实测就必须能查 —— 这条不留活口
-    if (s.kind === 'measured' && s.sourceIds.length === 0) {
-      fail(`[v2 profiles] ${p.universityId}.${dim}：kind=measured 但没有来源`)
+    if (rating.kind === 'measured' && rating.sourceIds.length === 0) {
+      fail(`[v2 profiles] ${p.universityId}.${trait}：kind=measured 但没有来源`)
     }
-    for (const id of s.sourceIds) {
+    for (const id of rating.sourceIds) {
       if (!sourceIds.has(id)) {
-        fail(`[v2 profiles] ${p.universityId}.${dim}：来源 "${id}" 不存在`)
+        fail(`[v2 profiles] ${p.universityId}.${trait}：来源 "${id}" 不存在`)
       }
     }
-    // 有分必须有口径说明，没分也必须说清缺什么
-    if (s.value == null && s.kind === 'measured') {
-      warn(`[v2 profiles] ${p.universityId}.${dim}：measured 但无值，雷达图会断轴`)
+    if (rating.level == null && rating.kind === 'measured') {
+      warn(`[v2 profiles] ${p.universityId}.${trait}：measured 但无档位，指纹会断轴`)
     }
+  }
+}
+
+// 指纹存在的理由是区分学校。某条编辑轴如果挤在三档以内，或半数以上落在同一档，
+// 就不该上线假装提供了信息。
+for (const trait of CURATED_TRAITS) {
+  const levels = profiles
+    .map((profile) => profile.traits[trait].level)
+    .filter((level): level is NonNullable<typeof level> => level != null)
+  const counts = new Map<number, number>()
+  for (const level of levels) counts.set(level, (counts.get(level) ?? 0) + 1)
+  const largestBand = Math.max(0, ...counts.values())
+  if (counts.size < 4) {
+    fail(`[v2 profiles] ${trait} 只覆盖 ${counts.size} 个档位，区分度不足`)
+  }
+  if (largestBand > profiles.length / 2) {
+    fail(`[v2 profiles] ${trait} 有 ${largestBand}/${profiles.length} 所学校挤在同一档`)
   }
 }
 

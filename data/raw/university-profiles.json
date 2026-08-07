@@ -1,17 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "_note": [
-    "v2 大学画像。三类字段性质不同，UI 必须区别对待：",
-    "1. 事实字段（websiteUrl / foundedYear / monogram）—— 公开可核对。",
-    "2. brandColor —— 各校公开品牌指南的主色。它只做装饰（卡片色带、雷达图填充），",
-    "   不承载任何信息，所以未复核前也不会误导数据结论。缺失时整张卡退回纯黑白。",
-    "3. scores 里的三个维度 —— Phase 1 全部是 kind: 'editorial'（编辑评估），",
-    "   雷达图上画空心顶点并标注。Phase 2 用可溯源数据替换后才升级为 'measured'：",
-    "   safety ← Clery Act 校园安全数据；affinity ← CDS 国际生占比；",
-    "   facilities ← CDS 住宿率与生均教育支出。",
-    "录取难度（selectivity）不在这个文件里 —— 它由 officialAdmissions 的申请/录取数现算，",
-    "抄一份进来就是第二个事实源。",
-    "reviewed 全为 false：本文件尚未逐条人工复核，详情页会明示这一点。"
+    "v2 大学画像指纹。它描述差异，不生成综合分，也不按面积判断好坏。",
+    "admissionOpenness 由官方录取率在运行时分档，不在本文件重复维护。",
+    "chinaEcosystem / campusImmersion / academicBreadth 当前均为五档编辑评估。",
+    "编辑档位必须写清 basis；未来只有在跨国家口径可比且来源完整时才升级为 measured。"
   ],
   "profiles": [
     {
@@ -23,27 +16,27 @@
       "foundedYear": 1636,
       "strengths": ["法学", "医学", "商学", "政治学"],
       "vibe": "1636 年建校，比美国这个国家还早 140 年。财力、校友网络和品牌影响力都是天花板，也最难被撼动。",
-      "scores": {
-        "affinity": {
-          "value": 72,
-          "basis": "编辑评估：国际生招生成熟、中国校友网络密集，但本科录取中国大陆学生数量长期维持在很小的规模",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "国际生招生成熟、中国校友网络密集，但本科录取中国大陆学生数量长期维持在很小的规模",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 74,
-          "basis": "编辑评估：位于波士顿都会区的剑桥市，校园开放但周边为高教育社区",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "本科生活围绕哈佛院舍制和剑桥主校园展开，同时保留明显的都会区连接。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 96,
-          "basis": "编辑评估：全球规模最大的大学图书馆系统与顶级捐赠基金支撑的住宿、实验与体育设施",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "人文、社科、自然科学、工程与多类专业学院共同构成全学科体系。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "yale",
@@ -54,27 +47,27 @@
       "foundedYear": 1701,
       "strengths": ["法学", "戏剧与艺术", "历史", "生物医学"],
       "vibe": "住宿学院制的代表，本科生活围绕 14 个学院展开。人文与艺术传统比同侪更重，理工不是它的招牌。",
-      "scores": {
-        "affinity": {
-          "value": 68,
-          "basis": "编辑评估：国际生比例稳定，但本科中国大陆录取规模小，且校园位于中国家庭相对陌生的中小城市",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 2,
+          "basis": "国际生比例稳定，但本科中国大陆录取规模小，且校园位于中国家庭相对陌生的中小城市",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 62,
-          "basis": "编辑评估：所在的纽黑文治安议题在中国家长讨论中出现频率较高，校方自建警队与班车系统",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "本科生进入 14 个住宿学院，住宿、社群和日常活动都由学院体系组织。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 94,
-          "basis": "编辑评估：住宿学院、艺术馆与图书馆体系完整，人均资源在美国私立中处于最前列",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "本科人文社科与自然科学覆盖完整，也设有工程，但专业型本科路径相对少。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "princeton",
@@ -85,27 +78,27 @@
       "foundedYear": 1746,
       "strengths": ["数学", "物理", "经济学", "公共政策"],
       "vibe": "藤校里最专注本科的一所，没有商学院、法学院和医学院。小镇环境、师生比极低，适合想被教授盯着的人。",
-      "scores": {
-        "affinity": {
-          "value": 60,
-          "basis": "编辑评估：本科总规模本身很小，中国大陆录取人数在藤校中处于低位",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 2,
+          "basis": "本科总规模本身很小，中国大陆录取人数在藤校中处于低位",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 92,
-          "basis": "编辑评估：位于新泽西普林斯顿镇，典型的大学小镇环境",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "大学小镇与住宿学院共同构成本科生活，校园边界和社群集中度都很高。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 95,
-          "basis": "编辑评估：人均捐赠基金全美最高之一，本科生也能用到研究级设施",
+        "academicBreadth": {
+          "level": 3,
+          "basis": "核心文理与工程很强，但没有商学院、法学院和医学院等专业学院。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "columbia",
@@ -116,27 +109,27 @@
       "foundedYear": 1754,
       "strengths": ["新闻学", "金融与经济", "国际关系", "建筑"],
       "vibe": "在曼哈顿上城有一个真正的封闭校园，这在纽约极为难得。核心课程必修量大，想自由选课的人会觉得束手。",
-      "scores": {
-        "affinity": {
-          "value": 84,
-          "basis": "编辑评估：中国学生规模在藤校中最大之一，纽约的中国社群与实习资源密集",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "中国学生规模在藤校中最大之一，纽约的中国社群与实习资源密集",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 66,
-          "basis": "编辑评估：校园本身封闭且有门禁，但位于纽约市，周边治安随街区差异明显",
+        "campusImmersion": {
+          "level": 3,
+          "basis": "晨边高地有封闭主校园，但本科生活仍与纽约城市空间高度交织。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 86,
-          "basis": "编辑评估：图书馆与研究资源顶级，但纽约地价决定了宿舍与活动空间比同侪紧张",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "文理、工程、艺术和多类专业学院覆盖广，跨学院资源丰富。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "brown",
@@ -147,27 +140,27 @@
       "foundedYear": 1764,
       "strengths": ["计算机科学", "应用数学", "国际关系", "创意写作"],
       "vibe": "开放课程制，没有核心必修，全部课程可选 Pass/Fail。自由度是它的卖点，也意味着没人替你规划。",
-      "scores": {
-        "affinity": {
-          "value": 70,
-          "basis": "编辑评估：国际生招生积极，但本科体量中等，中国大陆录取规模不大",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 2,
+          "basis": "国际生招生积极，但本科体量中等，中国大陆录取规模不大",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 78,
-          "basis": "编辑评估：位于罗德岛普罗维登斯的学院山，属城市中的安静住宅区",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "学院山校区连续且本科住宿占重要位置，同时能直接进入普罗维登斯城市生活。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 88,
-          "basis": "编辑评估：本科住宿保障好，近年在工程与计算机设施上有明显新增投入",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "开放课程覆盖主要文理与工程领域，但专业学院和应用学科规模有限。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "dartmouth",
@@ -178,27 +171,27 @@
       "foundedYear": 1769,
       "strengths": ["本科教学", "经济学", "工程（Thayer）", "商科预备"],
       "vibe": "藤校里最小、最偏远的一所，在新罕布什尔的林间。四学期制配合实习，社群极紧密，也极难融入。",
-      "scores": {
-        "affinity": {
-          "value": 52,
-          "basis": "编辑评估：本科规模最小的藤校，中国大陆学生人数少，地理位置对中国家庭陌生度高",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 1,
+          "basis": "本科规模最小的藤校，中国大陆学生人数少，地理位置对中国家庭陌生度高",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 94,
-          "basis": "编辑评估：位于人口约一万的汉诺威镇，是藤校中最典型的小镇环境",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "偏远大学城与高住宿比例让学习、社交和户外活动高度集中在校园。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 90,
-          "basis": "编辑评估：户外与体育设施突出，本科住宿覆盖率高；但专业实验室广度不及大型研究型大学",
+        "academicBreadth": {
+          "level": 3,
+          "basis": "文理与工程核心完整，但本科规模小，专业和学院数量少于综合大学。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "upenn",
@@ -209,27 +202,27 @@
       "foundedYear": 1740,
       "strengths": ["商学（Wharton）", "护理", "生物医学", "跨学科双学位"],
       "vibe": "沃顿商学院把整所学校的气质拉向实用与就业。四个本科学院之间可以互选，双学位文化浓。",
-      "scores": {
-        "affinity": {
-          "value": 82,
-          "basis": "编辑评估：商科对中国家庭吸引力极强，在华校友与雇主认知度高，中国学生社群规模大",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "商科对中国家庭吸引力极强，在华校友与雇主认知度高，中国学生社群规模大",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 60,
-          "basis": "编辑评估：位于费城西区，是中国家长讨论治安时提及较多的校区之一；校方自建警力与护送系统",
+        "campusImmersion": {
+          "level": 3,
+          "basis": "西费城主校园完整，但街区、实习和城市生活与校园没有明显切割。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 90,
-          "basis": "编辑评估：医学、商学与图书馆资源完整，校园连成一片且持续翻新",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "四个本科学院覆盖文理、工程、商学和护理，结构综合但边界清晰。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "cornell",
@@ -240,27 +233,27 @@
       "foundedYear": 1865,
       "strengths": ["工程", "酒店管理", "农业与生命科学", "建筑"],
       "vibe": "藤校里最大、专业最杂的一所，含公立性质的学院。学科覆盖面是优势，冬天和地理位置是代价。",
-      "scores": {
-        "affinity": {
-          "value": 88,
-          "basis": "编辑评估：中国学生规模在藤校中最大，学院多、录取路径多，是中国申请者的传统重镇",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "中国学生规模在藤校中最大，学院多、录取路径多，是中国申请者的传统重镇",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 86,
-          "basis": "编辑评估：位于纽约州伊萨卡小城，环境安静",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "伊萨卡山地校园和大学城主导日常生活，住宿与社群活动高度集中。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 92,
-          "basis": "编辑评估：校园面积与实验设施规模在藤校中最大，覆盖从农学到工程的完整链条",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "从文理、工程到农业、酒店、建筑和劳动关系，学科覆盖几乎无死角。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "mit",
@@ -271,27 +264,27 @@
       "foundedYear": 1861,
       "strengths": ["计算机科学", "电子工程", "机械工程", "经济学"],
       "vibe": "理工科的绝对标杆，课业强度是公开的传说。动手做东西比考试重要，不适合只会刷题的人。",
-      "scores": {
-        "affinity": {
-          "value": 66,
-          "basis": "编辑评估：中国申请者极多但本科录取人数常年个位到十位数，是竞争最惨烈的目标之一",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 2,
+          "basis": "中国申请者极多但本科录取人数常年个位到十位数，是竞争最惨烈的目标之一",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 76,
-          "basis": "编辑评估：与哈佛同在剑桥市，沿查尔斯河一侧，属波士顿都会区较安全的区域",
+        "campusImmersion": {
+          "level": 3,
+          "basis": "剑桥主校园集中且本科住宿体系明确，但与波士顿都会区连接紧密。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 97,
-          "basis": "编辑评估：实验室、加工车间与创客空间对本科生开放程度是同类院校中最高的",
+        "academicBreadth": {
+          "level": 2,
+          "basis": "理工、计算与经济管理极强，人文社科存在但整体仍高度聚焦科技。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "stanford",
@@ -302,27 +295,27 @@
       "foundedYear": 1885,
       "strengths": ["计算机科学", "创业与风险投资", "工程", "商学"],
       "vibe": "1885 年建校，在东岸老校面前算新贵，但硅谷让它成了另一种意义上的中心。创业氛围盖过一切。",
-      "scores": {
-        "affinity": {
-          "value": 74,
-          "basis": "编辑评估：在中国科技行业认知度极高，湾区中国社群成熟；但本科录取率是全美最低之一",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "在中国科技行业认知度极高，湾区中国社群成熟；但本科录取率是全美最低之一",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 88,
-          "basis": "编辑评估：位于帕罗奥图，属旧金山湾区治安较好的区域，校园为独立大片园区",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "超大校园、住宿体系和校内活动让本科生活具有很强的自足性。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 96,
-          "basis": "编辑评估：校园面积超过 3,000 公顷，体育、实验与创业孵化设施全面",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "人文、社科、自然科学和工程覆盖完整，专业学院资源也很强。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "caltech",
@@ -333,27 +326,27 @@
       "foundedYear": 1891,
       "strengths": ["物理", "天文", "化学", "应用数学"],
       "vibe": "全校本科生不到一千人，比很多国内高中还小。理工纯度最高，没有商科没有法学院，转专业空间极小。",
-      "scores": {
-        "affinity": {
-          "value": 44,
-          "basis": "编辑评估：每届本科仅约 250 人，中国大陆录取常年个位数，是数据上最难的一档",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 1,
+          "basis": "每届本科仅约 250 人，中国大陆录取常年个位数，是数据上最难的一档",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 82,
-          "basis": "编辑评估：位于洛杉矶郊区帕萨迪纳，校园小而封闭",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "小型住宿校园把学习与社群压缩在很小范围内，同时仍处于帕萨迪纳城区。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 88,
-          "basis": "编辑评估：人均科研资源极高（含 JPL 关系），但校园规模小，通识与体育设施不是重点",
+        "academicBreadth": {
+          "level": 1,
+          "basis": "本科规模极小且高度集中在自然科学与工程，没有完整的人文商法医体系。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "uchicago",
@@ -364,27 +357,27 @@
       "foundedYear": 1890,
       "strengths": ["经济学", "数学", "社会学", "物理"],
       "vibe": "以理论深度和课业强度著称，核心课程必修量在美国名校中最重。学术气质纯粹，玩乐氛围淡。",
-      "scores": {
-        "affinity": {
-          "value": 86,
-          "basis": "编辑评估：近十年在中国招生与宣传投入大，中国学生规模增长快，经济学声誉在中国家庭中认知度高",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "近十年在中国招生与宣传投入大，中国学生规模增长快，经济学声誉在中国家庭中认知度高",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 54,
-          "basis": "编辑评估：位于芝加哥南部海德公园，是中国家长讨论治安时提及最多的校区之一；校方运营全美规模最大的高校私人警队与夜间班车",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "海德公园主校园与住宿学院形成完整生活圈，但仍保留芝加哥城市连接。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 90,
-          "basis": "编辑评估：图书馆与研究中心资源密集，近年新建本科宿舍与活动中心",
+        "academicBreadth": {
+          "level": 3,
+          "basis": "文理学科覆盖深，但本科工程与职业型专业路径相对有限。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "duke",
@@ -395,27 +388,27 @@
       "foundedYear": 1838,
       "strengths": ["医学与公共卫生", "工程", "商科预备", "政治学"],
       "vibe": "哥特式校园配上狂热的篮球文化，学术与校园生活的平衡是它的招牌。在昆山有中外合办校区。",
-      "scores": {
-        "affinity": {
-          "value": 90,
-          "basis": "编辑评估：昆山杜克大学落地使其在中国的机构存在感强于多数美国私立，中国学生社群规模大",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "昆山杜克大学落地使其在中国的机构存在感强于多数美国私立，中国学生社群规模大",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 72,
-          "basis": "编辑评估：位于北卡达勒姆，校园自成一体，周边区域差异较大",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "东西校区、住宿体系、校车与体育文化共同形成高度集中的校园生活。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 94,
-          "basis": "编辑评估：医疗中心、体育馆与本科宿舍质量在美国私立中处于前列",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "文理、工程与跨学科项目完整，并能连接医学与公共政策等专业资源。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "northwestern",
@@ -426,27 +419,27 @@
       "foundedYear": 1851,
       "strengths": ["新闻学（Medill）", "戏剧", "工程", "整合营销"],
       "vibe": "新闻与传媒是它最硬的招牌，戏剧也是。校园在密歇根湖边，比芝加哥市区安静得多。",
-      "scores": {
-        "affinity": {
-          "value": 80,
-          "basis": "编辑评估：中国学生规模较大，传媒与工程双强的组合在中国家庭中辨识度高",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "中国学生规模较大，传媒与工程双强的组合在中国家庭中辨识度高",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 84,
-          "basis": "编辑评估：位于芝加哥北郊埃文斯顿，是该都会区治安较好的区域",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "埃文斯顿湖畔校园边界清晰、住宿生活完整，同时可以方便进入芝加哥。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 92,
-          "basis": "编辑评估：湖滨校园、演播与剧场设施完整，近年大幅翻新体育与学生中心",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "文理、工程、传媒、音乐和教育等学院组合丰富，跨学院选择多。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "jhu",
@@ -457,27 +450,27 @@
       "foundedYear": 1876,
       "strengths": ["医学与公共卫生", "生物医学工程", "国际关系", "音乐（Peabody）"],
       "vibe": "美国第一所研究型大学，医学与公共卫生是绝对头部。医预科竞争激烈，学习强度大。",
-      "scores": {
-        "affinity": {
-          "value": 88,
-          "basis": "编辑评估：中国学生规模很大，医学与公卫方向在中国家庭中认知度极高",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "中国学生规模很大，医学与公卫方向在中国家庭中认知度极高",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 50,
-          "basis": "编辑评估：位于巴尔的摩，是中国家长讨论治安时提及最多的城市之一；校方设有专属警力与班车，但这项顾虑真实存在",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "本科生活主要集中在 Homewood 校园，研究与城市资源则延伸到巴尔的摩各处。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 92,
-          "basis": "编辑评估：医学院与研究设施顶级，本科校园（Homewood）独立且完整",
+        "academicBreadth": {
+          "level": 3,
+          "basis": "医学、生命科学、工程和国际关系突出，其他本科领域覆盖相对集中。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "nyu",
@@ -488,27 +481,27 @@
       "foundedYear": 1831,
       "strengths": ["艺术（Tisch）", "商学（Stern）", "金融", "计算机科学"],
       "vibe": "没有传统校园，教学楼散在格林威治村的街区里。想要城市生活的人首选，想要草坪和钟楼的人会失望。上海校区是它在中国最直接的入口。",
-      "scores": {
-        "affinity": {
-          "value": 95,
-          "basis": "编辑评估：上海校区加上纽约本部，是在中国存在感最强的美国私立之一；中国学生规模全美前列",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 5,
+          "basis": "上海校区加上纽约本部，是在中国存在感最强的美国私立之一；中国学生规模全美前列",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 64,
-          "basis": "编辑评估：无封闭校园，学生日常在曼哈顿街区中通行，安全取决于城市而非校园管理",
+        "campusImmersion": {
+          "level": 1,
+          "basis": "教学楼和宿舍散布在格林威治村，没有传统封闭校园，城市本身就是生活空间。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 70,
-          "basis": "编辑评估：专业设施（影视、表演、金融实验室）强，但缺少集中校园、宿舍与体育空间紧张",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "艺术、商学、文理、工程与全球校区共同形成覆盖很广的本科体系。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "berkeley",
@@ -519,27 +512,27 @@
       "foundedYear": 1868,
       "strengths": ["计算机科学（EECS）", "化学", "经济学", "土木工程"],
       "vibe": "美国最强的公立大学，学术产出可与任何私立抗衡。班级大、资源要靠自己抢，能扛的人收获极大。",
-      "scores": {
-        "affinity": {
-          "value": 92,
-          "basis": "编辑评估：加州公立体系中中国学生规模最大的院校之一，湾区中国社群与就业网络成熟",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "加州公立体系中中国学生规模最大的院校之一，湾区中国社群与就业网络成熟",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 58,
-          "basis": "编辑评估：校园开放且紧邻伯克利市区，周边街头治安在中国家长讨论中被反复提及",
+        "campusImmersion": {
+          "level": 3,
+          "basis": "主校园边界清晰，但住宿、社团和日常生活大量分布在伯克利城市街区。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 86,
-          "basis": "编辑评估：实验与图书馆资源顶级，但本科住宿保障不足、热门课程需要抢",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "大型公立综合大学，文理、工程、商学、环境与专业学科覆盖广。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "ucla",
@@ -550,27 +543,27 @@
       "foundedYear": 1919,
       "strengths": ["影视", "心理学", "生物科学", "工程"],
       "vibe": "1919 年建校，是这份名单里最年轻的美国大学之一。位于洛杉矶西区，气候、体育和娱乐产业资源是它的性格。",
-      "scores": {
-        "affinity": {
-          "value": 92,
-          "basis": "编辑评估：申请量全美最高，中国学生规模极大，洛杉矶的中国社群成熟",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "申请量全美最高，中国学生规模极大，洛杉矶的中国社群成熟",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 78,
-          "basis": "编辑评估：位于西木区，属洛杉矶治安较好的片区，校园相对集中",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "Westwood 主校园完整，住宿、体育与社团活动能形成较集中的本科生活。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 90,
-          "basis": "编辑评估：体育与医疗设施顶级，宿舍保障优于多数美国公立",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "文理、工程、艺术、影视与健康科学等领域构成完整综合体系。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "cmu",
@@ -581,27 +574,27 @@
       "foundedYear": 1900,
       "strengths": ["计算机科学", "人工智能", "戏剧", "机器人"],
       "vibe": "计算机与戏剧同时是全美最强，这个组合在美国大学里是孤例。课业压力大，专业间壁垒明显。",
-      "scores": {
-        "affinity": {
-          "value": 90,
-          "basis": "编辑评估：计算机方向在中国申请者中是头号目标之一，中国学生规模大",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "计算机方向在中国申请者中是头号目标之一，中国学生规模大",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 76,
-          "basis": "编辑评估：位于匹兹堡奥克兰区的大学聚集带，环境相对稳定",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "匹兹堡 Oakland 主校园紧凑，住宿与专业社群集中，同时保留城市连接。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 86,
-          "basis": "编辑评估：计算与机器人实验设施顶级，但校园面积小，通识与体育空间有限",
+        "academicBreadth": {
+          "level": 3,
+          "basis": "计算机、工程、艺术、商学和人文社科并存，但优势集中在少数学院。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "umich",
@@ -612,27 +605,27 @@
       "foundedYear": 1817,
       "strengths": ["工程", "商学（Ross）", "医学", "公共政策"],
       "vibe": "公立巨舰，学科几乎无死角，校友网络规模惊人。橄榄球日整座城市停摆，校园文化极强。",
-      "scores": {
-        "affinity": {
-          "value": 90,
-          "basis": "编辑评估：中国学生规模长期位居美国公立前列，在中国的校友与雇主网络成熟",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "中国学生规模长期位居美国公立前列，在中国的校友与雇主网络成熟",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 88,
-          "basis": "编辑评估：位于安娜堡，是美国大型公立中环境最像大学城的一所",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "安娜堡以大学为中心，校园、体育和学生社区几乎定义了整座城市的节奏。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 94,
-          "basis": "编辑评估：图书馆、医院与体育设施规模在美国公立中最完整之一",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "大型公立综合大学，几乎所有主要学科与专业学院都有完整设置。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "uw",
@@ -643,27 +636,27 @@
       "foundedYear": 1861,
       "strengths": ["计算机科学", "医学", "全球卫生", "航空航天"],
       "vibe": "西雅图的地理位置把它和亚马逊、微软绑在一起，计算机方向的实习机会极密。校园樱花是它的名片。",
-      "scores": {
-        "affinity": {
-          "value": 92,
-          "basis": "编辑评估：西雅图中国社群规模大，直飞航线密集，中国学生比例在美国公立中很高",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "西雅图中国社群规模大，直飞航线密集，中国学生比例在美国公立中很高",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 74,
-          "basis": "编辑评估：校园位于西雅图北部大学区，整体稳定，市中心部分区域治安争议较多",
+        "campusImmersion": {
+          "level": 4,
+          "basis": "西雅图主校园规模大且生活设施完整，但实习与校外居住让城市连接同样明显。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 88,
-          "basis": "编辑评估：医学与计算设施强，校园开阔；本科热门专业需二次申请，资源竞争激烈",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "文理、工程、计算、医学与多类应用学科覆盖完整。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "washu",
@@ -674,27 +667,27 @@
       "foundedYear": 1853,
       "strengths": ["医学", "生物医学", "建筑", "商学（Olin）"],
       "vibe": "医预科与生物医学是最硬的方向，本科住宿与餐饮常年被评为全美最好之一。校园安静、离市区有距离。",
-      "scores": {
-        "affinity": {
-          "value": 78,
-          "basis": "编辑评估：中国学生规模稳定，医学方向对中国家庭吸引力强；城市知名度不及东西岸",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "中国学生规模稳定，医学方向对中国家庭吸引力强；城市知名度不及东西岸",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 70,
-          "basis": "编辑评估：校园位于圣路易斯西郊 Clayton 一侧，本身安静；圣路易斯整体治安数据在中国家长讨论中被提及",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "Danforth 校园集中、住宿比例高，本科生活主要围绕校园内部展开。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 94,
-          "basis": "编辑评估：本科宿舍与餐饮质量在全美评价中长期位居前列，医学研究设施顶级",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "文理、工程、商学、建筑与艺术覆盖较全，并能连接医学资源。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "oxford",
@@ -705,27 +698,27 @@
       "foundedYear": 1096,
       "strengths": ["PPE（哲政经）", "法学", "医学", "数学"],
       "vibe": "英语世界最古老的大学，导师制一对一辅导是它的核心。专业一入定终身，转专业几乎不可能。",
-      "scores": {
-        "affinity": {
-          "value": 80,
-          "basis": "编辑评估：A-Level 体系下中国申请路径清晰，中国学生规模大；但笔试与面试环节筛选严格",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "A-Level 体系下中国申请路径清晰，中国学生规模大；但笔试与面试环节筛选严格",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 90,
-          "basis": "编辑评估：位于英格兰牛津，典型的大学城，整体治安良好",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "学院散布在城市中，但住宿、导师制和社群都以学院为核心，沉浸感很强。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 88,
-          "basis": "编辑评估：学院制提供住宿与餐饮保障，图书馆体系庞大；部分建筑年代久远",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "人文、社科、自然科学与医学覆盖完整，专业入口细分且数量众多。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "cambridge",
@@ -736,27 +729,27 @@
       "foundedYear": 1209,
       "strengths": ["数学", "自然科学", "工程", "经济学"],
       "vibe": "数学与自然科学传统深厚，Supervision 小班制是核心。学年只有八周一期，节奏极快。",
-      "scores": {
-        "affinity": {
-          "value": 82,
-          "basis": "编辑评估：中国大陆 A-Level 学生的主要目标之一，本站收录的生源校数据也以剑桥最完整",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 3,
+          "basis": "中国大陆 A-Level 学生的主要目标之一，本站收录的生源校数据也以剑桥最完整",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 90,
-          "basis": "编辑评估：位于英格兰剑桥，大学城环境，整体治安良好",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "学院制把住宿、教学与社交组织在紧密的大学城网络里。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 88,
-          "basis": "编辑评估：学院制保障住宿，实验与图书馆资源强；老建筑的居住条件参差",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "人文、社科、自然科学、工程与医学构成完整的综合学科体系。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "imperial",
@@ -767,27 +760,27 @@
       "foundedYear": 1907,
       "strengths": ["工程", "医学", "计算机", "商学"],
       "vibe": "纯理工医的专门学校，没有人文学科。位于伦敦南肯辛顿博物馆区，课业强度是英国最高之一。",
-      "scores": {
-        "affinity": {
-          "value": 86,
-          "basis": "编辑评估：中国学生比例在英国罗素集团中很高，理工方向对中国家庭吸引力强",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "中国学生比例在英国罗素集团中很高，理工方向对中国家庭吸引力强",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 80,
-          "basis": "编辑评估：位于伦敦西区较好的片区，但属开放式城市校园",
+        "campusImmersion": {
+          "level": 2,
+          "basis": "南肯辛顿教学空间高度城市化，核心校区紧凑，住宿与生活更多分散在伦敦。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 84,
-          "basis": "编辑评估：实验设施强，但伦敦地价决定宿舍紧张且昂贵，校园空间有限",
+        "academicBreadth": {
+          "level": 2,
+          "basis": "本科主要集中在工程、自然科学、医学和商科，几乎没有人文学科。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "lse",
@@ -798,27 +791,27 @@
       "foundedYear": 1895,
       "strengths": ["经济学", "金融", "政治学", "国际关系"],
       "vibe": "只做社会科学，规模小而集中。校园就是伦敦城中的几栋楼，离金融城步行可达。",
-      "scores": {
-        "affinity": {
-          "value": 88,
-          "basis": "编辑评估：经济金融方向在中国家庭中认知度极高，中国学生比例在英国高校中最高之一",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "经济金融方向在中国家庭中认知度极高，中国学生比例在英国高校中最高之一",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 78,
-          "basis": "编辑评估：位于伦敦市中心 Holborn，人流密集，属开放式城市校园",
+        "campusImmersion": {
+          "level": 1,
+          "basis": "教学楼集中在伦敦市中心街区，没有传统住宿型校园，城市资源占主导。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 66,
-          "basis": "编辑评估：图书馆专业性强，但没有传统校园，宿舍与体育设施是明显短板",
+        "academicBreadth": {
+          "level": 1,
+          "basis": "学校专注社会科学，几乎不提供自然科学、工程、医学与艺术类本科。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "ucl",
@@ -829,27 +822,27 @@
       "foundedYear": 1826,
       "strengths": ["建筑（Bartlett）", "教育", "医学", "经济学"],
       "vibe": "英国第一所不设宗教门槛的大学，学科覆盖极广。位于伦敦布鲁姆斯伯里，规模大、氛围国际化。",
-      "scores": {
-        "affinity": {
-          "value": 92,
-          "basis": "编辑评估：中国学生绝对人数是英国高校中最多的之一，申请与就读路径成熟",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 4,
+          "basis": "中国学生绝对人数是英国高校中最多的之一，申请与就读路径成熟",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 78,
-          "basis": "编辑评估：位于伦敦中心区，校园与街区交织，属开放式城市校园",
+        "campusImmersion": {
+          "level": 2,
+          "basis": "Bloomsbury 校区嵌入伦敦市中心，教学空间相对集中但生活与住宿较分散。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 78,
-          "basis": "编辑评估：学科设施广，但伦敦市中心的空间约束使宿舍与活动场地紧张",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "从建筑、教育到医学、工程与人文社科，学科覆盖在英国最广之一。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "hku",
@@ -860,27 +853,27 @@
       "foundedYear": 1911,
       "strengths": ["医学", "法学", "商学", "建筑"],
       "vibe": "香港最老的大学，英语授课但生活在中文环境里。离内地近、文化门槛低，是很多家庭的稳妥选项。",
-      "scores": {
-        "affinity": {
-          "value": 96,
-          "basis": "编辑评估：同语言文化环境、内地生规模大、往返成本低，对中国家庭的适配度是这份名单里最高的一档",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 5,
+          "basis": "同语言文化环境、内地生规模大、往返成本低，对中国家庭的适配度是这份名单里最高的一档",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 92,
-          "basis": "编辑评估：香港整体治安数据在全球大都会中处于较好水平",
+        "campusImmersion": {
+          "level": 3,
+          "basis": "山地主校园完整并设有住宿体系，同时通过交通直接接入香港城市生活。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 82,
-          "basis": "编辑评估：教学与医学设施完备，但港岛地形使校园空间紧凑、宿舍位需要竞争",
+        "academicBreadth": {
+          "level": 4,
+          "basis": "文理、工程、商学、医学、建筑与教育覆盖完整，属于综合型大学。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "hkust",
@@ -891,27 +884,27 @@
       "foundedYear": 1991,
       "strengths": ["商学", "工程", "计算机", "金融数学"],
       "vibe": "1991 年建校，是这份名单里最年轻的一所，典型的新贵。清水湾的海景校园，商学院起势极快。",
-      "scores": {
-        "affinity": {
-          "value": 94,
-          "basis": "编辑评估：内地生比例高、招生渠道成熟，广州深圳往返当天可达",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 5,
+          "basis": "内地生比例高、招生渠道成熟，广州深圳往返当天可达",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 92,
-          "basis": "编辑评估：位于清水湾半岛，校园独立封闭，远离市区人流",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "清水湾一体化校园位置相对独立，住宿、教学和社群活动高度集中。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 88,
-          "basis": "编辑评估：校园为统一规划的新建园区，实验与体育设施新、住宿条件好",
+        "academicBreadth": {
+          "level": 3,
+          "basis": "核心集中在理工、商学与部分人文社科，学科广度低于传统综合大学。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "cuhk",
@@ -922,27 +915,27 @@
       "foundedYear": 1963,
       "strengths": ["医学", "中文与人文", "商学", "工程"],
       "vibe": "唯一以中文命名并保留双语传统的香港高校，书院制。马料水的山地校园面积是香港最大的。",
-      "scores": {
-        "affinity": {
-          "value": 95,
-          "basis": "编辑评估：双语环境对内地学生适应成本最低，内地生规模大，深圳设有分校",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 5,
+          "basis": "双语环境对内地学生适应成本最低，内地生规模大，深圳设有分校",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 92,
-          "basis": "编辑评估：校园位于新界山地、自成一区，香港整体治安良好",
+        "campusImmersion": {
+          "level": 5,
+          "basis": "沙田大型山地校园、书院制和宿舍体系共同形成强沉浸生活。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 86,
-          "basis": "编辑评估：校园面积为香港高校最大，书院制提供住宿保障；山地地形通行成本高",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "文理、工程、商学、医学、教育与艺术等主要领域覆盖完整。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "toronto",
@@ -953,27 +946,27 @@
       "foundedYear": 1827,
       "strengths": ["计算机科学", "商学（Rotman）", "医学", "工程"],
       "vibe": "加拿大学术产出第一，进门相对宽、毕业相对难是它的公开风格。移民政策是很多家庭选它的真实原因。",
-      "scores": {
-        "affinity": {
-          "value": 94,
-          "basis": "编辑评估：中国学生规模极大，多伦多中国社群成熟，毕业后工签与移民路径清晰",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 5,
+          "basis": "中国学生规模极大，多伦多中国社群成熟，毕业后工签与移民路径清晰",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 86,
-          "basis": "编辑评估：多伦多在北美大都会中治安数据较好，校园位于市中心但环境稳定",
+        "campusImmersion": {
+          "level": 3,
+          "basis": "市中心主校园规模大且保留学院传统，但通勤和城市生活占比同样很高。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 84,
-          "basis": "编辑评估：图书馆体系规模北美前列，但本科班级大、宿舍保障不足，热门课程竞争激烈",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "超大型综合大学，文理、工程、商学、建筑、音乐与健康领域齐全。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     },
     {
       "universityId": "utokyo",
@@ -984,27 +977,27 @@
       "foundedYear": 1877,
       "strengths": ["工程", "物理", "法学", "医学"],
       "vibe": "日本学术体系的绝对中心，本科以日语授课为主。前两年不分专业，进校后再分流。",
-      "scores": {
-        "affinity": {
-          "value": 62,
-          "basis": "编辑评估：地理与文化距离近、留学成本低，但本科日语门槛使它对中国国际课程学生的路径不如英美清晰",
+      "reviewed": false,
+      "traits": {
+        "chinaEcosystem": {
+          "level": 2,
+          "basis": "地理与文化距离近、留学成本低，但本科日语门槛使它对中国国际课程学生的路径不如英美清晰",
           "kind": "editorial",
           "sourceIds": []
         },
-        "safety": {
-          "value": 96,
-          "basis": "编辑评估：东京的治安数据在全球大都会中处于最好一档",
+        "campusImmersion": {
+          "level": 3,
+          "basis": "本乡等校区边界清晰，但多校区和通勤结构让生活不完全围绕单一校园。",
           "kind": "editorial",
           "sourceIds": []
         },
-        "facilities": {
-          "value": 86,
-          "basis": "编辑评估：本乡校区历史建筑与研究设施并重；留学生宿舍供给有限",
+        "academicBreadth": {
+          "level": 5,
+          "basis": "日本旗舰综合大学，文理、工程、农学、法学与医学体系完整。",
           "kind": "editorial",
           "sourceIds": []
         }
-      },
-      "reviewed": false
+      }
     }
   ]
 }

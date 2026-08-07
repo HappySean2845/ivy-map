@@ -46,9 +46,9 @@ export const CURRICULA = [
 export type GuidedCurriculum = (typeof CURRICULA)[number]['id']
 
 export const PRIORITIES = [
-  { id: 'affinity', label: '中国学生环境', note: '目前是编辑评估' },
-  { id: 'safety', label: '校园与周边安全', note: '目前是编辑评估' },
-  { id: 'facilities', label: '学习与生活设施', note: '目前是编辑评估' },
+  { id: 'ecosystem', label: '中国学生生态', note: '社区、支持与在华连接的成熟度' },
+  { id: 'campus', label: '校园沉浸感', note: '住宿与校园生活是否集中' },
+  { id: 'breadth', label: '学科选择广度', note: '本科可选方向是否综合' },
   { id: 'evidence', label: '公开证据完整度', note: '优先看官方录取率和高中去向' },
 ] as const
 

@@ -1,87 +1,96 @@
-// v2 大学画像（snapshot 卡片的数据）。
+// v2 大学画像指纹。
 //
-// **独立于 types/index.ts 的 Dataset。** v2 的策展数据出问题不该阻塞现有站点构建，
-// 两套数据也需要能各自演进。所以 profile 是单独的构建产物，不挂在 University 上。
-//
-// 继承 types/index.ts 的铁律：**null 表示「没有数据」，永远不用 0 顶替。**
-// 在雷达图上这条尤其要命 —— value: 0 会画成「这所学校安全性得 0 分」，
-// 而真相是「我们还没查到这所学校的安全数据」。两者天壤之别。
+// 指纹描述大学的差异，不计算综合分，也不暗示面积越大越好。
+// `null` 表示没有可比较的数据，永远不用 0 或最低档补空。
 
-/**
- * JSON 里手工维护的三个维度。
- *
- * selectivity 不在此列 —— 它能从 officialAdmissions 的申请/录取数直接算出来，
- * 抄一份到策展文件里就是第二个事实源，官方数据一更新两边就会不一致。
- */
-export const CURATED_DIMS = ['affinity', 'safety', 'facilities'] as const
-export type CuratedDim = (typeof CURATED_DIMS)[number]
+export const CURATED_TRAITS = ['chinaEcosystem', 'campusImmersion', 'academicBreadth'] as const
+export type CuratedTrait = (typeof CURATED_TRAITS)[number]
 
-/** 雷达图上的四个维度，顺序即顺时针顺序。 */
-export const PROFILE_DIMS = ['selectivity', ...CURATED_DIMS] as const
-export type ProfileDim = (typeof PROFILE_DIMS)[number]
+/** 顺序即指纹从顶部开始的顺时针顺序。 */
+export const PROFILE_TRAITS = ['admissionOpenness', ...CURATED_TRAITS] as const
+export type ProfileTrait = (typeof PROFILE_TRAITS)[number]
 
-export const PROFILE_DIM_LABEL: Record<ProfileDim, string> = {
-  selectivity: '录取难度',
-  affinity: '中国友好度',
-  safety: '安全性',
-  facilities: '设施',
+export const PROFILE_TRAIT_LABEL: Record<ProfileTrait, string> = {
+  admissionOpenness: '录取开放度',
+  chinaEcosystem: '中国学生生态',
+  campusImmersion: '校园沉浸度',
+  academicBreadth: '学科广度',
 }
 
-/**
- * 每根轴的方向，必须显示在图上。
- *
- * 「录取难度」越外越难 —— 这**不是优点**。哈佛 3.6% 录取率在雷达图上顶到最外圈，
- * 看着像满分，实际是「你大概进不去」。不写方向，「面积越大越好」就是个错误暗示。
- */
-export const PROFILE_DIM_DIRECTION: Record<ProfileDim, string> = {
-  selectivity: '越外越难录',
-  affinity: '越外越友好',
-  safety: '越外越安全',
-  facilities: '越外越完善',
+export const PROFILE_TRAIT_SHORT_LABEL: Record<ProfileTrait, string> = {
+  admissionOpenness: '开放',
+  chinaEcosystem: '中国',
+  campusImmersion: '校园',
+  academicBreadth: '学科',
 }
 
-/** 一个维度的分。 */
-export interface ProfileScore {
-  /** 0–100。null = 数据不足，雷达图该轴断开 */
-  value: number | null
-  /** 口径一句话。有值时说清怎么算的，null 时说清缺什么 */
+/** 四根轴都只表达“更多这种特征”，不表达更好。 */
+export const PROFILE_TRAIT_DIRECTION: Record<ProfileTrait, string> = {
+  admissionOpenness: '越外代表学校整体录取比例越高',
+  chinaEcosystem: '越外代表中国学生社区与支持越成熟',
+  campusImmersion: '越外代表住宿与校园生活越集中',
+  academicBreadth: '越外代表本科可选学科越综合',
+}
+
+export type ProfileLevel = 1 | 2 | 3 | 4 | 5
+
+export const PROFILE_LEVELS = [1, 2, 3, 4, 5] as const
+
+export const PROFILE_TRAIT_LEVEL_LABEL: Record<ProfileTrait, Record<ProfileLevel, string>> = {
+  admissionOpenness: {
+    1: '极窄（低于 5%）',
+    2: '较窄（5%–8%）',
+    3: '有限（8%–12%）',
+    4: '相对开放（12%–30%）',
+    5: '较开放（高于 30%）',
+  },
+  chinaEcosystem: {
+    1: '规模很小',
+    2: '仍较有限',
+    3: '已经稳定',
+    4: '比较成熟',
+    5: '非常成熟',
+  },
+  campusImmersion: {
+    1: '城市分散型',
+    2: '城市校区型',
+    3: '城市与校园混合',
+    4: '完整校园型',
+    5: '强沉浸型',
+  },
+  academicBreadth: {
+    1: '高度专精',
+    2: '学科聚焦',
+    3: '核心领域较广',
+    4: '综合型',
+    5: '全学科型',
+  },
+}
+
+export interface ProfileTraitRating {
+  /** 1–5；null = 数据不足，指纹在该轴断开。 */
+  level: ProfileLevel | null
   basis: string
-  /**
-   * measured = 由可溯源数据算出，顶点画实心，可点开看来源；
-   * editorial = 编辑判断，顶点画空心并标注。
-   *
-   * 这个区分是雷达图能不能上线的前提：打分天生主观，而这个产品的立场是
-   * 「只摆数据不煽动」。形状区分让人一眼看出哪几根轴是实的。
-   */
   kind: 'measured' | 'editorial'
-  /** measured 必须非空 —— 构建期硬门禁 */
+  /** measured 必须非空。 */
   sourceIds: string[]
 }
 
 export interface UniversityProfile {
   universityId: string
-  /** 官网首页。卡片左下角跳转用 */
   websiteUrl: string | null
-  /** public/logos/<id>.svg。null = 用校色方块 + monogram 兜底 */
   logoPath: string | null
-  /** 官方品牌校色 hex。null = 这张卡退回纯黑白，照样成立 */
   brandColor: string | null
-  /** logo 缺失时显示的缩写，1–4 字符 */
   monogram: string
   foundedYear: number | null
-  /** 公众普遍认知的知名领域。**不是排名结论**，UI 必须这么标 */
   strengths: string[]
-  /** 风格一句话（百年老校还是新贵）。编辑撰写，UI 必须标注 */
   vibe: string | null
-  scores: Record<CuratedDim, ProfileScore>
-  /** profile 全部字段已人工复核。跟 School.verified 同一套纪律 */
+  traits: Record<CuratedTrait, ProfileTraitRating>
   reviewed: boolean
 }
 
-/** 兼容旧组件命名；真实数据现在来自带 scope 的 AdmissionRateSeries。 */
 export type { AdmissionRatePoint as AdmitRatePoint } from './index'
 
-/** 构建产物 data/university-profiles.json */
 export interface ProfileDataset {
   builtAt: string
   profiles: UniversityProfile[]
