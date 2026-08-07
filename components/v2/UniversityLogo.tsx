@@ -38,7 +38,7 @@ export function UniversityLogo({
         <img
           src={profile.logoPath}
           alt=""
-          className="h-auto w-full object-contain"
+          className="h-auto w-full object-contain opacity-80"
           loading={eager ? 'eager' : 'lazy'}
           decoding="async"
         />
