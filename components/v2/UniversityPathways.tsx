@@ -11,7 +11,12 @@ import {
   type DestinationDensity,
   type SchoolAttributionView,
 } from '@/lib/v2/course-attribution'
+import {
+  destinationSharesForUniversity,
+  formatDestinationShare,
+} from '@/lib/v2/university-enrichment'
 import { RegionSchoolTabs, type RegionSchoolGroup } from '@/components/v2/RegionSchoolTabs'
+import type { DestinationShareObservation } from '@/types/university-enrichment'
 
 const STATUS_STYLE: Record<AttributionStatus, string> = {
   confirmed: 'border-ink bg-ink text-paper',
@@ -30,6 +35,12 @@ const COUNT_KIND_LABEL: Record<CourseAdmissionObservation['countKind'], string> 
 }
 
 const REGION_ORDER = ['北京', '上海', '广州', '深圳', '广东 / 港澳', '江浙', '其他']
+
+const OUTCOME_LABEL: Record<DestinationShareObservation['outcomeKind'], string> = {
+  offers: 'offer',
+  admits: '录取',
+  unknown: '去向记录',
+}
 
 function attributionKey(attribution: AdmissionAttribution) {
   return `${attribution.curriculumCode}:${attribution.status}:${attribution.exclusionRisk}`
@@ -69,6 +80,14 @@ export function UniversityPathways({
   universityNameCn: string
 }) {
   const evidence = universityCourseEvidence(universityId)
+  const destinationShares = destinationSharesForUniversity(universityId)
+  const destinationSharesBySchool = new Map<string, DestinationShareObservation[]>()
+  for (const observation of destinationShares) {
+    destinationSharesBySchool.set(observation.schoolId, [
+      ...(destinationSharesBySchool.get(observation.schoolId) ?? []),
+      observation,
+    ])
+  }
 
   if (evidence.schools.length === 0) {
     return (
@@ -113,7 +132,12 @@ export function UniversityPathways({
       content: (
         <ul className="mt-6 grid items-start gap-4 lg:grid-cols-2">
           {schools.map((view, schoolIndex) => (
-            <FeederSchoolCard key={view.school.id} view={view} index={schoolIndex + 1} />
+            <FeederSchoolCard
+              key={view.school.id}
+              view={view}
+              index={schoolIndex + 1}
+              destinationShares={destinationSharesBySchool.get(view.school.id) ?? []}
+            />
           ))}
         </ul>
       ),
@@ -158,6 +182,7 @@ export function UniversityPathways({
           </h2>
           <p className="text-xs text-ink/45 tnum">
             {schoolDensityCount} 所整校可算 · {departmentDensityCount} 条学部可算 ·{' '}
+            {destinationShares.filter((item) => item.share != null).length} 条大学生源占比可算 ·{' '}
             {courseAttributionData.source.capturedAt.slice(0, 10)} 整理
           </p>
         </div>
@@ -172,7 +197,15 @@ export function UniversityPathways({
   )
 }
 
-function FeederSchoolCard({ view, index }: { view: SchoolAttributionView; index: number }) {
+function FeederSchoolCard({
+  view,
+  index,
+  destinationShares,
+}: {
+  view: SchoolAttributionView
+  index: number
+  destinationShares: DestinationShareObservation[]
+}) {
   const attributions = schoolAttributions(view)
   const primaryPrograms = view.programs.filter((program) =>
     ['AP', 'IB', 'ALEVEL'].includes(program.curriculumCode),
@@ -186,6 +219,8 @@ function FeederSchoolCard({ view, index }: { view: SchoolAttributionView; index:
     : headlineDensity?.curriculumCode
       ? `${CURRICULUM_LABEL[headlineDensity.curriculumCode]} 学部去向密度`
       : '去向密度'
+  const orderedShares = [...destinationShares].sort((left, right) => right.year - left.year)
+  const latestShare = orderedShares[0] ?? null
 
   return (
     <li className="border border-ink/20 p-5 sm:p-6">
@@ -284,6 +319,60 @@ function FeederSchoolCard({ view, index }: { view: SchoolAttributionView; index:
             )}
           </dd>
         </div>
+
+        {latestShare && (
+          <div className="mt-3 grid gap-2 border-t border-ink/10 pt-3 sm:grid-cols-[5rem_1fr]">
+            <dt className="label text-ink/40">大学生源占比</dt>
+            <dd>
+              {latestShare.share != null && latestShare.denominator != null ? (
+                <>
+                  <p className="text-sm text-ink/75 tnum">
+                    {latestShare.numerator} / {latestShare.denominator} ={' '}
+                    <strong className="font-medium">
+                      {formatDestinationShare(latestShare.share)}
+                    </strong>
+                  </p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-ink/45">
+                    {latestShare.year} · {OUTCOME_LABEL[latestShare.outcomeKind]} · 分母范围：
+                    {latestShare.denominatorScopeLabel ?? '未注明'}
+                    {latestShare.denominatorStatus === 'estimated' && ' · 分母为估算'}
+                  </p>
+                </>
+              ) : (
+                <p className="text-xs leading-relaxed text-ink/50">
+                  {latestShare.year} 已收录 {latestShare.numerator} 条
+                  {OUTCOME_LABEL[latestShare.outcomeKind]}，但大学对应中国学生总数待补，暂不计算比例。
+                </p>
+              )}
+              <p className="mt-1.5 text-[11px] leading-relaxed text-ink/40">
+                表示这所高中占该大学对应中国学生录取或 offer 总数的比例，不是学生个人命中率，也不是上方“每百名高中毕业生”的去向密度。
+              </p>
+
+              {orderedShares.length > 1 && (
+                <details className="mt-2">
+                  <summary className="cursor-pointer text-[11px] text-ink/55">
+                    查看 {orderedShares.length} 年记录
+                  </summary>
+                  <ol className="mt-2 space-y-1.5 border-l border-ink/15 pl-3">
+                    {orderedShares.map((observation) => (
+                      <li
+                        key={`${observation.year}:${observation.outcomeKind}`}
+                        className="text-[11px] leading-relaxed text-ink/55 tnum"
+                      >
+                        {observation.year} · {observation.numerator}
+                        {observation.denominator != null && ` / ${observation.denominator}`}
+                        {observation.share != null && ` = ${formatDestinationShare(observation.share)}`}
+                        {' · '}
+                        {OUTCOME_LABEL[observation.outcomeKind]}
+                        {observation.denominatorStatus === 'estimated' && ' · 估算分母'}
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+              )}
+            </dd>
+          </div>
+        )}
       </dl>
 
       <details className="mt-4 border-t border-ink/15 pt-3">
