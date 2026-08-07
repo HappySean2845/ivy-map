@@ -31,7 +31,7 @@ export function UniversityLogo({
   return (
     <span
       aria-hidden
-      className={`flex shrink-0 items-start justify-center ${WIDTH_CLASS[size]}`}
+      className={`flex shrink-0 self-stretch items-center justify-center ${WIDTH_CLASS[size]}`}
     >
       {profile.logoPath ? (
         // eslint-disable-next-line @next/next/no-img-element -- 本地品牌图形已预压缩到 192px，不走远程优化
