@@ -31,14 +31,14 @@ export function UniversityLogo({
   return (
     <span
       aria-hidden
-      className={`flex shrink-0 self-stretch items-center justify-center ${WIDTH_CLASS[size]}`}
+      className={`flex shrink-0 self-stretch items-center justify-center transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02] group-hover:scale-[1.02] motion-reduce:transition-none ${WIDTH_CLASS[size]}`}
     >
       {profile.logoPath ? (
         // eslint-disable-next-line @next/next/no-img-element -- 本地品牌图形已预压缩到 192px，不走远程优化
         <img
           src={profile.logoPath}
           alt=""
-          className="h-auto w-full object-contain opacity-80"
+          className="h-auto w-full object-contain opacity-80 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:opacity-90 group-hover:opacity-90 motion-reduce:transition-none"
           loading={eager ? 'eager' : 'lazy'}
           decoding="async"
         />

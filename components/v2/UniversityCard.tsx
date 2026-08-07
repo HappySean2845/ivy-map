@@ -50,7 +50,7 @@ export function UniversityCard({
 
   return (
     <article
-      className={`flex h-full flex-col overflow-hidden border border-ink bg-paper ${className}`}
+      className={`group flex h-full flex-col overflow-hidden border border-ink bg-paper transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-px motion-reduce:transition-none ${className}`}
     >
       {/* 校色带 —— 全卡唯一的大面积彩色，纯装饰 */}
       <div aria-hidden className="h-[3px] shrink-0" style={{ background: brand }} />
@@ -158,7 +158,7 @@ export function UniversityCard({
             href={p.websiteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-ink/70"
+            className="inline-block text-xs text-ink/70 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:translate-x-0.5 hover:text-ink motion-reduce:transition-none"
           >
             官网 →
           </a>
@@ -166,7 +166,10 @@ export function UniversityCard({
           <span className="text-xs text-ink/40">官网待补</span>
         )}
 
-        <Link href={`/v2/u/${u.id}`} className="text-xs text-ink/70">
+        <Link
+          href={`/v2/u/${u.id}`}
+          className="inline-block text-xs text-ink/70 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:translate-x-0.5 hover:text-ink motion-reduce:transition-none"
+        >
           {compact ? '看画像、课程与对应高中 →' : '看画像依据与趋势 →'}
         </Link>
       </footer>
