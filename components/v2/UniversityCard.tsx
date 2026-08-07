@@ -1,7 +1,7 @@
 // snapshot 卡片。大学目录与旧刷卡组件共用；当前产品只展示目录形态。
 //
 // 布局按手写稿：左上 logo、右边校名、中间简述与强项、右侧画像指纹、左下官网跳转。
-// 学校品牌色只做识别，页面层级统一由 IVY Map 的墨绿、浅绿与暖白承担。
+// 学校品牌色只做识别，页面层级统一由 IVY Map 的瓶墨绿、暖白与石灰承担。
 
 import Link from 'next/link'
 
@@ -47,7 +47,7 @@ export function UniversityCard({
 
   return (
     <article
-      className={`group flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-surface shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-leaf hover:shadow-[var(--shadow-card)] ${className}`}
+      className={`group flex h-full flex-col overflow-hidden rounded-[14px] border border-line bg-surface shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-leaf hover:shadow-[var(--shadow-card)] ${className}`}
     >
       {/* 校色带 —— 全卡唯一的大面积彩色，纯装饰 */}
       <div aria-hidden className="h-[3px] shrink-0" style={{ background: brand }} />
@@ -63,14 +63,14 @@ export function UniversityCard({
             aria-hidden
             className={
               compact
-                ? 'h-10 w-10 shrink-0 rounded-xl border border-line bg-cream p-1.5 object-contain'
-                : 'h-12 w-12 shrink-0 rounded-xl border border-line bg-cream p-1.5 object-contain'
+                ? 'h-10 w-10 shrink-0 rounded-lg border border-line bg-cream p-1.5 object-contain'
+                : 'h-12 w-12 shrink-0 rounded-lg border border-line bg-cream p-1.5 object-contain'
             }
           />
         ) : (
           <span
             aria-hidden
-            className={`grid shrink-0 place-items-center rounded-xl font-medium tracking-tight ${
+            className={`grid shrink-0 place-items-center rounded-lg font-medium tracking-tight ${
               compact ? 'h-10 w-10 text-[11px]' : 'h-12 w-12 text-[13px]'
             }`}
             style={{ background: brand, color: readableInkOn(p.brandColor) }}
@@ -95,7 +95,7 @@ export function UniversityCard({
 
       {/* ── 风格简述。标注是编辑撰写，不和官方数据混为一谈 */}
       {p.vibe && (
-        <div className="mx-4 mt-4 shrink-0 rounded-2xl bg-mint px-3.5 py-3 sm:mx-5">
+        <div className="mx-4 mt-4 shrink-0 rounded-lg bg-cream px-3.5 py-3 sm:mx-5">
           {/* 刷卡卡片高度固定，简述再长也不能把下面的评分挤出去 */}
           <p
             className={`leading-relaxed ${compact ? 'line-clamp-3 text-[13px]' : 'line-clamp-4 text-sm'}`}
@@ -115,7 +115,7 @@ export function UniversityCard({
             {p.strengths.map((s) => (
               <li
                 key={s}
-                className={`rounded-full bg-cream px-2.5 py-1 ${compact ? 'text-[12px]' : 'text-sm'}`}
+                className={`rounded-md bg-cream px-2.5 py-1 ${compact ? 'text-[12px]' : 'text-sm'}`}
               >
                 {s}
               </li>
@@ -163,7 +163,7 @@ export function UniversityCard({
           </div>
         </div>
 
-        <div className="shrink-0 rounded-2xl bg-paper p-1">
+        <div className="shrink-0 rounded-lg bg-paper p-1">
           <ProfileFingerprint
             fingerprint={fingerprint}
             brandColor={p.brandColor}
@@ -193,12 +193,12 @@ export function UniversityCard({
         <div className="flex items-center gap-2">
           <ShortlistButton
             universityId={u.id}
-            className="rounded-full border border-line px-3 py-2 text-xs font-semibold"
+            className="rounded-lg border border-line px-3 py-2 text-xs font-semibold"
             labels={{ on: '已收藏', off: '收藏' }}
           />
           <Link
             href={`/v2/u/${u.id}`}
-            className="rounded-full bg-forest px-3.5 py-2 text-xs font-semibold text-paper transition-colors hover:bg-forest-deep hover:no-underline"
+            className="rounded-lg bg-forest px-3.5 py-2 text-xs font-semibold text-paper transition-colors hover:bg-forest-deep hover:no-underline"
           >
             {compact ? '看详情 →' : '看画像依据与趋势 →'}
           </Link>

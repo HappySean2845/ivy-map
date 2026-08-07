@@ -24,7 +24,7 @@ export function ShortlistView() {
 
   if (views.length === 0) {
     return (
-      <div className="mt-8 rounded-[24px] border border-line bg-surface p-6">
+      <div className="mt-8 rounded-[14px] border border-line bg-surface p-6">
         <p className="text-sm leading-relaxed">
           还没有收藏。去刷卡时右划，或者在网格里点「收藏」。
         </p>
@@ -43,7 +43,7 @@ export function ShortlistView() {
             <UniversityCard view={view} variant="grid" className="h-full" />
             <ShortlistButton
               universityId={view.university.id}
-              className="absolute right-3 top-3 rounded-full border border-line px-3 py-1.5 text-[11px] shadow-[var(--shadow-sm)]"
+              className="absolute right-3 top-3 rounded-lg border border-line px-3 py-1.5 text-[11px] shadow-[var(--shadow-sm)]"
               labels={{ on: '移除', off: '收藏' }}
             />
           </li>

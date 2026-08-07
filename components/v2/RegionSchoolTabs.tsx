@@ -19,7 +19,7 @@ export function RegionSchoolTabs({ groups }: { groups: RegionSchoolGroup[] }) {
       <div
         role="tablist"
         aria-label="按地区筛选高中"
-        className="flex overflow-x-auto rounded-2xl bg-cream p-1.5"
+        className="flex overflow-x-auto rounded-lg bg-cream p-1.5"
       >
         {groups.map((group) => {
           const selected = group.id === selectedId
@@ -35,7 +35,7 @@ export function RegionSchoolTabs({ groups }: { groups: RegionSchoolGroup[] }) {
               className={`shrink-0 rounded-xl px-4 py-2.5 text-left transition-colors ${
                 selected
                   ? 'bg-forest text-paper'
-                  : 'text-ink/60 hover:bg-mint hover:text-forest'
+                  : 'text-ink/60 hover:bg-surface hover:text-forest'
               }`}
             >
               <span className="text-sm">{group.label}</span>

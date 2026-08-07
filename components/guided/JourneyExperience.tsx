@@ -19,7 +19,7 @@ export function JourneyExperience() {
   return (
     <main className="overflow-hidden">
       <nav className="sticky top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full border border-line bg-paper px-3 py-2.5 shadow-[var(--shadow-sm)] sm:px-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-xl border border-line bg-paper px-3 py-2.5 shadow-[var(--shadow-sm)] sm:px-4">
           <Link href="/" className="flex items-center gap-2.5 hover:no-underline">
             <span className="grid size-8 place-items-center rounded-full bg-forest font-display text-base font-semibold text-paper">
               I
@@ -47,7 +47,7 @@ export function JourneyExperience() {
               很长的路
             </h1>
           </div>
-          <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
+          <div className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
             <p className="text-[17px] leading-relaxed sm:text-xl">
               从课程体系到 Offer，七个阶段会把一个模糊的想法，慢慢变成可以行动的方向。
             </p>
@@ -79,7 +79,7 @@ export function JourneyExperience() {
               >
                 <span
                   aria-hidden
-                  className="absolute left-[20px] top-1/2 z-10 grid h-5 w-5 -translate-y-1/2 place-items-center rounded-full border border-leaf bg-mint md:left-1/2 md:-translate-x-[9px]"
+                  className="absolute left-[20px] top-1/2 z-10 grid h-5 w-5 -translate-y-1/2 place-items-center rounded-full border border-leaf bg-surface md:left-1/2 md:-translate-x-[9px]"
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-forest" />
                 </span>
@@ -89,7 +89,7 @@ export function JourneyExperience() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.45 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className={`rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] md:max-w-[28rem] sm:p-6 ${
+                  className={`rounded-[14px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] md:max-w-[28rem] sm:p-6 ${
                     onLeft
                       ? 'md:mr-14 md:justify-self-end md:pr-2'
                       : 'md:col-start-2 md:ml-14 md:pl-2'
@@ -105,7 +105,7 @@ export function JourneyExperience() {
                     {step.title}
                   </h2>
                   <p className="mt-5 text-base leading-relaxed text-ink/65">{step.body}</p>
-                  <p className="label mt-8 rounded-r-xl border-l-2 border-leaf bg-mint py-2 pl-3 text-forest">
+                  <p className="label mt-8 rounded-r-xl border-l-2 border-leaf bg-cream py-2 pl-3 text-forest">
                     {step.signal}
                   </p>
 
@@ -160,7 +160,7 @@ function MapReveal({ reducedMotion }: { reducedMotion: boolean }) {
   ]
 
   return (
-    <section className="relative isolate mx-3 mt-20 overflow-hidden rounded-[30px] bg-forest-deep px-5 py-20 text-paper sm:mx-6 sm:px-8 sm:py-28">
+    <section className="relative isolate mx-3 mt-20 overflow-hidden rounded-[18px] bg-forest-deep px-5 py-20 text-paper sm:mx-6 sm:px-8 sm:py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <motion.div
           initial={reducedMotion ? false : { opacity: 0, y: 24 }}
@@ -181,13 +181,13 @@ function MapReveal({ reducedMotion }: { reducedMotion: boolean }) {
           <div className="mt-10 flex flex-wrap gap-x-7 gap-y-4">
             <Link
               href="/guide/choose"
-              className="inline-flex min-h-12 items-center rounded-full bg-sage px-5 text-base font-semibold text-forest-deep hover:no-underline"
+              className="inline-flex min-h-12 items-center rounded-lg bg-paper px-5 text-base font-semibold text-forest-deep hover:no-underline"
             >
               开始一步步择校 →
             </Link>
             <Link
               href="/universities"
-              className="inline-flex min-h-12 items-center rounded-full border border-paper/25 px-5 text-sm text-paper/70 hover:no-underline"
+              className="inline-flex min-h-12 items-center rounded-lg border border-paper/25 px-5 text-sm text-paper/70 hover:no-underline"
             >
               直接看全部数据
             </Link>

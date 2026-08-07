@@ -24,7 +24,7 @@ export function Nav() {
 
   return (
     <nav className="sticky top-0 z-40 px-3 pt-3 sm:px-5 sm:pt-4">
-      <div className="mx-auto max-w-7xl rounded-[24px] border border-line bg-paper px-3 py-3 shadow-[var(--shadow-sm)] sm:px-4">
+      <div className="mx-auto max-w-7xl rounded-[14px] border border-line bg-paper px-3 py-3 shadow-[var(--shadow-sm)] sm:px-4">
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href="/"
@@ -45,9 +45,9 @@ export function Nav() {
                   key={link.href}
                   href={link.href}
                   aria-current={active ? 'page' : undefined}
-                  className={`shrink-0 rounded-full px-3 py-2 text-xs font-semibold hover:no-underline ${
+                  className={`shrink-0 rounded-md px-3 py-2 text-xs font-semibold hover:no-underline ${
                     active
-                      ? 'bg-mint text-forest'
+                      ? 'bg-forest text-paper'
                       : 'text-ink/55 hover:bg-cream hover:text-forest'
                   }`}
                 >

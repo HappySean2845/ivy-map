@@ -34,7 +34,7 @@ export default async function GuidedResultsPage({
   return (
     <main className="px-3 pb-24 sm:px-6">
       <div className="mx-auto max-w-7xl py-3 sm:py-5">
-        <header className="flex items-center justify-between gap-4 rounded-full border border-line bg-surface px-4 py-3 shadow-[var(--shadow-sm)]">
+        <header className="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface px-4 py-3 shadow-[var(--shadow-sm)]">
           <Link href="/" className="label text-forest hover:no-underline">
             IVY MAP · 比较结果
           </Link>
@@ -54,7 +54,7 @@ export default async function GuidedResultsPage({
               <br />
               开始看
             </h1>
-            <div className="rounded-[24px] bg-surface p-5 sm:p-6">
+            <div className="rounded-[14px] bg-surface p-5 sm:p-6">
               <AnswerLine answers={answers} />
               <Link
                 href={query ? `/guide/choose?${query}` : '/guide/choose'}
@@ -64,7 +64,7 @@ export default async function GuidedResultsPage({
               </Link>
             </div>
           </div>
-          <p className="mt-8 max-w-3xl rounded-2xl bg-cream p-4 text-sm leading-relaxed text-ink/60">
+          <p className="mt-8 max-w-3xl rounded-lg bg-cream p-4 text-sm leading-relaxed text-ink/60">
             我们没有显示一个看似精确的“匹配分”。下面只列出为什么值得先看、哪些证据仍然缺失；点击卡片进入现有大学详情，再看课程路径和对应高中。
           </p>
         </section>
@@ -81,7 +81,7 @@ export default async function GuidedResultsPage({
             )}
           </>
         ) : (
-          <section className="mt-20 rounded-[24px] border border-line bg-surface p-8">
+          <section className="mt-20 rounded-[14px] border border-line bg-surface p-8">
             <h2 className="text-3xl">这组条件暂时没有结果</h2>
             <p className="mt-4 text-sm text-ink/55">放宽目的地后再试，或者直接浏览全部大学。</p>
             <div className="mt-8 flex gap-6">
@@ -95,7 +95,7 @@ export default async function GuidedResultsPage({
           </section>
         )}
 
-        <section className="mt-20 rounded-2xl bg-cream p-5 text-xs leading-relaxed text-ink/50">
+        <section className="mt-20 rounded-lg bg-cream p-5 text-xs leading-relaxed text-ink/50">
           <p>
             当前结果只使用本站已收录的 {profileById.size}
             所大学。知名领域不是专业排名；中国学生环境、安全和设施为编辑评估；课程路线只表示已有国内高中去向证据，不代表大学录取偏好。
@@ -122,7 +122,7 @@ function MatchGroup({
       <ol className="mt-8 grid items-start gap-x-5 gap-y-12 lg:grid-cols-3">
         {matches.map((match, index) => (
           <li key={match.view.university.id}>
-            <div className="mb-4 min-h-36 rounded-[20px] bg-cream p-4">
+            <div className="mb-4 min-h-36 rounded-[12px] bg-cream p-4">
               <p className="label text-leaf tnum">为什么是第 {index + 1} 个比较对象</p>
               <ul className="mt-3 space-y-1.5 text-sm leading-relaxed">
                 {match.reasons.map((reason) => (

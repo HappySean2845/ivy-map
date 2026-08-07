@@ -21,7 +21,7 @@ export default function EntryPage() {
       </div>
 
       <div className="mx-auto max-w-7xl">
-        <header className="flex items-center justify-between gap-4 rounded-full border border-line bg-surface px-3 py-2.5 shadow-[var(--shadow-sm)] sm:px-4">
+        <header className="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface px-3 py-2.5 shadow-[var(--shadow-sm)] sm:px-4">
           <Link
             href="/"
             className="flex items-center gap-3 hover:no-underline"
@@ -43,7 +43,7 @@ export default function EntryPage() {
         </header>
 
         <section className="soft-panel mt-3 overflow-hidden p-3 sm:mt-5 sm:p-5 lg:grid lg:grid-cols-[0.9fr_1.1fr] lg:gap-5 lg:p-6">
-          <div className="relative flex min-h-[440px] flex-col justify-between overflow-hidden rounded-[24px] px-5 py-8 sm:px-9 sm:py-10 lg:min-h-[650px] lg:px-12 lg:py-12">
+          <div className="relative flex min-h-[440px] flex-col justify-between overflow-hidden rounded-[14px] px-5 py-8 sm:px-9 sm:py-10 lg:min-h-[650px] lg:px-12 lg:py-12">
             <div className="relative z-10">
               <p className="eyebrow-chip bg-surface">从哪里开始</p>
               <h1 className="mt-7 max-w-xl text-[clamp(3rem,6vw,5.8rem)] leading-[0.9] tracking-[-0.055em] text-forest-deep">
@@ -116,7 +116,7 @@ function EntryOption({
   return (
     <Link
       href={href}
-      className={`group relative flex min-h-[330px] flex-col justify-between overflow-hidden rounded-[24px] border p-6 transition-[transform,background-color,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:no-underline sm:p-7 lg:min-h-0 lg:p-9 ${
+      className={`group relative flex min-h-[330px] flex-col justify-between overflow-hidden rounded-[14px] border p-6 transition-[transform,background-color,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:no-underline sm:p-7 lg:min-h-0 lg:p-9 ${
         inverted
           ? 'border-forest-deep bg-forest-deep text-paper hover:bg-forest'
           : 'border-line bg-surface text-ink hover:border-leaf'
@@ -126,7 +126,7 @@ function EntryOption({
         <span className={`label ${inverted ? 'text-sage' : 'text-leaf'}`}>{eyebrow}</span>
         <span
           className={`grid size-11 place-items-center rounded-full text-sm tnum ${
-            inverted ? 'bg-paper/10 text-paper' : 'bg-mint text-forest'
+            inverted ? 'bg-paper/10 text-paper' : 'bg-cream text-forest'
           }`}
         >
           {number}
@@ -147,8 +147,8 @@ function EntryOption({
       </div>
 
       <div
-        className={`flex min-h-12 items-center justify-between rounded-full px-4 text-sm font-semibold ${
-          inverted ? 'bg-sage text-forest-deep' : 'bg-mint text-forest'
+        className={`flex min-h-12 items-center justify-between rounded-lg px-4 text-sm font-semibold ${
+          inverted ? 'bg-paper text-forest-deep' : 'bg-cream text-forest'
         }`}
       >
         <span>{action}</span>

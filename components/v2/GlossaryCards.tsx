@@ -47,7 +47,7 @@ export function GlossaryCards() {
               <article
                 key={term.id}
                 id={term.id}
-                className="rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] sm:p-7"
+                className="rounded-[14px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] sm:p-7"
               >
                 <header className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h3 className="text-2xl leading-none tracking-tight sm:text-[28px]">
@@ -73,7 +73,7 @@ export function GlossaryCards() {
                 </dl>
 
                 {/* 反白块 = 全站的「当前选中 / 最重要」语言（design-system.md §1） */}
-                <div className="mt-5 rounded-2xl bg-forest-deep p-4 text-paper sm:p-5">
+                <div className="mt-5 rounded-lg bg-forest-deep p-4 text-paper sm:p-5">
                   <p className="label text-sage">家长最常搞错的</p>
                   <p className="mt-2 text-sm leading-relaxed">
                     <Emphasis text={term.misconception} />

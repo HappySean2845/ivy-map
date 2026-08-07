@@ -66,7 +66,7 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
   return (
     <main className="min-h-[calc(100svh-65px)] px-3 sm:px-6">
       <div className="mx-auto max-w-7xl py-3 sm:py-5">
-        <header className="flex items-center justify-between gap-4 rounded-full border border-line bg-surface px-4 py-3 shadow-[var(--shadow-sm)]">
+        <header className="flex items-center justify-between gap-4 rounded-xl border border-line bg-surface px-4 py-3 shadow-[var(--shadow-sm)]">
           <Link href="/guide" className="label text-forest hover:no-underline">
             <span className="sm:hidden">IVY MAP · 择校</span>
             <span className="hidden sm:inline">IVY MAP · 一步步择校</span>
@@ -77,7 +77,7 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
         </header>
 
         <div className="soft-panel mt-4 grid min-h-[calc(100svh-150px)] gap-3 p-3 lg:grid-cols-[1fr_0.38fr]">
-          <section className="flex flex-col justify-between rounded-[24px] bg-surface p-5 sm:p-8 lg:p-12">
+          <section className="flex flex-col justify-between rounded-[14px] bg-surface p-5 sm:p-8 lg:p-12">
             <div>
               <div className="flex items-baseline justify-between gap-5">
                 <p className="label text-leaf">
@@ -173,7 +173,7 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
             </div>
           </section>
 
-          <aside className="rounded-[24px] bg-cream p-5 sm:p-8 lg:p-9">
+          <aside className="rounded-[14px] bg-cream p-5 sm:p-8 lg:p-9">
             <p className="label text-leaf">你的方向</p>
             <dl className="mt-6 space-y-6 text-sm">
               <AnswerSummary
@@ -198,7 +198,7 @@ export function GuidedChooser({ initialAnswers }: { initialAnswers: GuideAnswers
                 value={answers.priorities.map((id) => labelFor(PRIORITIES, id)).join('、')}
               />
             </dl>
-            <p className="mt-10 rounded-2xl bg-mint p-4 text-xs leading-relaxed text-ink/55">
+            <p className="mt-10 rounded-lg bg-surface p-4 text-xs leading-relaxed text-ink/55">
               我们只用这些条件整理顺序并写出理由，不会根据四个答案计算个人录取概率。
             </p>
           </aside>
@@ -295,10 +295,10 @@ function PriorityChoice({
           aria-pressed={selected.includes(option.id)}
           disabled={!selected.includes(option.id) && selected.length >= 2}
           onClick={() => toggle(option.id)}
-          className={`min-h-28 rounded-2xl border border-line p-4 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
+          className={`min-h-28 rounded-lg border border-line p-4 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
             selected.includes(option.id)
               ? 'border-forest bg-forest text-paper'
-              : 'bg-paper hover:border-leaf hover:bg-mint'
+              : 'bg-paper hover:border-leaf hover:bg-cream'
           }`}
         >
           <span className="block text-base">{option.label}</span>
@@ -332,10 +332,10 @@ function ChoiceButton({
       aria-pressed={selected}
       disabled={disabled}
       onClick={onClick}
-      className={`flex min-h-20 items-center justify-between gap-4 rounded-2xl border border-line px-4 py-5 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
+      className={`flex min-h-20 items-center justify-between gap-4 rounded-lg border border-line px-4 py-5 text-left transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
         selected
           ? 'border-forest bg-forest text-paper'
-          : 'bg-paper hover:border-leaf hover:bg-mint'
+          : 'bg-paper hover:border-leaf hover:bg-cream'
       }`}
     >
       <span>

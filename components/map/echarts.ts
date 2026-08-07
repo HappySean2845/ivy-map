@@ -55,22 +55,22 @@ export interface MapTheme {
 }
 
 /**
- * 唯一一套浅色植物志配色。深绿承担选择与数据，浅绿底图保留地图层级；
+ * 唯一一套暖中性地图配色。深绿承担选择与数据，暖灰底图保留地图层级；
  * 实心 / 空心仍然是有数据与暂无数据的双重编码，不只依赖颜色。
  */
 const BOTANICAL: MapTheme = {
   dark: false,
-  accent: '#286149',
-  accentStrong: '#123c2e',
-  accentFill: 'rgba(40, 97, 73, 0.68)',
-  ring: '#477b60',
-  text: '#173d2e',
-  textDim: 'rgba(23, 61, 46, 0.52)',
-  land: '#eef4e9',
-  landBorder: '#9db9a3',
-  tooltipBg: '#fbfcf7',
-  tooltipBorder: '#b8cdbb',
-  tooltipText: '#173d2e',
+  accent: '#35664f',
+  accentStrong: '#173c30',
+  accentFill: 'rgba(53, 102, 79, 0.68)',
+  ring: '#62796c',
+  text: '#1d2d27',
+  textDim: 'rgba(29, 45, 39, 0.52)',
+  land: '#eceeea',
+  landBorder: '#bac3bc',
+  tooltipBg: '#faf9f6',
+  tooltipBorder: '#c8cec8',
+  tooltipText: '#1d2d27',
 }
 
 /** 热力的 opacity 阶梯。0 = 无数据（空心），其余按权重分档。 */

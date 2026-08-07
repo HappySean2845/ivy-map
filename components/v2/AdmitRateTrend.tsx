@@ -34,7 +34,7 @@ export function AdmitRateTrend({
 
   if (!active) {
     return (
-      <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
+      <div className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
         <p className="label text-leaf">录取率趋势</p>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink/60">
           尚未收录{universityNameCn}经复核的官方申请与录取人数。
@@ -46,7 +46,7 @@ export function AdmitRateTrend({
   }
 
   return (
-    <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
+    <div className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
           <p className="label text-leaf">录取率趋势</p>
@@ -71,10 +71,10 @@ export function AdmitRateTrend({
                 type="button"
                 aria-pressed={selected}
                 onClick={() => setSelectedId(item.id)}
-                className={`min-h-11 rounded-full border px-3 py-2 text-left text-xs transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf ${
+                className={`min-h-11 rounded-lg border px-3 py-2 text-left text-xs transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf ${
                   selected
                     ? 'border-forest bg-forest text-paper'
-                    : 'border-line bg-paper text-ink hover:border-leaf hover:bg-mint'
+                    : 'border-line bg-paper text-ink hover:border-leaf hover:bg-cream'
                 }`}
               >
                 {admissionRateSeriesLabel(item)}

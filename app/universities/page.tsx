@@ -43,7 +43,7 @@ export default function UniversitiesPage() {
               </p>
             </div>
 
-            <aside className="rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] sm:p-6">
+            <aside className="rounded-[14px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] sm:p-6">
               <p className="label text-leaf">我们怎么表达数据</p>
               <p className="mt-3 text-sm leading-relaxed text-ink/62">
                 已证实、方向性推断、来源未拆分会分开显示。没有拆到学部的记录只作为去向证据，不拿去计算分赛道人均命中率。
@@ -73,7 +73,7 @@ export default function UniversitiesPage() {
                 画像指纹使用五档而不是百分制，只描述学校差异，不计算总分，也不暗示绝对好坏。
               </p>
             </div>
-            <div className="rounded-[20px] bg-cream p-4 sm:p-5">
+            <div className="rounded-[12px] bg-cream p-4 sm:p-5">
               <p className="label text-leaf">读图提示</p>
               <p className="mt-2 text-xs leading-relaxed text-ink/58">
                 实心顶点来自官方数据，空心顶点为编辑评估，断轴表示暂无可比数据。
@@ -81,10 +81,10 @@ export default function UniversitiesPage() {
             </div>
           </div>
 
-          <div className="mt-6 rounded-[24px] border border-line bg-surface p-5 sm:p-6">
+          <div className="mt-6 rounded-[14px] border border-line bg-surface p-5 sm:p-6">
             <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {PROFILE_TRAITS.map((trait) => (
-                <div key={trait} className="rounded-2xl bg-mint px-4 py-3">
+                <div key={trait} className="rounded-lg bg-cream px-4 py-3">
                   <dt className="text-sm font-semibold text-forest">
                     {PROFILE_TRAIT_LABEL[trait]}
                   </dt>
@@ -107,7 +107,7 @@ export default function UniversitiesPage() {
 
 function StatChip({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex items-baseline gap-1.5 rounded-full border border-line bg-surface px-3.5 py-2">
+    <div className="flex items-baseline gap-1.5 rounded-lg border border-line bg-surface px-3.5 py-2">
       <dt className="text-lg font-semibold text-forest">{value}</dt>
       <dd className="text-ink/52">{label}</dd>
     </div>

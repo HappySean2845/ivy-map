@@ -158,14 +158,14 @@ export default function AboutPage() {
 
       <div className="mt-8 space-y-4">
         {QA.map(({ q, a }) => (
-          <section key={q} className="rounded-[20px] border border-line bg-surface p-5 sm:p-6">
+          <section key={q} className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
             <h2 className="text-xl text-forest-deep">{q}</h2>
             <div className="mt-2 space-y-2 text-[15px] leading-relaxed text-ink">{a}</div>
           </section>
         ))}
       </div>
 
-      <section className="mt-8 rounded-[20px] bg-cream p-5 sm:p-6">
+      <section className="mt-8 rounded-[14px] bg-cream p-5 sm:p-6">
         <h2 className="text-xl text-forest-deep">本次没有做的</h2>
         <p className="mt-2 text-[15px] leading-relaxed text-ink/60">
           美国方向的单校榜单（战报只报档位，拆到单校即编造）、AI 择校顾问、时间轴规划、

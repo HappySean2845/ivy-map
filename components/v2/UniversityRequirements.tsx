@@ -15,7 +15,7 @@ const COST_LABEL: Record<NonNullable<UniversityRequirementProfile['livingCost']>
 
 export function UniversityRequirements({ profile }: { profile: UniversityRequirementProfile }) {
   return (
-    <section className="mt-12 rounded-[30px] border border-line bg-surface p-5 sm:p-8">
+    <section className="mt-12 rounded-[18px] border border-line bg-surface p-5 sm:p-8">
       <p className="label text-leaf">录取要求与生活环境</p>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(17rem,0.75fr)] lg:gap-14">
@@ -41,7 +41,7 @@ export function UniversityRequirements({ profile }: { profile: UniversityRequire
                 >
                   <dt className="text-sm">{REQUIREMENT_LABEL[key]}</dt>
                   <dd className="text-[11px] text-leaf">
-                    <span className="inline-flex rounded-full bg-mint px-2 py-1">
+                    <span className="inline-flex rounded-md bg-cream px-2 py-1">
                       {REQUIREMENT_BASIS_LABEL[requirement.basis]}
                     </span>
                   </dd>
@@ -56,7 +56,7 @@ export function UniversityRequirements({ profile }: { profile: UniversityRequire
           </dl>
         </div>
 
-        <aside className="rounded-[24px] bg-cream p-5 lg:p-6">
+        <aside className="rounded-[14px] bg-cream p-5 lg:p-6">
           <p className="label text-leaf">落地环境</p>
           <dl className="mt-4 space-y-4 text-sm">
             <div>
@@ -85,7 +85,7 @@ export function UniversityRequirements({ profile }: { profile: UniversityRequire
         </aside>
       </div>
 
-      <details className="mt-6 rounded-2xl bg-mint px-4 py-3">
+      <details className="mt-6 rounded-lg bg-cream px-4 py-3">
         <summary className="cursor-pointer text-xs font-semibold text-forest">
           查看口径备注与来源
         </summary>

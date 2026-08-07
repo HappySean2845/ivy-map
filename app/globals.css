@@ -3,22 +3,21 @@
 /* ==========================================================================
    IVY Map design tokens
 
-   Direction: a calm, botanical admissions handbook. Deep evergreen carries
-   trust and structure; soft leaf green marks choices and next steps; warm
-   ivory keeps long-form data pages comfortable to read.
+   Direction: a restrained, editorial admissions handbook. Bottle green
+   carries trust and structure; warm ivory and stone separate information
+   without washing the product in pale green.
    ========================================================================== */
 
 :root {
-  --ink: oklch(27% 0.055 157);
-  --paper: oklch(97.8% 0.012 112);
-  --surface: oklch(99.2% 0.006 112);
-  --forest: oklch(31% 0.073 157);
-  --forest-deep: oklch(22% 0.052 158);
-  --leaf: oklch(52% 0.105 150);
-  --sage: oklch(78% 0.082 143);
-  --mint: oklch(93% 0.032 143);
-  --cream: oklch(94.5% 0.025 101);
-  --line: oklch(82% 0.028 145);
+  --ink: oklch(25% 0.026 165);
+  --paper: oklch(96.5% 0.009 88);
+  --surface: oklch(98.8% 0.005 88);
+  --forest: oklch(36% 0.074 165);
+  --forest-deep: oklch(25% 0.052 165);
+  --leaf: oklch(49% 0.055 160);
+  --sage: oklch(73% 0.028 155);
+  --cream: oklch(94.5% 0.01 88);
+  --line: oklch(82.5% 0.013 150);
 
   /* Chinese stays on a fast local stack. A Song-style display face gives
      the headings a handbook/editorial character without shipping a large
@@ -29,10 +28,10 @@
   --font-display: 'Songti SC', STSong, 'Noto Serif CJK SC', 'Source Han Serif SC', serif;
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
 
-  --shadow-sm: 0 1px 2px color-mix(in oklch, var(--forest-deep) 8%, transparent);
+  --shadow-sm: 0 1px 2px color-mix(in oklch, var(--forest-deep) 6%, transparent);
   --shadow-card:
-    0 1px 2px color-mix(in oklch, var(--forest-deep) 7%, transparent),
-    0 18px 46px color-mix(in oklch, var(--forest-deep) 7%, transparent);
+    0 1px 2px color-mix(in oklch, var(--forest-deep) 6%, transparent),
+    0 14px 34px color-mix(in oklch, var(--forest-deep) 6%, transparent);
 }
 
 @theme inline {
@@ -43,7 +42,6 @@
   --color-forest-deep: var(--forest-deep);
   --color-leaf: var(--leaf);
   --color-sage: var(--sage);
-  --color-mint: var(--mint);
   --color-cream: var(--cream);
   --color-line: var(--line);
 
@@ -51,12 +49,12 @@
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);
 
-  --radius-sm: 8px;
-  --radius-DEFAULT: 12px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-  --radius-2xl: 30px;
+  --radius-sm: 5px;
+  --radius-DEFAULT: 7px;
+  --radius-md: 9px;
+  --radius-lg: 12px;
+  --radius-xl: 15px;
+  --radius-2xl: 18px;
   --radius-full: 9999px;
 
   --spacing-section: 80px;
@@ -148,22 +146,22 @@ a:hover {
 /* Reusable botanical surfaces. They are intentionally quiet: separation is
    created by tint and space, with shadows reserved for interactive cards. */
 .soft-panel {
-  background: var(--mint);
-  border: 1px solid color-mix(in oklch, var(--leaf) 24%, var(--line));
-  border-radius: 30px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 18px;
 }
 
 .soft-card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: 14px;
   box-shadow: var(--shadow-sm);
 }
 
 .forest-panel {
   background: var(--forest-deep);
   color: var(--paper);
-  border-radius: 30px;
+  border-radius: 18px;
 }
 
 .eyebrow-chip {
@@ -172,7 +170,8 @@ a:hover {
   min-height: 28px;
   padding: 0 12px;
   border-radius: 9999px;
-  background: var(--mint);
+  background: var(--surface);
+  border: 1px solid var(--line);
   color: var(--forest);
   font-size: 11px;
   font-weight: 650;
@@ -186,7 +185,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: 9999px;
+  border-radius: 10px;
   padding: 0 18px;
   font-size: 14px;
   font-weight: 600;
@@ -220,7 +219,7 @@ a:hover {
 
   .secondary-action:hover {
     border-color: var(--leaf);
-    background: var(--mint);
+    background: var(--cream);
   }
 }
 
@@ -262,7 +261,7 @@ input,
 select,
 textarea,
 button {
-  border-radius: 12px;
+  border-radius: 8px;
   font: inherit;
 }
 
@@ -306,7 +305,7 @@ textarea:focus-visible {
 /* Existing full-border surfaces inherit the new rounded language even before
    a component opts into one of the richer surface utilities above. */
 :where(article, section, aside, div, ul, a)[class~='border']:not([class*='rounded-']) {
-  border-radius: 18px;
+  border-radius: 10px;
 }
 
 [role='tablist'][class~='border'] {

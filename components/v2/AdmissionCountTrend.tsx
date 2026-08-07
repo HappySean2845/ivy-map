@@ -30,7 +30,7 @@ export function AdmissionCountTrend({
   const qualified = active.points.filter((point) => point.kind !== 'actual')
 
   return (
-    <div className="rounded-[24px] border border-line bg-surface p-5 sm:p-6">
+    <div className="rounded-[14px] border border-line bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
           <p className="label text-leaf">内地招生记录</p>

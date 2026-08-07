@@ -36,7 +36,7 @@ export default function GlossaryPage() {
         <p className="label text-leaf">02 / 接下来</p>
         <Link
           href="/universities"
-          className="group mt-5 flex flex-wrap items-center justify-between gap-5 rounded-[24px] bg-forest-deep p-6 text-paper hover:no-underline sm:p-8"
+          className="group mt-5 flex flex-wrap items-center justify-between gap-5 rounded-[14px] bg-forest-deep p-6 text-paper hover:no-underline sm:p-8"
         >
           <div>
             <h2 className="text-2xl leading-tight">去看全部大学</h2>
@@ -44,7 +44,7 @@ export default function GlossaryPage() {
               从大学画像进入详情，再看课程路径和对应的国内高中去向证据。
             </p>
           </div>
-          <span className="grid size-12 place-items-center rounded-full bg-sage text-xl text-forest-deep transition-transform group-hover:translate-x-1">
+          <span className="grid size-12 place-items-center rounded-full bg-paper text-xl text-forest-deep transition-transform group-hover:translate-x-1">
             →
           </span>
         </Link>

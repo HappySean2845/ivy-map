@@ -77,12 +77,12 @@ export default async function UniversityDetailPage({
                 src={p.logoPath}
                 alt=""
                 aria-hidden
-                className="h-16 w-16 rounded-2xl border border-line bg-surface p-2 object-contain shadow-[var(--shadow-sm)] sm:h-20 sm:w-20"
+                className="h-16 w-16 rounded-lg border border-line bg-surface p-2 object-contain shadow-[var(--shadow-sm)] sm:h-20 sm:w-20"
               />
             ) : (
               <span
                 aria-hidden
-                className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-base font-medium tracking-tight shadow-[var(--shadow-sm)] sm:h-20 sm:w-20"
+                className="grid h-16 w-16 shrink-0 place-items-center rounded-lg text-base font-medium tracking-tight shadow-[var(--shadow-sm)] sm:h-20 sm:w-20"
                 style={{ background: brand, color: readableInkOn(p.brandColor) }}
               >
                 {p.monogram}
@@ -123,7 +123,7 @@ export default async function UniversityDetailPage({
 
       {/* ── 风格简述 */}
       {p.vibe && (
-        <section className="mt-7 rounded-[24px] border border-line bg-surface p-5 sm:p-7">
+        <section className="mt-7 rounded-[14px] border border-line bg-surface p-5 sm:p-7">
           <p className="label text-leaf">风格简述</p>
           <p className="mt-4 max-w-4xl font-display text-[21px] leading-relaxed text-forest-deep sm:text-[26px]">
             {p.vibe}
@@ -141,7 +141,7 @@ export default async function UniversityDetailPage({
           {p.strengths.map((strength) => (
             <li
               key={strength}
-              className="rounded-full bg-mint px-4 py-2 text-base font-medium text-forest"
+              className="rounded-md bg-cream px-4 py-2 text-base font-medium text-forest"
             >
               {strength}
             </li>
@@ -155,14 +155,14 @@ export default async function UniversityDetailPage({
       </section>
 
       {/* ── 四维画像指纹。卡片给形状，这里给依据 */}
-      <section className="mt-12 rounded-[30px] border border-line bg-surface p-5 sm:p-8">
+      <section className="mt-12 rounded-[18px] border border-line bg-surface p-5 sm:p-8">
         <p className="label text-leaf">四维画像指纹</p>
         <h2 className="mt-3 text-2xl text-forest-deep sm:text-[34px]">
           一眼看形状，也能逐项追问
         </h2>
 
         <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
-          <div className="shrink-0 rounded-[24px] bg-cream p-4">
+          <div className="shrink-0 rounded-[14px] bg-cream p-4">
             <ProfileFingerprint
               fingerprint={fingerprint}
               brandColor={p.brandColor}
@@ -228,7 +228,7 @@ export default async function UniversityDetailPage({
           </dl>
         </div>
 
-        <p className="mt-5 rounded-2xl bg-cream px-4 py-3 text-xs leading-relaxed text-ink/55 tnum">
+        <p className="mt-5 rounded-lg bg-cream px-4 py-3 text-xs leading-relaxed text-ink/55 tnum">
           四项中 {provenance.measured} 项来自可追溯数据、{provenance.editorial} 项是五档编辑评估
           {provenance.missing > 0 && `、${provenance.missing} 项暂无可比数据`}。
           录取开放度只描述学校或对应项目公布的整体比例，不是对个人录取概率的预测。

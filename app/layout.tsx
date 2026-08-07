@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN" className="h-full antialiased">
+    <html lang="zh-CN" className="h-full antialiased" data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <div className="flex-1">{children}</div>
-        <footer className="mx-3 mb-3 mt-16 rounded-[28px] bg-forest-deep px-5 py-6 text-xs leading-relaxed text-paper/70 sm:mx-6 sm:px-8 sm:py-7">
+        <footer className="mx-3 mb-3 mt-16 rounded-[16px] bg-forest-deep px-5 py-6 text-xs leading-relaxed text-paper/70 sm:mx-6 sm:px-8 sm:py-7">
           <div className="mx-auto grid max-w-6xl gap-3 sm:grid-cols-[auto_1fr] sm:gap-8">
             <p className="label text-sage">IVY MAP · 数据说明</p>
             {/* PRD §12 免责声明 —— 页脚与分享长图两处必须出现 */}

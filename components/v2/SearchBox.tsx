@@ -91,7 +91,7 @@ export function SearchBox({
         aria-controls={listId}
         aria-autocomplete="list"
         aria-label="搜索大学"
-        className="w-full rounded-full border-line bg-surface py-2.5 pl-4 pr-10 text-sm"
+        className="w-full rounded-lg border-line bg-surface py-2.5 pl-4 pr-10 text-sm"
       />
 
       <span
@@ -108,7 +108,7 @@ export function SearchBox({
         <ul
           id={listId}
           role="listbox"
-          className="absolute top-full right-0 left-0 z-50 mt-2 max-h-[60vh] overflow-y-auto rounded-2xl border border-line bg-surface p-1.5 shadow-[var(--shadow-card)]"
+          className="absolute top-full right-0 left-0 z-50 mt-2 max-h-[60vh] overflow-y-auto rounded-lg border border-line bg-surface p-1.5 shadow-[var(--shadow-card)]"
         >
           {hits.length === 0 ? (
             <li className="px-3 py-2.5 text-sm text-ink/50">
@@ -122,7 +122,7 @@ export function SearchBox({
                   onClick={() => pick(hit.university.id)}
                   onMouseEnter={() => setActive(i)}
                   className={`flex w-full items-baseline justify-between gap-3 rounded-xl px-3 py-2.5 text-left ${
-                    i === active ? 'bg-forest text-paper' : 'hover:bg-mint'
+                    i === active ? 'bg-forest text-paper' : 'hover:bg-cream'
                   }`}
                   data-tap
                 >

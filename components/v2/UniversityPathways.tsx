@@ -20,7 +20,7 @@ import type { DestinationShareObservation } from '@/types/university-enrichment'
 
 const STATUS_STYLE: Record<AttributionStatus, string> = {
   confirmed: 'border-forest bg-forest text-paper',
-  inferred: 'border-leaf bg-mint text-forest',
+  inferred: 'border-leaf bg-surface text-forest',
   possible: 'border-line bg-cream text-ink/60',
   excluded: 'border-line text-ink/40 line-through',
 }
@@ -91,7 +91,7 @@ export function UniversityPathways({
 
   if (evidence.schools.length === 0) {
     return (
-      <section className="mt-12 rounded-[24px] border border-line bg-surface p-5 sm:p-7">
+      <section className="mt-12 rounded-[14px] border border-line bg-surface p-5 sm:p-7">
         <p className="label text-leaf">课程与国内生源校</p>
         <h2 className="mt-5 text-xl leading-tight">
           还没有收录往{universityNameCn}的高中去向记录
@@ -150,7 +150,7 @@ export function UniversityPathways({
         <h2 className="mt-3 text-2xl text-forest-deep sm:text-[34px]">
           从课程体系看可追溯的去向
         </h2>
-        <div className="mt-5 grid overflow-hidden rounded-[24px] border border-line bg-surface sm:grid-cols-3">
+        <div className="mt-5 grid overflow-hidden rounded-[14px] border border-line bg-surface sm:grid-cols-3">
           {evidence.routes.map((route, index) => (
             <div
               key={route.curriculumCode}
@@ -223,7 +223,7 @@ function FeederSchoolCard({
   const latestShare = orderedShares[0] ?? null
 
   return (
-    <li className="rounded-[24px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-leaf hover:shadow-[var(--shadow-card)] sm:p-6">
+    <li className="rounded-[14px] border border-line bg-surface p-5 shadow-[var(--shadow-sm)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-leaf hover:shadow-[var(--shadow-card)] sm:p-6">
       <header className="flex items-start gap-3">
         <span className="label mt-1 shrink-0 text-ink/35 tnum">
           {String(index).padStart(2, '0')}
@@ -238,7 +238,7 @@ function FeederSchoolCard({
             原文计数合计 {view.reportedTotal}
           </p>
         </div>
-        <div className="ml-auto shrink-0 rounded-2xl bg-cream px-3 py-2.5 text-right">
+        <div className="ml-auto shrink-0 rounded-lg bg-cream px-3 py-2.5 text-right">
           <p className="label max-w-28 text-leaf">{headlineLabel}</p>
           <p
             className={`mt-1 tracking-tight tnum ${
@@ -263,7 +263,7 @@ function FeederSchoolCard({
               primaryPrograms.map((program) => (
                 <span
                   key={program.curriculumCode}
-                  className="rounded-full border border-line bg-mint px-2.5 py-1 text-xs text-forest"
+                  className="rounded-md border border-line bg-cream px-2.5 py-1 text-xs text-forest"
                 >
                   {CURRICULUM_LABEL[program.curriculumCode]}
                   {program.isSingleTrack ? ' · 单轨' : ''}
@@ -273,7 +273,7 @@ function FeederSchoolCard({
               <span className="text-xs text-ink/45">AP / IB / A-Level 课程未核实</span>
             )}
             {otherPrograms.length > 0 && (
-              <span className="rounded-full border border-line px-2.5 py-1 text-xs text-ink/50">
+              <span className="rounded-md border border-line px-2.5 py-1 text-xs text-ink/50">
                 另有{' '}
                 {otherPrograms
                   .map((program) => CURRICULUM_LABEL[program.curriculumCode])
@@ -289,7 +289,7 @@ function FeederSchoolCard({
             {attributions.map((attribution) => (
               <span
                 key={attributionKey(attribution)}
-                className={`rounded-full border px-2.5 py-1 text-xs ${STATUS_STYLE[attribution.status]}`}
+                className={`rounded-md border px-2.5 py-1 text-xs ${STATUS_STYLE[attribution.status]}`}
               >
                 {CURRICULUM_LABEL[attribution.curriculumCode]} ·{' '}
                 {ATTRIBUTION_STATUS_LABEL[attribution.status]}
@@ -303,14 +303,14 @@ function FeederSchoolCard({
           <dt className="label text-ink/40">密度分母</dt>
           <dd className="flex flex-wrap gap-1.5">
             {view.schoolDensity && (
-              <span className="rounded-full border border-line bg-cream px-2.5 py-1 text-xs tnum">
+              <span className="rounded-md border border-line bg-cream px-2.5 py-1 text-xs tnum">
                 整校 · {formatDensity(view.schoolDensity)} · {densityYears(view.schoolDensity)}
               </span>
             )}
             {view.departmentDensities.map((density) => (
               <span
                 key={density.curriculumCode}
-                className="rounded-full border border-line bg-cream px-2.5 py-1 text-xs tnum"
+                className="rounded-md border border-line bg-cream px-2.5 py-1 text-xs tnum"
               >
                 {CURRICULUM_LABEL[density.curriculumCode!]} 学部 · {formatDensity(density)} ·{' '}
                 {densityYears(density)}
@@ -323,7 +323,7 @@ function FeederSchoolCard({
         </div>
 
         {latestShare && (
-          <div className="mt-3 grid gap-2 rounded-2xl bg-mint p-3 sm:grid-cols-[5rem_1fr]">
+          <div className="mt-3 grid gap-2 rounded-lg bg-cream p-3 sm:grid-cols-[5rem_1fr]">
             <dt className="label text-ink/40">大学生源占比</dt>
             <dd>
               {latestShare.share != null && latestShare.denominator != null ? (
@@ -380,7 +380,7 @@ function FeederSchoolCard({
         )}
       </dl>
 
-      <details className="mt-4 rounded-2xl bg-cream px-4 py-3">
+      <details className="mt-4 rounded-lg bg-cream px-4 py-3">
         <summary className="cursor-pointer text-xs font-semibold text-forest">
           查看 {view.observations.length} 条逐年原文记录
         </summary>
