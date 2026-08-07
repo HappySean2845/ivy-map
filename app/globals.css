@@ -121,6 +121,60 @@ a:hover {
   white-space: nowrap;
 }
 
+/* 首页纸面水印。两排字铺满页面；中间字实心、两侧字空心，并轻微交叠。 */
+.entry-watermark {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  height: 100svh;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+
+.entry-watermark-row {
+  display: flex;
+  align-items: center;
+  font-size: clamp(220px, 44vw, 680px);
+  line-height: 0.7;
+  font-weight: 500;
+  letter-spacing: -0.14em;
+  white-space: nowrap;
+}
+
+.entry-watermark-row-ivy {
+  justify-content: flex-start;
+  transform: translateX(5vw) scaleX(1.12);
+  transform-origin: left center;
+}
+
+.entry-watermark-row-map {
+  justify-content: flex-start;
+  transform: translate(25vw, -7vh);
+}
+
+.entry-watermark-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
+.entry-watermark-solid {
+  color: color-mix(in srgb, var(--ink) 3.5%, transparent);
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--ink) 2%, transparent);
+}
+
+/* 桌面首页与免责声明共同占满一屏；页脚换行时主体会自动让出对应高度。 */
+@media (min-width: 1024px) {
+  body:has(.entry-home) {
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  body:has(.entry-home) > .flex-1 {
+    min-height: 0;
+  }
+}
+
 /* 脚注式来源标注（design-system.md §7）。
    论文引注的形式本身就在说「我说的话你可以去查」。 */
 .footnote-ref {
