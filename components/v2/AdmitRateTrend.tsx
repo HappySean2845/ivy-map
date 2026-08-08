@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { AdmissionRateHint } from '@/components/v2/AdmissionRateUnavailableHint'
 import SourcePopover from '@/components/trust/SourcePopover'
 import {
   admissionRateOutcomeLabel,
@@ -18,6 +19,8 @@ import type { AdmissionRatePoint, AdmissionRateSeries } from '@/types'
 const W = 560
 const H = 188
 const PAD = { top: 28, right: 20, bottom: 30, left: 20 }
+const CHINA_NATIONALITY_NOTE =
+  '官方按国籍而非申请地区统计；“Chinese”与“Hong Kong”“Taiwanese”在原表中分别列示，因此该指标不等同于中国大陆生源口径。'
 
 export function AdmitRateTrend({
   series,
@@ -84,9 +87,14 @@ export function AdmitRateTrend({
         </div>
       )}
 
-      <p className="mt-3 text-xs leading-relaxed text-ink/55">
-        {admissionRateScopeNote(active)}。不同人群、不同分母各画一条线，不混算。
-      </p>
+      <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <p className="text-xs leading-relaxed text-ink/55">
+          {admissionRateScopeNote(active)}。不同人群、不同分母各画一条线，不混算。
+        </p>
+        {active.scope.applicantScope === 'china_nationality' && (
+          <AdmissionRateHint label="中国籍口径 · 说明" note={CHINA_NATIONALITY_NOTE} />
+        )}
+      </div>
 
       <TrendBody series={active} brandColor={brandColor} />
     </div>

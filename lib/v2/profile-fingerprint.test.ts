@@ -41,6 +41,20 @@ describe('university profile fingerprint', () => {
     }
   })
 
+  it('keeps LSE overall and Chinese-nationality offer rates as separate scopes', () => {
+    const lse = deckOrder().find((view) => view.university.id === 'lse')
+    expect(lse?.primaryRateSeries?.scope.applicantScope).toBe('all')
+    expect(lse?.primaryRateSeries?.points).toHaveLength(2)
+    expect(lse?.primaryRateSeries?.points.at(-1)?.rate).toBeCloseTo(0.1224)
+
+    const chineseNationality = lse?.rateSeries.find(
+      (item) => item.scope.applicantScope === 'china_nationality',
+    )
+    expect(chineseNationality?.points).toHaveLength(1)
+    expect(chineseNationality?.points[0].rate).toBeNull()
+    expect(chineseNationality?.points[0].rateMin).toBeCloseTo(0.0682)
+  })
+
   it('preserves meaningful spread on every axis', () => {
     const views = deckOrder()
 

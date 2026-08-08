@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react'
 
-export function AdmissionRateUnavailableHint({ note }: { note: string }) {
+export function AdmissionRateHint({ label, note }: { label: string; note: string }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLSpanElement>(null)
   const tooltipId = useId()
@@ -36,7 +36,7 @@ export function AdmissionRateUnavailableHint({ note }: { note: string }) {
         onClick={() => setOpen((current) => !current)}
         className="border-b border-dotted border-ink/35 bg-transparent p-0 text-left text-[10px] leading-relaxed text-ink/50 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-ink hover:text-ink focus-visible:text-ink motion-reduce:transition-none"
       >
-        录取率不适用 · 说明
+        {label}
       </button>
 
       <span
@@ -52,6 +52,10 @@ export function AdmissionRateUnavailableHint({ note }: { note: string }) {
       </span>
     </span>
   )
+}
+
+export function AdmissionRateUnavailableHint({ note }: { note: string }) {
+  return <AdmissionRateHint label="录取率不适用 · 说明" note={note} />
 }
 
 export default AdmissionRateUnavailableHint

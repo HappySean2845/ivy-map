@@ -80,6 +80,23 @@ describe('admission rate presentation', () => {
     expect(admissionRatePeriodLabel(point)).toBe('2024–25')
   })
 
+  it('keeps a disclosed-cell lower bound visibly qualified', () => {
+    const point = {
+      academicYearStart: 2021,
+      periodStart: null,
+      periodEnd: null,
+      rate: null,
+      rateMin: 0.0682,
+      rateMax: null,
+      applied: null,
+      outcome: null,
+      confidence: 'L1' as const,
+      sourceId: 'lse-foi-admissions-2021-22',
+      citation: null,
+    }
+    expect(formatAdmissionRate(point)).toBe('≥6.8%')
+  })
+
   it('uses the explicit primary flag instead of array order', () => {
     const china = series({ applicantScope: 'china_domicile' })
     const overall = series({ applicantScope: 'all' }, true)

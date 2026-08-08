@@ -1,5 +1,5 @@
 {
-  "builtAt": "2026-08-07T01:58:36.769Z",
+  "builtAt": "2026-08-08T09:35:38.078Z",
   "cities": [
     {
       "id": "shanghai",
@@ -7492,7 +7492,79 @@
       "cai": null,
       "leverage": null,
       "officialAdmissions": [],
-      "admissionRateSeries": [],
+      "admissionRateSeries": [
+        {
+          "id": "lse:eyJyYXRlQmFzaXMiOiJvZmZlcnNfb3Zlcl9hcHBsaWNhdGlvbnMiLCJhcHBsaWNhbnRTY29wZSI6ImFsbCIsImFkbWlzc2lvbnNTeXN0ZW0iOiJVQ0FTIiwicGF0aHdheSI6bnVsbCwic291cmNlTWV0cmljIjoib3ZlcmFsbF9vZmZlcl9yYXRlIiwicGVyaW9kS2luZCI6bnVsbCwiZ2VvZ3JhcGh5RGVmaW5pdGlvbiI6bnVsbCwiYWdncmVnYXRpb24iOm51bGx9",
+          "primary": true,
+          "scope": {
+            "rateBasis": "offers_over_applications",
+            "applicantScope": "all",
+            "admissionsSystem": "UCAS",
+            "pathway": null,
+            "sourceMetric": "overall_offer_rate",
+            "periodKind": null,
+            "geographyDefinition": null,
+            "aggregation": null
+          },
+          "points": [
+            {
+              "academicYearStart": 2020,
+              "periodStart": null,
+              "periodEnd": null,
+              "rate": 0.2231,
+              "rateMin": null,
+              "rateMax": null,
+              "applied": 22366,
+              "outcome": 4990,
+              "confidence": "L1",
+              "sourceId": "lse-foi-admissions-2020-21",
+              "citation": "LSE FOI Admissions Data 2020/21 · Undergraduate applications, offers and registrations"
+            },
+            {
+              "academicYearStart": 2021,
+              "periodStart": null,
+              "periodEnd": null,
+              "rate": 0.12240000000000001,
+              "rateMin": null,
+              "rateMax": null,
+              "applied": 26184,
+              "outcome": 3204,
+              "confidence": "L1",
+              "sourceId": "lse-foi-admissions-2021-22",
+              "citation": "LSE FOI Admissions Data 2021/22 · Undergraduate applications, offers and registrations"
+            }
+          ]
+        },
+        {
+          "id": "lse:eyJyYXRlQmFzaXMiOiJvZmZlcnNfb3Zlcl9hcHBsaWNhdGlvbnMiLCJhcHBsaWNhbnRTY29wZSI6ImNoaW5hX25hdGlvbmFsaXR5IiwiYWRtaXNzaW9uc1N5c3RlbSI6IlVDQVMiLCJwYXRod2F5IjpudWxsLCJzb3VyY2VNZXRyaWMiOiJjaGluYV9vZmZlcl9yYXRlIiwicGVyaW9kS2luZCI6bnVsbCwiZ2VvZ3JhcGh5RGVmaW5pdGlvbiI6Im5hdGlvbmFsaXR5X3NlcGFyYXRlc19ob25nX2tvbmdfYW5kX3RhaXdhbiIsImFnZ3JlZ2F0aW9uIjoiZGlzY2xvc2VkX2NlbGxzX2xvd2VyX2JvdW5kIn0",
+          "primary": false,
+          "scope": {
+            "rateBasis": "offers_over_applications",
+            "applicantScope": "china_nationality",
+            "admissionsSystem": "UCAS",
+            "pathway": null,
+            "sourceMetric": "china_offer_rate",
+            "periodKind": null,
+            "geographyDefinition": "nationality_separates_hong_kong_and_taiwan",
+            "aggregation": "disclosed_cells_lower_bound"
+          },
+          "points": [
+            {
+              "academicYearStart": 2021,
+              "periodStart": null,
+              "periodEnd": null,
+              "rate": null,
+              "rateMin": 0.0682,
+              "rateMax": null,
+              "applied": null,
+              "outcome": null,
+              "confidence": "L1",
+              "sourceId": "lse-foi-admissions-2021-22",
+              "citation": "LSE FOI Admissions Data 2021/22 · Chinese nationality · 已披露单元格 308 Offers / 4,517 Applications；<10 隐私抑制项未计入"
+            }
+          ]
+        }
+      ],
       "admissionCountSeries": []
     },
     {
@@ -11310,6 +11382,24 @@
       "url": "https://www.imperial.ac.uk/planning",
       "publishedAt": null,
       "capturedAt": "2026-08-06",
+      "confidence": "L1"
+    },
+    {
+      "id": "lse-foi-admissions-2020-21",
+      "type": "official",
+      "title": "LSE FOI Admissions Data 2020/21",
+      "url": "https://info.lse.ac.uk/staff/divisions/Secretarys-Division/Assets/Documents/Information-Records-Management/Admissions-Data/New/20201-applications-offer-registrations-data-for-publication.xlsx",
+      "publishedAt": null,
+      "capturedAt": "2026-08-08",
+      "confidence": "L1"
+    },
+    {
+      "id": "lse-foi-admissions-2021-22",
+      "type": "official",
+      "title": "LSE FOI Admissions Data 2021/22",
+      "url": "https://info.lse.ac.uk/staff/divisions/Secretarys-Division/Assets/Documents/Information-Records-Management/Admissions-Data/Admissionsdata202122.xlsx",
+      "publishedAt": null,
+      "capturedAt": "2026-08-08",
       "confidence": "L1"
     },
     {

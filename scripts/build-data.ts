@@ -161,14 +161,18 @@ const AdmissionRateInputSchema = z.object({
       })
       .superRefine((record, ctx) => {
         const exact = record.ratePercent != null
-        const range = record.rateMinPercent != null && record.rateMaxPercent != null
-        if (exact === range) {
+        const bounded = record.rateMinPercent != null || record.rateMaxPercent != null
+        if (exact === bounded) {
           ctx.addIssue({
             code: 'custom',
-            message: '录取率必须是一个精确值，或一组完整的上下限，不能同时存在',
+            message: '录取率必须是精确值，或至少包含一个上下界，且不能同时存在',
           })
         }
-        if (range && record.rateMinPercent! > record.rateMaxPercent!) {
+        if (
+          record.rateMinPercent != null &&
+          record.rateMaxPercent != null &&
+          record.rateMinPercent > record.rateMaxPercent
+        ) {
           ctx.addIssue({ code: 'custom', message: '录取率区间下限不能高于上限' })
         }
         if (exact && (record.applied == null) !== (record.outcome == null)) {

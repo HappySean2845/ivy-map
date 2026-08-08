@@ -86,9 +86,9 @@ describe('published university data', () => {
       (university) => university.admissionRateSeries.length > 0,
     )
 
-    expect(series).toHaveLength(32)
-    expect(points).toHaveLength(522)
-    expect(covered).toHaveLength(28)
+    expect(series).toHaveLength(34)
+    expect(points).toHaveLength(525)
+    expect(covered).toHaveLength(29)
     expect(universityById.get('jhu')?.admissionRateSeries[0]?.points).toHaveLength(20)
     expect(universityById.get('nyu')?.admissionRateSeries[0]?.points).toHaveLength(20)
 
@@ -97,6 +97,11 @@ describe('published university data', () => {
     expect(cambridge.find((item) => item.primary)?.scope.applicantScope).toBe('all')
     expect(cambridge.find((item) => item.primary)?.points.at(-1)?.rate).toBeCloseTo(0.163)
     expect(cambridge.find((item) => !item.primary)?.points.at(-1)?.rate).toBeCloseTo(0.098)
+
+    const lse = universityById.get('lse')?.admissionRateSeries ?? []
+    expect(lse).toHaveLength(2)
+    expect(lse.find((item) => item.primary)?.points.at(-1)?.rate).toBeCloseTo(0.1224)
+    expect(lse.find((item) => !item.primary)?.points[0].rateMin).toBeCloseTo(0.0682)
 
     const imperialRanges = (universityById.get('imperial')?.admissionRateSeries ?? [])
       .flatMap((item) => item.points)

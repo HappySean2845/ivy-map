@@ -47,7 +47,7 @@ export function admissionRateScopeNote(series: AdmissionRateSeries): string {
               ? '中国大陆居住地申请者（不含香港）'
               : '中国居住地申请者'
             : applicantScope === 'china_nationality'
-              ? '中国国籍申请者'
+              ? '中国籍申请者'
               : applicantScope === 'exam_candidates'
                 ? `${pathway === 'ippan_senbatsu' ? '一般选拔' : '入学考试'}考生`
                 : applicantScope
@@ -61,6 +61,8 @@ export function admissionRateOutcomeLabel(series: AdmissionRateSeries): string {
 export function admissionRatePointValue(point: AdmissionRatePoint): number {
   if (point.rate != null) return point.rate
   if (point.rateMin != null && point.rateMax != null) return (point.rateMin + point.rateMax) / 2
+  if (point.rateMin != null) return point.rateMin
+  if (point.rateMax != null) return point.rateMax
   return 0
 }
 
@@ -69,6 +71,8 @@ export function formatAdmissionRate(point: AdmissionRatePoint): string {
   if (point.rateMin != null && point.rateMax != null) {
     return `${(point.rateMin * 100).toFixed(1)}–${(point.rateMax * 100).toFixed(1)}%`
   }
+  if (point.rateMin != null) return `≥${(point.rateMin * 100).toFixed(1)}%`
+  if (point.rateMax != null) return `≤${(point.rateMax * 100).toFixed(1)}%`
   return '—'
 }
 

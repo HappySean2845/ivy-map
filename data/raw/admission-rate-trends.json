@@ -5443,6 +5443,77 @@
       "academicYearStart": 2024
     },
     {
+      "applied": 22366,
+      "outcome": 4990,
+      "citation": "LSE FOI Admissions Data 2020/21 · Undergraduate applications, offers and registrations",
+      "sourceId": "lse-foi-admissions-2020-21",
+      "periodEnd": null,
+      "sourceUrl": "https://info.lse.ac.uk/staff/divisions/Secretarys-Division/Assets/Documents/Information-Records-Management/Admissions-Data/New/20201-applications-offer-registrations-data-for-publication.xlsx",
+      "capturedAt": "2026-08-08",
+      "confidence": "L1",
+      "dimensions": {
+        "applicant_scope": "all",
+        "admissions_system": "UCAS",
+        "source_metric": "overall_offer_rate",
+        "rate_basis": "offers_over_applications"
+      },
+      "periodStart": null,
+      "ratePercent": 22.31,
+      "sourceTitle": "LSE FOI Admissions Data 2020/21",
+      "universityId": "lse",
+      "rateMaxPercent": null,
+      "rateMinPercent": null,
+      "academicYearStart": 2020
+    },
+    {
+      "applied": 26184,
+      "outcome": 3204,
+      "citation": "LSE FOI Admissions Data 2021/22 · Undergraduate applications, offers and registrations",
+      "sourceId": "lse-foi-admissions-2021-22",
+      "periodEnd": null,
+      "sourceUrl": "https://info.lse.ac.uk/staff/divisions/Secretarys-Division/Assets/Documents/Information-Records-Management/Admissions-Data/Admissionsdata202122.xlsx",
+      "capturedAt": "2026-08-08",
+      "confidence": "L1",
+      "dimensions": {
+        "applicant_scope": "all",
+        "admissions_system": "UCAS",
+        "source_metric": "overall_offer_rate",
+        "rate_basis": "offers_over_applications"
+      },
+      "periodStart": null,
+      "ratePercent": 12.24,
+      "sourceTitle": "LSE FOI Admissions Data 2021/22",
+      "universityId": "lse",
+      "rateMaxPercent": null,
+      "rateMinPercent": null,
+      "academicYearStart": 2021
+    },
+    {
+      "applied": null,
+      "outcome": null,
+      "citation": "LSE FOI Admissions Data 2021/22 · Chinese nationality · 已披露单元格 308 Offers / 4,517 Applications；<10 隐私抑制项未计入",
+      "sourceId": "lse-foi-admissions-2021-22",
+      "periodEnd": null,
+      "sourceUrl": "https://info.lse.ac.uk/staff/divisions/Secretarys-Division/Assets/Documents/Information-Records-Management/Admissions-Data/Admissionsdata202122.xlsx",
+      "capturedAt": "2026-08-08",
+      "confidence": "L1",
+      "dimensions": {
+        "applicant_scope": "china_nationality",
+        "admissions_system": "UCAS",
+        "source_metric": "china_offer_rate",
+        "geography_definition": "nationality_separates_hong_kong_and_taiwan",
+        "aggregation": "disclosed_cells_lower_bound",
+        "rate_basis": "offers_over_applications"
+      },
+      "periodStart": null,
+      "ratePercent": null,
+      "sourceTitle": "LSE FOI Admissions Data 2021/22",
+      "universityId": "lse",
+      "rateMaxPercent": null,
+      "rateMinPercent": 6.82,
+      "academicYearStart": 2021
+    },
+    {
       "applied": 10440,
       "outcome": 1494,
       "citation": "IPEDS via Urban Institute Education Data API",

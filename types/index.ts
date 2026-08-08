@@ -100,9 +100,9 @@ export interface AdmissionRatePoint {
   academicYearStart: number | null
   periodStart: string | null
   periodEnd: string | null
-  /** 精确值，0–1；隐私抑制区间时为 null。 */
+  /** 精确值，0–1；隐私抑制或单边界值时为 null。 */
   rate: number | null
-  /** 区间上下限，0–1；精确值时均为 null。 */
+  /** 区间或单边界，0–1；精确值时均为 null。 */
   rateMin: number | null
   rateMax: number | null
   applied: number | null
