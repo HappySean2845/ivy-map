@@ -169,7 +169,7 @@
       "brandColor": "#00693E",
       "monogram": "D",
       "foundedYear": 1769,
-      "strengths": ["本科教学", "经济学", "工程（Thayer）", "商科预备"],
+      "strengths": ["本科教学", "经济学", "工程", "商科预备"],
       "vibe": "藤校里最小、最偏远的一所，在新罕布什尔的林间。四学期制配合实习，社群极紧密，也极难融入。",
       "reviewed": false,
       "traits": {
@@ -200,7 +200,7 @@
       "brandColor": "#011F5B",
       "monogram": "P",
       "foundedYear": 1740,
-      "strengths": ["商学（Wharton）", "护理", "生物医学", "跨学科双学位"],
+      "strengths": ["商学", "护理", "生物医学", "跨学科双学位"],
       "vibe": "沃顿商学院把整所学校的气质拉向实用与就业。四个本科学院之间可以互选，双学位文化浓。",
       "reviewed": false,
       "traits": {
@@ -417,7 +417,7 @@
       "brandColor": "#4E2A84",
       "monogram": "NU",
       "foundedYear": 1851,
-      "strengths": ["新闻学（Medill）", "戏剧", "工程", "整合营销"],
+      "strengths": ["新闻学", "戏剧", "工程", "整合营销"],
       "vibe": "新闻与传媒是它最硬的招牌，戏剧也是。校园在密歇根湖边，比芝加哥市区安静得多。",
       "reviewed": false,
       "traits": {
@@ -448,7 +448,7 @@
       "brandColor": "#002D72",
       "monogram": "JHU",
       "foundedYear": 1876,
-      "strengths": ["医学与公共卫生", "生物医学工程", "国际关系", "音乐（Peabody）"],
+      "strengths": ["医学与公共卫生", "生物医学工程", "国际关系", "音乐"],
       "vibe": "美国第一所研究型大学，医学与公共卫生是绝对头部。医预科竞争激烈，学习强度大。",
       "reviewed": false,
       "traits": {
@@ -479,7 +479,7 @@
       "brandColor": "#57068C",
       "monogram": "NYU",
       "foundedYear": 1831,
-      "strengths": ["艺术（Tisch）", "商学（Stern）", "金融", "计算机科学"],
+      "strengths": ["艺术", "商学", "金融", "计算机科学"],
       "vibe": "没有传统校园，教学楼散在格林威治村的街区里。想要城市生活的人首选，想要草坪和钟楼的人会失望。上海校区是它在中国最直接的入口。",
       "reviewed": false,
       "traits": {
@@ -510,7 +510,7 @@
       "brandColor": "#003262",
       "monogram": "UCB",
       "foundedYear": 1868,
-      "strengths": ["计算机科学（EECS）", "化学", "经济学", "土木工程"],
+      "strengths": ["计算机科学", "化学", "经济学", "土木工程"],
       "vibe": "美国最强的公立大学，学术产出可与任何私立抗衡。班级大、资源要靠自己抢，能扛的人收获极大。",
       "reviewed": false,
       "traits": {
@@ -603,7 +603,7 @@
       "brandColor": "#00274C",
       "monogram": "UM",
       "foundedYear": 1817,
-      "strengths": ["工程", "商学（Ross）", "医学", "公共政策"],
+      "strengths": ["工程", "商学", "医学", "公共政策"],
       "vibe": "公立巨舰，学科几乎无死角，校友网络规模惊人。橄榄球日整座城市停摆，校园文化极强。",
       "reviewed": false,
       "traits": {
@@ -665,7 +665,7 @@
       "brandColor": "#A51417",
       "monogram": "WU",
       "foundedYear": 1853,
-      "strengths": ["医学", "生物医学", "建筑", "商学（Olin）"],
+      "strengths": ["医学", "生物医学", "建筑", "商学"],
       "vibe": "医预科与生物医学是最硬的方向，本科住宿与餐饮常年被评为全美最好之一。校园安静、离市区有距离。",
       "reviewed": false,
       "traits": {
@@ -820,7 +820,7 @@
       "brandColor": "#500778",
       "monogram": "UCL",
       "foundedYear": 1826,
-      "strengths": ["建筑（Bartlett）", "教育", "医学", "经济学"],
+      "strengths": ["建筑", "教育", "医学", "经济学"],
       "vibe": "英国第一所不设宗教门槛的大学，学科覆盖极广。位于伦敦布鲁姆斯伯里，规模大、氛围国际化。",
       "reviewed": false,
       "traits": {
@@ -944,7 +944,7 @@
       "brandColor": "#002A5C",
       "monogram": "UT",
       "foundedYear": 1827,
-      "strengths": ["计算机科学", "商学（Rotman）", "医学", "工程"],
+      "strengths": ["计算机科学", "商学", "医学", "工程"],
       "vibe": "加拿大学术产出第一，进门相对宽、毕业相对难是它的公开风格。移民政策是很多家庭选它的真实原因。",
       "reviewed": false,
       "traits": {

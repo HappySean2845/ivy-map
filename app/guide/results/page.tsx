@@ -50,9 +50,9 @@ export default async function GuidedResultsPage({
           <p className="label text-ink/40">这不是排名，是你的比较起点</p>
           <div className="mt-6 grid items-end gap-10 lg:grid-cols-[1fr_0.52fr]">
             <h1 className="max-w-4xl text-[clamp(3rem,8vw,7.2rem)] leading-[0.88] tracking-[-0.055em]">
-              先从这几所
+              你的大学
               <br />
-              开始看
+              探索地图
             </h1>
             <div>
               <AnswerLine answers={answers} />
@@ -64,6 +64,7 @@ export default async function GuidedResultsPage({
               </Link>
             </div>
           </div>
+          <p className="mt-6 text-sm text-ink/50">基于你的选择，发现属于你的大学方向</p>
           <p className="mt-8 max-w-3xl border-l border-ink pl-4 text-sm leading-relaxed text-ink/55">
             我们没有显示一个看似精确的“匹配分”。下面只列出为什么值得先看、哪些证据仍然缺失；点击卡片进入现有大学详情，再看课程路径和对应高中。
           </p>

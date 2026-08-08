@@ -22,13 +22,13 @@ const QUESTIONS = [
   {
     number: '01',
     eyebrow: '目的地',
-    title: '你愿意去哪里？',
+    title: '你希望探索哪个地区的大学？',
     description: '可以多选。还没有方向就保持“都可以”，结果不会先按国家排除。',
   },
   {
     number: '02',
     eyebrow: '学术兴趣',
-    title: '什么会让你愿意多学几年？',
+    title: '哪些领域让你感兴趣？',
     description: '最多选三个方向。它只匹配大学的知名领域，不等于专业排名。',
   },
   {
@@ -41,7 +41,7 @@ const QUESTIONS = [
   {
     number: '04',
     eyebrow: '比较重点',
-    title: '你最想先看清什么？',
+    title: '选择大学时，你最关注什么？',
     description: '最多选两项。软性画像会明确标为编辑评估，不会冒充官方指标。',
   },
 ] as const

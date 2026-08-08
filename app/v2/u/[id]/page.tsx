@@ -139,7 +139,7 @@ export default async function UniversityDetailPage({
             />
             <p className="mt-2 max-w-[252px] text-[11px] leading-relaxed text-ink/40">
               轴旁数字为 1–5
-              档；实心顶点来自可追溯数据，空心顶点是编辑评估，断轴表示暂无可比数据。四根轴都只表示“这种特征更多”，不计算总分。
+              档；实心顶点来自可追溯数据，空心顶点是编辑评估，断轴表示暂无可比数据。每根轴的分档方向见右侧说明，不计算总分。
             </p>
           </div>
 
@@ -198,7 +198,7 @@ export default async function UniversityDetailPage({
         <p className="mt-4 border-t border-ink/15 pt-3 text-xs leading-relaxed text-ink/50 tnum">
           四项中 {provenance.measured} 项来自可追溯数据、{provenance.editorial} 项是五档编辑评估
           {provenance.missing > 0 && `、${provenance.missing} 项暂无可比数据`}。
-          录取开放度只描述学校或对应项目公布的整体比例，不是对个人录取概率的预测。
+          录取难度根据学校或对应项目公布的整体录取比例分档，越外代表录取比例越高、难度越低，不是对个人录取概率的预测。
         </p>
       </section>
 

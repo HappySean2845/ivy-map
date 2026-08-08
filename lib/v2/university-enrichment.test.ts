@@ -6,21 +6,23 @@ import {
   requirementProfile,
   universityEnrichmentData,
 } from '@/lib/v2/university-enrichment'
+import { requirementSettingZh, requirementTextZh } from '@/lib/v2/requirement-copy'
 import { REQUIREMENT_KEYS } from '@/types/university-enrichment'
 
 describe('university enrichment snapshot', () => {
   it('publishes complete requirements for all 32 universities', () => {
     expect(universityEnrichmentData.requirements).toHaveLength(32)
-    expect(new Set(universityEnrichmentData.requirements.map((item) => item.universityId)).size).toBe(
-      32,
-    )
+    expect(
+      new Set(universityEnrichmentData.requirements.map((item) => item.universityId)).size,
+    ).toBe(32)
 
     for (const profile of universityEnrichmentData.requirements) {
       expect(Object.keys(profile.requirements).sort()).toEqual([...REQUIREMENT_KEYS].sort())
       for (const key of REQUIREMENT_KEYS) {
-        expect(profile.requirements[key].text.length, `${profile.universityId}.${key}`).toBeGreaterThan(
-          0,
-        )
+        expect(
+          profile.requirements[key].text.length,
+          `${profile.universityId}.${key}`,
+        ).toBeGreaterThan(0)
       }
     }
   })
@@ -73,7 +75,9 @@ describe('university enrichment snapshot', () => {
     expect(destinationSharesForUniversity('upenn').length).toBeGreaterThan(0)
     expect(destinationSharesForUniversity('utokyo').length).toBeGreaterThan(0)
     expect(destinationSharesForUniversity('penn')).toEqual([])
-    expect(destinationSharesForUniversity('oxford').some((row) => row.year === 2022)).toBe(false)
+    expect(destinationSharesForUniversity('oxford').some((row) => row.year === 2022)).toBe(
+      false,
+    )
   })
 
   it('uses stable fixed China-ecosystem bands', () => {
@@ -82,5 +86,21 @@ describe('university enrichment snapshot', () => {
     expect(chinaEcosystemLevel({ value: 75, band: null, text: '' })).toBe(3)
     expect(chinaEcosystemLevel({ value: 82, band: null, text: '' })).toBe(4)
     expect(chinaEcosystemLevel({ value: 90, band: null, text: '' })).toBe(5)
+  })
+
+  it('localizes requirement explanations without changing their source data', () => {
+    const cambridge = requirementProfile('cambridge')!
+    const lse = requirementProfile('lse')!
+
+    expect(requirementTextZh('cambridge', 'ap', cambridge.requirements.ap.text)).toContain(
+      '典型要求',
+    )
+    expect(requirementTextZh('cambridge', 'ap', cambridge.requirements.ap.text)).not.toContain(
+      'Typical requirement',
+    )
+    expect(requirementTextZh('lse', 'toefl', lse.requirements.toefl.text)).toContain(
+      '写作不低于 27',
+    )
+    expect(requirementSettingZh('urban / college town')).toBe('城市型 / 大学城')
   })
 })

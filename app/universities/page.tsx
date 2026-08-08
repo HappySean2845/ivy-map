@@ -33,23 +33,20 @@ export default function UniversitiesPage() {
           <div className="relative z-10">
             <p className="label text-ink/40">IVY MAP · 大学画像</p>
             <h1 className="mt-5 max-w-4xl text-[32px] leading-[1.05] tracking-tight sm:text-[56px]">
-              先看想去的大学
+              高中走向大学
               <br />
-              再看谁在往那里送人
+              大学回望高中
             </h1>
 
             <hr className="mt-8 border-ink" />
 
             <div className="mt-8 grid gap-8 sm:grid-cols-2 sm:gap-12">
               <p className="max-w-xl text-[17px] leading-relaxed sm:text-[18px]">
-                每张卡片先讲清大学本身：位置、知名领域、官方录取率与四维画像指纹。
-                点进详情，再沿着
-                <strong className="font-medium">课程路径</strong>反推国内哪些高中有
-                可查的去向记录，以及这些录取能不能归到 AP、IB 或 A-Level 学部。
+                每所大学都有自己的特点与路径。先了解大学本身，再回望那些通向它的高中背景、课程体系与选择。
               </p>
               <p className="border-l border-ink pl-4 text-sm leading-relaxed text-ink/60">
-                已证实、方向性推断、来源未拆分会分开显示。来源没有拆到学部的记录只做去向证据，
-                不拿去算分赛道人均命中率。
+                IVY Map
+                不仅展示大学去向，也标注信息可信程度。已证实记录、方向性推断和来源未拆分分别呈现。未拆分到具体学部的记录仅作为去向参考，不参与赛道统计。
               </p>
             </div>
 

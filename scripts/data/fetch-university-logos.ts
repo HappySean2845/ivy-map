@@ -62,7 +62,7 @@ const SOURCES: LogoSource[] = [
   commons('uw', 'University of Washington Block W logo RGB brand colors.SVG', 'mark'),
   commons('washu', 'Washu textlogo.png', 'wordmark'),
   commons('oxford', 'Arms of University of Oxford.svg', 'crest'),
-  commons('cambridge', 'Coat of Arms of the University of Cambridge.svg', 'crest'),
+  commons('cambridge', 'Cambridge University Crest - flat.png', 'crest'),
   commons('imperial', 'Shield of Imperial College London.svg', 'crest'),
   commons('lse', 'London School of Economics Coat of Arms.svg', 'crest'),
   commons('ucl', 'UCL Crest.svg', 'crest'),

@@ -559,23 +559,23 @@
       "path": "/university-logos/cambridge.png",
       "sourceClass": "wikimedia_commons",
       "assetKind": "crest",
-      "sourcePage": "https://commons.wikimedia.org/wiki/File:Coat_of_Arms_of_the_University_of_Cambridge.svg",
-      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20the%20University%20of%20Cambridge.svg",
-      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20the%20University%20of%20Cambridge.svg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Cambridge_University_Crest_-_flat.png",
+      "requestedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cambridge%20University%20Crest%20-%20flat.png",
+      "resolvedAssetUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cambridge%20University%20Crest%20-%20flat.png",
       "original": {
-        "mimeType": "image/svg+xml",
-        "byteSize": 172743,
-        "width": 2,
-        "height": 2338.7742,
-        "sha256": "814c64992abd7479d4e1049b8d085011799b1cce117bf4d3a4160da405c5c896"
+        "mimeType": "image/png",
+        "byteSize": 119239,
+        "width": 1181,
+        "height": 1483,
+        "sha256": "a01fcf729ba68c6d69e5d4e77a119a6b878a4b4f1b2118b8fdee95366d250cb3"
       },
       "display": {
         "mimeType": "image/png",
         "background": null,
-        "byteSize": 18266,
-        "width": 164,
+        "byteSize": 37548,
+        "width": 153,
         "height": 192,
-        "sha256": "a67246e3c5e72fb129d8945233bd15d70281a9f4251017c1bdb86a4dc1f3aa26"
+        "sha256": "7c7e1f35da0264e19bde7f18ead7684d707115999a7369b22a476d5bd9ffe800"
       }
     },
     {

@@ -4,6 +4,11 @@ import {
   REQUIREMENT_LABEL,
   type UniversityRequirementProfile,
 } from '@/types/university-enrichment'
+import {
+  requirementNotesZh,
+  requirementSettingZh,
+  requirementTextZh,
+} from '@/lib/v2/requirement-copy'
 
 const COST_LABEL: Record<NonNullable<UniversityRequirementProfile['livingCost']>, string> = {
   Low: '较低',
@@ -22,11 +27,12 @@ export function UniversityRequirements({ profile }: { profile: UniversityRequire
       <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(17rem,0.75fr)] lg:gap-14">
         <div>
           <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h2 className="text-2xl leading-tight sm:text-[32px]">成绩参考，不是录取平均分</h2>
+            <h2 className="text-2xl leading-tight sm:text-[32px]">录取成绩参考</h2>
             <p className="text-[11px] text-ink/45">按本科申请口径整理</p>
           </div>
           <p className="mt-3 max-w-3xl text-xs leading-relaxed text-ink/50">
-            最低门槛、竞争建议、提交者中段 50% 与典型 offer 是四种不同事实。达到这些数字不代表会被录取；按专业或申请路径变化的要求，以官网专业页为准。
+            最低门槛、竞争建议、提交者中段 50% 与典型录取条件
+            是四种不同事实。达到这些数字不代表会被录取；按专业或申请路径变化的要求，以官网专业页为准。
           </p>
 
           <dl className="mt-5 border-t border-ink">
@@ -44,7 +50,7 @@ export function UniversityRequirements({ profile }: { profile: UniversityRequire
                   <dd
                     className={`text-sm leading-relaxed ${requirement.basis === 'unavailable' ? 'text-ink/40' : 'text-ink/75'}`}
                   >
-                    {requirement.text}
+                    {requirementTextZh(profile.universityId, key, requirement.text)}
                   </dd>
                 </div>
               )
@@ -57,7 +63,9 @@ export function UniversityRequirements({ profile }: { profile: UniversityRequire
           <dl className="mt-4 space-y-4 text-sm">
             <div>
               <dt className="text-[11px] text-ink/40">地区形态</dt>
-              <dd className="mt-1 leading-relaxed text-ink/75">{profile.setting}</dd>
+              <dd className="mt-1 leading-relaxed text-ink/75">
+                {requirementSettingZh(profile.setting)}
+              </dd>
             </div>
             {profile.climate && (
               <div>
@@ -84,7 +92,7 @@ export function UniversityRequirements({ profile }: { profile: UniversityRequire
       <details className="mt-5 border-t border-ink/15 pt-3">
         <summary className="cursor-pointer text-xs text-ink/60">查看口径备注与来源</summary>
         <div className="mt-3 max-w-4xl text-xs leading-relaxed text-ink/55">
-          <p>{profile.notes}</p>
+          <p>{requirementNotesZh(profile)}</p>
           {profile.sourceUrls.length > 0 && (
             <ul className="mt-3 space-y-1">
               {profile.sourceUrls.map((url, index) => (

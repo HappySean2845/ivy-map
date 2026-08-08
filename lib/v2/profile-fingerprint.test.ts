@@ -32,6 +32,15 @@ describe('university profile fingerprint', () => {
     }
   })
 
+  it('keeps known fields as disciplines instead of school or college names', () => {
+    const collegeNames =
+      /Thayer|Wharton|Medill|Peabody|Tisch|Stern|EECS|Ross|Olin|Bartlett|Rotman/
+
+    for (const view of deckOrder()) {
+      expect(view.profile.strengths.join(' '), view.university.id).not.toMatch(collegeNames)
+    }
+  })
+
   it('preserves meaningful spread on every axis', () => {
     const views = deckOrder()
 

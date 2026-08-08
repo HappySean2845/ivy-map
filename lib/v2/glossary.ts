@@ -39,7 +39,7 @@ export const TERM_KIND_LABEL: Record<TermKind, string> = {
  * 七个词不是并列的：课程体系、学业成绩和语言成绩是三个层级。
  */
 export const GLOSSARY_INTRO =
-  '这七个词经常被摆在一起说，但它们不是一个层级。AP、IB、A-Level 是**高中课程路线**；GPA 和 SAT 描述**学业表现与标准化能力**；IELTS 和 TOEFL 证明**英语语言能力**。先分清这三层，再看学校宣传和大学要求就不会被绕进去。'
+  '这七个词经常被摆在一起说，但它们不是一个层级。AP、IB、A-Level 是**高中课程路线**；GPA 和 SAT 描述**学业表现与标准化能力**；IELTS 和 TOEFL 证明**英语语言能力**。'
 
 export const TERMS: Term[] = [
   {

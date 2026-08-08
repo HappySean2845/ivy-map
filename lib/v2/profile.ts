@@ -109,7 +109,7 @@ export function admissionOpenness(university: University): ProfileTraitRating {
     if (countSeries) {
       return {
         level: null,
-        basis: `${admissionCountRateNote(countSeries)}招生人数不进入录取开放度分档。`,
+        basis: `${admissionCountRateNote(countSeries)}招生人数不进入录取难度分档。`,
         kind: 'measured',
         sourceIds: latestCount ? [latestCount.sourceId] : [],
       }

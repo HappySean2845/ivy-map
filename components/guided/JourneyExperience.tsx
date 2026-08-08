@@ -37,19 +37,19 @@ export function JourneyExperience() {
         </div>
         <div className="grid w-full items-end gap-10 lg:grid-cols-[1fr_0.55fr]">
           <div>
-            <p className="label text-ink/40">留学申请不是一次选择</p>
+            <p className="label text-ink/40">留学是一系列相互影响的选择</p>
             <h1 className="mt-6 max-w-4xl text-[clamp(3.2rem,9vw,8.4rem)] leading-[0.86] tracking-[-0.055em]">
-              它是一条
+              看见你的
               <br />
-              很长的路
+              留学路
             </h1>
           </div>
           <div className="border-l border-ink pl-5">
             <p className="text-[17px] leading-relaxed sm:text-xl">
-              从课程体系到 Offer，七个阶段会把一个模糊的想法，慢慢变成可以行动的方向。
+              从课程体系到 Offer，IVY Map 帮你将模糊想法变成清晰方向。
             </p>
             <p className="mt-5 text-xs leading-relaxed text-ink/45">
-              这不是申请时间表，也不是结果承诺。你可以随时跳过，直接进入数据。
+              本段仅作留学申请过程流程科普，你可以随时跳过，直接进入数据。
             </p>
           </div>
         </div>
@@ -105,6 +105,11 @@ export function JourneyExperience() {
                   <p className="label mt-8 border-l border-ink pl-3 text-ink/45">
                     {step.signal}
                   </p>
+                  {step.signalNote && (
+                    <p className="mt-3 text-xs leading-relaxed text-ink/50">
+                      {step.signalNote}
+                    </p>
+                  )}
 
                   {step.id === 'curriculum' && (
                     <div className="mt-7 border-t border-ink/15">
@@ -176,7 +181,7 @@ function MapReveal({ reducedMotion }: { reducedMotion: boolean }) {
           </h2>
           <p className="mt-7 max-w-xl text-base leading-relaxed text-paper/65">
             IVY Map
-            不替你做决定。它把前人走过的路线、公开的数据和仍然存在的空白，一起摆在你面前。
+            相信，方向来自无数人的探索。一个个选择、一段段经历，最终汇聚成可以参考的路径。我们整合公开数据与真实案例，让那些未被看见的路径重新浮现，让每一次重要选择，都拥有更多底气。
           </p>
           <div className="mt-10 flex flex-wrap gap-x-7 gap-y-4">
             <Link

@@ -11,22 +11,22 @@ export const PROFILE_TRAITS = ['admissionOpenness', ...CURATED_TRAITS] as const
 export type ProfileTrait = (typeof PROFILE_TRAITS)[number]
 
 export const PROFILE_TRAIT_LABEL: Record<ProfileTrait, string> = {
-  admissionOpenness: '录取开放度',
-  chinaEcosystem: '中国学生生态',
-  campusImmersion: '校园沉浸度',
-  academicBreadth: '学科广度',
+  admissionOpenness: '录取难度',
+  chinaEcosystem: '中国友好',
+  campusImmersion: '校园氛围',
+  academicBreadth: '专业广度',
 }
 
 export const PROFILE_TRAIT_SHORT_LABEL: Record<ProfileTrait, string> = {
-  admissionOpenness: '开放',
-  chinaEcosystem: '中国',
-  campusImmersion: '校园',
-  academicBreadth: '学科',
+  admissionOpenness: '录取难度',
+  chinaEcosystem: '中国友好',
+  campusImmersion: '校园氛围',
+  academicBreadth: '专业广度',
 }
 
-/** 四根轴都只表达“更多这种特征”，不表达更好。 */
+/** 四根轴都不表达更好；具体分档方向见各轴说明。 */
 export const PROFILE_TRAIT_DIRECTION: Record<ProfileTrait, string> = {
-  admissionOpenness: '越外代表学校整体录取比例越高',
+  admissionOpenness: '越外代表学校整体录取比例越高、录取难度越低',
   chinaEcosystem: '越外代表中国学生社区与支持越成熟',
   campusImmersion: '越外代表住宿与校园生活越集中',
   academicBreadth: '越外代表本科可选学科越综合',
@@ -38,11 +38,11 @@ export const PROFILE_LEVELS = [1, 2, 3, 4, 5] as const
 
 export const PROFILE_TRAIT_LEVEL_LABEL: Record<ProfileTrait, Record<ProfileLevel, string>> = {
   admissionOpenness: {
-    1: '极窄（低于 5%）',
-    2: '较窄（5%–8%）',
-    3: '有限（8%–12%）',
-    4: '相对开放（12%–30%）',
-    5: '较开放（高于 30%）',
+    1: '极高（录取率低于 5%）',
+    2: '很高（录取率 5%–8%）',
+    3: '较高（录取率 8%–12%）',
+    4: '中等（录取率 12%–30%）',
+    5: '较低（录取率高于 30%）',
   },
   chinaEcosystem: {
     1: '规模很小',
