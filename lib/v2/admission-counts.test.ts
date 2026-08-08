@@ -82,8 +82,11 @@ describe('Hong Kong admission count presentation', () => {
     expect(latestReviewedAdmissionCountPoint(input)?.value).toBe(578)
   })
 
-  it('explains why CUHK has no admission-rate percentage', () => {
-    expect(admissionCountRateNote(series())).toContain('录取率不适用')
+  it('uses the approved shared explanation for all three Hong Kong universities', () => {
+    const approved =
+      '因港校同时招收内地高考生，与国际课程生缺乏同口径分母，录取率目前无法估算。'
+
+    expect(admissionCountRateNote(series())).toBe(approved)
     expect(
       admissionCountRateNote(
         series({
@@ -91,6 +94,6 @@ describe('Hong Kong admission count presentation', () => {
           rateAvailability: 'missing_denominator',
         }),
       ),
-    ).toContain('不能换算成录取率')
+    ).toBe(approved)
   })
 })

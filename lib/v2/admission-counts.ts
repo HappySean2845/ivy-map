@@ -11,9 +11,8 @@ export function admissionCountScopeNote(series: AdmissionCountSeries): string {
 }
 
 export function admissionCountRateNote(series: AdmissionCountSeries): string {
-  return series.scope.rateAvailability === 'not_applicable_early_batch'
-    ? '录取率不适用：内地招生走全国统招提前批，没有“报名人数”这个分母。'
-    : '这里只公布录取人数，没有同口径申请人数，不能换算成录取率。'
+  void series
+  return '因港校同时招收内地高考生，与国际课程生缺乏同口径分母，录取率目前无法估算。'
 }
 
 export function admissionCountKindLabel(point: AdmissionCountPoint): string {

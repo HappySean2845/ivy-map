@@ -8,6 +8,7 @@
 
 import Link from 'next/link'
 
+import { AdmissionRateUnavailableHint } from '@/components/v2/AdmissionRateUnavailableHint'
 import { ProfileFingerprint } from '@/components/v2/ProfileFingerprint'
 import { UniversityLogo } from '@/components/v2/UniversityLogo'
 import { brandOf } from '@/lib/v2/brand'
@@ -131,9 +132,7 @@ export function UniversityCard({
                     {latestCount.academicYearStart} 年
                   </span>
                 </p>
-                <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-ink/45">
-                  {admissionCountRateNote(primaryCountSeries)}
-                </p>
+                <AdmissionRateUnavailableHint note={admissionCountRateNote(primaryCountSeries)} />
               </>
             ) : (
               <p className="mt-1 text-sm text-ink/40">尚未收录</p>
